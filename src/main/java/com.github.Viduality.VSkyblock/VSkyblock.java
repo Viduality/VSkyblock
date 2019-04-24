@@ -1,0 +1,197 @@
+package com.github.Viduality.VSkyblock;
+
+
+import com.github.Viduality.VSkyblock.Commands.Admin.*;
+import com.github.Viduality.VSkyblock.Commands.Challenges.Challenges;
+import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Listener.*;
+import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
+import com.github.Viduality.VSkyblock.Utilitys.DeleteOldIslands;
+import com.github.Viduality.VSkyblock.WorldGenerator.VoidGenerator;
+import com.onarandombox.MultiverseCore.api.MVPlugin;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * @author Viduality
+ * @version 1.0
+ */
+public class VSkyblock extends JavaPlugin implements Listener {
+
+
+    private static VSkyblock instance;
+    private SQLConnector sqlConnector;
+    private DeletePlayer deletePlayerExecutor;
+    private ResetChallenges resetChallengesExecutor;
+    private Island islandExecutor;
+    private SetNether setNetherExecutor;
+    private SetSpawnWorld setSpawnWorldExecutor;
+    private Testcommand testcommandExecutor;
+    private Challenges challengesExecutor;
+
+
+
+
+    public void onEnable() {
+        instance = this;
+
+        DatabaseReader databaseReader = new DatabaseReader();
+
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdirs();
+        }
+
+        DefaultFiles.init();
+
+
+        {
+            deletePlayerExecutor = new DeletePlayer(this);
+            getCommand("VSkydelete").setExecutor(deletePlayerExecutor);
+        }
+
+        {
+            resetChallengesExecutor = new ResetChallenges(this);
+            getCommand("VSkyResetChallenges").setExecutor(resetChallengesExecutor);
+        }
+
+        {
+            islandExecutor = new Island(this);
+            getCommand("Island").setExecutor(islandExecutor);
+        }
+
+        {
+            challengesExecutor = new Challenges(this);
+            getCommand("Challenges").setExecutor(challengesExecutor);
+        }
+
+        {
+            setNetherExecutor = new SetNether(this);
+            getCommand("VSkysetNether").setExecutor(setNetherExecutor);
+        }
+
+        {
+            setSpawnWorldExecutor = new SetSpawnWorld(this);
+            getCommand("VSkySetSpawnWorld").setExecutor(setSpawnWorldExecutor);
+        }
+
+        {
+            testcommandExecutor = new Testcommand(this);
+            getCommand("Testcommand").setExecutor(testcommandExecutor);
+        }
+
+
+        /*
+         * Register all Events
+         */
+
+        final PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(new PlayerJoinListener(), this);
+        pm.registerEvents(new PlayerLeaveListener(), this);
+        pm.registerEvents(new BlockBreakListener(), this);
+        pm.registerEvents(new NetherPortalListener(), this);
+        pm.registerEvents(new BlockProtector(), this);
+        pm.registerEvents(new EntityProtector(), this);
+        pm.registerEvents(new InteractBlocker(), this);
+        pm.registerEvents(new ItemDropBlocker(), this);
+        pm.registerEvents(new ItemPickupBlocker(), this);
+        pm.registerEvents(new ChallengesInventoryHandler(), this);
+        pm.registerEvents(new PortalAccessor(), this);
+        pm.registerEvents(new TeleporterInventoryHandler(), this);
+
+        new DeleteOldIslands().run();
+
+        {   //Teleporter Recipe
+            ItemStack portalFrame = new ItemStack(Material.END_PORTAL_FRAME);
+            ItemMeta portalFramemeta = portalFrame.getItemMeta();
+            portalFramemeta.setDisplayName(ChatColor.DARK_PURPLE + "Teleporter");
+            portalFramemeta.addEnchant(Enchantment.DURABILITY, 1, false);
+            portalFramemeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            portalFrame.setItemMeta(portalFramemeta);
+
+            ShapedRecipe portal = new ShapedRecipe(portalFrame);
+            portal.shape("ded", "oeo", "sss");
+            portal.setIngredient('e', Material.ENDER_EYE);
+            portal.setIngredient('d', Material.DIAMOND);
+            portal.setIngredient('o', Material.OBSIDIAN);
+            portal.setIngredient('s', Material.END_STONE);
+            getServer().addRecipe(portal);
+        }
+
+        {
+            ItemStack gravel = new ItemStack(Material.GRAVEL, 4);
+            ShapelessRecipe gravel1 = new ShapelessRecipe(gravel);
+            gravel1.addIngredient(3, Material.COBBLESTONE);
+            gravel1.addIngredient(1, Material.DIRT);
+            getServer().addRecipe(gravel1);
+        }
+
+        sqlConnector = new SQLConnector();
+        sqlConnector.initConnection();
+
+        if (getOnlinePlayers().size() != 0) {
+            databaseReader.refreshIslands(getOnlinePlayers());
+        }
+    }
+
+
+
+
+    public void onDisable() {
+        getServer().getScheduler().cancelTasks(this);
+        sqlConnector.close();
+    }
+
+    /**
+     * Provides an instance of the plugin
+     * @return plugin instance
+     */
+    public static VSkyblock getInstance() {
+        return instance;
+    }
+
+    /**
+     * Provides an instance of Multiverse-Core
+     * @return Multiverse-Core instance
+     */
+    public MVPlugin getMV() {
+        Plugin mvplugin = getServer().getPluginManager().getPlugin("Multiverse-Core");
+
+        if (mvplugin instanceof Plugin) {
+            return (MVPlugin) mvplugin;
+        }
+        getServer().getConsoleSender().sendMessage(ChatColor.RED + "This Plugin doesn't work without Multiverse-Core! Make sure to have it installed on your server!");
+        getServer().getPluginManager().disablePlugin(this);
+        throw new RuntimeException("Multiverse not found!");
+    }
+
+    /**
+     * Returns all online players.
+     * @return Player list
+     */
+    public List<Player> getOnlinePlayers() {
+        return new ArrayList<>(getServer().getOnlinePlayers());
+    }
+
+
+
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+        return new VoidGenerator();
+    }
+}

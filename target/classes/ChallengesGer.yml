@@ -1,0 +1,569 @@
+##### DO NOT ADD OR REMOVE ANY CHALLENGES! YOU MAY ONLY CHANGE THE DESCRIPTION, NEEDED AMOUNT AND REWARD-AMOUNT!
+
+### Description up to 4 lines! Note that if the line is too long players cant read it anymore!
+### Needed and Reward set the amount and the specific item for the challenges. Always make sure you have an amount for
+### each item or it will fail to load!
+
+### Separate amount with ";"!
+
+ItemOverlay:
+  Completed: "%amount% mal abgeschlossen."
+  Lore: "Beschreibung"
+  Needed:
+    onPlayer: "Benötigte Items"
+    onIsland: "Benötigt"
+    islandlevel: "Benötigtes Level"
+  Reward: "Belohnung"
+  DescriptionColor: §b
+  NotRepeatable: "Nicht wiederholbar!"
+
+
+CompletedChallenges:
+  MinEasy: 5
+  MinEasyCompleted: "Schließe mindestens 5 Challenges auf Einfach ab!"
+  MinMedium: 5
+  MinMediumCompleted: "Schließe mindestens 5 Challenges auf Mittel ab!"
+
+
+Difficulty:
+  Easy: "Einfach"
+  Medium: "Mittel"
+  Hard: "Schwer"
+
+Easy:
+  Cobblestone-Generator:
+    Slot: 1
+    ShownItem: Cobblestone
+    Type: onPlayer
+    Description: "Baue einen Cobblestone-Generator und mine 64 Cobblestone."
+    NeededText: "64 Cobblestone"
+    Needed:
+    - Cobblestone;64
+    RewardText: "3 Leder"
+    Reward:
+    - Leather;3
+    RepeatRewardText: "1 Leder"
+    RepeatReward:
+    - Leather;1
+
+  Apfelsammler:
+    Slot: 2
+    ShownItem: Apple
+    Type: onPlayer
+    Description: "Sammle 2 Äpfel."
+    NeededText: "2 Äpfel"
+    Needed:
+    - Apple;2
+    RewardText: "Ein Setzling von jedem Typ."
+    Reward:
+    - Oak_Sapling;1
+    - Spruce_Sapling;1
+    - Birch_Sapling;1
+    - Jungle_Sapling;1
+    - Acacia_Sapling;1
+    - Dark_Oak_Sapling;1
+    RepeatRewardText: "Ein Setzling von jedem Typ."
+    RepeatReward:
+    - Oak_Sapling;1
+    - Spruce_Sapling;1
+    - Birch_Sapling;1
+    - Jungle_Sapling;1
+    - Acacia_Sapling;1
+    - Dark_Oak_Sapling;1
+
+  Weizenfarmer:
+    Slot: 3
+    ShownItem: Wheat
+    Type: onPlayer
+    Description: "Baue eine Weizenfarm und ernte 64 Weizen."
+    NeededText: "64 Weizen"
+    Needed:
+    - Wheat;64
+    RewardText: "5 Erdblöcke"
+    Reward:
+    - Dirt;5
+    RepeatRewardText: "1 Erdblock"
+    RepeatReward:
+    - Dirt;1
+
+  Kaktusfarmer:
+    Slot: 4
+    ShownItem: Cactus
+    Type: onPlayer
+    Description: "Baue eine Kaktusfarm und ernte 64 Weizen."
+    NeededText: "64 Kakteen"
+    Needed:
+    - Cactus;64
+    RewardText: "10 Sand"
+    Reward:
+    - Sand;10
+    RepeatRewardText: "5 Sand"
+    RepeatReward:
+    - Sand;5
+
+  Zuckerfarmer:
+    Slot: 5
+    ShownItem: Sugar_Cane
+    Type: onPlayer
+    Description: "Baue eine Zuckerrohrfarm und erzeuge 64 Zucker."
+    NeededText: "64 Zucker"
+    Needed:
+    - Sugar;64
+    RewardText: "5 Erdblöcke und 15 Lehmblöcke."
+    Reward:
+    - Dirt;5
+    - Clay;15
+    RepeatRewardText: "2 Lehmblöcke"
+    RepeatReward:
+    - Clay;2
+
+  Melonenfarmer:
+    Slot: 6
+    ShownItem: Melon_Slice
+    Type: onPlayer
+    Description: "Baue eine Melonenfarm und ernte 128 Melonenstücke."
+    NeededText: "128 Melonenstücke"
+    Needed:
+    - Melon_Slice;128
+    RewardText: "5 Erdblöcke"
+    Reward:
+    - Dirt;5
+    RepeatRewardText: "2 Erdblöcke"
+    RepeatReward:
+    - Dirt;2
+
+  Kürbissfarmer:
+    Slot: 7
+    ShownItem: Pumpkin
+    Type: onPlayer
+    Description: "Baue eine Kürbisfarm und ernte 64 Kürbisse."
+    NeededText: "64 Kürbisse"
+    Needed:
+    - Pumpkin;64
+    RewardText: "5 Erdblöcke"
+    Reward:
+    - Dirt;5
+    RepeatRewardText: "2 Erdblöcke"
+    RepeatReward:
+    - Dirt;2
+
+  Pilzsammler:
+    Slot: 8
+    ShownItem: Red_Mushroom
+    Type: onPlayer
+    Description: "Baue eine Pilzfarm und ernte 64 rote und 64 braune Pilze."
+    NeededText: "64 rote und 64 braune Pilze."
+    Needed:
+    - Red_Mushroom;64
+    - Brown_Mushroom;64
+    RewardText: "1 Mycelium"
+    Reward:
+    - Mycelium;1
+    RepeatRewardText: "1 Mycelium"
+    RepeatReward:
+    - Mycelium;1
+
+  Bauazubi:
+    Slot: 9
+    ShownItem: Iron_Pickaxe
+    Type: islandlevel
+    Description: "Erreiche Level 20 mit deiner Insel.(Dein aktuelles Level siehst du mit: /island level)."
+    NeededText: "Island Level 20"
+    Needed: 20
+    RewardText: "1 Eisenspitzhacke und 5 Erdblöcke"
+    Reward:
+    - Iron_Pickaxe;1
+    - Dirt;5
+
+Medium:
+  Monsterschlächter:
+    Slot: 1
+    ShownItem: Bone
+    Type: onPlayer
+    Description: "Töte Monster und sammle 64 Zombiefleisch, 32 Knochen, 32 Fäden, 32 Pfeile, 16 Schwarzpulver und 5 Spinnenaugen."
+    NeededText: "64 Verrottetes Fleisch, 32 Knochen, 32 Fäden, 32 Pfeile, 16 Schwarzpulver, 5 Spinnenaugen"
+    Needed:
+    - Rotten_Flesh;64
+    - Bone;32
+    - String;32
+    - Arrow;32
+    - Gunpowder;16
+    - Spider_Eye;5
+    RewardText: "16 Redstone, 1 Feuerstein und 5 Eisenerze"
+    Reward:
+    - Redstone;16
+    - Flint;1
+    - Iron_Ore;5
+    RepeatRewardText: "2 Redstone, 1 Feuerstein und 1 Eisenerz"
+    RepeatReward:
+    - Redstone;2
+    - Flint;1
+    - Iron_Ore;1
+
+  Farmexperte:
+    Slot: 2
+    ShownItem: Diamond_Hoe
+    Type: onPlayer
+    Description: "Ernte 64 Weizen, Zucker, Melonen, Karotten, Kartoffeln, Kürbisse und Rote Beete."
+    NeededText: "64 Weizen, 64 Zucker, 64 Melonen, 64 Karotten, 64 Kartoffeln, 64 Kürbisse, 64 Rote Beete"
+    Needed:
+    - Wheat;64
+    - Sugar;64
+    - Melon;64
+    - Carrot;64
+    - Potato;64
+    - Pumpkin;64
+    - Beetroot;64
+    RewardText: "16 Redstone, 1 Kakaobohne, 4 Spawneier(1*Huhn, 1*Kuh, 1*Schwein, 1*Kaninchen)"
+    Reward:
+    - Redstone;16
+    - Cocoa_Beans;1
+    - Chicken_Spawn_Egg;1
+    - Cow_Spawn_Egg;1
+    - Pig_Spawn_Egg;1
+    - Rabbit_Spawn_Egg;1
+    RepeatRewardText: "1 Kakaobohne, 4 Spawneier(1*Huhn, 1*Kuh, 1*Schwein, 1*Kaninchen)"
+    RepeatReward:
+    - Cocoa_Beans;1
+    - Chicken_Spawn_Egg;1
+    - Cow_Spawn_Egg;1
+    - Pig_Spawn_Egg;1
+    - Rabbit_Spawn_Egg;1
+
+  Fischersmann:
+    Slot: 3
+    ShownItem: Salmon
+    Type: onPlayer
+    Description: "Baue eine Fischfarm und fange und koche 10 Kabeljaus und 10 Lachse."
+    NeededText: "10 gekochte Kabeljaus, 10 gekochte Lachse"
+    Needed:
+    - Cooked_Cod;10
+    - Cooked_Salmon;10
+    RewardText: "16 Redstone, 5 Tintensäcke, 5 Eisenerze"
+    Reward:
+    - Redstone;16
+    - Ink_Sac;5
+    - Iron_Ore;5
+    RepeatRewardText: "2 Redstone, 1 Eisenerz"
+    RepeatReward:
+    - Redstone;2
+    - Iron_Ore;1
+
+  Holzfäller:
+    Slot: 4
+    ShownItem: Oak_Log
+    Type: onPlayer
+    Description: "Baue eine Baumfarm und sammle 32 Eichen-, Fichten-, Birken-, Tropen-, Akazien-, Schwarzeichenholz"
+    NeededText: "32 Eichenholz, 32 Fichtenholz, 32 Birkenholz, 32 Tropenholz, 32 Akazienholz, 32 Schwarzeichenholz"
+    Needed:
+    - Oak_Log;32
+    - Spruce_Log;32
+    - Birch_Log;32
+    - Jungle_Log;32
+    - Acacia_Log;32
+    - Dark_Oak_Log;32
+    RewardText: "16 Redstone, 5 Eisenerze, 1 Wolfspawnei"
+    Reward:
+    - Redstone;16
+    - Iron_Ore;5
+    - Wolf_Spawn_Egg
+    RepeatRewardText: "2 Redstone, 1 Eisenerz"
+    RepeatReward:
+    - Redstone;2
+    - Iron_Ore;1
+
+  Keksmonster:
+    Slot: 5
+    ShownItem: Cookie
+    Type: onPlayer
+    Description: "Stelle 128 Kekse und einen Eimer Milch her."
+    NeededText: "128 Kekse, 1 Eimer Milch"
+    Needed:
+    - Cookie;128
+    - Milk_Bucket;1
+    RewardText: "16 Redstone, 5 Eisenerze"
+    Reward:
+    - Redstone;16
+    - Iron_Ore;5
+    RepeatRewardText: "2 Redstone, 1 Eisenerz"
+    RepeatReward:
+    - Redstone;2
+    - Iron_Ore;1
+
+  Hausbesitzer:
+    Slot: 6
+    ShownItem: White_Bed
+    Type: onIsland
+    Description: "Baue ein Haus mit mindestens einem weißen Bett, einem Bücherregal, einer Minebench, einem Ofen, einem Fenster und einer Fackel."
+    Radius: 7
+    NeededText: "Ein Haus auf deiner Insel"
+    Needed:
+    - White_Bed;1
+    - Bookshelf;1
+    - Crafting_Table;1
+    - Furnace;1
+    - Glass;1
+    - Torch;1
+    RewardText: "1 Jukebox, 10 Lapis Lazuli Blöcke"
+    Reward:
+    - Jukebox;1
+
+  Bauarbeiter:
+    Slot: 7
+    ShownItem: Blue_Concrete
+    Type: onPlayer
+    Description: "Sammle von jeder Betonfarbe 5 Blöcke"
+    NeededText: "5 Blöcke pro Betonfarbe"
+    Needed:
+    - White_Concrete;5
+    - Orange_Concrete;5
+    - Magenta_Concrete;5
+    - Light_Blue_Concrete;5
+    - Yellow_Concrete;5
+    - Lime_Concrete;5
+    - Pink_Concrete;5
+    - Gray_Concrete;5
+    - Light_Gray_Concrete;5
+    - Cyan_Concrete;5
+    - Purple_Concrete;5
+    - Blue_Concrete;5
+    - Brown_Concrete;5
+    - Green_Concrete;5
+    - Red_Concrete;5
+    - Black_Concrete;5
+    RewardText: "3 Diamanten, 3 Smaragde, 3 Goldbarren, 1 Pferdspawnegg"
+    Reward:
+    - Diamond;3
+    - Emerald;3
+    - Gold_Ingot;3
+    - Horse_Spawn_Egg;1
+    RepeatRewardText: "3 Smaragde, 3 Goldbarren"
+    RepeatReward:
+    - Emerald;3
+    - Gold_Ingot;3
+
+  Baumeister:
+    Slot: 8
+    ShownItem: Golden_Pickaxe
+    Type: islandlevel
+    Description: "Erreiche Level 100 mit deiner Insel. (Dein aktuelles Level siehst du mit: /island level)."
+    NeededText: "Island Level 100"
+    Needed: 100
+    RewardText: "10 Obsidianblöcke"
+    Reward:
+    - Obsidian;10
+
+Hard:
+  Netherportal:
+    Slot: 1
+    ShownItem: Obsidian
+    Type: onIsland
+    Description: "Baue ein Netherportal und aktiviere es."
+    Radius: 5
+    NeededText: "Aktives Netherportal auf deiner Insel"
+    Needed:
+    - Nether_Portal;1
+    RewardText: "1 Diamantschwert"
+    Reward:
+    - Diamond_Sword;1
+
+  Perlensammler:
+    Slot: 2
+    ShownItem: Ender_Pearl
+    Type: onPlayer
+    Description: "Sammle 15 Enderperlen."
+    NeededText: "15 Enderperlen"
+    Needed:
+    - Ender_Pearl;15
+    RewardText: "5 Goldbarren, 1 Lohenrute."
+    Reward:
+    - Gold_Ingot;5
+    - Blaze_Rod;1
+    RepeatRewardText: "1 Goldbarren, 1 Lohenrute."
+    RepeatReward:
+    - Gold_Ingot;1
+    - Blaze_Rod;1
+
+  Schleimer:
+    Slot: 3
+    ShownItem: Slime_Ball
+    Type: onPlayer
+    Description: "Sammle 40 Schleimbälle."
+    NeededText: "40 Schleimbälle"
+    Needed:
+    - Slime_Ball;40
+    RewardText: "5 Goldbarren, 5 Smaragde"
+    Reward:
+    - Gold_Ingot;5
+    - Emerald;5
+    RepeatRewardText: "8 Redstone"
+    RepeatReward:
+    - Redstone;8
+
+  Bäcker:
+    Slot: 4
+    ShownItem: Cake
+    Type: onPlayer
+    Description: "Backe 5 Kuchen und 4 Kürbisskuchen."
+    NeededText: "5 Kuchen, 5 Kürbisskuchen"
+    Needed:
+    - Cake;5
+    - Pumpkin_Pie;5
+    RewardText: "5 Goldbarren, 1 Diamant"
+    Reward:
+    - Gold_Ingot;5
+    - Diamond;1
+    RepeatRewardText: "1 Eisenerz"
+    RepeatReward:
+    - Iron_Ore;1
+
+  Forscher:
+    Slot: 5
+    ShownItem: Compass
+    Type: onPlayer
+    Description: "Erstelle eine Karte, einen Kompass, eine Uhr und sammle 64 Nethersteine, 16 Seelensand und eine Ghastträne."
+    NeededText: "1 leere Karte, 1 Kompass, 1 Uhr, 64 Nethersteine, 16 Seelensand, 1 Ghastträne"
+    Needed:
+    - Map;1
+    - Compass;1
+    - Clock;1
+    - Netherrack;64
+    - Soul_Sand;16
+    RewardText: "256 Schienen, 32 Booster-Schienen, 1 Ocelotspawnegg, 1 Diamant."
+    Reward:
+    - Rail;256
+    - Powered_Rail;32
+    - Ocelot_Spawn_Egg;1
+    - Diamond;1
+    RepeatRewardText: "5 Eisenerze, 1 Ocelotspawnegg"
+    RepeatReward:
+    - Iron_Ore;5
+    - Ocelot_Spawn_Egg;1
+
+  Bauexperte:
+    Slot: 6
+    ShownItem: Diamond_Pickaxe
+    Type: islandlevel
+    Description: "Erreiche Level 250 mit deiner Insel. (Dein aktuelles Level siehst du mit: /island level)."
+    NeededText: "Island Level 250"
+    Needed: 250
+    RewardText: "3 Diamanten, 20 Erdblöcke, 20 Sandblöcke"
+    Reward:
+    - Diamond;3
+    - Dirt;20
+    - Sand;20
+
+  Wollesammler:
+    Slot: 7
+    ShownItem: White_Wool
+    Type: onPlayer
+    Description: "Sammle von jeder Wollfarbe 5 Blöcke."
+    NeededText: "5 Blöcke von jeder Wollsorte"
+    Needed:
+    - White_Wool;5
+    - Orange_Wool;5
+    - Magenta_Wool;5
+    - Light_Blue_Wool;5
+    - Yellow_Wool;5
+    - Lime_Wool;5
+    - Pink_Wool;5
+    - Gray_Wool;5
+    - Light_Gray_Wool;5
+    - Cyan_Wool;5
+    - Purple_Wool;5
+    - Blue_Wool;5
+    - Brown_Wool;5
+    - Green_Wool;5
+    - Red_Wool;5
+    - Black_Wool;5
+    RewardText: "2 Diamanten, 5 Smaragde, 3 Schallplatten und 1 Schafspawnegg"
+    Reward:
+    - Diamond;2
+    - Emerald;5
+    - Music_Disc_13;1
+    - Music_Disc_Cat;1
+    - Music_Disc_Blocks;1
+    - Sheep_Spawn_Egg;1
+    RepeatRewardText: "1 Smaragd, 1 Schafspawnegg"
+    RepeatReward:
+    - Emerald;1
+    - Sheep_Spawn_Egg;1
+
+  DJ:
+    Slot: 8
+    ShownItem: Music_Disc_Strad
+    Type: onPlayer
+    Description: "Crafte eine Jukebox"
+    NeededText: "1 Jukebox"
+    Needed:
+    - Jukebox;1
+    RewardText: "3 Diamanten, 10 Smaragde"
+    Reward:
+    - Diamond;3
+    - Emerald;10
+    RepeatRewardText: "5 Goldbarren"
+    RepeatReward:
+    - Gold_Ingot;5
+
+  Dorfbewohner:
+    Slot: 9
+    ShownItem: Emerald
+    Type: onPlayer
+    Description: "Sammle 50 Smaragde"
+    NeededText: "50 Smaragde"
+    Needed:
+    - Emerald;50
+    RewardText: "2 Diamanten"
+    Reward:
+    - Diamond;3
+    RepeatRewardText: "1 Diamanten"
+    RepeatReward:
+    - Diamond;1
+
+  Chefkoch:
+    Slot: 10
+    ShownItem: Golden_Apple
+    Type: onPlayer
+    Description: "Sammle von jedem gekochten oder hergestellten Essen ein Stück. (Kein Supergoldapfel)"
+    NeededText: "1 Stück von jedem Essen"
+    Needed:
+    - Apple;1
+    - Mushroom_Stew;1
+    - Bread;1
+    - Porkchop;1
+    - Cooked_Porkchop;1
+    - Golden_Apple;1
+    - Cod;1
+    - Salmon;1
+    - Cooked_Cod;1
+    - Cooked_Salmon;1
+    - Cake;1
+    - Cookie;1
+    - Melon_Slice;1
+    - Beef;1
+    - Cooked_Beef;1
+    - Chicken;1
+    - Cooked_Chicken;1
+    - Carrot;1
+    - Potato;1
+    - Baked_Potato;1
+    - Pumpkin_Pie;1
+    - Rabbit;1
+    - Cooked_Rabbit;1
+    - Rabbit_Stew;1
+    - Mutton;1
+    - Cooked_Mutton;1
+    - Beetroot_Soup;1
+    RewardText: "2 Diamanten, 3 Schallplatten, 1 Pilzkuhspawnegg, 1 Smaragd"
+    Reward:
+    - Diamond;2
+    - Music_Disc_Chirp;1
+    - Music_Disc_Far;1
+    - Music_Disc_Mall;1
+    - Mooshroom_Spawn_Egg;1
+    - Emerald;1
+    RepeatRewardText: "1 Goldbarren, 1 Pilzkuhspawnegg, 1 Smaragd"
+    RepeatReward:
+    - Gold_Ingot;1
+    - Mooshroom_Spawn_Egg;1
+    - Emerald;1

@@ -1,0 +1,202 @@
+name: VSkyblock
+main: com.github.Viduality.VSkyblock.VSkyblock
+version: 1.0
+author: Viduality
+api-version: 1.13
+load: POSTWORLD
+loadbefore: [Multiverse-Core, Multiverse-Netherportals]
+database: true
+
+
+
+commands:
+  Testcommand:
+    description: Test
+    usage: /testcommand
+    permission: VSkyblock.testcommand
+    permission-message: You don't have permission!
+
+  Island:
+    description: Teleports you to your island. Creates a new island if it is not existing.
+    usage: /island
+    aliases: [is]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
+  Island Sethome:
+    description: Sets the islands spawnpoint to the players location.
+    usage: /island sethome
+    aliases: [is sethome]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission
+
+  Island Restart:
+    description: Restarts your island.
+    usage: /island restart
+    aliases: [is restart]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
+  Island Restart Confirm:
+    description: Accepts the restart of your island after you used /island restart.
+    usage: /island restart confirm
+    aliases: [is restart confirm]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
+  Island Invite:
+    description: Invites another player to your island.
+    usage: /island invite <Player>
+    aliases: [is invite]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
+  Island Accept:
+    description: Accepts the invite from another player.
+    usage: /island accept
+    aliases: [is accept]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
+  Island Kick:
+    description: Kicks an player from your island.
+    usage: /island kick <Player>
+    aliases: [is kick]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
+  Island Setowner:
+    description: Gives another player the island owner. You will lose the title!
+    usage: /island setowner <Player>
+    aliases: [is setowner]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
+  Island Leave:
+    description: Leave your current island with this command.
+    usage: /island leave
+    aliases: [is leave]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
+  Island Leave Confirm:
+      description: Confirm the command /island leave.
+      usage: /island leave confirm
+      aliases: [is leave confirm]
+      permission: VSkyblock.Island
+      permission-message: You don't have permission!
+
+  Island Members:
+    description: Gives a list of all members on the island.
+    usage: /island members
+    aliases: [is members]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
+  Island Top:
+    description: Gives a list of the top 5 highest islands.
+    usage: /island top
+    aliases: [is top]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
+  Island Help:
+    description: Gives a list of all /island commands.
+    usage: /island help
+    aliases: [is help]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
+
+
+
+
+
+
+  VSkyDelete:
+    description: Deletes a player entirely from the database.
+    usage: /VSkydelete <Player>
+    permission: VSkyblock.VSkydelete
+    permission-message: You don't have permission!
+
+  VSkyResetChallenges:
+    description: Resets all challenges for a player to count 0.
+    usage: /VSkyResetChallenges <Player>
+    permission: VSkyblock.VSkyResetChallenges
+    permission-message: You don't have permission!
+
+  VSkySetNether:
+    description: Sets the nether for all islands. Uses the world where the executing player stands!
+    usage: /VskySetNether
+    permission: VSkyblock.VSkySetNether
+    permission-message: You don't have permission!
+
+  VSkySetSpawnWorld:
+    description: Sets the spawn world for new players. Players without an island will spawn there.
+    usage: /VskySetSpawnWorld
+    permission: VSkyblock.VSkySetSpawnWorld
+    permission-message: You don't have permission!
+
+
+
+
+
+
+  Challenges:
+    description: Opens the challenges menu.
+    usage: /challenges
+    aliases: [c]
+    permission: VSkyblock.Challenges
+    permission-message: You don't have permission!
+
+
+
+
+permissions:
+  VSkyblock.*:
+    description: Gives access to all VSkyblock commands
+    children:
+      VSkyblock.Island: true
+      VSkyblock.VSkyIgnoreProtected: true
+      VSkyblock.VSkySetNether: true
+      VSkyblock.VSkySetSpawnWorld: true
+      VSkyblock.VSkydelete: true
+      VSkyblock.VSkyResetChallenges: true
+      VSkyblock.Challenges: true
+      VSkyblock.IgnoreKick: true
+
+
+  VSkyblock.Mod:
+    description: Permissions for Mods with limited rights on the server.
+    default: false
+    children:
+      VSkyblock.Island: true
+      VSkyblock.VSkyIgnoreProtected: true
+      VSkyblock.Challenges: true
+      Vskyblock.IgnoreKick: true
+
+
+  VSkyblock.Island:
+    description: Gives access to all basic VSkyblock commands.
+    default: true
+  VSkyblock.VSkyIgnoreProtected:
+    description: Allows the player to bypass all protections at other islands.
+    default: op
+  VSkyblock.IgnoreKick:
+    description: Prevents a player from getting kicked from an island he is visiting.
+    default: op
+  VSkyblock.VSkySetNether:
+    description: Allows the player to set a new nether.
+    default: op
+  VSkyblock.VSkySetSpawnWorld:
+    description: Allows the player to set a new spawnworld.
+    default: op
+  VSkyblock.VSkydelete:
+    description: Deletes a player entirely from the database. Use with caution!
+    default: op
+  VSkyblock.VSkyResetChallenges:
+    description: Resets the challenges from a player.
+    default: op
+  VSkyblock.Challenges:
+    description: Gives access to the challenges.
+    default: true

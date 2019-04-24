@@ -1,0 +1,64 @@
+
+Prefix: §7[§9VSky§7]
+
+
+NotAPlayer: §cYou have to be a Player to use this command!
+FalseInput: §cFalse Input! use §b/help VSkyblock §c for details.
+PlayerNotOnline: §c%SecondPlayer% is not Online!
+PermissionLack: §cYou don't have permission to perform this command!
+NotIslandOwner: §cYou have to be the Owner of your Island to perform this command!
+NotAtPlayersIsland: §cYou have to be on your Island to perform this command!
+HasIslandMembers: §cThere are other Players playing on your Island. Kick them with §b/is kick <Player> §c or give the ownership of the island to one of them with §b/is setowner <Player>§c!
+MidAir: §cYou can't do this airborne!
+
+RestartFirst: §cUse §b/is restart §cfirst, then confirm it with §b/is restart confirm§c!
+LeaveFirst: §cUse §b/is leave §cfirst, then confirm it with §b/is leave confirm§c!
+
+MasterIsland: §cMaster island is generating! This may cause some lags!
+MasterIslandReady: §aFinished creating master island!
+PlayerDoesNotExist: §cPlayer does not exist!
+PlayerNotIslandMember: §cThis player is no member of your island!
+KickedFromIsland: §cYou got kicked from your current island! You can join another island or create your own with §b/is§c!
+KickedFromIslandOffline: §4You got kicked from your island while you were Offline! You can join another island or create your own with §b/is§c!
+LeftIsland: §6You left your current island!
+AlreadyIslandMember: §cThis player is already a member of your island!
+KickedMember: §cYou kicked §b%SecondPlayer%§c from your island!
+MissingValue: §cYou need to define a Value for that Command!
+CantKickYourself: §cYou can't kick yourself!
+NoIsland: §cYou don't have an island. Generate one with §b/is§c first!
+OnlyMember: §aYou are alone on this island.
+AcceptLeave: §cYou are about to leave your current island and lose all your progress! You have 20 seconds to confirm with §b/is leave confirm§c!
+
+GenerateNewIsland: §aYour island is beeing generated. Wait a second!
+SethomeSuccess: §aSuccessfully set new homepoint for your island!
+ConfirmRestart: §cYour Island will be deleted and a new one will be generated. You have 20 seconds to confirm with §b/is restart confirm§c!
+InviteToIsland: §6You invited %SecondPlayer% to your island!
+GetInviteToIsland: §6%Player% invited you to join their island!
+HowToAcceptInvite: §cYou will lose all your progress! If you want to join their island, type §b/is accept§c within the next 20 seconds!
+NoPendingInvite: §cThere is no pending island invite for you!
+InviteYourself: §cYou can't invite yourself!
+NewIslandOwner: §6You are now the new island owner!
+SetNewIslandOwner: §cYou gave another player the title of the island owner!
+NoIsland: §cYou don't have a island! Create one with §b/island§c!
+AlreadyUsedIslandLevel: §cWait a bit before using this command again! You recently just used it!
+CalculatingNewIslandLevel: §aCalculating your new island level. Please wait a second since it could take some time!
+CurrentIslandLevel: §6Current islan level is %replacement%.
+NewIslandLevel: §6New island level is %replacement%.
+KickVisitingPlayer: §6It's time to go. You should leave the island you are visiting!
+PlayerLimitReached: §cYou can't invite any more players to your island because you reached the player limit!
+
+BlockBreak: §cYou aren't allowed to break blocks on this island!
+BlockPlace: §cYou aren't allowed to place blocks on this island!
+DropItem: §cYou can't drop things here! Drop your trash at another place!
+InteractBlocker: §cYou can't use that here!
+
+FailedToCreateIsland: §cFailed to create an island! Please try again or call an server admin!
+
+NotEnoughInventorySpace: §cThere are not enough free inventory slots to claim your reward!
+NotEnoughItems: §cYou don't have enough items for this challenge!
+IslandLevelNotHighEnough: §cYour island doesn't have the required level! Build more to gain higher levels!
+ChallengeComplete: §6%Player% §acompleted §6%Challenge%§a!
+IslandDoesNotMatchRequirements: §cYour island doesn't match the requirements for this challenge!
+ChallengeNotRepeatable: §cThis challenge can be completed only once!
+CheckingIslandForChallenge: §6Checking your island for the requirements of this challenge. Wait a second!
+GenerateCooldown: §cWait a few minutes before you create another island! Time between command reuse is %replacement% minutes.

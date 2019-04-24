@@ -1,0 +1,121 @@
+##### DO NOT ADD OR REMOVE ANY CHALLENGES! YOU MAY ONLY CHANGE THE DESCRIPTION, NEEDED AMOUNT AND REWARD-AMOUNT!
+
+### Description up to 4 lines! Note that if the line is too long players cant read it anymore!
+### Needed and Reward set the amount and the specific item for the challenges. Always make sure you have an amount for
+### each item or it will fail to load!
+
+ItemOverlay:
+  Completed: "Completed %amount% times."
+  Lore: Description
+  Needed: Needed Items
+  Reward: Reward
+  DescriptionColor: §b
+
+
+CompletedChallenges:
+  MinEasy: 5
+  MinEasyCompleted: "Complete atleast 5 challenges on easy!"
+  MinMedium: 5
+  MinMediumCompleted: "Complete atleast 5 challenges on medium!"
+
+
+Difficulty:
+  Easy: "Easy"
+  Medium: "Medium"
+  Hard: "Hard"
+
+Easy:
+  Cobblestone-Generator:
+    Slot: 1
+    ShownItem: Cobblestone
+    Description: Build an cobblestone-generator and obtain 64 Cobblestone!
+    Needed:
+    - Cobblestone;64
+    Reward:
+    - Leather;5
+    RepeatReward:
+    - Leather;1
+
+  Challenge2:
+    Name: Cobblestone-Generator
+    Slot: 2
+    ShownItem: Cobblestone
+    Description: §bBuild an cobblestone-generator and obtain 64 Cobblestone!
+    Needed:
+    - Cobblestone;64
+    Reward:
+    - Leather;5
+
+  Challenge5:
+      Name: Cobblestone-Generator
+      Slot: 3
+      ShownItem: Cobblestone
+      Description: §bBuild an cobblestone-generator and obtain 64 Cobblestone!
+      Needed:
+      - Cobblestone;64
+      Reward:
+      - Leather;5
+
+Medium:
+  Cobblestone-Generator:
+    Slot: 1
+    ShownItem: Cobblestone
+    Description: Build an cobblestone-generator and obtain 64 Cobblestone!
+    Needed:
+    - Cobblestone;64
+    Reward:
+    - Leather;5
+    RepeatReward:
+    - Leather;1
+
+  Challenge2:
+    Name: Cobblestone-Generator
+    Slot: 2
+    ShownItem: Cobblestone
+    Description: §bBuild an cobblestone-generator and obtain 64 Cobblestone!
+    Needed:
+    - Cobblestone;64
+    Reward:
+    - Leather;5
+
+  Challenge5:
+      Name: Cobblestone-Generator
+      Slot: 3
+      ShownItem: Cobblestone
+      Description: §bBuild an cobblestone-generator and obtain 64 Cobblestone!
+      Needed:
+      - Cobblestone;64
+      Reward:
+      - Leather;5
+
+Hard:
+  Cobblestone-Generator:
+    Slot: 1
+    ShownItem: Cobblestone
+    Description: Build an cobblestone-generator and obtain 64 Cobblestone!
+    Needed:
+    - Cobblestone;64
+    Reward:
+    - Leather;5
+    RepeatReward:
+    - Leather;1
+
+  Challenge2:
+    Name: Cobblestone-Generator
+    Slot: 2
+    ShownItem: Cobblestone
+    Description: §bBuild an cobblestone-generator and obtain 64 Cobblestone!
+    Needed:
+    - Cobblestone;64
+    Reward:
+    - Leather;5
+
+  Challenge5:
+      Name: Cobblestone-Generator
+      Slot: 3
+      ShownItem: Cobblestone
+      Description: §bBuild an cobblestone-generator and obtain 64 Cobblestone!
+      Needed:
+      - Cobblestone;64
+      Reward:
+      - Leather;5

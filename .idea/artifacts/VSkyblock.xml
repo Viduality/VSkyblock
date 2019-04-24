@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="VSkyblock">
+    <output-path>$PROJECT_DIR$/..//Bukkit Server für Plugins - VSkyblock/plugins</output-path>
+    <root id="archive" name="VSkyblock.jar">
+      <element id="library" level="project" name="craftbukkit-1.13.2_11112018" />
+      <element id="library" level="project" name="Multiverse-Core-2.5.0" />
+      <element id="module-output" name="VSkyblock" />
+    </root>
+  </artifact>
+</component>
