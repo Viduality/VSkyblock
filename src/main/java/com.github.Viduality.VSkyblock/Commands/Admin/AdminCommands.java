@@ -59,6 +59,14 @@ public class AdminCommands implements CommandExecutor {
                         worldSubCommand = new WorldList();
                     }
 
+                    if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("Nether")) {
+                        worldSubCommand = new SetNether();
+                    }
+
+                    if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("Spawnworld")) {
+                        worldSubCommand = new SetSpawnWorld();
+                    }
+
                 }
 
                 if (args.length == 3) {
@@ -71,6 +79,10 @@ public class AdminCommands implements CommandExecutor {
 
                     if (args[0].equalsIgnoreCase("delete") && args[1].equalsIgnoreCase("player")) {
                         worldSubCommand = new DeletePlayer();
+                    }
+
+                    if (args[0].equalsIgnoreCase("reset") && args[1].equalsIgnoreCase("challenges")) {
+                        worldSubCommand = new ResetChallenges();
                     }
 
                 }

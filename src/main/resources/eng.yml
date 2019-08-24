@@ -75,6 +75,10 @@ WorldFailedToUnload: §cFailed to unload world §6%replacement%§c!
 DeletedPlayer: §bSuccessfully deleted all data from player §6%replacement%§b!
 WorldDeleted: §bDeleted world successfully!
 FailedToDeleteWorld: §cCould not delete world properly! Something went wrong...
+ResettedChallenges: §bSuccessfully resetted challenges for player §6%replacement%§b!
+UseInNetherWorld: §cYou can only use this command in a NETHER world!
+SetNewNether: §bSuccessfully set a new Nether!
+SetNewSpawnWorld: §bSuccessfully set a new Spawn World!
 
 WorldListHeader: '§bVSkyblock worlds:'
 Site: §8Site %replacement%/%replacement2%

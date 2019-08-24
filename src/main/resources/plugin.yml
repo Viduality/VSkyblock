@@ -110,37 +110,37 @@ commands:
 
 
 
-
-
-  VSky Delete Player:
-    description: Deletes a player entirely from the database.
-    usage: /VSky delete player <Player>
-    permission: VSkyblock.DeletePlayer
-    permission-message: You don't have permission!
-
-  VSkyResetChallenges:
-    description: Resets all challenges for a player to count 0.
-    usage: /VSkyResetChallenges <Player>
-    permission: VSkyblock.VSkyResetChallenges
-    permission-message: You don't have permission!
-
-  VSkySetNether:
-    description: Sets the nether for all islands. Uses the world where the executing player stands!
-    usage: /VSkySetNether
-    permission: VSkyblock.VSkySetNether
-    permission-message: You don't have permission!
-
-  VSkySetSpawnWorld:
-    description: Sets the spawn world for new players. Players without an island will spawn there.
-    usage: /VSkySetSpawnWorld
-    permission: VSkyblock.VSkySetSpawnWorld
-    permission-message: You don't have permission!
-
   VSkyblock:
     description: Gives help about several commands.
     usage: /VSkyblock
     aliases: [vsky]
     permission: VSkyblock.VSkyblock
+    permission-message: You don't have permission!
+
+  VSkyblock Delete Player:
+    description: Deletes a player entirely from the database.
+    usage: /VSkyblock delete player <Player>
+    aliases: [vsky delete player]
+    permission: VSkyblock.DeletePlayer
+    permission-message: You don't have permission!
+
+  VSkyblock Reset Challenges:
+    description: Resets all challenges for a player to count 0.
+    usage: /VSkyblock reset challenges <Player>
+    aliases: [vsky reset challenges]
+    permission: VSkyblock.ResetChallenges
+    permission-message: You don't have permission!
+
+  VSkyblock Set Nether:
+    description: Sets the nether for all islands. Uses the world where the executing player stands!
+    usage: /VSkyblock set nether
+    permission: VSkyblock.SetNether
+    permission-message: You don't have permission!
+
+  VSkyblock Set SpawnWorld:
+    description: Sets the spawn world for new players. Players without an island will spawn there.
+    usage: /VSkyblock set spawnWorld
+    permission: VSkyblock.SetSpawnWorld
     permission-message: You don't have permission!
 
   VSkyblock teleport:

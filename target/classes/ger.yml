@@ -72,6 +72,12 @@ NoWorldFound: §cEs kann keine Welt mit dem Namen §6%replacement% §cgefunden w
 WorldUnloaded: §bWelt erfolgreich entladen!
 WorldFailedToUnload: §cWelt §6%replacement% §ckonnte nicht entladen werden!
 DeletedPlayer: §bErfolgreich alle Infos von §6%replacement% §bgelöscht!
+WorldDeleted: §bWelt erfolgreich gelöscht!
+FailedToDeleteWorld: §cKonnte Welt nicht richtig löschen. Da ist wohl etwas schief gelaufen...
+ResettedChallenges: §bErfolgreich Challenges von §6%replacement% §bresettet!
+UseInNetherWorld: §cDu kannst diesen Befehl nur im NETHER benutzen!
+SetNewNether: §bErfolgreich einen neuen Nether ausgewählt!
+SetNewSpawnWorld: §bErfolgreich eine neue Spawn-Welt ausgewählt!
 
 WorldListHeader: '§bVSkyblock Welten:'
 Site: §8Seite %replacement%/%replacement2%

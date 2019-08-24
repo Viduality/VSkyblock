@@ -73,6 +73,16 @@ public class DeletePlayer implements AdminSubCommand {
                             getDatabase.closeConnection(connection);
                         }
                         ConfigShorts.custommessagefromString("DeletedPlayer", player, args);
+                        plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
+                            @Override
+                            public void run() {
+                                OfflinePlayer target = plugin.getServer().getOfflinePlayer(args);
+                                if (target.isOnline()) {
+                                    Player onlinetarget = (Player) target;
+                                    onlinetarget.kickPlayer("Relog please");
+                                }
+                            }
+                        });
                     } else {
                         ConfigShorts.messagefromString("PlayerDoesNotExist", player);
                     }

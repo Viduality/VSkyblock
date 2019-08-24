@@ -36,10 +36,8 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
     private static VSkyblock instance;
     private SQLConnector sqlConnector;
-    private ResetChallenges resetChallengesExecutor;
+
     private Island islandExecutor;
-    private SetNether setNetherExecutor;
-    private SetSpawnWorld setSpawnWorldExecutor;
     private Testcommand testcommandExecutor;
     private Challenges challengesExecutor;
     private AdminCommands adminCommandsExecutor;
@@ -60,11 +58,6 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
 
         {
-            resetChallengesExecutor = new ResetChallenges(this);
-            getCommand("VSkyResetChallenges").setExecutor(resetChallengesExecutor);
-        }
-
-        {
             islandExecutor = new Island(this);
             getCommand("Island").setExecutor(islandExecutor);
         }
@@ -72,16 +65,6 @@ public class VSkyblock extends JavaPlugin implements Listener {
         {
             challengesExecutor = new Challenges(this);
             getCommand("Challenges").setExecutor(challengesExecutor);
-        }
-
-        {
-            setNetherExecutor = new SetNether(this);
-            getCommand("VSkysetNether").setExecutor(setNetherExecutor);
-        }
-
-        {
-            setSpawnWorldExecutor = new SetSpawnWorld(this);
-            getCommand("VSkySetSpawnWorld").setExecutor(setSpawnWorldExecutor);
         }
 
         {
