@@ -2,6 +2,7 @@ package com.github.Viduality.VSkyblock.Listener;
 
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
+import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,6 +23,7 @@ public class NetherPortalListener implements Listener {
 
     private VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseReader databaseReader = new DatabaseReader();
+    private WorldManager wm = new WorldManager();
 
     @EventHandler
     public void onNetherPortalUse(PlayerPortalEvent playerPortalEvent) {
@@ -31,7 +33,8 @@ public class NetherPortalListener implements Listener {
                 @Override
                 public void onQueryDone(DatabaseCache result) {
                     if (player.getWorld().getName().equals(result.getIslandname())) {
-                        player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(plugin.getConfig().getString("NetherWorld")).getSpawnLocation());
+                        player.teleport(wm.getSpawnLocation("NetherWorld"));
+                        // player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(plugin.getConfig().getString("NetherWorld")).getSpawnLocation());
                     }
                 }
             });

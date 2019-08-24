@@ -4,6 +4,7 @@ import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ConfigShorts {
@@ -203,6 +204,89 @@ public class ConfigShorts {
         loaddefConfig();
     }
 
+    public static String getCustomString(String String, String replacement, String replacement2) {
+        try {
+            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        String actualLanguage = plugin.getConfig().getString("Language");
+        String prefix;
+        String message;
+        if (actualLanguage.equalsIgnoreCase("ger")) {
+            loadGERConfig();
+            prefix = plugin.getConfig().getString("Prefix");
+            message = prefix + " " + plugin.getConfig().getString(String);
+        }
+        else {
+            loadENGConfig();
+            prefix = plugin.getConfig().getString("Prefix");
+            message = prefix + " " + plugin.getConfig().getString(String);
+        }
+
+        if (message.contains("%replacement%")) {
+            message = message.replace("%replacement%", replacement);
+        }
+
+        if (message.contains("%replacement2%")) {
+            message = message.replace("%replacement2%", replacement2);
+        }
+        loaddefConfig();
+        return message;
+    }
+
+    public static String getCustomString(String String) {
+        try {
+            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        String actualLanguage = plugin.getConfig().getString("Language");
+        String prefix;
+        String message;
+        if (actualLanguage.equalsIgnoreCase("ger")) {
+            loadGERConfig();
+            prefix = plugin.getConfig().getString("Prefix");
+            message = prefix + " " + plugin.getConfig().getString(String);
+        }
+        else {
+            loadENGConfig();
+            prefix = plugin.getConfig().getString("Prefix");
+            message = prefix + " " + plugin.getConfig().getString(String);
+        }
+        loaddefConfig();
+        return message;
+    }
+
+    public static String getPrefix() {
+        try {
+            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        String actualLanguage = plugin.getConfig().getString("Language");
+        String prefix;
+        if (actualLanguage.equalsIgnoreCase("ger")) {
+            loadGERConfig();
+            prefix = plugin.getConfig().getString("Prefix") + " ";
+        }
+        else {
+            loadENGConfig();
+            prefix = plugin.getConfig().getString("Prefix") + " ";
+
+        }
+        return prefix;
+    }
+
     /**
      * Loads the help config.
      * Language depends on the given language in the config.yml file.
@@ -335,6 +419,14 @@ public class ConfigShorts {
             } catch (IOException | InvalidConfigurationException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void loadWorldConfig() {
+        try {
+            plugin.getConfig().load(plugin.getDataFolder() + "/Worlds.yml");
+        } catch (InvalidConfigurationException | IOException e) {
+            e.printStackTrace();
         }
     }
 

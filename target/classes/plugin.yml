@@ -2,9 +2,8 @@ name: VSkyblock
 main: com.github.Viduality.VSkyblock.VSkyblock
 version: 1.0
 author: Viduality
-api-version: 1.13
+api-version: 1.14
 load: POSTWORLD
-loadbefore: [Multiverse-Core, Multiverse-Netherportals]
 database: true
 
 
@@ -113,10 +112,10 @@ commands:
 
 
 
-  VSkyDelete:
+  VSky Delete Player:
     description: Deletes a player entirely from the database.
-    usage: /VSkydelete <Player>
-    permission: VSkyblock.VSkydelete
+    usage: /VSky delete player <Player>
+    permission: VSkyblock.VSkydeletePlayer
     permission-message: You don't have permission!
 
   VSkyResetChallenges:
@@ -127,17 +126,50 @@ commands:
 
   VSkySetNether:
     description: Sets the nether for all islands. Uses the world where the executing player stands!
-    usage: /VskySetNether
+    usage: /VSkySetNether
     permission: VSkyblock.VSkySetNether
     permission-message: You don't have permission!
 
   VSkySetSpawnWorld:
     description: Sets the spawn world for new players. Players without an island will spawn there.
-    usage: /VskySetSpawnWorld
+    usage: /VSkySetSpawnWorld
     permission: VSkyblock.VSkySetSpawnWorld
     permission-message: You don't have permission!
 
+  VSkyblock:
+    description: Gives help about several commands.
+    usage: /VSkyblock
+    aliases: [vsky]
+    permission: VSkyblock.VSkyblock
+    permission-message: You don't have permission!
 
+  VSkyblock teleport:
+    description: Teleports between worlds.
+    usage: /VSkyblock teleport <World>
+    aliases: [vsky tp]
+    permission: VSkyblock.Teleportation
+    permission-message: You don't have permission!
+
+  VSkyblock load:
+    description: Loads a specific world.
+    usage: /VSkyblock load <world>
+    aliases: [vsky load]
+    permission: VSkyblock.LoadWorld
+    permission-message: You don't have permission!
+
+  VSkyblock unload:
+    description: Unloads a specific world.
+    usage: /VSkyblock unload <world>
+    aliases: [vsky unload]
+    permission: VSkyblock.UnloadWorld
+    permission-message: You don't have permission!
+
+  VSkyblock list:
+    description: Shows a list of VSkyblock worlds.
+    usage: /VSkyblock list <site>
+    aliases: [vsky list]
+    permission: VSkyblock.List
+    permission-message: You don't have permission!
 
 
 

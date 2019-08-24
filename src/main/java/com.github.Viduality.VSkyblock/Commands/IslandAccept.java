@@ -1,9 +1,6 @@
 package com.github.Viduality.VSkyblock.Commands;
 
-import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
+import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.entity.Player;
 
@@ -14,6 +11,7 @@ public class IslandAccept implements SubCommand {
     private VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseReader databaseReader = new DatabaseReader();
     private DatabaseWriter databaseWriter = new DatabaseWriter();
+    private WorldManager wm = new WorldManager();
 
 
 
@@ -39,12 +37,14 @@ public class IslandAccept implements SubCommand {
 
                                             player.getInventory().clear();
                                             player.getEnderChest().clear();
-                                            player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(newisland).getSpawnLocation());
+                                            player.teleport(wm.getSpawnLocation(newisland));
+                                            // player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(newisland).getSpawnLocation());
                                             databaseWriter.updatePlayersIsland(newmemberuuid, islandid, false);
                                             databaseWriter.resetChallenges(newmemberuuid);
                                             Island.invitemap.asMap().remove(player.getUniqueId());
                                             Island.playerislands.put(player.getUniqueId().toString(), newisland);
-                                            plugin.getMV().getCore().getMVWorldManager().unloadWorld(databaseCache.getIslandname());
+                                            wm.unloadWorld(databaseCache.getIslandname());
+                                            // plugin.getMV().getCore().getMVWorldManager().unloadWorld(databaseCache.getIslandname());
                                         } else {
                                             ConfigShorts.messagefromString("HasIslandMembers", player);
                                         }
@@ -53,14 +53,16 @@ public class IslandAccept implements SubCommand {
                             } else {
                                 player.getInventory().clear();
                                 player.getEnderChest().clear();
-                                player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(newisland).getSpawnLocation());
+                                player.teleport(wm.getSpawnLocation(newisland));
+                                // player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(newisland).getSpawnLocation());
                                 databaseWriter.updatePlayersIsland(newmemberuuid, islandid, false);
                                 databaseWriter.resetChallenges(newmemberuuid);
                                 Island.invitemap.asMap().remove(player.getUniqueId());
                                 Island.playerislands.put(player.getUniqueId().toString(), newisland);
                                 if (databaseCache.getIslandname() != null) {
                                     if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
-                                        plugin.getMV().getCore().getMVWorldManager().unloadWorld(databaseCache.getIslandname());
+                                        wm.unloadWorld(databaseCache.getIslandname());
+                                        // plugin.getMV().getCore().getMVWorldManager().unloadWorld(databaseCache.getIslandname());
                                     }
                                 }
                             }

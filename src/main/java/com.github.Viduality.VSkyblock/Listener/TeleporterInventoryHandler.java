@@ -9,7 +9,7 @@ public class TeleporterInventoryHandler implements Listener {
 
     @EventHandler
     public void onInventoryKlick(InventoryClickEvent inventoryClickEvent) {
-        if (inventoryClickEvent.getInventory().getName().equals(ChatColor.DARK_PURPLE + "Teleporter")) {
+        if (inventoryClickEvent.getView().getTitle().equals(ChatColor.DARK_PURPLE + "Teleporter")) {
             inventoryClickEvent.setCancelled(true);
             if (inventoryClickEvent.getSlot() == 0) {
                 // Implement World

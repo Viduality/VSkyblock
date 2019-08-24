@@ -2,6 +2,7 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 public class IslandSethome implements SubCommand {
 
     private VSkyblock plugin = VSkyblock.getInstance();
+    private WorldManager wm = new WorldManager();
 
 
     @Override
@@ -22,8 +24,10 @@ public class IslandSethome implements SubCommand {
                 if (databaseCache.isIslandowner()) {
                     String island = databaseCache.getIslandname();
                     if (island.equals(player.getWorld().getName())) {
-                        if (!(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType()).equals(Material.AIR)) {
-                            plugin.getMV().getCore().getMVWorldManager().getMVWorld(island).setSpawnLocation(player.getLocation());
+                        if (!(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType()).equals(Material.AIR)
+                                && !(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.VOID_AIR))
+                                && !(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.CAVE_AIR))) {
+                            wm.setSpawnLocation(player.getLocation());
                             ConfigShorts.messagefromString("SethomeSuccess", player);
                         } else {
                             ConfigShorts.messagefromString("MidAir", player);

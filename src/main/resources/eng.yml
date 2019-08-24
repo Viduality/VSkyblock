@@ -62,3 +62,19 @@ IslandDoesNotMatchRequirements: §cYour island doesn't match the requirements fo
 ChallengeNotRepeatable: §cThis challenge can be completed only once!
 CheckingIslandForChallenge: §6Checking your island for the requirements of this challenge. Wait a second!
 GenerateCooldown: §cWait a few minutes before you create another island! Time between command reuse is %replacement% minutes.
+
+TeleportedToWorld: §bTeleported to world §6%replacement% §b.
+CouldNotTeleportToWorld: §cCould not teleport to world §6%replacement%§c!
+NoLoadedWorldFound: §cCould not find any loaded world named §6%replacement%§c.
+WorldLoaded: §bWorld loaded successfully!
+WorldFailedToLoad: §cFailed to load world §6%replacement%§c!
+WorldAlreadyLoaded: §cWorld is already loaded!
+NoWorldFound: §cCould not find any world named §6%replacement%§c!
+WorldUnloaded: §bWorld unloaded successfully!
+WorldFailedToUnload: §cFailed to unload world §6%replacement%§c!
+DeletedPlayer: §bSuccessfully deleted all data from player §6%replacement%§b!
+WorldDeleted: §bDeleted world successfully!
+FailedToDeleteWorld: §cCould not delete world properly! Something went wrong...
+
+WorldListHeader: '§bVSkyblock worlds:'
+Site: §8Site %replacement%/%replacement2%

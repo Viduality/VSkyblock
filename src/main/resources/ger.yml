@@ -13,8 +13,8 @@ MidAir: §cDu kannst das nicht in der Luft machen!
 RestartFirst: §cBenutze erst §b/is restart §cund bestätige danach mit §b/is restart confirm§c!
 LeaveFirst: §cBenutze erst §b/is leave §cund bestätige danach mit §b/is leave confirm§c!
 
-MasterIsland: §cPreset Insel wird generiert! In der Zeit können Lags auftreten!
-MasterIslandReady: §aPreset Insel fertig generiert!
+MasterIsland: §cVSkyblock Masterisland wird generiert! In der Zeit können Lags auftreten!
+MasterIslandReady: §aVSkyblock Masterisland fertig generiert!
 PlayerDoesNotExist: §cDer Spieler existiert nicht!
 PlayerNotIslandMember: §cDieser Spieler ist kein Spieler auf deiner Insel!
 KickedFromIsland: §cDu wurdest von deiner jetzigen Insel gekickt! Du kannst einer Anderen beitreten oder deine eigene Insel mit §b/is §cerstellen!
@@ -61,5 +61,21 @@ IslandDoesNotMatchRequirements: §cDeine Insel entspricht den Anforderungen für
 ChallengeNotRepeatable: §cDu kannst diese Challenge nur einmal abschließen!
 CheckingIslandForChallenge: §6Durchsuche Insel nach den Anforderungen der Challenge. Warte einen Moment!
 GenerateCooldown: §cWarte ein paar Minuten bevor du eine neue Insel erstellst! Die Zeit zwischen dem Generieren von zwei Inseln beträgt %replacement% Minuten.
+
+TeleportedToWorld: §bTeleportiere zu Welt §6%replacement%§b.
+CouldNotTeleportToWorld: §cKonnte nicht in die Welt §6%replacement% §cteleportieren!
+NoLoadedWorldFound: §cEs konnte keine geladene Welt mit dem Namen §6%replacement% §cgefunden werden.
+WorldLoaded: §bWelt erfolgreich geladen!
+WorldFailedToLoad: §cWelt §6%replacement% §ckonnte nicht geladen werden!
+WorldAlreadyLoaded: §cWelt ist bereits geladen!
+NoWorldFound: §cEs kann keine Welt mit dem Namen §6%replacement% §cgefunden werden!
+WorldUnloaded: §bWelt erfolgreich entladen!
+WorldFailedToUnload: §cWelt §6%replacement% §ckonnte nicht entladen werden!
+DeletedPlayer: §bErfolgreich alle Infos von §6%replacement% §bgelöscht!
+WorldDeleted: §bWelt erfolgreich gelöscht!
+FailedToDeleteWorld: §cKonnte Welt nicht richtig löschen. Da ist wohl etwas schief gelaufen...
+
+WorldListHeader: '§bVSkyblock Welten:'
+Site: §8Seite %replacement%/%replacement2%
 
 

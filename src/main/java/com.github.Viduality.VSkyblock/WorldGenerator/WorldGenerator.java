@@ -1,7 +1,7 @@
 package com.github.Viduality.VSkyblock.WorldGenerator;
 
-import com.github.Viduality.VSkyblock.DefaultFiles;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 
 import org.bukkit.*;
@@ -13,6 +13,7 @@ public class WorldGenerator {
     private static final VSkyblock plugin = VSkyblock.getInstance();
 
     private static final String islandName = "VSkyblockMasterIsland";
+    private static WorldManager wm = new WorldManager();
 
     /**
      * Creates a new world called "VSkyblockMasterIsland".
@@ -20,15 +21,20 @@ public class WorldGenerator {
      * @param callback
      */
     public static void CreateNewMasterIsland(final Callback callback) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+        plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
             @Override
             public void run() {
+
+                WorldCreator wc = new WorldCreator(islandName);
+                wc.generator("VSkyblock");
+                wc.environment(World.Environment.NORMAL);
+                wc.type(WorldType.FLAT);
+                wc.generateStructures(false);
+                wc.createWorld();
+
+                // boolean addedworld = plugin.getMV().getCore().getMVWorldManager().addWorld(islandName, World.Environment.NORMAL, "", WorldType.FLAT, false, "VSkyblock", true);
+                // boolean loadedworld = plugin.getMV().getCore().getMVWorldManager().loadWorld(islandName);
                 ConfigShorts.loaddefConfig();
-
-
-                plugin.getMV().getCore().getMVWorldManager().addWorld(islandName, World.Environment.NORMAL, "", WorldType.FLAT, false, "VSkyblock", true);
-
-                plugin.getMV().getCore().getMVWorldManager().loadWorld(islandName);
 
 
                 for (int x = -1; x < 5; x++) {
@@ -173,12 +179,19 @@ public class WorldGenerator {
                 chest.getBlockInventory().setItem(7, brownmushroom);
                 chest.getBlockInventory().setItem(8, redmushroom);
 
+                plugin.getServer().getWorld(islandName).getSpawnLocation().setX(0);
+                plugin.getServer().getWorld(islandName).getSpawnLocation().setY(67);
+                plugin.getServer().getWorld(islandName).getSpawnLocation().setZ(0);
 
-                plugin.getMV().getCore().getMVWorldManager().getMVWorld(islandName).getSpawnLocation().setX(0);
-                plugin.getMV().getCore().getMVWorldManager().getMVWorld(islandName).getSpawnLocation().setY(67);
-                plugin.getMV().getCore().getMVWorldManager().getMVWorld(islandName).getSpawnLocation().setZ(0);
+                plugin.getServer().getWorld(islandName).setAutoSave(true);
+                wm.addWorld(islandName);
 
-                plugin.getMV().getCore().getMVWorldManager().getMVWorld(islandName).setAutoLoad(false);
+
+                // plugin.getMV().getCore().getMVWorldManager().getMVWorld(islandName).getSpawnLocation().setX(0);
+                // plugin.getMV().getCore().getMVWorldManager().getMVWorld(islandName).getSpawnLocation().setY(67);
+                // plugin.getMV().getCore().getMVWorldManager().getMVWorld(islandName).getSpawnLocation().setZ(0);
+
+                // plugin.getMV().getCore().getMVWorldManager().getMVWorld(islandName).setAutoLoad(false);
 
                 Bukkit.getScheduler().runTask(plugin, new Runnable() {
                     @Override
@@ -188,6 +201,7 @@ public class WorldGenerator {
                 });
             }
         });
+
     }
 
 

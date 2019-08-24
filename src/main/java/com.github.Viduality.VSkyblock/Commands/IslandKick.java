@@ -4,6 +4,7 @@ import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
+import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -20,6 +21,7 @@ public class IslandKick implements SubCommand{
     private VSkyblock plugin = VSkyblock.getInstance();
     private SQLConnector getDatabase = new SQLConnector();
     private DatabaseWriter databaseWriter = new DatabaseWriter();
+    private WorldManager wm = new WorldManager();
 
 
     @Override
@@ -71,7 +73,8 @@ public class IslandKick implements SubCommand{
                                         plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                                             @Override
                                             public void run() {
-                                                onlinetarget.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(plugin.getConfig().getString("SpawnWorld")).getSpawnLocation());
+                                                onlinetarget.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
+                                                // onlinetarget.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(plugin.getConfig().getString("SpawnWorld")).getSpawnLocation());
                                                 ConfigShorts.messagefromString("KickVisitingPlayer", onlinetarget);
                                             }
                                         });

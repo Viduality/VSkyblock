@@ -12,6 +12,7 @@ public class DeleteOldIslands implements Runnable {
     private VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseReader databaseReader = new DatabaseReader();
     private DatabaseWriter databaseWriter = new DatabaseWriter();
+    private WorldManager wm = new WorldManager();
 
 
     @Override
@@ -36,9 +37,12 @@ public class DeleteOldIslands implements Runnable {
             @Override
             public void onQueryDone(List<String> result) {
                 for (String currentIsland : result) {
-                    plugin.getMV().getCore().getMVWorldManager().loadWorld(currentIsland);
-                    plugin.getMV().getCore().getMVWorldManager().deleteWorld(currentIsland, true, true);
-                    databaseWriter.deleteIsland(currentIsland);
+                    // plugin.getMV().getCore().getMVWorldManager().loadWorld(currentIsland);
+                    boolean deleted = wm.deleteWorld(currentIsland);
+                    // plugin.getMV().getCore().getMVWorldManager().deleteWorld(currentIsland, true, true);
+                    if (deleted) {
+                        databaseWriter.deleteIsland(currentIsland);
+                    }
                 }
                 plugin.getServer().broadcastMessage(ChatColor.GREEN + "Cleaning up done! :)");
             }

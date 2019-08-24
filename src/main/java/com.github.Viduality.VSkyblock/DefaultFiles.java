@@ -48,6 +48,9 @@ public class DefaultFiles {
     private static File blockValues;
     private static FileConfiguration blockValuesConfig;
 
+    private static File worlds;
+    private static FileConfiguration worldsConfig;
+
     public static HashMap<Enum, Double> blockvalues = new HashMap<>();
 
     /**
@@ -177,6 +180,18 @@ public class DefaultFiles {
             }
 
             blockValuesConfig = new YamlConfiguration();
+        }
+
+
+        {
+            worlds = new File(plugin.getDataFolder(), "Worlds.yml");
+            try {
+                worldsfirstRun();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            worldsConfig = new YamlConfiguration();
         }
 
 
@@ -312,6 +327,18 @@ public class DefaultFiles {
     }
 
     /**
+     * Checks if Worlds.yml exists and creates it if not.
+     *
+     * @throws Exception
+     */
+    private static void worldsfirstRun() throws Exception {
+        if (!worlds.exists()) {
+            worlds.getParentFile().mkdirs();
+            copy(plugin.getResource("Worlds.yml"), worlds);
+        }
+    }
+
+    /**
      * Copies a resource file needed into an OutputStream.
      *
      * @param in
@@ -341,41 +368,16 @@ public class DefaultFiles {
     private static void loadYamls() {
         try {
             config.load(configFile);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             eng.load(engFile);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             ger.load(gerFile);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             gerC.load(gerChallenges);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             engC.load(engChallenges);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             blockValuesConfig.load(blockValues);
+            gerT.load(gerTeleporter);
+            engT.load(engTeleporter);
+            gerH.load(gerHelp);
+            engH.load(engHelp);
+            worldsConfig.load(worlds);
         }
         catch (Exception e) {
             e.printStackTrace();

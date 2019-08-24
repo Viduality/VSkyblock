@@ -8,7 +8,9 @@ import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.WorldGenerator.WorldGenerator;
+import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,19 +28,33 @@ public class PlayerJoinListener implements Listener {
     private DatabaseReader databaseReader = new DatabaseReader();
     private DatabaseWriter databaseWriter = new DatabaseWriter();
     private SQLConnector getDatabase = new SQLConnector();
+    private WorldManager wm = new WorldManager();
 
 
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent playerJoinEvent) {
         ConfigShorts.loaddefConfig();
-        if (plugin.getMV().getCore().getMVWorldManager().getUnloadedWorlds().contains(plugin.getConfig().getString("SpawnWorld"))) {
+
+
+        if (wm.getUnloadedWorlds().contains(plugin.getConfig().getString("SpawnWorld"))) {
+            wm.loadWorld(plugin.getConfig().getString("SpawnWorld"));
+        }
+        if (wm.getUnloadedWorlds().contains(plugin.getConfig().getString("NetherWorld"))) {
+            wm.loadWorld(plugin.getConfig().getString("NetherWorld"));
+        }
+
+
+        /* if (plugin.getMV().getCore().getMVWorldManager().getUnloadedWorlds().contains(plugin.getConfig().getString("SpawnWorld"))) {
             plugin.getMV().getCore().getMVWorldManager().loadWorld(plugin.getConfig().getString("SpawnWorld"));
         }
 
         if (plugin.getMV().getCore().getMVWorldManager().getUnloadedWorlds().contains(plugin.getConfig().getString("NetherWorld"))) {
             plugin.getMV().getCore().getMVWorldManager().loadWorld(plugin.getConfig().getString("NetherWorld"));
         }
+
+        */
+
         Player player = playerJoinEvent.getPlayer();
         databaseReader.getPlayerData(player.getUniqueId().toString(), new DatabaseReader.Callback() {
             @Override
@@ -48,21 +64,35 @@ public class PlayerJoinListener implements Listener {
                 } else {
                     if (result.getIslandname() != null) {
                         if (!Island.playerislands.containsValue(result.getIslandname())) {
-                            plugin.getMV().getCore().getMVWorldManager().loadWorld(result.getIslandname());
+                            wm.loadWorld(result.getIslandname());
+                            // plugin.getMV().getCore().getMVWorldManager().loadWorld(result.getIslandname());
                             Island.playerislands.put(result.getuuid(), result.getIslandname());
-                            if (plugin.getMV().getCore().getMVWorldManager().getMVWorld(result.getIslandname()).getSpawnLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
-                                plugin.getMV().getCore().getMVWorldManager().getMVWorld(result.getIslandname()).getSpawnLocation().getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
+                            World island = plugin.getServer().getWorld(result.getIslandname());
+
+                            if (wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
+                                wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
                             }
-                            player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(result.getIslandname()).getSpawnLocation());
+                            player.teleport(wm.getSpawnLocation(result.getIslandname()));
+
+                            // if (plugin.getMV().getCore().getMVWorldManager().getMVWorld(result.getIslandname()).getSpawnLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
+                            //    plugin.getMV().getCore().getMVWorldManager().getMVWorld(result.getIslandname()).getSpawnLocation().getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
+                            // }
+                            // player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(result.getIslandname()).getSpawnLocation());
                         } else {
                             Island.playerislands.put(result.getuuid(), result.getIslandname());
-                            if (plugin.getMV().getCore().getMVWorldManager().getMVWorld(result.getIslandname()).getSpawnLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
-                                plugin.getMV().getCore().getMVWorldManager().getMVWorld(result.getIslandname()).getSpawnLocation().getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
+                            World island = plugin.getServer().getWorld(result.getIslandname());
+                            if (wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
+                                wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
                             }
-                            player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(result.getIslandname()).getSpawnLocation());
+                            player.teleport(wm.getSpawnLocation(result.getIslandname()));
+                            // if (plugin.getMV().getCore().getMVWorldManager().getMVWorld(result.getIslandname()).getSpawnLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
+                            //     plugin.getMV().getCore().getMVWorldManager().getMVWorld(result.getIslandname()).getSpawnLocation().getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
+                            // }
+                            // player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(result.getIslandname()).getSpawnLocation());
                         }
                     } else {
-                        player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(plugin.getConfig().getString("SpawnWorld")).getSpawnLocation());
+                        player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
+                        // player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(plugin.getConfig().getString("SpawnWorld")).getSpawnLocation());
 
                     }
 
@@ -71,8 +101,18 @@ public class PlayerJoinListener implements Listener {
         });
 
 
+        if (plugin.getServer().getWorld("VSkyblockMasterIsland") == null && !wm.getUnloadedWorlds().contains("VSkyblockMasterIsland")) {
+            ConfigShorts.broadcastfromString("MasterIsland");
+            WorldGenerator.CreateNewMasterIsland(new WorldGenerator.Callback() {
+                @Override
+                public void onQueryDone(String result) {
+                    wm.unloadWorld(result);
+                    ConfigShorts.broadcastfromString("MasterIslandReady");
+                }
+            });
+        }
 
-
+        /*
         if (plugin.getMV().getCore().getMVWorldManager().getMVWorld("VSkyblockMasterIsland") == null && !plugin.getMV().getCore().getMVWorldManager().getUnloadedWorlds().contains("VSkyblockMasterIsland")) {
             ConfigShorts.broadcastfromString("MasterIsland");
             WorldGenerator.CreateNewMasterIsland(new WorldGenerator.Callback() {
@@ -83,6 +123,7 @@ public class PlayerJoinListener implements Listener {
                 }
             });
         }
+         */
     }
 
 

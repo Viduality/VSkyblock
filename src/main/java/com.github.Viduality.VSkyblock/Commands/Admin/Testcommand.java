@@ -1,14 +1,17 @@
 package com.github.Viduality.VSkyblock.Commands.Admin;
 
 import com.github.Viduality.VSkyblock.SQLConnector;
+import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 public class Testcommand implements CommandExecutor {
@@ -21,6 +24,7 @@ public class Testcommand implements CommandExecutor {
         this.testcommand = testcommand;
     }
     private HashMap<Player, String> test = new HashMap<>();
+    private WorldManager wm = new WorldManager();
 
 
 
@@ -32,15 +36,24 @@ public class Testcommand implements CommandExecutor {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (player.hasPermission("VSkyblock.Testcommand")) {
-                    plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-                        @Override
-                        public void run() {
-                            plugin.getMV().getCore().getMVWorldManager().getMVWorld("VSkyblockMasterIsland").setAlias("VSkyblockMasterIsland");
-                        }
-                    });
+                    // wm.setOption(player.getWorld().getName(), "autoLoad", "true");
+                    // wm.addWorld(args[0]);
+                    // wm.setSpawnLocation(player.getLocation());
+                    // player.sendMessage(String.valueOf(player.getWorld().getGenerator()));
+                    wm.deleteWorld("VSkyblockMasterIsland");
+
                 }
             }
         }
-        return false;
+        return true;
     }
 }
+
+
+
+/*
+WorldCreator wc = new WorldCreator(args[0]);
+                    wc.generator("VSkyblock");
+                    wc.createWorld();
+                    System.out.println(plugin.getServer().getWorld(args[0]).getName());
+ */

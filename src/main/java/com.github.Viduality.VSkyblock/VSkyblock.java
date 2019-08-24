@@ -4,11 +4,11 @@ package com.github.Viduality.VSkyblock;
 import com.github.Viduality.VSkyblock.Commands.Admin.*;
 import com.github.Viduality.VSkyblock.Commands.Challenges.Challenges;
 import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Commands.Admin.AdminCommands;
 import com.github.Viduality.VSkyblock.Listener.*;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.Utilitys.DeleteOldIslands;
 import com.github.Viduality.VSkyblock.WorldGenerator.VoidGenerator;
-import com.onarandombox.MultiverseCore.api.MVPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -20,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,13 +36,13 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
     private static VSkyblock instance;
     private SQLConnector sqlConnector;
-    private DeletePlayer deletePlayerExecutor;
     private ResetChallenges resetChallengesExecutor;
     private Island islandExecutor;
     private SetNether setNetherExecutor;
     private SetSpawnWorld setSpawnWorldExecutor;
     private Testcommand testcommandExecutor;
     private Challenges challengesExecutor;
+    private AdminCommands adminCommandsExecutor;
 
 
 
@@ -59,11 +58,6 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
         DefaultFiles.init();
 
-
-        {
-            deletePlayerExecutor = new DeletePlayer(this);
-            getCommand("VSkydelete").setExecutor(deletePlayerExecutor);
-        }
 
         {
             resetChallengesExecutor = new ResetChallenges(this);
@@ -95,6 +89,11 @@ public class VSkyblock extends JavaPlugin implements Listener {
             getCommand("Testcommand").setExecutor(testcommandExecutor);
         }
 
+        {
+            adminCommandsExecutor = new AdminCommands(this);
+            getCommand("VSkyblock").setExecutor(adminCommandsExecutor);
+        }
+
 
         /*
          * Register all Events
@@ -103,6 +102,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
         final PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerJoinListener(), this);
         pm.registerEvents(new PlayerLeaveListener(), this);
+        pm.registerEvents(new PlayerRespawnListener(), this);
         pm.registerEvents(new BlockBreakListener(), this);
         pm.registerEvents(new NetherPortalListener(), this);
         pm.registerEvents(new BlockProtector(), this);
@@ -155,6 +155,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
     public void onDisable() {
         getServer().getScheduler().cancelTasks(this);
         sqlConnector.close();
+        getServer().resetRecipes();
     }
 
     /**
@@ -165,11 +166,9 @@ public class VSkyblock extends JavaPlugin implements Listener {
         return instance;
     }
 
-    /**
-     * Provides an instance of Multiverse-Core
-     * @return Multiverse-Core instance
-     */
-    public MVPlugin getMV() {
+    /*
+
+    public MVPlugin getMVs() {
         Plugin mvplugin = getServer().getPluginManager().getPlugin("Multiverse-Core");
 
         if (mvplugin instanceof Plugin) {
@@ -179,6 +178,9 @@ public class VSkyblock extends JavaPlugin implements Listener {
         getServer().getPluginManager().disablePlugin(this);
         throw new RuntimeException("Multiverse not found!");
     }
+     */
+
+
 
     /**
      * Returns all online players.
