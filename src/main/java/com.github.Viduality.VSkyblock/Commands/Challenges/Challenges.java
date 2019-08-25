@@ -1,6 +1,5 @@
 package com.github.Viduality.VSkyblock.Commands.Challenges;
 
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

@@ -6,71 +6,39 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9bbfa0-8dc8-4823-8951-5935051a361d" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/WorldCommands/WorldSetSpawnpoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/AdminCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/AdminCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/ResetChallenges.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/ResetChallenges.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/Testcommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/Testcommand.java" afterDir="false" />
+    <list default="true" id="fd9bbfa0-8dc8-4823-8951-5935051a361d" name="Default" comment="test commit - ignore">
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/.idea/artifacts/VSkyblock.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/.idea/artifacts/VSkyblock.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Challenges/Challenges.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Challenges/Challenges.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandAccept.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandAccept.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandKick.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandKick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandLeaveConfirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandLeaveConfirm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/WorldCommands/WorldTeleportation.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/WorldCommands/WorldTeleportation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/DefaultFiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/DefaultFiles.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/BlockProtector.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/BlockProtector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ChallengesInventoryHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ChallengesInventoryHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/InteractBlocker.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/InteractBlocker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ItemDropBlocker.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ItemDropBlocker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ItemPickupBlocker.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ItemPickupBlocker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/NetherPortalListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/NetherPortalListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerJoinListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerJoinListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerLeaveListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerLeaveListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerRespawnListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerRespawnListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PortalAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PortalAccessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/TeleporterInventoryHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/TeleporterInventoryHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Portals/CraftPortal.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Portals/CraftPortal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/ConfigShorts.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/ConfigShorts.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DatabaseCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DatabaseCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DatabaseWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DatabaseWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DeleteOldIslands.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DeleteOldIslands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/WorldManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/WorldManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/VSkyblock.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/VSkyblock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/WorldGenerator/Islandmethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/WorldGenerator/Islandmethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/WorldGenerator/WorldGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/WorldGenerator/WorldGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/resources/eng.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/resources/eng.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/resources/ger.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/resources/ger.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../VSkyblock/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/DefaultFiles.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/DefaultFiles.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PlayerJoinListener$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PlayerJoinListener$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PlayerJoinListener$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PlayerJoinListener$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PlayerJoinListener$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PlayerJoinListener$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PlayerJoinListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PlayerJoinListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PlayerLeaveListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PlayerLeaveListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PlayerRespawnListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PlayerRespawnListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PortalAccessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/PortalAccessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/TeleporterInventoryHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/TeleporterInventoryHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Portals/CraftPortal.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Portals/CraftPortal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/ConfigShorts.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/ConfigShorts.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseCache$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseCache$Operation.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseCache.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseCache.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseWriter$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseWriter$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseWriter$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseWriter$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseWriter$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseWriter$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseWriter$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseWriter$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseWriter$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseWriter$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DatabaseWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DeleteOldIslands$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DeleteOldIslands$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DeleteOldIslands.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Utilitys/DeleteOldIslands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/VSkyblock.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/VSkyblock.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/WorldGenerator/Islandmethods$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/WorldGenerator/Islandmethods$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/WorldGenerator/Islandmethods.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/WorldGenerator/Islandmethods.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/WorldGenerator/WorldGenerator$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/WorldGenerator/WorldGenerator$1$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/WorldGenerator/WorldGenerator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/WorldGenerator/WorldGenerator$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/WorldGenerator/WorldGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/WorldGenerator/WorldGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/Admin/ResetChallenges$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/Admin/ResetChallenges$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/Admin/ResetChallenges.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/Admin/ResetChallenges.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/Challenges/Challenges$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/Challenges/Challenges$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/Challenges/Challenges.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/Challenges/Challenges.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandAccept$1$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandAccept$1$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandAccept$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandAccept$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandAccept$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandAccept$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandAccept.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandAccept.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandKick$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandKick$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandKick$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandKick$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandKick.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandKick.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandLeaveConfirm$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandLeaveConfirm$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandLeaveConfirm$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandLeaveConfirm$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandLeaveConfirm.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Commands/IslandLeaveConfirm.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/BlockProtector.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/BlockProtector.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/ChallengesInventoryHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/ChallengesInventoryHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/InteractBlocker.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/InteractBlocker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/ItemDropBlocker.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/ItemDropBlocker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/ItemPickupBlocker.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/ItemPickupBlocker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/NetherPortalListener$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/NetherPortalListener$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/NetherPortalListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/com/github/Viduality/VSkyblock/Listener/NetherPortalListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/eng.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/eng.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/ger.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/ger.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../VSkyblock/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../VSkyblock/target/classes/plugin.yml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -86,65 +54,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="plugin.yml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/resources/plugin.yml">
+      <file leaf-file-name="VSkyblock.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/VSkyblock.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3196">
-              <caret line="188" selection-start-line="188" selection-end-line="188" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IslandKick.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandKick.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
-              <caret line="75" column="135" selection-start-line="75" selection-start-column="135" selection-end-line="75" selection-end-column="135" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BlockBreakListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/BlockBreakListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BlockProtector.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/BlockProtector.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="969">
-              <caret line="70" column="60" selection-start-line="70" selection-start-column="60" selection-end-line="70" selection-end-column="60" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChallengesInventoryHandler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ChallengesInventoryHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="557">
-              <caret line="68" column="61" selection-start-line="68" selection-start-column="61" selection-end-line="68" selection-end-column="61" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ResetChallenges.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/ResetChallenges.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="884">
-              <caret line="67" column="60" selection-start-line="67" selection-start-column="60" selection-end-line="67" selection-end-column="60" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EntityProtector.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/EntityProtector.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+            <state relative-caret-position="290">
+              <caret line="92" selection-start-line="92" selection-end-line="92" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -152,26 +69,62 @@
       <file leaf-file-name="InteractBlocker.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/InteractBlocker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="17" column="60" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
+            <state relative-caret-position="34">
+              <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ItemDropBlocker.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ItemDropBlocker.java">
+      <file leaf-file-name="BlockProtector.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/BlockProtector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="17" column="60" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
+            <state relative-caret-position="425">
+              <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ItemPickupBlocker.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ItemPickupBlocker.java">
+      <file leaf-file-name="NetherPortalListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/NetherPortalListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="15" column="54" lean-forward="true" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
+            <state relative-caret-position="85">
+              <caret line="5" column="48" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Challenges.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Challenges/Challenges.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PortalAccessor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PortalAccessor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="22" column="7" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DatabaseWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DatabaseWriter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5814">
+              <caret line="348" selection-start-line="348" selection-end-line="348" />
             </state>
           </provider>
         </entry>
@@ -207,13 +160,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/WorldCommands/WorldDelete.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/ger.yml" />
-        <option value="$PROJECT_DIR$/src/main/resources/eng.yml" />
-        <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
-        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/VSkyblock.java" />
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
-        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/ResetChallenges.java" />
         <option value="$PROJECT_DIR$/src/main/resources/eng.yml" />
         <option value="$PROJECT_DIR$/src/main/resources/ger.yml" />
@@ -223,41 +169,48 @@
         <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
         <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/DeletePlayer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/AdminCommands.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/pom.xml" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerRespawnListener.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/VSkyblock.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/DefaultFiles.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/WorldGenerator/WorldGenerator.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/WorldGenerator/Islandmethods.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/ConfigShorts.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DatabaseCache.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DatabaseWriter.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DeleteOldIslands.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/WorldManager.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PortalAccessor.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/TeleporterInventoryHandler.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Portals/CraftPortal.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerLeaveListener.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerJoinListener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerRespawnListener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/VSkyblock.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/DefaultFiles.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/WorldGenerator/WorldGenerator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/WorldGenerator/Islandmethods.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Utilitys/ConfigShorts.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DatabaseCache.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DatabaseWriter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DeleteOldIslands.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Utilitys/WorldManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Listener/PortalAccessor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Listener/TeleporterInventoryHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Portals/CraftPortal.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerLeaveListener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerJoinListener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Listener/NetherPortalListener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Listener/ChallengesInventoryHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandLeaveConfirm.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandKick.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandAccept.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/eng.yml" />
+        <option value="$PROJECT_DIR$/src/main/resources/ger.yml" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/WorldCommands/WorldSetSpawnpoint.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/AdminCommands.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/WorldCommands/WorldTeleportation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/Challenges/Challenges.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/Testcommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/ResetChallenges.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Listener/BlockProtector.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Listener/InteractBlocker.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Listener/ItemDropBlocker.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Listener/ItemPickupBlocker.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com.github.Viduality.VSkyblock/Commands/Challenges/Challenges.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
         <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/NetherPortalListener.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ChallengesInventoryHandler.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandLeaveConfirm.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandKick.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandCommand.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandAccept.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/resources/eng.yml" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/resources/ger.yml" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/WorldCommands/WorldSetSpawnpoint.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/AdminCommands.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/WorldCommands/WorldTeleportation.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Challenges/Challenges.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/Testcommand.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/ResetChallenges.java" />
         <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/BlockProtector.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/InteractBlocker.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ItemDropBlocker.java" />
-        <option value="$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ItemPickupBlocker.java" />
         <option value="$PROJECT_DIR$/../VSkyblock/src/main/resources/plugin.yml" />
+        <option value="$PROJECT_DIR$/../VSkyblock/pom.xml" />
       </list>
     </option>
   </component>
@@ -293,7 +246,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -382,25 +335,7 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="com.github.Viduality.VSkyblock" type="462c0819:PsiDirectoryNode" />
-              <item name="Portals" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="VSkyblock" type="b2602c69:ProjectViewProjectNode" />
-              <item name="VSkyblock" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com.github.Viduality.VSkyblock" type="462c0819:PsiDirectoryNode" />
               <item name="Utilitys" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="VSkyblock" type="b2602c69:ProjectViewProjectNode" />
-              <item name="VSkyblock" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com.github.Viduality.VSkyblock" type="462c0819:PsiDirectoryNode" />
-              <item name="WorldGenerator" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="VSkyblock" type="b2602c69:ProjectViewProjectNode" />
@@ -413,8 +348,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -423,7 +358,7 @@
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="vskyblock" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
@@ -470,7 +405,7 @@
       <patterns />
     </configuration>
     <configuration name="Bukkit" type="JarApplication" factoryName="JAR Application">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/..///////////Bukkit Server VSkyblock/craftbukkit.jar" />
+      <option name="JAR_PATH" value="$PROJECT_DIR$/../////////////Bukkit Server VSkyblock/craftbukkit.jar" />
       <option name="WORKING_DIRECTORY" value="D:\Bukkit Server VSkyblock" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <method>
@@ -541,7 +476,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566730196475</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added missing documentation lines.&#10;Added new Command: /VSkyblock set spawnpoint&#10;Updated plugin.yml with new permissions&#10;Code cleanup:&#10;- Deleted Multiverse-Core comments&#10;- Deleted useless methods">
+      <created>1566736202901</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1566736202901</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -554,11 +496,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <layout>
       <window_info anchor="right" id="Palette" order="2" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.32897604" />
-      <window_info anchor="bottom" id="Messages" order="0" sideWeight="0.49946696" visible="true" weight="0.32897604" />
+      <window_info anchor="bottom" id="Messages" order="0" sideWeight="0.49946696" weight="0.32897604" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
@@ -566,23 +508,23 @@
       <window_info anchor="right" id="Maven Projects" order="6" weight="0.32995737" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49946696" weight="0.32897604" />
       <window_info anchor="bottom" id="Run" order="3" weight="0.41067538" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32897604" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.33006537" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23560767" />
-      <window_info anchor="bottom" id="Find" order="2" weight="0.32897604" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24093817" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="5" weight="0.25" />
       <window_info id="UI Designer" order="4" />
       <window_info anchor="right" id="Theme Preview" order="4" />
       <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info anchor="bottom" x="0" y="0" width="1920" height="1040" id="Debug" order="4" type="FLOATING" weight="0.3995749" />
+      <window_info active="true" anchor="bottom" x="0" y="0" width="1920" height="1040" id="Debug" order="4" type="FLOATING" visible="true" weight="0.3995749" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="1" weight="0.25" />
       <window_info anchor="right" id="Coverage" order="8" side_tool="true" weight="0.32995737" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="2" weight="0.32897604" />
     </layout>
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -602,11 +544,13 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_DIRTY_RECURSIVELY" value="true" />
     <MESSAGE value="Updated to 1.14&#10;Removed Multiverse" />
     <MESSAGE value="Updated Commands:&#10;- Added commands to AdminCommands&#10;- VSkyblock delete player &lt;Player&gt; kicks player when online." />
     <MESSAGE value="Updated pom.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated pom.xml" />
+    <MESSAGE value="Added missing documentation lines.&#10;Added new Command: /VSkyblock set spawnpoint&#10;Updated plugin.yml with new permissions&#10;Code cleanup:&#10;- Deleted Multiverse-Core comments&#10;- Deleted useless methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added missing documentation lines.&#10;Added new Command: /VSkyblock set spawnpoint&#10;Updated plugin.yml with new permissions&#10;Code cleanup:&#10;- Deleted Multiverse-Core comments&#10;- Deleted useless methods" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -618,55 +562,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DatabaseWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="55" column="5" selection-start-line="55" selection-start-column="5" selection-end-line="55" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DeleteOldIslands.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="39" column="68" selection-start-line="39" selection-start-column="68" selection-end-line="39" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/WorldManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="952">
-          <caret line="67" column="47" selection-start-line="67" selection-start-column="47" selection-end-line="67" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/TeleporterInventoryHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Portals/CraftPortal.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PortalAccessor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="23" column="21" lean-forward="true" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerLeaveListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PlayerRespawnListener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -678,13 +573,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="47" column="101" lean-forward="true" selection-start-line="47" selection-start-column="101" selection-end-line="47" selection-end-column="101" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/NetherPortalListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -720,10 +608,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
           <caret line="34" column="78" selection-start-line="34" selection-start-column="78" selection-end-line="34" selection-end-column="78" />
-          <folding>
-            <element signature="e#1735#1736#0" expanded="true" />
-            <element signature="e#1844#1845#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -773,9 +657,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1020">
           <caret line="60" column="86" selection-start-line="60" selection-start-column="86" selection-end-line="60" selection-end-column="86" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -863,13 +744,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Challenges/Challenges.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="11" column="52" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Admin/Testcommand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
@@ -909,9 +783,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -919,13 +790,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/BlockProtector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="969">
-          <caret line="70" column="60" selection-start-line="70" selection-start-column="60" selection-end-line="70" selection-end-column="60" />
         </state>
       </provider>
     </entry>
@@ -943,13 +807,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/InteractBlocker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="17" column="60" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ItemDropBlocker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -960,13 +817,13 @@
     <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/ItemPickupBlocker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
-          <caret line="15" column="54" lean-forward="true" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
+          <caret line="15" column="54" selection-start-line="15" selection-start-column="54" selection-end-line="15" selection-end-column="54" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/IslandKick.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
+        <state relative-caret-position="1037">
           <caret line="75" column="135" selection-start-line="75" selection-start-column="135" selection-end-line="75" selection-end-column="135" />
         </state>
       </provider>
@@ -978,10 +835,93 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Utilitys/DatabaseWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5814">
+          <caret line="348" selection-start-line="348" selection-end-line="348" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VSkyblock/target/classes/eng.yml" />
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_191/src.zip!/java/net/URLClassLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="381" selection-start-line="381" selection-end-line="381" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Commands/Challenges/Challenges.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/NetherPortalListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="48" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/InteractBlocker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/VSkyblock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="92" selection-start-line="92" selection-end-line="92" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/PortalAccessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="22" column="7" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VSkyblock/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="18" lean-forward="true" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/resources/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3196">
-          <caret line="188" selection-start-line="188" selection-end-line="188" />
+        <state relative-caret-position="493">
+          <caret line="29" column="49" selection-start-line="29" selection-start-column="49" selection-end-line="29" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/SQLConnector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2360">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VSkyblock/src/main/java/com.github.Viduality.VSkyblock/Listener/BlockProtector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

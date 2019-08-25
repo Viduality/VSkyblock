@@ -1,8 +1,9 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="VSkyblock">
-    <output-path>$PROJECT_DIR$/../Bukkit Server VSkyblock/plugins</output-path>
+    <output-path>$PROJECT_DIR$/..//Bukkit Server VSkyblock/plugins</output-path>
     <root id="archive" name="VSkyblock.jar">
       <element id="module-output" name="VSkyblock" />
+      <element id="library" level="project" name="craftbukkit-1.14.4_16082019" />
     </root>
   </artifact>
 </component>
