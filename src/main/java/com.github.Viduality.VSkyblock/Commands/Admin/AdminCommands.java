@@ -29,7 +29,7 @@ public class AdminCommands implements CommandExecutor {
                 AdminSubCommand worldSubCommand = null;
 
                 if (args.length == 0) {
-                    //IMPLEMENT HELP
+                    //TODO IMPLEMENT HELP
                     player.sendMessage("0 args");
                 }
 
