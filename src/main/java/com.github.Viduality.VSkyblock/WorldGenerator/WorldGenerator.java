@@ -32,8 +32,6 @@ public class WorldGenerator {
                 wc.generateStructures(false);
                 wc.createWorld();
 
-                // boolean addedworld = plugin.getMV().getCore().getMVWorldManager().addWorld(islandName, World.Environment.NORMAL, "", WorldType.FLAT, false, "VSkyblock", true);
-                // boolean loadedworld = plugin.getMV().getCore().getMVWorldManager().loadWorld(islandName);
                 ConfigShorts.loaddefConfig();
 
 
@@ -186,12 +184,6 @@ public class WorldGenerator {
                 plugin.getServer().getWorld(islandName).setAutoSave(true);
                 wm.addWorld(islandName);
 
-
-                // plugin.getMV().getCore().getMVWorldManager().getMVWorld(islandName).getSpawnLocation().setX(0);
-                // plugin.getMV().getCore().getMVWorldManager().getMVWorld(islandName).getSpawnLocation().setY(67);
-                // plugin.getMV().getCore().getMVWorldManager().getMVWorld(islandName).getSpawnLocation().setZ(0);
-
-                // plugin.getMV().getCore().getMVWorldManager().getMVWorld(islandName).setAutoLoad(false);
 
                 Bukkit.getScheduler().runTask(plugin, new Runnable() {
                     @Override

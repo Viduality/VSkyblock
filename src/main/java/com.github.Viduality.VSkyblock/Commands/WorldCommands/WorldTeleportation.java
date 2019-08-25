@@ -29,37 +29,4 @@ public class WorldTeleportation implements AdminSubCommand {
             ConfigShorts.messagefromString("PermissionLack", player);
         }
     }
-
-
-
-
-
-
-    /* @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-            @Override
-            public void run() {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    if (cmd.getName().equalsIgnoreCase("VSkyTP")) {
-                        if (player.hasPermission("VSkyblock.WorldCommand.Teleportation")) {
-                            if (args[0] != null) {
-                                if (wm.getLoadedWorlds().contains(args[0])) {
-                                    plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            player.teleport(wm.getSpawnLocation(args[0]));
-                                        }
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        });
-        return true;
-    }
-    */
 }

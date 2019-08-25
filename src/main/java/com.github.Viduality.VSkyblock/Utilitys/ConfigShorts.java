@@ -204,6 +204,13 @@ public class ConfigShorts {
         loaddefConfig();
     }
 
+    /**
+     * Returns a custom String from the config and replaces "%replacement%" and "%replacement2%"
+     * @param String
+     * @param replacement
+     * @param replacement2
+     * @return custom String
+     */
     public static String getCustomString(String String, String replacement, String replacement2) {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
@@ -238,6 +245,11 @@ public class ConfigShorts {
         return message;
     }
 
+    /**
+     * Returns a custom String from the config
+     * @param String
+     * @return String
+     */
     public static String getCustomString(String String) {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
@@ -264,6 +276,10 @@ public class ConfigShorts {
         return message;
     }
 
+    /**
+     * Returns the prefix for chat messages from the config.
+     * @return String
+     */
     public static String getPrefix() {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
@@ -422,6 +438,9 @@ public class ConfigShorts {
         }
     }
 
+    /**
+     * Loads the "Worlds.yml" file.
+     */
     public static void loadWorldConfig() {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/Worlds.yml");

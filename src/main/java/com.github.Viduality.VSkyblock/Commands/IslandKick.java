@@ -74,7 +74,6 @@ public class IslandKick implements SubCommand{
                                             @Override
                                             public void run() {
                                                 onlinetarget.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
-                                                // onlinetarget.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(plugin.getConfig().getString("SpawnWorld")).getSpawnLocation());
                                                 ConfigShorts.messagefromString("KickVisitingPlayer", onlinetarget);
                                             }
                                         });

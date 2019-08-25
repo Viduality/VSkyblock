@@ -15,7 +15,6 @@ import java.util.List;
 
 public class IslandCommand implements SubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
     private Islandmethods im = new Islandmethods();
     private WorldManager wm = new WorldManager();
 

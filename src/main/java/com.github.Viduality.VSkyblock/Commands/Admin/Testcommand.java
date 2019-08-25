@@ -48,12 +48,3 @@ public class Testcommand implements CommandExecutor {
         return true;
     }
 }
-
-
-
-/*
-WorldCreator wc = new WorldCreator(args[0]);
-                    wc.generator("VSkyblock");
-                    wc.createWorld();
-                    System.out.println(plugin.getServer().getWorld(args[0]).getName());
- */

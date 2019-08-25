@@ -34,32 +34,9 @@ public class NetherPortalListener implements Listener {
                 public void onQueryDone(DatabaseCache result) {
                     if (player.getWorld().getName().equals(result.getIslandname())) {
                         player.teleport(wm.getSpawnLocation("NetherWorld"));
-                        // player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(plugin.getConfig().getString("NetherWorld")).getSpawnLocation());
                     }
                 }
             });
         }
-    }
-
-
-
-    private Inventory getportals() {
-        Inventory netherinv = Bukkit.createInventory(null, 9, ChatColor.AQUA + "Portals");
-        ItemStack nether = new ItemStack(Material.NETHERRACK, 1);
-        ItemMeta netherMeta = nether.getItemMeta();
-        netherMeta.setDisplayName("Nether");
-        List<String> netherlore = Arrays.asList("Teleportiert dich in", "deinen eigenen Nether");
-        netherMeta.setLore(netherlore);
-        nether.setItemMeta(netherMeta);
-        netherinv.setItem(3, nether);
-
-        ItemStack trade = new ItemStack(Material.DIAMOND,1);
-        ItemMeta tradeMeta = trade.getItemMeta();
-        tradeMeta.setDisplayName("Handelsposten");
-        List<String> tradelore = Arrays.asList("Teleportiert dich in", "Handelsposten");
-        tradeMeta.setLore(tradelore);
-        trade.setItemMeta(tradeMeta);
-        netherinv.setItem(6, trade);
-        return netherinv;
     }
 }

@@ -21,8 +21,6 @@ public class PlayerRespawnListener implements Listener {
         if (Island.playerislands.containsKey(uuid)) {
             if (player.getBedSpawnLocation() == null) {
                 playerRespawnEvent.setRespawnLocation(wm.getSpawnLocation(plugin.getServer().getWorld(Island.playerislands.get(uuid)).getName()));
-                // playerRespawnEvent.setRespawnLocation(plugin.getServer().getWorld(Island.playerislands.get(uuid)).getSpawnLocation());
-                // playerRespawnEvent.setRespawnLocation(plugin.getMV().getCore().getMVWorldManager().getMVWorld(Island.playerislands.get(uuid)).getSpawnLocation());
             }
         }
     }

@@ -20,6 +20,8 @@ public class PortalAccessor implements Listener {
 
     private VSkyblock plugin = VSkyblock.getInstance();
 
+    // TODO implement portals
+    // NOT IN USE YET
     @EventHandler
     public void portalAccessor(PlayerMoveEvent playerMoveEvent) {
         Player player = playerMoveEvent.getPlayer();

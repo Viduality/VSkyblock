@@ -20,7 +20,11 @@ public class WorldManager {
     private FileConfiguration worldsConfig = new YamlConfiguration();
 
 
-    public void createIsland(String island) {
+    /**
+     * Creates a new island. Also writes it into the Worlds.yml config file
+     * @param island
+     */
+    public boolean createIsland(String island) {
 
         //Check if the world doesn't already exists
         if (!getAllWorlds().contains(island)) {
@@ -51,16 +55,27 @@ public class WorldManager {
                 World newIsland = wc.createWorld();
                 plugin.getServer().getWorlds().add(newIsland);
                 plugin.getServer().getWorld(island).setSpawnLocation(0, 67, 0);
-                addWorld(island);
-                System.out.println(plugin.getServer().getWorlds());
+                if (addWorld(island)) {
+                    return true;
+                } else {
+                    System.out.println("Could not add world to config!");
+                    return false;
+                }
             } else {
                 System.out.println("Folder already exists!");
             }
         } else {
             System.out.println(ChatColor.RED + "Tried to create save a world but VSkyblock already knows about it!");
         }
+        return false;
     }
 
+    /**
+     * Unloads a world.
+     * Teleports all players in the world into the SpawnWorld from the config.
+     * @param world
+     * @return boolean
+     */
     public boolean unloadWorld(String world) {
         if (plugin.getServer().getWorlds().contains(plugin.getServer().getWorld(world))) {
             if (plugin.getServer().getWorld(world).getPlayers() != null) {
@@ -76,6 +91,11 @@ public class WorldManager {
         }
     }
 
+    /**
+     * Loads a world.
+     * @param world
+     * @return boolean
+     */
     public boolean loadWorld(String world) {
         if (getAllWorlds().contains(world)) {
             if (getUnloadedWorlds().contains(world)) {
@@ -99,6 +119,11 @@ public class WorldManager {
         return false;
     }
 
+    /**
+     * Deletes an world.
+     * @param world
+     * @return boolean
+     */
     public boolean deleteWorld(String world) {
         if (getAllWorlds().contains(world)) {
             if (loadWorld(world)) {
@@ -134,6 +159,11 @@ public class WorldManager {
         }
     }
 
+    /**
+     * Returns the spawn location from a world (from the config)
+     * @param world
+     * @return Location
+     */
     public Location getSpawnLocation(String world) {
         ConfigShorts.loadWorldConfig();
         List<String> worlds = getAllWorlds();
@@ -155,7 +185,10 @@ public class WorldManager {
         }
     }
 
-
+    /**
+     * Returns a list of all unloaded worlds.
+     * @return List
+     */
     public List<String> getUnloadedWorlds() {
         List<World> loadedWorlds = plugin.getServer().getWorlds();
         List<String> worlds = new ArrayList<>();
@@ -172,7 +205,10 @@ public class WorldManager {
         return unloadedworlds;
     }
 
-
+    /**
+     * Returns a list of all loaded worlds.
+     * @return List
+     */
     public List<String> getLoadedWorlds() {
 
         List<World> loadedWorlds = plugin.getServer().getWorlds();
@@ -183,6 +219,10 @@ public class WorldManager {
         return worlds;
     }
 
+    /**
+     * Returns a list of all worlds.
+     * @return List
+     */
     public List<String> getAllWorlds() {
         ConfigShorts.loadWorldConfig();
         Set<String> allworlds = plugin.getConfig().getConfigurationSection("Worlds").getKeys(false);
@@ -190,12 +230,11 @@ public class WorldManager {
         return new ArrayList<>(allworlds);
     }
 
-    public String getSpawnWorld() {
-        return plugin.getServer().getWorlds().get(0).getName();
-    }
-
-
-    public void addWorld(String world) {
+    /**
+     * Adds a world to the config with the default settings.
+     * @param world
+     */
+    public boolean addWorld(String world) {
         try {
             InputStream templateStream = plugin.getResource("WorldTemplate.yml");
             StringBuilder out = new StringBuilder();
@@ -231,14 +270,19 @@ public class WorldManager {
             FileOutputStream fileOut = new FileOutputStream(plugin.getDataFolder() + "/Worlds.yml");
             fileOut.write(worldsFile.getBytes());
             fileOut.close();
+            return true;
 
         } catch (Exception e) {
             System.out.println("Problem reading file.");
             e.printStackTrace();
         }
+        return false;
     }
 
-
+    /**
+     * Deletes a world from the config.
+     * @param world
+     */
     private void deleteWorldfromConfig(String world) {
 
         ConfigShorts.loadWorldConfig();
@@ -293,6 +337,12 @@ public class WorldManager {
         }
     }
 
+    /**
+     * Sets an option in the "Worlds.yml" file.
+     * @param world
+     * @param string
+     * @param option
+     */
     public void setOption(String world, String string, String option) {
 
         ConfigShorts.loadWorldConfig();
@@ -358,7 +408,10 @@ public class WorldManager {
         }
     }
 
-
+    /**
+     * Sets a new spawn location for a world (into the config).
+     * @param loc
+     */
     public void setSpawnLocation(Location loc) {
 
         ConfigShorts.loadWorldConfig();

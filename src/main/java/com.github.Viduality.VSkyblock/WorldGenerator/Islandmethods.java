@@ -41,17 +41,11 @@ public class Islandmethods {
         Player player = plugin.getServer().getPlayer(UUID.fromString(uuid));
         String worldsizeString = plugin.getConfig().getString("WorldSize");
         String difficulty = plugin.getConfig().getString("Difficulty");
-        // boolean loaded = plugin.getMV().getCore().getMVWorldManager().loadWorld("VSkyblockMasterIsland");
         databaseReader.getLatestIsland(new DatabaseReader.CallbackStrings() {
             @Override
             public void onQueryDone(String result, boolean a) {
                 if (a) {
                     wm.createIsland(result);
-                    // plugin.getMV().getCore().getMVWorldManager().cloneWorld("VSkyblockMasterIsland", result);
-
-                    // boolean loaded = plugin.getMV().getCore().getMVWorldManager().loadWorld(result);
-                    // plugin.getMV().getCore().getMVWorldManager().getMVWorld(result).setAlias(result);
-                    // plugin.getMV().getCore().getMVWorldManager().getMVWorld(result).setAutoLoad(false);
 
 
                     /*
@@ -78,26 +72,20 @@ public class Islandmethods {
 
                     if (difficulty.equalsIgnoreCase("EASY")) {
                         plugin.getServer().getWorld(result).setDifficulty(Difficulty.EASY);
-                        // plugin.getMV().getCore().getMVWorldManager().getMVWorld(result).setDifficulty(Difficulty.EASY);
                     } else if (difficulty.equalsIgnoreCase("HARD")) {
                         plugin.getServer().getWorld(result).setDifficulty(Difficulty.HARD);
-                        // plugin.getMV().getCore().getMVWorldManager().getMVWorld(result).setDifficulty(Difficulty.HARD);
                     } else if (difficulty.equalsIgnoreCase("PEACEFUL")) {
                         plugin.getServer().getWorld(result).setDifficulty(Difficulty.PEACEFUL);
-                        // plugin.getMV().getCore().getMVWorldManager().getMVWorld(result).setDifficulty(Difficulty.PEACEFUL);
                     } else {
                         plugin.getServer().getWorld(result).setDifficulty(Difficulty.NORMAL);
-                        // plugin.getMV().getCore().getMVWorldManager().getMVWorld(result).setDifficulty(Difficulty.NORMAL);
                     }
 
 
                     Island.restartmap.asMap().remove(player.getUniqueId());
                     Island.playerislands.put(uuid, result);
                     plugin.getServer().getPlayer(player.getUniqueId()).teleport(plugin.getServer().getWorld(result).getSpawnLocation());
-                    // plugin.getServer().getPlayer(player.getUniqueId()).teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(result).getSpawnLocation());
                     if (oldIsland != null) {
                         wm.unloadWorld(oldIsland);
-                        // plugin.getMV().getCore().getMVWorldManager().unloadWorld(oldIsland);
                     }
                     databaseWriter.addIsland(result, uuid);
                 } else {

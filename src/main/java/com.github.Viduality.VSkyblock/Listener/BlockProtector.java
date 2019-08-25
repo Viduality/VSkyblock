@@ -22,7 +22,7 @@ public class BlockProtector implements Listener {
     public void onBlockBreak(BlockBreakEvent blockBreakEvent) {
         Player player = blockBreakEvent.getPlayer();
         String uuid = player.getUniqueId().toString();
-        if (!player.hasPermission("VSkyIgnoreProtected")) {
+        if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
             if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(Island.playerislands.get(uuid)))) {
                 blockBreakEvent.setCancelled(true);
                 ConfigShorts.messagefromString("BlockBreak", player);
@@ -39,7 +39,7 @@ public class BlockProtector implements Listener {
     public void onBlockPlace(BlockPlaceEvent blockPlaceEvent) {
         Player player = blockPlaceEvent.getPlayer();
         String uuid = player.getUniqueId().toString();
-        if (!player.hasPermission("VSkyIgnoreProtected")) {
+        if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
             if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(Island.playerislands.get(uuid)))) {
                 blockPlaceEvent.setCancelled(true);
                 ConfigShorts.messagefromString("BlockPlace", player);
@@ -53,7 +53,7 @@ public class BlockProtector implements Listener {
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent playerBucketEmptyEvent) {
         Player player = playerBucketEmptyEvent.getPlayer();
         String uuid = player.getUniqueId().toString();
-        if (!player.hasPermission("VSkyblockIgnoreProtected")) {
+        if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
             if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(Island.playerislands.get(uuid)))) {
                 playerBucketEmptyEvent.setCancelled(true);
                 ConfigShorts.messagefromString("BlockPlace", player);
@@ -68,7 +68,7 @@ public class BlockProtector implements Listener {
     public void onPlayerBucketFill(PlayerBucketFillEvent playerBucketFillEvent) {
         Player player = playerBucketFillEvent.getPlayer();
         String uuid = player.getUniqueId().toString();
-        if (!player.hasPermission("VSkyblockIgnoreProtected")) {
+        if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
             if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(Island.playerislands.get(uuid)))) {
                 playerBucketFillEvent.setCancelled(true);
                 ConfigShorts.messagefromString("BlockBreak", player);

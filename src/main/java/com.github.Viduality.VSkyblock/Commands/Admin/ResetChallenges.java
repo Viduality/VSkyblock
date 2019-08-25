@@ -62,16 +62,18 @@ public class ResetChallenges implements AdminSubCommand {
                                     }
 
                                     PreparedStatement resetChallenges;
-                                    resetChallenges = connection.prepareStatement("UPDATE " + table + " SET " + c + "  = 0 WHERE uuid = ?");
+                                    resetChallenges = connection.prepareStatement("UPDATE " + table + " SET " + c + " = 0 WHERE uuid = ?");
                                     resetChallenges.setString(1, uuid);
+                                    resetChallenges.executeUpdate();
+                                    resetChallenges.close();
                                 }
                             }
-                            ConfigShorts.custommessagefromString("ResettedChallenges", player, args);
                         } catch (SQLException e) {
                             e.printStackTrace();
                         } finally {
                             getDatabase.closeConnection(connection);
                         }
+                        ConfigShorts.custommessagefromString("ResettedChallenges", player, args);
                     } else {
                         ConfigShorts.messagefromString("PlayerDoesNotExist", player);
                     }

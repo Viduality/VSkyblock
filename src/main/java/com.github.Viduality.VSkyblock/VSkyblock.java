@@ -149,21 +149,6 @@ public class VSkyblock extends JavaPlugin implements Listener {
         return instance;
     }
 
-    /*
-
-    public MVPlugin getMVs() {
-        Plugin mvplugin = getServer().getPluginManager().getPlugin("Multiverse-Core");
-
-        if (mvplugin instanceof Plugin) {
-            return (MVPlugin) mvplugin;
-        }
-        getServer().getConsoleSender().sendMessage(ChatColor.RED + "This Plugin doesn't work without Multiverse-Core! Make sure to have it installed on your server!");
-        getServer().getPluginManager().disablePlugin(this);
-        throw new RuntimeException("Multiverse not found!");
-    }
-     */
-
-
 
     /**
      * Returns all online players.

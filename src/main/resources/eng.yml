@@ -69,7 +69,7 @@ NoLoadedWorldFound: §cCould not find any loaded world named §6%replacement%§c
 WorldLoaded: §bWorld loaded successfully!
 WorldFailedToLoad: §cFailed to load world §6%replacement%§c!
 WorldAlreadyLoaded: §cWorld is already loaded!
-NoWorldFound: §cCould not find any world named §6%replacement%§c!
+NoWorldFound: §cCould not find any world named §6%replacement% §cin the config!
 WorldUnloaded: §bWorld unloaded successfully!
 WorldFailedToUnload: §cFailed to unload world §6%replacement%§c!
 DeletedPlayer: §bSuccessfully deleted all data from player §6%replacement%§b!
@@ -79,6 +79,7 @@ ResettedChallenges: §bSuccessfully resetted challenges for player §6%replaceme
 UseInNetherWorld: §cYou can only use this command in a NETHER world!
 SetNewNether: §bSuccessfully set a new Nether!
 SetNewSpawnWorld: §bSuccessfully set a new Spawn World!
+SetNewSpawnpoint: §bSuccessfully set a new spawnpoint for the world §6%replacement%§b!
 
 WorldListHeader: '§bVSkyblock worlds:'
 Site: §8Site %replacement%/%replacement2%

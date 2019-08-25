@@ -11,11 +11,7 @@ import org.bukkit.entity.Player;
 
 public class Challenges implements CommandExecutor {
 
-    private final String ANSI_RED = "\u001B[31m";
-    private final String ANSI_RESET = "\u001B[0m";
-
     private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseReader databaseReader = new DatabaseReader();
     private CreateChallengesInventory cc = new CreateChallengesInventory();
 
     private VSkyblock challenges;

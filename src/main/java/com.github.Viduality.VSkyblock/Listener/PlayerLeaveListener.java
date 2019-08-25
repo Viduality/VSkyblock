@@ -22,7 +22,6 @@ public class PlayerLeaveListener implements Listener {
             Island.playerislands.remove(player.getUniqueId().toString());
             if (!Island.playerislands.containsValue(island)) {
                 wm.unloadWorld(island);
-                // plugin.getMV().getCore().getMVWorldManager().unloadWorld(island);
             }
         }
     }

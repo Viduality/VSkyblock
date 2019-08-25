@@ -134,13 +134,22 @@ commands:
   VSkyblock Set Nether:
     description: Sets the nether for all islands. Uses the world where the executing player stands!
     usage: /VSkyblock set nether
+    aliases: [vsky set nether]
     permission: VSkyblock.SetNether
     permission-message: You don't have permission!
 
   VSkyblock Set SpawnWorld:
     description: Sets the spawn world for new players. Players without an island will spawn there.
     usage: /VSkyblock set spawnWorld
+    aliases: [vsky set spawnworld]
     permission: VSkyblock.SetSpawnWorld
+    permission-message: You don't have permission!
+
+  VSkyblock Set SpawnPoint:
+    description: Sets the spawn point for the world at the players location.
+    usage: /VSkyblock set spawnPoint
+    aliases: [vsky set spawnpoint]
+    permission: VSkyblock.SetWorldSpawnPoint
     permission-message: You don't have permission!
 
   VSkyblock teleport:
@@ -178,9 +187,6 @@ commands:
     permission: VSkyblock.List
     permission-message: You don't have permission!
 
-
-
-
   Challenges:
     description: Opens the challenges menu.
     usage: /challenges
@@ -195,47 +201,89 @@ permissions:
   VSkyblock.*:
     description: Gives access to all VSkyblock commands
     children:
-      VSkyblock.Island: true
-      VSkyblock.VSkyIgnoreProtected: true
-      VSkyblock.VSkySetNether: true
-      VSkyblock.VSkySetSpawnWorld: true
-      VSkyblock.VSkydelete: true
-      VSkyblock.VSkyResetChallenges: true
-      VSkyblock.Challenges: true
+      VSkyblock.VSkyblock: true
+      VSkyblock.DeletePlayer: true
+      VSkyblock.ResetChallenges: true
+      VSkyblock.SetNether: true
+      VSkyblock.SetSpawnWorld: true
+      VSkyblock.SetWorldSpawnPoint: true
+      VSkyblock.Teleportation: true
+      VSkyblock.LoadWorld: true
+      VSkyblock.UnloadWorld: true
+      VSkyblock.DeleteWorld: true
+      VSkyblock.List: true
+      VSkyblock.IgnoreProtected: true
       VSkyblock.IgnoreKick: true
-
+      VSkyblock.Island: true
+      VSkyblock.Challenges: true
 
   VSkyblock.Mod:
     description: Permissions for Mods with limited rights on the server.
     default: false
     children:
       VSkyblock.Island: true
-      VSkyblock.VSkyIgnoreProtected: true
       VSkyblock.Challenges: true
-      Vskyblock.IgnoreKick: true
+      VSkyblock.IgnoreKick: true
+      VSkyblock.IgnoreProtected: true
 
+  VSkyblock.Player:
+    description: Permissions for normal players.
+    default: false
+    children:
+      VSkyblock.Island: true
+      VSkyblock.Challenges: true
 
-  VSkyblock.Island:
-    description: Gives access to all basic VSkyblock commands.
-    default: true
-  VSkyblock.VSkyIgnoreProtected:
+  VSkyblock.WorldCommands:
+    description: Permission for world related commands (create, load, tp, etc.).
+    default: false
+    children:
+      VSkyblock.VSkyblock: true
+      VSkyblock.SetWorldSpawnPoint: true
+      VSkyblock.Teleportation: true
+      VSkyblock.LoadWorld: true
+      VSkyblock.UnloadWorld: true
+      VSkyblock.DeleteWorld: true
+      VSkyblock.List: true
+
+  VSkyblock.DeletePlayer:
+    description: Allows the player to delete a player from the database.
+    default: op
+  VSkyblock.ResetChallenges:
+    description: Resets the challenges from a player.
+    default: op
+  VSkyblock.SetNether:
+    description: Allows the player to set a new nether.
+    default: op
+  VSkyblock.SetSpawnWorld:
+    description: Allows the player to set a new spawnworld.
+    default: op
+  VSkyblock.SetWorldSpawnPoint:
+    descriptioin: Allows the player to set a new world spawnpoint.
+    default: op
+  VSkyblock.Teleportation:
+    description: Allows the player to teleport between world.
+    default: op
+  VSkyblock.LoadWorld:
+    description: Allows the player to load a world.
+    default: op
+  VSkyblock.UnloadWorld:
+    description: Allows the player to unload a world.
+    default: op
+  VSkyblock.DeleteWorld:
+    description: Allows the player to delete a world.
+    default: op
+  VSkyblock.List:
+    description: Allows to show a list of all worlds.
+    default: op
+  VSkyblock.IgnoreProtected:
     description: Allows the player to bypass all protections at other islands.
     default: op
   VSkyblock.IgnoreKick:
     description: Prevents a player from getting kicked from an island he is visiting.
     default: op
-  VSkyblock.VSkySetNether:
-    description: Allows the player to set a new nether.
-    default: op
-  VSkyblock.VSkySetSpawnWorld:
-    description: Allows the player to set a new spawnworld.
-    default: op
-  VSkyblock.VSkydelete:
-    description: Deletes a player entirely from the database. Use with caution!
-    default: op
-  VSkyblock.VSkyResetChallenges:
-    description: Resets the challenges from a player.
+  VSkyblock.Island:
+    description: Gives access to all basic VSkyblock commands.
     default: op
   VSkyblock.Challenges:
     description: Gives access to the challenges.
-    default: true
+    default: op

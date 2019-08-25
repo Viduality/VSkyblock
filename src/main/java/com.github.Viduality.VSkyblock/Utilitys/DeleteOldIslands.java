@@ -37,9 +37,7 @@ public class DeleteOldIslands implements Runnable {
             @Override
             public void onQueryDone(List<String> result) {
                 for (String currentIsland : result) {
-                    // plugin.getMV().getCore().getMVWorldManager().loadWorld(currentIsland);
                     boolean deleted = wm.deleteWorld(currentIsland);
-                    // plugin.getMV().getCore().getMVWorldManager().deleteWorld(currentIsland, true, true);
                     if (deleted) {
                         databaseWriter.deleteIsland(currentIsland);
                     }

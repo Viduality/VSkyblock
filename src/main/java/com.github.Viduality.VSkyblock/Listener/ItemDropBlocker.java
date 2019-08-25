@@ -15,7 +15,7 @@ public class ItemDropBlocker implements Listener {
     public void itemDropBlocker(PlayerDropItemEvent playerDropItemEvent) {
         Player player = playerDropItemEvent.getPlayer();
         String uuid = player.getUniqueId().toString();
-        if (!player.hasPermission("VSkyIgnoreProtected")) {
+        if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
             if (!(player.getWorld().getName().equals(Island.playerislands.get(uuid)) || player.getWorld().getEnvironment().equals(World.Environment.NETHER))) {
                 playerDropItemEvent.setCancelled(true);
                 ConfigShorts.messagefromString("DropItem", player);

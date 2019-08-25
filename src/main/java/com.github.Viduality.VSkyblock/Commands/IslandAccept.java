@@ -38,13 +38,11 @@ public class IslandAccept implements SubCommand {
                                             player.getInventory().clear();
                                             player.getEnderChest().clear();
                                             player.teleport(wm.getSpawnLocation(newisland));
-                                            // player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(newisland).getSpawnLocation());
                                             databaseWriter.updatePlayersIsland(newmemberuuid, islandid, false);
                                             databaseWriter.resetChallenges(newmemberuuid);
                                             Island.invitemap.asMap().remove(player.getUniqueId());
                                             Island.playerislands.put(player.getUniqueId().toString(), newisland);
                                             wm.unloadWorld(databaseCache.getIslandname());
-                                            // plugin.getMV().getCore().getMVWorldManager().unloadWorld(databaseCache.getIslandname());
                                         } else {
                                             ConfigShorts.messagefromString("HasIslandMembers", player);
                                         }
@@ -54,7 +52,6 @@ public class IslandAccept implements SubCommand {
                                 player.getInventory().clear();
                                 player.getEnderChest().clear();
                                 player.teleport(wm.getSpawnLocation(newisland));
-                                // player.teleport(plugin.getMV().getCore().getMVWorldManager().getMVWorld(newisland).getSpawnLocation());
                                 databaseWriter.updatePlayersIsland(newmemberuuid, islandid, false);
                                 databaseWriter.resetChallenges(newmemberuuid);
                                 Island.invitemap.asMap().remove(player.getUniqueId());
@@ -62,7 +59,6 @@ public class IslandAccept implements SubCommand {
                                 if (databaseCache.getIslandname() != null) {
                                     if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
                                         wm.unloadWorld(databaseCache.getIslandname());
-                                        // plugin.getMV().getCore().getMVWorldManager().unloadWorld(databaseCache.getIslandname());
                                     }
                                 }
                             }

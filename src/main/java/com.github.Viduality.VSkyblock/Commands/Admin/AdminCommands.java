@@ -29,7 +29,7 @@ public class AdminCommands implements CommandExecutor {
                 AdminSubCommand worldSubCommand = null;
 
                 if (args.length == 0) {
-                    //TODO IMPLEMENT HELP
+                    //TODO IMPLEMENT HELP FOR ADMIN COMMANDS
                     player.sendMessage("0 args");
                 }
 
@@ -63,8 +63,12 @@ public class AdminCommands implements CommandExecutor {
                         worldSubCommand = new SetNether();
                     }
 
-                    if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("Spawnworld")) {
+                    if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("SpawnWorld")) {
                         worldSubCommand = new SetSpawnWorld();
+                    }
+
+                    if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("SpawnPoint")) {
+                        worldSubCommand = new WorldSetSpawnpoint();
                     }
 
                 }

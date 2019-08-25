@@ -33,7 +33,6 @@ public class IslandLeaveConfirm implements SubCommand {
                             @Override
                             public void run() {
                                 wm.unloadWorld(databaseCache.getIslandname());
-                                // plugin.getMV().getCore().getMVWorldManager().unloadWorld(databaseCache.getIslandname());
                             }
                         });
                     }

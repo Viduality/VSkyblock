@@ -13,7 +13,8 @@ public class CraftPortal {
 
     private VSkyblock plugin = VSkyblock.getInstance();
 
-
+    // TODO implement portals
+    // NOT IN USE YET
     public void createPortalRecipe() {
         ItemStack portalFrame = new ItemStack(Material.END_PORTAL_FRAME);
         ItemMeta portalFramemeta = portalFrame.getItemMeta();

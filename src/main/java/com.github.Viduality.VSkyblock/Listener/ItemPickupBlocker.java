@@ -14,7 +14,7 @@ public class ItemPickupBlocker implements Listener {
     public void itemPickupBlocker(PlayerPickupItemEvent playerPickupItemEvent) {
         Player player = playerPickupItemEvent.getPlayer();
         String uuid = player.getUniqueId().toString();
-        if (!player.hasPermission("VSkyIgnoreProtected")) {
+        if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
             if (!(player.getWorld().getName().equals(Island.playerislands.get(uuid))) || player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
                 playerPickupItemEvent.setCancelled(true);
             }

@@ -52,6 +52,11 @@ public class ChallengesInventoryHandler implements Listener {
         ConfigShorts.loaddefConfig();
     }
 
+    /**
+     * Creates the next site of the challenges inventory.
+     * @param currentInv
+     * @param player
+     */
     private void getnextChallengeinv(String currentInv, Player player) {
         if (currentInv.equals("Challenges " + plugin.getConfig().getString("Difficulty.Easy"))) {
             cc.createChallenges(player, "Medium");
@@ -60,6 +65,11 @@ public class ChallengesInventoryHandler implements Listener {
         }
     }
 
+    /**
+     * Creates the previous site of the challenges inventory.
+     * @param currentInv
+     * @param player
+     */
     private void getpreviousChallengeinv(String currentInv, Player player) {
         if (currentInv.equals("Challenges " + plugin.getConfig().getString("Difficulty.Hard"))) {
             cc.createChallenges(player, "Medium");
