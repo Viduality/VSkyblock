@@ -16,8 +16,6 @@ import java.util.Set;
 public class WorldManager {
 
     private VSkyblock plugin = VSkyblock.getInstance();
-    private File worlds = new File(plugin.getDataFolder(), "Worlds.yml");
-    private FileConfiguration worldsConfig = new YamlConfiguration();
 
 
     /**

@@ -8,6 +8,7 @@ import com.github.Viduality.VSkyblock.Commands.Admin.AdminCommands;
 import com.github.Viduality.VSkyblock.Listener.*;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.Utilitys.DeleteOldIslands;
+import com.github.Viduality.VSkyblock.Utilitys.WorldLoader;
 import com.github.Viduality.VSkyblock.WorldGenerator.VoidGenerator;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -126,6 +127,8 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
         sqlConnector = new SQLConnector();
         sqlConnector.initConnection();
+
+        new WorldLoader().run();
 
         if (getOnlinePlayers().size() != 0) {
             databaseReader.refreshIslands(getOnlinePlayers());

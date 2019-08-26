@@ -1,7 +1,6 @@
 package com.github.Viduality.VSkyblock.Commands.Admin;
 
 import com.github.Viduality.VSkyblock.SQLConnector;
-import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
@@ -11,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
-import java.util.List;
 
 
 public class Testcommand implements CommandExecutor {
