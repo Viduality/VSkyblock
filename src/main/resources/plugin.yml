@@ -99,6 +99,13 @@ commands:
     permission: VSkyblock.Island
     permission-message: You don't have permission!
 
+  Island Visit:
+    description: Lets the player visit another island without losing his own island.
+    usage: /island visit <Player>
+    aliases: [is visit]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
   Island Help:
     description: Gives a list of all /island commands.
     usage: /island help

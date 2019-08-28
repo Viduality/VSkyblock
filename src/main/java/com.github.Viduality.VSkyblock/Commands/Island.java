@@ -263,6 +263,16 @@ public class Island implements CommandExecutor {
                                             else if (args[0].equalsIgnoreCase("leave") && args[1].equalsIgnoreCase("confirm")) {
                                                 subCommand = new IslandLeaveConfirm();
                                             }
+
+
+
+                                            /*
+                                             * Lets the player visit another players island without losing his own island.
+                                             */
+
+                                            else if (args[0].equalsIgnoreCase("visit")) {
+                                                subCommand = new IslandVisit();
+                                            }
                                         } else {
                                             ConfigShorts.messagefromString("FalseInput", player);
                                         }

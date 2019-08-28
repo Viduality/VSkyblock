@@ -46,6 +46,8 @@ CurrentIslandLevel: §6Current islan level is %replacement%.
 NewIslandLevel: §6New island level is %replacement%.
 KickVisitingPlayer: §6It's time to go. You should leave the island you are visiting!
 PlayerLimitReached: §cYou can't invite any more players to your island because you reached the player limit!
+CannotVisitIsland: §cYou can't visit this island because the owner doesn't want other players to see his island!
+VisitYourself: §cYou can't visit yourself!
 
 BlockBreak: §cYou aren't allowed to break blocks on this island!
 BlockPlace: §cYou aren't allowed to place blocks on this island!

@@ -603,6 +603,38 @@ public class DatabaseReader {
         });
     }
 
+    public void isislandvisitable(int islandid, CallbackBoolean callback) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                Connection connection = getDatabase.getConnection();
+                boolean visitable = false;
+                try {
+                    PreparedStatement preparedStatement;
+                    preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE islandid = ?");
+                    preparedStatement.setInt(1, islandid);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+
+                    while (resultSet.next()) {
+                        visitable = resultSet.getBoolean("visit");
+                        System.out.println(resultSet.getBoolean("visit"));
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    getDatabase.closeConnection(connection);
+                }
+                final boolean finalvisitable = visitable;
+                plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onQueryDone(finalvisitable);
+                    }
+                });
+            }
+        });
+    }
+
 
 
 

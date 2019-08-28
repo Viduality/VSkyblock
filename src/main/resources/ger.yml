@@ -45,6 +45,8 @@ CurrentIslandLevel: §6Aktuelles Insel-Level beträgt %replacement%.
 NewIslandLevel: §6Neues Insel-Level beträgt %replacement%.
 KickVisitingPlayer: §6Zeit zu gehen! Du sollst die Insel die du gerade besuchst verlassen!
 PlayerLimitReached: §cDu kannst keinen Spieler mehr auf deine Insel einladen da du das Spieler-Limit erreicht hast!
+CannotVisitIsland: §cDu kannst diese Insel nicht besuchen, da der Owner der Insel keine anderen Spieler auf der Insel haben möchte.
+VisitYourself: §cDu kannst dich nicht selbst besuchen!
 
 BlockBreak: §cDu darfst hier nichts abbauen!
 BlockPlace: §cDu darfst hier nichts platzieren!
