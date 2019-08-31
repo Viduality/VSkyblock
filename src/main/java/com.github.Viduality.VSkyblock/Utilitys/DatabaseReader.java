@@ -603,6 +603,12 @@ public class DatabaseReader {
         });
     }
 
+    /**
+     * Checks if an island is visitable.
+     *
+     * @param islandid
+     * @param callback
+     */
     public void isislandvisitable(int islandid, CallbackBoolean callback) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
@@ -635,6 +641,51 @@ public class DatabaseReader {
         });
     }
 
+    /**
+     * Returns all options for an island.
+     *
+     * @param islandid
+     * @param callback
+     */
+    public void getIslandOptions(final int islandid, final isoptionsCallback callback) {
+        Bukkit.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                IslandOptionsCache islandOptionsCache = new IslandOptionsCache();
+                Connection connection = getDatabase.getConnection();
+                PreparedStatement preparedStatement;
+                try {
+                    preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE islandid = ?");
+                    preparedStatement.setInt(1, islandid);
+                    ResultSet r = preparedStatement.executeQuery();
+                    while (r.next()) {
+                        islandOptionsCache.setVisit(r.getBoolean("visit"));
+                        islandOptionsCache.setDifficulty(r.getString("difficulty"));
+                    }
+                    preparedStatement.close();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                finally {
+                    getDatabase.closeConnection(connection);
+                }
+
+
+                final IslandOptionsCache cache = islandOptionsCache;
+
+                Bukkit.getScheduler().runTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onQueryDone(cache);
+                    }
+                });
+            }
+        });
+    }
+
+
 
 
 
@@ -647,6 +698,10 @@ public class DatabaseReader {
 
     public interface cCallback {
         public void onQueryDone(ChallengesCache cache);
+    }
+
+    public interface isoptionsCallback {
+        public void onQueryDone(IslandOptionsCache isoptionsCache);
     }
 
     public interface CallbackString {

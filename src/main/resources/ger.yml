@@ -81,8 +81,12 @@ UseInNetherWorld: §cDu kannst diesen Befehl nur im NETHER benutzen!
 SetNewNether: §bErfolgreich einen neuen Nether ausgewählt!
 SetNewSpawnWorld: §bErfolgreich eine neue Spawn-Welt ausgewählt!
 SetNewSpawnpoint: §bErfolgreich einen neuen Spawnpunkt für die Welt §6%replacement% §bgesetzt!
+SetAutoLoad: §bAutoLoad wurde für deine jetzige Welt auf §6%replacement% §bgesetzt!
+OnlyTrueOrFalse: §cBenutze "true" oder "false" für diese Option!
 
 WorldListHeader: '§bVSkyblock Welten:'
 Site: §8Seite %replacement%/%replacement2%
+
+UpdatedIslandOptions: §bInsel Optionen wurden übernommen und sind jetzt aktiv!
 
 

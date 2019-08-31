@@ -2,6 +2,8 @@ package com.github.Viduality.VSkyblock.Utilitys;
 
 import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -349,5 +351,56 @@ public class DatabaseWriter {
                 }
             }
         });
+    }
+
+    /**
+     * Writes the given options for the island of the given player into the database.
+     * @param player
+     * @param visit
+     * @param difficulty
+     * @param callback
+     */
+    public void updateIslandOptions(Player player, boolean visit, String difficulty, final Callback callback) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                Connection connection = getDatabase.getConnection();
+                try {
+                    int islandid = 0;
+                    PreparedStatement preparedStatementREAD;
+                    preparedStatementREAD = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
+                    preparedStatementREAD.setString(1, player.getUniqueId().toString());
+                    ResultSet resultSet = preparedStatementREAD.executeQuery();
+                    while (resultSet.next()) {
+                        islandid = resultSet.getInt("islandid");
+                    }
+                    preparedStatementREAD.close();
+
+
+                    PreparedStatement preparedStatement;
+                    preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Island SET visit = ?, difficulty = ? WHERE islandid = ?");
+                    preparedStatement.setBoolean(1, visit);
+                    preparedStatement.setString(2, difficulty);
+                    preparedStatement.setInt(3, islandid);
+                    preparedStatement.executeUpdate();
+                    preparedStatement.close();
+
+                    Bukkit.getScheduler().runTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onQueryDone(true);
+                        }
+                    });
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    getDatabase.closeConnection(connection);
+                }
+            }
+        });
+    }
+
+    public interface Callback {
+        public void onQueryDone(boolean done);
     }
 }

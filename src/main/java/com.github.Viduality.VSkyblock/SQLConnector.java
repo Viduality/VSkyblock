@@ -100,6 +100,7 @@ public class SQLConnector {
                             + "islandid BIGINT AUTO_INCREMENT NOT NULL,"
                             + "island VARCHAR(100) NOT NULL,"
                             + "islandlevel VARCHAR(100) DEFAULT 0,"
+                            + "difficulty VARCHAR(100) DEFAULT NORMAL,"
                             + "visit BOOLEAN NOT NULL DEFAULT TRUE,"
                             + "PRIMARY KEY (islandid))");
             connection.createStatement().execute(

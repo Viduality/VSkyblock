@@ -1,0 +1,14 @@
+InventoryName: Island options
+Accept: Accept
+Visit:
+  Allowed: Visitors allowed
+  AllowedItem: PLAYER_HEAD
+  NotAllowed: No Visitors allowed
+  NotAllowedItem: SKELETON_SKULL
+Difficulty:
+  Easy: Easy
+  EasyItem: WOODEN_SWORD
+  Normal: Medium
+  NormalItem: STONE_SWORD
+  Hard: Hard
+  HardItem: IRON_SWORD

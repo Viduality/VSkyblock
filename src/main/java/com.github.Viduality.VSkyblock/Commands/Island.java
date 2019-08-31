@@ -195,6 +195,12 @@ public class Island implements CommandExecutor {
                                             }
 
 
+                                            /*
+                                             * Shows the island options menu.
+                                             */
+                                            else if (args[0].equalsIgnoreCase("options")) {
+                                                subCommand = new IslandOptions();
+                                            }
 
 
                                             else if (args[0].equalsIgnoreCase("invite")) {

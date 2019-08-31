@@ -21,7 +21,9 @@ public class PlayerLeaveListener implements Listener {
             String island = Island.playerislands.get(player.getUniqueId().toString());
             Island.playerislands.remove(player.getUniqueId().toString());
             if (!Island.playerislands.containsValue(island)) {
-                wm.unloadWorld(island);
+                if (!wm.getAutoLoad(island)) {
+                    wm.unloadWorld(island);
+                }
             }
         }
     }

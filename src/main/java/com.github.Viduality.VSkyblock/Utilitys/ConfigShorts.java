@@ -449,4 +449,31 @@ public class ConfigShorts {
         }
     }
 
+    /**
+     * Loads the island options depending on the language.
+     */
+    public static void loadOptionsConfig() {
+        try {
+            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        String actualLanguage = plugin.getConfig().getString("Language");
+        if (actualLanguage.equalsIgnoreCase("ger")) {
+            try {
+                plugin.getConfig().load(plugin.getDataFolder() + "/Options/OptionsGer.yml");
+            } catch (IOException | InvalidConfigurationException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                plugin.getConfig().load(plugin.getDataFolder() + "/Options/OptionsEng.yml");
+            } catch (IOException | InvalidConfigurationException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

@@ -97,6 +97,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
         pm.registerEvents(new ChallengesInventoryHandler(), this);
         pm.registerEvents(new PortalAccessor(), this);
         pm.registerEvents(new TeleporterInventoryHandler(), this);
+        pm.registerEvents(new IslandOptionsInventoryHandler(), this);
 
         new DeleteOldIslands().run();
 

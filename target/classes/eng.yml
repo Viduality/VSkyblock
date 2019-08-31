@@ -46,6 +46,8 @@ CurrentIslandLevel: §6Current islan level is %replacement%.
 NewIslandLevel: §6New island level is %replacement%.
 KickVisitingPlayer: §6It's time to go. You should leave the island you are visiting!
 PlayerLimitReached: §cYou can't invite any more players to your island because you reached the player limit!
+CannotVisitIsland: §cYou can't visit this island because the owner doesn't want other players to see his island!
+VisitYourself: §cYou can't visit yourself!
 
 BlockBreak: §cYou aren't allowed to break blocks on this island!
 BlockPlace: §cYou aren't allowed to place blocks on this island!
@@ -69,7 +71,7 @@ NoLoadedWorldFound: §cCould not find any loaded world named §6%replacement%§c
 WorldLoaded: §bWorld loaded successfully!
 WorldFailedToLoad: §cFailed to load world §6%replacement%§c!
 WorldAlreadyLoaded: §cWorld is already loaded!
-NoWorldFound: §cCould not find any world named §6%replacement%§c!
+NoWorldFound: §cCould not find any world named §6%replacement% §cin the config!
 WorldUnloaded: §bWorld unloaded successfully!
 WorldFailedToUnload: §cFailed to unload world §6%replacement%§c!
 DeletedPlayer: §bSuccessfully deleted all data from player §6%replacement%§b!
@@ -79,6 +81,11 @@ ResettedChallenges: §bSuccessfully resetted challenges for player §6%replaceme
 UseInNetherWorld: §cYou can only use this command in a NETHER world!
 SetNewNether: §bSuccessfully set a new Nether!
 SetNewSpawnWorld: §bSuccessfully set a new Spawn World!
+SetNewSpawnpoint: §bSuccessfully set a new spawnpoint for the world §6%replacement%§b!
+SetAutoLoad: §bAutoLoad has been set to §6%replacement% §bfor your current world!
+OnlyTrueOrFalse: §cPlease use "true" or "false" for this option!
 
 WorldListHeader: '§bVSkyblock worlds:'
 Site: §8Site %replacement%/%replacement2%
+
+UpdatedIslandOptions: §bUpdated island options! They are live now!

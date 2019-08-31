@@ -89,6 +89,10 @@ public class AdminCommands implements CommandExecutor {
                         worldSubCommand = new ResetChallenges();
                     }
 
+                    if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("autoLoad")) {
+                        worldSubCommand = new WorldAutoLoad();
+                    }
+
                 }
                 if (worldSubCommand != null) {
                     worldSubCommand.execute(player, arg);

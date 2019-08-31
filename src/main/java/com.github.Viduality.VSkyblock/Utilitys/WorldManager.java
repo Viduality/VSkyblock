@@ -144,15 +144,15 @@ public class WorldManager {
                     deleteWorldfromConfig(world);
                     return(deleteFolder.delete());
                 } else {
-                    System.out.println(ChatColor.RED + "Could not delete world " + world);
+                    System.out.println("§cCould not delete world " + world);
                     return false;
                 }
             } else {
-                System.out.println(ChatColor.RED + "Could not delete world " + world);
+                System.out.println("§cCould not delete world " + world);
                 return false;
             }
         } else {
-            System.out.println(ChatColor.RED + "VSkyblock does not know about this world!");
+            System.out.println("§cVSkyblock does not know about this world!");
             return false;
         }
     }
@@ -492,5 +492,21 @@ public class WorldManager {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Checks if an island is autoLoaded.
+     *
+     * @param world
+     * @return boolean
+     */
+    public boolean getAutoLoad(String world) {
+        ConfigShorts.loadWorldConfig();
+        boolean autoLoad = false;
+        if (plugin.getConfig().getString("Worlds." + world + ".autoLoad").equals("true")) {
+            autoLoad = plugin.getConfig().getBoolean("Worlds." + world + ".autoLoad");
+        }
+        ConfigShorts.loaddefConfig();
+        return autoLoad;
     }
 }

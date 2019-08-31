@@ -74,7 +74,6 @@ public class IslandLevel implements SubCommand {
                                 for (int y = y1; y <= y2; y++) {
                                     for (int z = (int) z1; z <= z2; z++) {
                                         Material block = plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x, y, z).getType();
-
                                         if (!plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x, y, z).getType().equals(Material.AIR) && !plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x,y,z).getType().equals(Material.VOID_AIR)) {
                                             if (DefaultFiles.blockvalues.containsKey(block)) {
                                                 value = value + DefaultFiles.blockvalues.get(block);

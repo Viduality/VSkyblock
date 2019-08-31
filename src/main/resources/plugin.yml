@@ -106,6 +106,13 @@ commands:
     permission: VSkyblock.Island
     permission-message: You don't have permission!
 
+  Island Options:
+    description: Shows the island options menu.
+    usage: /island options
+    aliases: [island option, is options, is option]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission
+
   Island Help:
     description: Gives a list of all /island commands.
     usage: /island help
@@ -157,6 +164,13 @@ commands:
     usage: /VSkyblock set spawnPoint
     aliases: [vsky set spawnpoint]
     permission: VSkyblock.SetWorldSpawnPoint
+    permission-message: You don't have permission!
+
+  VSkyblock Set AutoLoad:
+    description: Enables or disables auto loading for a world at server startup.
+    usage: /VSkyblock set autoLoad <true|false>
+    aliases: [vsky set autoload]
+    permission: VSkyblock.AutoLoad
     permission-message: You don't have permission!
 
   VSkyblock teleport:
@@ -214,6 +228,7 @@ permissions:
       VSkyblock.SetNether: true
       VSkyblock.SetSpawnWorld: true
       VSkyblock.SetWorldSpawnPoint: true
+      VSkyblock.AutoLoad: true
       VSkyblock.Teleportation: true
       VSkyblock.LoadWorld: true
       VSkyblock.UnloadWorld: true
@@ -246,6 +261,7 @@ permissions:
     children:
       VSkyblock.VSkyblock: true
       VSkyblock.SetWorldSpawnPoint: true
+      VSkyblock.AutoLoad: true
       VSkyblock.Teleportation: true
       VSkyblock.LoadWorld: true
       VSkyblock.UnloadWorld: true
@@ -266,6 +282,9 @@ permissions:
     default: op
   VSkyblock.SetWorldSpawnPoint:
     descriptioin: Allows the player to set a new world spawnpoint.
+    default: op
+  VSkyblock:AutoLoad:
+    description: Allows the player to enable or disable auto loading for a world.
     default: op
   VSkyblock.Teleportation:
     description: Allows the player to teleport between world.

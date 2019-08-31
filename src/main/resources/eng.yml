@@ -82,6 +82,10 @@ UseInNetherWorld: §cYou can only use this command in a NETHER world!
 SetNewNether: §bSuccessfully set a new Nether!
 SetNewSpawnWorld: §bSuccessfully set a new Spawn World!
 SetNewSpawnpoint: §bSuccessfully set a new spawnpoint for the world §6%replacement%§b!
+SetAutoLoad: §bAutoLoad has been set to §6%replacement% §bfor your current world!
+OnlyTrueOrFalse: §cPlease use "true" or "false" for this option!
 
 WorldListHeader: '§bVSkyblock worlds:'
 Site: §8Site %replacement%/%replacement2%
+
+UpdatedIslandOptions: §bUpdated island options! They are live now!

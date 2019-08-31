@@ -51,6 +51,12 @@ public class DefaultFiles {
     private static File worlds;
     private static FileConfiguration worldsConfig;
 
+    private static File engOptions;
+    private static FileConfiguration engOptionsConfig;
+
+    private static File gerOptions;
+    private static FileConfiguration gerOptionsConfig;
+
     public static HashMap<Enum, Double> blockvalues = new HashMap<>();
 
     /**
@@ -194,6 +200,28 @@ public class DefaultFiles {
             worldsConfig = new YamlConfiguration();
         }
 
+        {
+            engOptions = new File(plugin.getDataFolder() + "/Options", "OptionsEng.yml");
+            try {
+                engOptionsfirstRun();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            engOptionsConfig = new YamlConfiguration();
+        }
+
+        {
+            gerOptions = new File(plugin.getDataFolder() + "/Options", "OptionsGer.yml");
+            try {
+                gerOptionsfirstRun();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            gerOptionsConfig = new YamlConfiguration();
+        }
+
 
         loadYamls();
 
@@ -335,6 +363,30 @@ public class DefaultFiles {
     }
 
     /**
+     * Checks if OptionsEng.yml exists and creates it if not.
+     *
+     * @throws Exception
+     */
+    private static void engOptionsfirstRun() throws Exception {
+        if (!engOptions.exists()) {
+            engOptions.getParentFile().mkdirs();
+            copy(plugin.getResource("OptionsEng.yml"), engOptions);
+        }
+    }
+
+    /**
+     * Checks if OptionsGer.yml exists and creates it if not.
+     *
+     * @throws Exception
+     */
+    private static void gerOptionsfirstRun() throws Exception {
+        if (!gerOptions.exists()) {
+            gerOptions.getParentFile().mkdirs();
+            copy(plugin.getResource("OptionsGer.yml"), gerOptions);
+        }
+    }
+
+    /**
      * Copies a resource file needed into an OutputStream.
      *
      * @param in
@@ -374,6 +426,8 @@ public class DefaultFiles {
             gerH.load(gerHelp);
             engH.load(engHelp);
             worldsConfig.load(worlds);
+            engOptionsConfig.load(engOptions);
+            gerOptionsConfig.load(gerOptions);
         }
         catch (Exception e) {
             e.printStackTrace();

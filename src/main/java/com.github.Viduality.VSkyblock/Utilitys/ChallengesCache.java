@@ -1,16 +1,8 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
-import com.github.Viduality.VSkyblock.VSkyblock;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Locale;
 
 public class ChallengesCache {
 
-
-    private VSkyblock plugin = VSkyblock.getInstance();
 
     private int c1 = 0;
     private int c2 = 0;

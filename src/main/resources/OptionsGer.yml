@@ -1,0 +1,14 @@
+InventoryName: Insel Optionen
+Accept: Übernehmen
+Visit:
+  Allowed: Besucher erlaubt
+  AllowedItem: PLAYER_HEAD
+  NotAllowed: Besucher nicht erlaubt
+  NotAllowedItem: SKELETON_SKULL
+Difficulty:
+  Easy: Einfach
+  EasyItem: WOODEN_SWORD
+  Normal: Normal
+  NormalItem: STONE_SWORD
+  Hard: Schwer
+  HardItem: IRON_SWORD
