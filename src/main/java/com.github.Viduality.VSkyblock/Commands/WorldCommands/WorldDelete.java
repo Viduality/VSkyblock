@@ -9,7 +9,7 @@ public class WorldDelete implements AdminSubCommand {
     private WorldManager wm = new WorldManager();
 
     @Override
-    public void execute(Player player, String args) {
+    public void execute(Player player, String args, String option1, String option2) {
         if (player.hasPermission("VSkyblock.DeleteWorld")) {
             if (wm.getAllWorlds().contains(args)) {
                 if (wm.deleteWorld(args)) {

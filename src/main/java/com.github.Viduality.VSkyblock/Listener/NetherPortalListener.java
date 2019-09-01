@@ -20,6 +20,7 @@ public class NetherPortalListener implements Listener {
     @EventHandler
     public void onNetherPortalUse(PlayerPortalEvent playerPortalEvent) {
         Player player = playerPortalEvent.getPlayer();
+        playerPortalEvent.setCancelled(true);
         if (playerPortalEvent.getFrom().getBlock().getType().equals(Material.NETHER_PORTAL)) {
             databaseReader.getPlayerData(player.getUniqueId().toString(), new DatabaseReader.Callback() {
                 @Override

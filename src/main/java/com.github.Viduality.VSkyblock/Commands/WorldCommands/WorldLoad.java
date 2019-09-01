@@ -11,7 +11,7 @@ public class WorldLoad implements AdminSubCommand {
     private WorldManager wm = new WorldManager();
 
     @Override
-    public void execute(Player player, String args) {
+    public void execute(Player player, String args, String option1, String option2) {
         if (player.hasPermission("VSkyblock.LoadWorld")) {
             if (wm.getAllWorlds().contains(args)) {
                 if (wm.getUnloadedWorlds().contains(args)) {

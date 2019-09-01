@@ -208,6 +208,13 @@ commands:
     permission: VSkyblock.List
     permission-message: You don't have permission!
 
+  VSkyblock import:
+    description: Imports an existing world into the VSkyblock world config.
+    usage: /VSkyblock import <world> <generator> <environment>
+    aliases: [vsky import]
+    permission: VSkyblock.Import
+    permission-message: You don't have permission!
+
   Challenges:
     description: Opens the challenges menu.
     usage: /challenges
@@ -234,6 +241,7 @@ permissions:
       VSkyblock.UnloadWorld: true
       VSkyblock.DeleteWorld: true
       VSkyblock.List: true
+      VSkyblock.Import: true
       VSkyblock.IgnoreProtected: true
       VSkyblock.IgnoreKick: true
       VSkyblock.Island: true
@@ -267,6 +275,7 @@ permissions:
       VSkyblock.UnloadWorld: true
       VSkyblock.DeleteWorld: true
       VSkyblock.List: true
+      VSkyblock.Import: true
 
   VSkyblock.DeletePlayer:
     description: Allows the player to delete a player from the database.
@@ -300,6 +309,9 @@ permissions:
     default: op
   VSkyblock.List:
     description: Allows to show a list of all worlds.
+    default: op
+  VSkyblock.Import:
+    description: Allows to import an existing world into the VSkyblock world config.
     default: op
   VSkyblock.IgnoreProtected:
     description: Allows the player to bypass all protections at other islands.

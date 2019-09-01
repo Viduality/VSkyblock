@@ -14,7 +14,7 @@ public class WorldTeleportation implements AdminSubCommand {
 
 
     @Override
-    public void execute(Player player, String args) {
+    public void execute(Player player, String args, String option1, String option2) {
         if (player.hasPermission("VSkyblock.Teleportation")) {
             if (wm.getLoadedWorlds().contains(args)) {
                 if (player.teleport(wm.getSpawnLocation(args))) {

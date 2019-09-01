@@ -2,10 +2,9 @@ package com.github.Viduality.VSkyblock.Utilitys;
 
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.*;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 import org.bukkit.entity.Player;
+import org.omg.CORBA.Environment;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class WorldManager {
                 World newIsland = wc.createWorld();
                 plugin.getServer().getWorlds().add(newIsland);
                 plugin.getServer().getWorld(island).setSpawnLocation(0, 67, 0);
-                if (addWorld(island)) {
+                if (addWorld(island, "VSkyblock", "NORMAL")) {
                     return true;
                 } else {
                     System.out.println("Could not add world to config!");
@@ -98,8 +97,8 @@ public class WorldManager {
         if (getAllWorlds().contains(world)) {
             if (getUnloadedWorlds().contains(world)) {
                 WorldCreator wc = new WorldCreator(world);
-                wc.generator("VSkyblock");
-                wc.environment(World.Environment.NORMAL);
+                wc.generator(getGenerator(world));
+                wc.environment(getEnvironment(world));
                 wc.type(WorldType.FLAT);
                 wc.generateStructures(false);
                 World loadedworld = wc.createWorld();
@@ -115,6 +114,55 @@ public class WorldManager {
             return false;
         }
         return false;
+    }
+
+    /**
+     * Gets the world generator from the config.
+     *
+     * Returns null if the configs value has been manipulated.
+     * @param world
+     * @return String
+     */
+    private String getGenerator(String world) {
+        ConfigShorts.loadWorldConfig();
+        String option = plugin.getConfig().getString("Worlds." + world + "generator");
+        ConfigShorts.loaddefConfig();
+        if (option != null) {
+            if (option.equals("default")) {
+                return null;
+            } else {
+                return option;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Gets the worlds environment from the config.
+     *
+     * Returns the NORMAL environment if the configs value has been manipulated.
+     *
+     * @param world
+     * @return World.Environment
+     */
+    private World.Environment getEnvironment(String world) {
+        ConfigShorts.loadWorldConfig();
+        String option = plugin.getConfig().getString("Worlds." + world + "environment");
+        ConfigShorts.loaddefConfig();
+        if (option != null) {
+            String env = option.toUpperCase();
+            switch (env) {
+                case "NETHER":
+                    return World.Environment.NETHER;
+                case "THE_END":
+                    return World.Environment.THE_END;
+                default:
+                    return World.Environment.NORMAL;
+            }
+        } else {
+            return World.Environment.NORMAL;
+        }
     }
 
     /**
@@ -232,7 +280,7 @@ public class WorldManager {
      * Adds a world to the config with the default settings.
      * @param world
      */
-    public boolean addWorld(String world) {
+    public boolean addWorld(String world, String generator, String environment) {
         try {
             InputStream templateStream = plugin.getResource("WorldTemplate.yml");
             StringBuilder out = new StringBuilder();
@@ -249,6 +297,8 @@ public class WorldManager {
             String template = out.toString();
             in.close();
             template = template.replace("WorldName", world);
+            template = template.replace("default", generator);
+            template = template.replace("NORMAL", environment);
 
 
             // input the file content to the StringBuffer "input"
@@ -281,7 +331,7 @@ public class WorldManager {
      * Deletes a world from the config.
      * @param world
      */
-    private void deleteWorldfromConfig(String world) {
+    public void deleteWorldfromConfig(String world) {
 
         ConfigShorts.loadWorldConfig();
 
@@ -410,7 +460,7 @@ public class WorldManager {
      * Sets a new spawn location for a world (into the config).
      * @param loc
      */
-    public void setSpawnLocation(Location loc) {
+    public boolean setSpawnLocation(Location loc) {
 
         ConfigShorts.loadWorldConfig();
         List<String> worlds = getAllWorlds();
@@ -486,12 +536,14 @@ public class WorldManager {
                 fileOut.close();
 
                 ConfigShorts.loaddefConfig();
-
             } catch (Exception e) {
                 System.out.println("Problem reading file.");
                 e.printStackTrace();
             }
+        } else {
+            return false;
         }
+        return true;
     }
 
     /**

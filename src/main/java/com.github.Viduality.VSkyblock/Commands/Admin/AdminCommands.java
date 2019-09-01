@@ -25,6 +25,8 @@ public class AdminCommands implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             String arg = null;
+            String opt1 = null;
+            String opt2 = null;
             if (cmd.getName().equalsIgnoreCase("VSkyblock")) {
                 AdminSubCommand worldSubCommand = null;
 
@@ -71,6 +73,10 @@ public class AdminCommands implements CommandExecutor {
                         worldSubCommand = new WorldSetSpawnpoint();
                     }
 
+                    if (args[0].equalsIgnoreCase("import")) {
+                        worldSubCommand = new WorldImport();
+                    }
+
                 }
 
                 if (args.length == 3) {
@@ -94,8 +100,20 @@ public class AdminCommands implements CommandExecutor {
                     }
 
                 }
+
+                if (args.length == 4) {
+
+                    arg = args[1];
+                    opt1 = args[2];
+                    opt2 = args[3];
+
+                    if (args[0].equalsIgnoreCase("import")) {
+                        worldSubCommand = new WorldImport();
+                    }
+
+                }
                 if (worldSubCommand != null) {
-                    worldSubCommand.execute(player, arg);
+                    worldSubCommand.execute(player, arg, opt1, opt2);
                 } else {
                     ConfigShorts.messagefromString("FalseInput", player);
                 }

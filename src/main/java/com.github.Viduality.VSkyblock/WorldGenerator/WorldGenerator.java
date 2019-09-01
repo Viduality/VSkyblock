@@ -164,6 +164,7 @@ public class WorldGenerator {
                 ItemStack cactus = new ItemStack(Material.CACTUS, 1);
                 ItemStack melon = new ItemStack(Material.MELON_SEEDS, 1);
                 ItemStack pumpkin = new ItemStack(Material.PUMPKIN_SEEDS, 1);
+                ItemStack beetroot = new ItemStack(Material.BEETROOT_SEEDS, 1);
                 ItemStack brownmushroom = new ItemStack(Material.BROWN_MUSHROOM, 1);
                 ItemStack redmushroom = new ItemStack(Material.RED_MUSHROOM, 1);
                 ItemStack sapling = new ItemStack(Material.OAK_SAPLING, 1);
@@ -174,15 +175,16 @@ public class WorldGenerator {
                 chest.getBlockInventory().setItem(4, cactus);
                 chest.getBlockInventory().setItem(5, melon);
                 chest.getBlockInventory().setItem(6, pumpkin);
-                chest.getBlockInventory().setItem(7, brownmushroom);
-                chest.getBlockInventory().setItem(8, redmushroom);
+                chest.getBlockInventory().setItem(7, beetroot);
+                chest.getBlockInventory().setItem(8, brownmushroom);
+                chest.getBlockInventory().setItem(9, redmushroom);
 
                 plugin.getServer().getWorld(islandName).getSpawnLocation().setX(0);
                 plugin.getServer().getWorld(islandName).getSpawnLocation().setY(67);
                 plugin.getServer().getWorld(islandName).getSpawnLocation().setZ(0);
 
                 plugin.getServer().getWorld(islandName).setAutoSave(true);
-                wm.addWorld(islandName);
+                wm.addWorld(islandName, "VSkyblock", "NORMAL");
 
 
                 Bukkit.getScheduler().runTask(plugin, new Runnable() {

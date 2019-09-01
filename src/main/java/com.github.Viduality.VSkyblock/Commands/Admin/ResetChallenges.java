@@ -24,7 +24,7 @@ public class ResetChallenges implements AdminSubCommand {
 
 
     @Override
-    public void execute(Player player, String args) {
+    public void execute(Player player, String args, String option1, String option2) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {

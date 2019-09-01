@@ -23,7 +23,6 @@ public class IslandOptionsInventoryHandler implements Listener {
 
     @EventHandler
     public void isOptionsHandler(InventoryClickEvent inventoryClickEvent) {
-        ConfigShorts.loadOptionsConfig();
         Player player = (Player) inventoryClickEvent.getWhoClicked();
         if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase(getInvName())) {
             inventoryClickEvent.setCancelled(true);
@@ -31,35 +30,44 @@ public class IslandOptionsInventoryHandler implements Listener {
             int visitslot = 3;
             int difficultyslot = 5;
             int confirmslot = 17;
+
+            ConfigShorts.loadOptionsConfig();
+            String visitalloweditem = plugin.getConfig().getString("Visit.AllowedItem");
+            String difficultynormalitem = plugin.getConfig().getString("Difficulty.NormalItem");
+            String difficultyharditem = plugin.getConfig().getString("Difficulty.HardItem");
+            String difficultyeasyitem = plugin.getConfig().getString("Difficulty.EasyItem");
+
             if (slot == visitslot) {
-                if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(plugin.getConfig().getString("Visit.AllowedItem")))) {
+                if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(visitalloweditem))) {
                     inventoryClickEvent.getInventory().setItem(visitslot, getItemStack("visit", "NotAllowed"));
                 } else {
                     inventoryClickEvent.getInventory().setItem(visitslot, getItemStack("visit", "Allowed"));
                 }
             } else if (slot == difficultyslot) {
-                if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(plugin.getConfig().getString("Difficulty.NormalItem")))) {
+                if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(difficultynormalitem))) {
                     inventoryClickEvent.getInventory().setItem(difficultyslot, getItemStack("difficulty", "Hard"));
-                } else if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(plugin.getConfig().getString("Difficulty.HardItem")))) {
+                } else if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(difficultyharditem))) {
                     inventoryClickEvent.getInventory().setItem(difficultyslot, getItemStack("difficulty", "Easy"));
-                } else if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(plugin.getConfig().getString("Difficulty.EasyItem")))) {
+                } else if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(difficultyeasyitem))) {
                     inventoryClickEvent.getInventory().setItem(difficultyslot, getItemStack("difficulty", "Normal"));
                 }
-            } else if (slot == confirmslot) {
+
+
+            } else if (slot == confirmslot && inventoryClickEvent.getCurrentItem().getType().equals(Material.LIME_WOOL)) {
                 boolean visit = true;
                 String difficulty = "NORMAL";
-                if (!inventoryClickEvent.getInventory().getItem(visitslot).getType().equals(getMaterial(plugin.getConfig().getString("Visit.AllowedItem")))) {
+                if (!inventoryClickEvent.getInventory().getItem(visitslot).getType().equals(getMaterial(visitalloweditem))) {
                     visit = false;
                 }
-                if (inventoryClickEvent.getInventory().getItem(difficultyslot).getType().equals(getMaterial(plugin.getConfig().getString("Difficulty.HardItem")))) {
+                if (inventoryClickEvent.getInventory().getItem(difficultyslot).getType().equals(getMaterial(difficultyharditem))) {
                     difficulty = "HARD";
-                } else if (inventoryClickEvent.getInventory().getItem(difficultyslot).getType().equals(getMaterial(plugin.getConfig().getString("Difficulty.EasyItem")))) {
+                } else if (inventoryClickEvent.getInventory().getItem(difficultyslot).getType().equals(getMaterial(difficultyeasyitem))) {
                     difficulty = "EASY";
                 }
                 player.closeInventory();
-                ConfigShorts.loaddefConfig();
                 ConfigShorts.messagefromString("UpdatedIslandOptions", player);
                 String finalDifficulty = difficulty;
+                ConfigShorts.loaddefConfig();
                 databaseWriter.updateIslandOptions(player, visit, difficulty, done ->
                         databaseReader.getislandidfromplayer(player.getUniqueId().toString(), result ->
                                 updateIsland(result, finalDifficulty)));
@@ -75,13 +83,16 @@ public class IslandOptionsInventoryHandler implements Listener {
      * @return ItemStack
      */
     private ItemStack getItemStack(String item, String option) {
+        ConfigShorts.loadOptionsConfig();
         Material mat;
         switch (item) {
             case "visit":
-                mat = getMaterial(plugin.getConfig().getString("Visit." + option + "Item"));
+                String visititem = plugin.getConfig().getString("Visit." + option + "Item");
+                mat = getMaterial(visititem);
                 break;
             case "difficulty":
-                mat = getMaterial(plugin.getConfig().getString("Difficulty." + option + "Item"));
+                String difficultyitem = plugin.getConfig().getString("Difficulty." + option + "Item");
+                mat = getMaterial(difficultyitem);
                 break;
             default:
                 mat = Material.BARRIER;
@@ -89,18 +100,21 @@ public class IslandOptionsInventoryHandler implements Listener {
         }
         ItemStack itemStack = new ItemStack(mat, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta != null) {
-            switch (item) {
-                case "visit":
-                    itemMeta.setDisplayName(getDisplayNameVisit(option));
-                case "difficulty":
-                    itemMeta.setDisplayName(getDisplayNameDifficulty(option));
-            }
-            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            itemMeta.addItemFlags(ItemFlag.values());
-            itemStack.setItemMeta(itemMeta);
+        switch (item) {
+            case "visit":
+                itemMeta.setDisplayName(getDisplayNameVisit(option));
+                break;
+            case "difficulty":
+                itemMeta.setDisplayName(getDisplayNameDifficulty(option));
+                break;
+            default:
+                break;
         }
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        itemMeta.addItemFlags(ItemFlag.values());
+        itemStack.setItemMeta(itemMeta);
+        ConfigShorts.loaddefConfig();
         return itemStack;
     }
 
@@ -122,7 +136,7 @@ public class IslandOptionsInventoryHandler implements Listener {
      * @return Material
      */
     private Material getMaterial(String material) {
-        if (Material.matchMaterial(material) != null) {
+        if (Material.getMaterial(material) != null) {
             return Material.getMaterial(material);
         } else {
             return Material.BARRIER;
@@ -135,9 +149,13 @@ public class IslandOptionsInventoryHandler implements Listener {
      * @return String
      */
     private String getInvName() {
+        ConfigShorts.loadOptionsConfig();
         if (plugin.getConfig().getString("InventoryName") != null) {
-            return plugin.getConfig().getString("InventoryName");
+            String invname = plugin.getConfig().getString("InventoryName");
+            ConfigShorts.loaddefConfig();
+            return invname;
         } else {
+            ConfigShorts.loaddefConfig();
             return "Island options";
         }
     }
@@ -149,7 +167,9 @@ public class IslandOptionsInventoryHandler implements Listener {
      * @return String
      */
     private String getDisplayNameDifficulty(String difficulty) {
+        ConfigShorts.loadOptionsConfig();
         String displayname = plugin.getConfig().getString("Difficulty." + difficulty);
+        ConfigShorts.loaddefConfig();
         if (displayname != null) {
             return displayname;
         } else {
@@ -164,11 +184,13 @@ public class IslandOptionsInventoryHandler implements Listener {
      * @return String
      */
     private String getDisplayNameVisit(String allowed) {
+        ConfigShorts.loadOptionsConfig();
         String displayname = plugin.getConfig().getString("Visit." + allowed);
+        ConfigShorts.loaddefConfig();
         if (displayname != null) {
             return displayname;
         } else {
-            return "Visitors allowed";
+            return allowed;
         }
     }
 }

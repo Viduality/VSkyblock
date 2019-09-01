@@ -3,8 +3,11 @@ package com.github.Viduality.VSkyblock.Commands;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
+import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -13,6 +16,7 @@ public class IslandVisit implements SubCommand {
 
     private VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseReader databaseReader = new DatabaseReader();
+    private WorldManager wm = new WorldManager();
 
 
     @Override
@@ -38,7 +42,44 @@ public class IslandVisit implements SubCommand {
                                                 @Override
                                                 public void onQueryDone(boolean result) {
                                                     if (result) {
-                                                        player.teleport(onlinetarget);
+                                                        System.out.println(wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getType());
+                                                        if (!wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
+                                                            if (wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getType().equals(Material.AIR)) {
+                                                                if (wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getRelative(BlockFace.UP).getType().equals(Material.AIR)) {
+                                                                    if (!wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.LAVA)) {
+                                                                        if (!wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.MAGMA_BLOCK)) {
+                                                                            if (!wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.WITHER_ROSE)) {
+                                                                                player.teleport(wm.getSpawnLocation("VSkyblockIsland_" + islandid));
+                                                                                databaseReader.getIslandMembers(islandid, new DatabaseReader.CallbackList() {
+                                                                                    @Override
+                                                                                    public void onQueryDone(List<String> result) {
+                                                                                        for (String member : result) {
+                                                                                            OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(member);
+                                                                                            if (offlinePlayer.isOnline()) {
+                                                                                                Player onlinePlayer = (Player) offlinePlayer;
+                                                                                                ConfigShorts.custommessagefromString("PlayerVisitingYourIsland", onlinePlayer, player.getName());
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                });
+                                                                            } else {
+                                                                                ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
+                                                                            }
+                                                                        } else {
+                                                                            ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
+                                                                        }
+                                                                    } else {
+                                                                        ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
+                                                                    }
+                                                                } else {
+                                                                    ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
+                                                                }
+                                                            } else {
+                                                                ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
+                                                            }
+                                                        } else {
+                                                            ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
+                                                        }
                                                     } else {
                                                         ConfigShorts.messagefromString("CannotVisitIsland", player);
                                                     }

@@ -1,92 +1,106 @@
 
 Prefix: §7[§9VSky§7]
 
-NotAPlayer: §cDu musst ein Spieler sein um diesen Befehl ausführen zu können!
-FalseInput: §cFalsche Eingabe! Benutze §b/help VSkyblock §c für weitere Infos.
-PlayerNotOnline: §c%SecondPlayer% ist nicht Online!
-PermissionLack: §cDu hast keine Berechtigung um diesen Befehl ausführen zu können!
-NotIslandOwner: §cDu musst der Owner der Insel sein um diesen Befehl ausführen zu können!
-NotAtPlayersIsland: §cDu musst dich auf deiner Insel befinden um diesen Befehl ausführen zu können!
-HasIslandMembers: §cAuf deiner Insel befinden sich noch andere Spieler! Kicke Alle mit §b/is kick <Spieler> §coder übertrage den Owner der Insel mit §b/is setowner §cauf einen anderen Spieler deiner Insel!
-MidAir: §cDu kannst das nicht in der Luft machen!
 
-RestartFirst: §cBenutze erst §b/is restart §cund bestätige danach mit §b/is restart confirm§c!
-LeaveFirst: §cBenutze erst §b/is leave §cund bestätige danach mit §b/is leave confirm§c!
-
-MasterIsland: §cVSkyblock Masterisland wird generiert! In der Zeit können Lags auftreten!
-MasterIslandReady: §aVSkyblock Masterisland fertig generiert!
-PlayerDoesNotExist: §cDer Spieler existiert nicht!
-PlayerNotIslandMember: §cDieser Spieler ist kein Spieler auf deiner Insel!
-KickedFromIsland: §cDu wurdest von deiner jetzigen Insel gekickt! Du kannst einer Anderen beitreten oder deine eigene Insel mit §b/is §cerstellen!
-KickedFromIsland: §cDu wurdest von deiner Insel gekickt während du Offline warst! Du kannst einer Anderen beitreten oder deine eigene Insel mit §b/is §cerstellen!
-LeftIsland: §6Du hast deine derzeitige Insel verlassen!
-AlreadyIslandMember: §cDieser Spieler ist bereits Mitglied deiner Insel!
-KickedMember: §cDu hast §b%SecondPlayer%§c von deiner Insel gekickt!
-MissingValue: §cDu brauchst einen Wert für diesen Command!
-CantKickYourself: §cDu kannst dich nicht selbst von deiner Insel kicken!
-NoIsland: §cDu hast keine Insel. Generiere erst eine mit §b/is§c!
-OnlyMember: §aDu bist alleine auf deiner Insel!
 AcceptLeave: §cDu verlässt deine derzeitige Insel und verlierst deinen ganzen Fortschritt! Bestätige dies in den nächsten 20 Sekunden mit §b/is leave confirm§c!
-
-GenerateNewIsland: §aDeine Insel wird generiert. Warte einen Moment!
-SethomeSuccess: §aErfolgreich neuen Spawnpunkt deiner Insel gesetzt!
-ConfirmRestart: §cDeine Insel wird gelöscht und eine Neue generiert! Bestätige dies in den nächsten 20 Sekunden mit §b/is restart confirm§c!
-InviteToIsland: §6Du hast %SecondPlayer% auf deine Insel eingeladen!
-GetInviteToIsland: §6%Player% hat dich auf seine Insel eingeladen!
-HowToAcceptInvite: §cDu verlierst den ganzen Fortschritt auf der Insel! Wenn du dennoch der Insel beitreten möchtest, bestätige dies in den nächsten 20 Sekunden mit §b/is accept§c!
-NoPendingInvite: §cDu hast keine ausstehenden Einladung!
-InviteYourself: §cDu kannst dich nicht selbst einladen!
-NewIslandOwner: §6Du bist jetzt der neue Besitzer der Insel!
-SetNewIslandOwner: §cDu hast den Owner-Titel der Insel einem anderen Mitglied deiner Insel übergeben!
-NoIsland: §cDu besitzt keine Insel! Erstelle eine mit §b/island§c!
+AlreadyIslandMember: §cDieser Spieler ist bereits Mitglied deiner Insel!
 AlreadyUsedIslandLevel: §cDu hast diesen Befehl vor Kurzem erst benutzt. Warte ein wenig bevor du es erneut versuchst!
-CalculatingNewIslandLevel: §aBerechne das Level deiner Insel. Bitte warte kurz, da es seine Zeit benötigt!
-CurrentIslandLevel: §6Aktuelles Insel-Level beträgt %replacement%.
-NewIslandLevel: §6Neues Insel-Level beträgt %replacement%.
-KickVisitingPlayer: §6Zeit zu gehen! Du sollst die Insel die du gerade besuchst verlassen!
-PlayerLimitReached: §cDu kannst keinen Spieler mehr auf deine Insel einladen da du das Spieler-Limit erreicht hast!
-CannotVisitIsland: §cDu kannst diese Insel nicht besuchen, da der Owner der Insel keine anderen Spieler auf der Insel haben möchte.
-VisitYourself: §cDu kannst dich nicht selbst besuchen!
 
 BlockBreak: §cDu darfst hier nichts abbauen!
 BlockPlace: §cDu darfst hier nichts platzieren!
-DropItem: §cDu kannst hier nichts droppen! Wirf deinen Abfall bei dir weg!
-InteractBlocker: §cDu kannst das hier nicht benutzen!
 
-FailedToCreateIsland: §cEs konnte keine Insel generiert werden! Bitte versuch es nochmal oder informiere einen Server-Admin!
-
-NotEnoughInventorySpace: §cDu hast nicht genügend Platz in deinem Inventar für die Belohnung der Challenge!
-NotEnoughItems: §cDu hast nicht genügend Items für diese Challenge!
-IslandLevelNotHighEnough: §cDas Level deiner Insel ist nicht hoch genug! Baue mehr um das Level deiner Insel zu erhöhen!
+CalculatingNewIslandLevel: §aBerechne das Level deiner Insel. Bitte warte kurz, da es seine Zeit benötigt!
+CannotVisitIsland: §cDu kannst diese Insel nicht besuchen, da der Owner der Insel keine anderen Spieler auf der Insel haben möchte.
+CantKickYourself: §cDu kannst dich nicht selbst von deiner Insel kicken!
 ChallengeComplete: §6%Player% §ahat §6%Challenge%§a abgeschlossen!
-IslandDoesNotMatchRequirements: §cDeine Insel entspricht den Anforderungen für diese Challenge nicht!
 ChallengeNotRepeatable: §cDu kannst diese Challenge nur einmal abschließen!
 CheckingIslandForChallenge: §6Durchsuche Insel nach den Anforderungen der Challenge. Warte einen Moment!
-GenerateCooldown: §cWarte ein paar Minuten bevor du eine neue Insel erstellst! Die Zeit zwischen dem Generieren von zwei Inseln beträgt %replacement% Minuten.
-
-TeleportedToWorld: §bTeleportiere zu Welt §6%replacement%§b.
+ConfirmRestart: §cDeine Insel wird gelöscht und eine Neue generiert! Bestätige dies in den nächsten 20 Sekunden mit §b/is restart confirm§c!
 CouldNotTeleportToWorld: §cKonnte nicht in die Welt §6%replacement% §cteleportieren!
-NoLoadedWorldFound: §cEs konnte keine geladene Welt mit dem Namen §6%replacement% §cgefunden werden.
-WorldLoaded: §bWelt erfolgreich geladen!
-WorldFailedToLoad: §cWelt §6%replacement% §ckonnte nicht geladen werden!
-WorldAlreadyLoaded: §cWelt ist bereits geladen!
-NoWorldFound: §cEs kann keine Welt mit dem Namen §6%replacement% §cgefunden werden!
-WorldUnloaded: §bWelt erfolgreich entladen!
-WorldFailedToUnload: §cWelt §6%replacement% §ckonnte nicht entladen werden!
+CurrentIslandLevel: §6Aktuelles Insel-Level beträgt %replacement%.
+
 DeletedPlayer: §bErfolgreich alle Infos von §6%replacement% §bgelöscht!
-WorldDeleted: §bWelt erfolgreich gelöscht!
+DropItem: §cDu kannst hier nichts droppen! Wirf deinen Abfall bei dir weg!
+
+FailedToCreateIsland: §cEs konnte keine Insel generiert werden! Bitte versuch es nochmal oder informiere einen Server-Admin!
 FailedToDeleteWorld: §cKonnte Welt nicht richtig löschen. Da ist wohl etwas schief gelaufen...
-ResettedChallenges: §bErfolgreich Challenges von §6%replacement% §bresettet!
-UseInNetherWorld: §cDu kannst diesen Befehl nur im NETHER benutzen!
-SetNewNether: §bErfolgreich einen neuen Nether ausgewählt!
-SetNewSpawnWorld: §bErfolgreich eine neue Spawn-Welt ausgewählt!
-SetNewSpawnpoint: §bErfolgreich einen neuen Spawnpunkt für die Welt §6%replacement% §bgesetzt!
-SetAutoLoad: §bAutoLoad wurde für deine jetzige Welt auf §6%replacement% §bgesetzt!
+FalseInput: §cFalsche Eingabe! Benutze §b/help VSkyblock §c für weitere Infos.
+
+GenerateCooldown: §cWarte ein paar Minuten bevor du eine neue Insel erstellst! Die Zeit zwischen dem Generieren von zwei Inseln beträgt %replacement% Minuten.
+GenerateNewIsland: §aDeine Insel wird generiert. Warte einen Moment!
+GetInviteToIsland: §6%Player% hat dich auf seine Insel eingeladen!
+
+HasIslandMembers: §cAuf deiner Insel befinden sich noch andere Spieler! Kicke Alle mit §b/is kick <Spieler> §coder übertrage den Owner der Insel mit §b/is setowner §cauf einen anderen Spieler deiner Insel!
+HowToAcceptInvite: §cDu verlierst den ganzen Fortschritt auf der Insel! Wenn du dennoch der Insel beitreten möchtest, bestätige dies in den nächsten 20 Sekunden mit §b/is accept§c!
+
+ImportNotSuccessfull: §bKonnte Welt nicht richtig importieren!
+ImportSuccessfull: §bWelt erfolgreich importiert!
+InteractBlocker: §cDu kannst das hier nicht benutzen!
+InviteToIsland: §6Du hast %SecondPlayer% auf deine Insel eingeladen!
+InviteYourself: §cDu kannst dich nicht selbst einladen!
+IslandDoesNotMatchRequirements: §cDeine Insel entspricht den Anforderungen für diese Challenge nicht!
+IslandLevelNotHighEnough: §cDas Level deiner Insel ist nicht hoch genug! Baue mehr um das Level deiner Insel zu erhöhen!
+IslandSpawnNotSafe: §cInsel-Spawn ist nicht sicher. Teleportation abgebrochen.
+
+KickedFromIsland: §cDu wurdest von deiner jetzigen Insel gekickt! Du kannst einer Anderen beitreten oder deine eigene Insel mit §b/is §cerstellen!
+KickedFromIslandOffline: §cDu wurdest von deiner Insel gekickt während du Offline warst! Du kannst einer Anderen beitreten oder deine eigene Insel mit §b/is §cerstellen!
+KickedMember: §cDu hast §b%SecondPlayer%§c von deiner Insel gekickt!
+KickVisitingPlayer: §6Zeit zu gehen! Du sollst die Insel die du gerade besuchst verlassen!
+
+LeaveFirst: §cBenutze erst §b/is leave §cund bestätige danach mit §b/is leave confirm§c!
+LeftIsland: §6Du hast deine derzeitige Insel verlassen!
+
+MasterIsland: §cVSkyblock Masterisland wird generiert! In der Zeit können Lags auftreten!
+MasterIslandReady: §aVSkyblock Masterisland fertig generiert!
+MidAir: §cDu kannst das nicht in der Luft machen!
+MissingValue: §cDu brauchst einen Wert für diesen Command!
+
+NewIslandLevel: §6Neues Insel-Level beträgt %replacement%.
+NewIslandOwner: §6Du bist jetzt der neue Besitzer der Insel!
+NoIsland: §cDu besitzt keine Insel! Erstelle eine mit §b/island§c!
+NoLoadedWorldFound: §cEs konnte keine geladene Welt mit dem Namen §6%replacement% §cgefunden werden.
+NoPendingInvite: §cDu hast keine ausstehenden Einladung!
+NoWorldFound: §cEs kann keine Welt mit dem Namen §6%replacement% §cgefunden werden!
+NotAtPlayersIsland: §cDu musst dich auf deiner Insel befinden um diesen Befehl ausführen zu können!
+NotAPlayer: §cDu musst ein Spieler sein um diesen Befehl ausführen zu können!
+NotEnoughInventorySpace: §cDu hast nicht genügend Platz in deinem Inventar für die Belohnung der Challenge!
+NotEnoughItems: §cDu hast nicht genügend Items für diese Challenge!
+NotIslandOwner: §cDu musst der Owner der Insel sein um diesen Befehl ausführen zu können!
+
+OnlyMember: §aDu bist alleine auf deiner Insel!
 OnlyTrueOrFalse: §cBenutze "true" oder "false" für diese Option!
 
-WorldListHeader: '§bVSkyblock Welten:'
+PermissionLack: §cDu hast keine Berechtigung um diesen Befehl ausführen zu können!
+PlayerDoesNotExist: §cDer Spieler existiert nicht!
+PlayerLimitReached: §cDu kannst keinen Spieler mehr auf deine Insel einladen da du das Spieler-Limit erreicht hast!
+PlayerNotIslandMember: §cDieser Spieler ist kein Spieler auf deiner Insel!
+PlayerNotOnline: §c%SecondPlayer% ist nicht Online!
+PlayerVisitingYourIsland: §6%replacement% §bbesucht gerade deine Insel.
+
+ResettedChallenges: §bErfolgreich Challenges von §6%replacement% §bresettet!
+RestartFirst: §cBenutze erst §b/is restart §cund bestätige danach mit §b/is restart confirm§c!
+
+SetAutoLoad: §bAutoLoad wurde für deine jetzige Welt auf §6%replacement% §bgesetzt!
+SethomeSuccess: §aErfolgreich neuen Spawnpunkt deiner Insel gesetzt!
+SetNewIslandOwner: §cDu hast den Owner-Titel der Insel einem anderen Mitglied deiner Insel übergeben!
+SetNewNether: §bErfolgreich einen neuen Nether ausgewählt!
+SetNewSpawnpoint: §bErfolgreich einen neuen Spawnpunkt für die Welt §6%replacement% §bgesetzt!
+SetNewSpawnWorld: §bErfolgreich eine neue Spawn-Welt ausgewählt!
 Site: §8Seite %replacement%/%replacement2%
 
+TeleportedToWorld: §bTeleportiere zu Welt §6%replacement%§b.
+
 UpdatedIslandOptions: §bInsel Optionen wurden übernommen und sind jetzt aktiv!
+UseInNetherWorld: §cDu kannst diesen Befehl nur im NETHER benutzen!
 
+VisitYourself: §cDu kannst dich nicht selbst besuchen!
 
+WorldAlreadyExisting: §cWelt existiert bereits! Du kannst sie mit §6/VSkyblock load <Welt> §claden!
+WorldAlreadyLoaded: §cWelt ist bereits geladen!
+WorldDeleted: §bWelt erfolgreich gelöscht!
+WorldFailedToLoad: §cWelt §6%replacement% §ckonnte nicht geladen werden!
+WorldFailedToUnload: §cWelt §6%replacement% §ckonnte nicht entladen werden!
+WorldIsNoWorld: §bDie angegebenen "Welt" ist keine Welt!
+WorldListHeader: '§bVSkyblock Welten:'
+WorldLoaded: §bWelt erfolgreich geladen!
+WorldUnloaded: §bWelt erfolgreich entladen!

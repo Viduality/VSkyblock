@@ -28,22 +28,24 @@ public class ChallengesInventoryHandler implements Listener {
                 inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Medium")) ||
                 inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Hard"))) {
             inventoryClickEvent.setCancelled(true);
-            if (inventoryClickEvent.getRawSlot() < 27) {
-                if (inventoryClickEvent.getSlot() == 18 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR) && !inventoryClickEvent.getCurrentItem().getType().equals(Material.BARRIER)) {
-                    getpreviousChallengeinv(inventoryClickEvent.getView().getTitle(), (Player) inventoryClickEvent.getWhoClicked());
-                }
-                if (inventoryClickEvent.getSlot() == 26 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR) && !inventoryClickEvent.getCurrentItem().getType().equals(Material.BARRIER)) {
-                    getnextChallengeinv(inventoryClickEvent.getView().getTitle(), (Player) inventoryClickEvent.getWhoClicked());
-                }
-                if (inventoryClickEvent.getSlot() >= 0 && inventoryClickEvent.getSlot() <= 17 ) {
-                    if (!inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR)) {
-                        int challenge = inventoryClickEvent.getSlot() + 1;
-                        if (inventoryClickEvent.getView().getTitle().equals("Challenges " + plugin.getConfig().getString("Difficulty.Easy"))) {
-                            cH.checkChallenge(challenge, inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(), "Easy", (Player) inventoryClickEvent.getWhoClicked());
-                        } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Medium"))) {
-                            cH.checkChallenge(challenge, inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(), "Medium", (Player) inventoryClickEvent.getWhoClicked());
-                        } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Hard"))) {
-                            cH.checkChallenge(challenge, inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(), "Hard", (Player) inventoryClickEvent.getWhoClicked());
+            if (inventoryClickEvent.getCurrentItem() != null) {
+                if (inventoryClickEvent.getRawSlot() < 27) {
+                    if (inventoryClickEvent.getSlot() == 18 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR) && !inventoryClickEvent.getCurrentItem().getType().equals(Material.BARRIER)) {
+                        getpreviousChallengeinv(inventoryClickEvent.getView().getTitle(), (Player) inventoryClickEvent.getWhoClicked());
+                    }
+                    if (inventoryClickEvent.getSlot() == 26 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR) && !inventoryClickEvent.getCurrentItem().getType().equals(Material.BARRIER)) {
+                        getnextChallengeinv(inventoryClickEvent.getView().getTitle(), (Player) inventoryClickEvent.getWhoClicked());
+                    }
+                    if (inventoryClickEvent.getSlot() >= 0 && inventoryClickEvent.getSlot() <= 17 ) {
+                        if (!inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR)) {
+                            int challenge = inventoryClickEvent.getSlot() + 1;
+                            if (inventoryClickEvent.getView().getTitle().equals("Challenges " + plugin.getConfig().getString("Difficulty.Easy"))) {
+                                cH.checkChallenge(challenge, inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(), "Easy", (Player) inventoryClickEvent.getWhoClicked());
+                            } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Medium"))) {
+                                cH.checkChallenge(challenge, inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(), "Medium", (Player) inventoryClickEvent.getWhoClicked());
+                            } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Hard"))) {
+                                cH.checkChallenge(challenge, inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(), "Hard", (Player) inventoryClickEvent.getWhoClicked());
+                            }
                         }
                     }
                 }

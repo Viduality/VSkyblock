@@ -19,7 +19,7 @@ public class SetSpawnWorld implements AdminSubCommand {
 
 
     @Override
-    public void execute(Player player, String args) {
+    public void execute(Player player, String args, String option1, String options) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {

@@ -10,7 +10,7 @@ public class WorldSetSpawnpoint implements AdminSubCommand {
 
 
     @Override
-    public void execute(Player player, String args) {
+    public void execute(Player player, String args, String option1, String option2) {
         if (player.hasPermission("VSkyblock.SetWorldSpawnpoint")) {
             if (wm.getLoadedWorlds().contains(player.getWorld().getName())) {
                 wm.setSpawnLocation(player.getLocation());

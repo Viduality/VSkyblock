@@ -75,7 +75,7 @@ public class ChallengesHandler {
                                 ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challengeName);
                             }
                         } else {
-
+                            ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
                         }
                     } else {
                         ConfigShorts.messagefromString("NotEnoughItems", player);

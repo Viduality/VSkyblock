@@ -116,6 +116,7 @@ Easy:
     RepeatRewardText: "2 Lehmblöcke"
     RepeatReward:
     - Clay;2
+    - Bamboo;1
 
   Melonenfarmer:
     Slot: 6
@@ -239,15 +240,17 @@ Medium:
     Needed:
     - Cooked_Cod;10
     - Cooked_Salmon;10
-    RewardText: "16 Redstone, 5 Tintensäcke, 5 Eisenerze"
+    RewardText: "16 Redstone, 5 Tintensäcke, 5 Eisenerze, 2 Schildkrötenei"
     Reward:
     - Redstone;16
     - Ink_Sac;5
     - Iron_Ore;5
-    RepeatRewardText: "2 Redstone, 1 Eisenerz"
+    - Turtle_Egg;2
+    RepeatRewardText: "2 Redstone, 1 Eisenerz, 1 Seetang"
     RepeatReward:
     - Redstone;2
     - Iron_Ore;1
+    - Kelp;1
 
   Holzfäller:
     Slot: 4
@@ -342,8 +345,53 @@ Medium:
     - Emerald;3
     - Gold_Ingot;3
 
-  Baumeister:
+  Bambusfarmer:
     Slot: 8
+    ShownItem: Bamboo
+    Type: onPlayer
+    Description: "Farme 5 Stacks Bambus"
+    NeededText: "5 Stacks Bambus"
+    Needed:
+    - Bamboo;320
+    RewardText: "1 Süßbeere"
+    Reward:
+    - Sweet_Berries;1
+    RepeatRewardText: "1 Süßbeere"
+    RepeatReward:
+    - Sweet_Berries;1
+
+  Baufirma:
+    Slot: 9
+    ShownItem: Scaffolding
+    Type: onIsland
+    Description: "Baue ein großes Gerüst aus mindestens 15 Gerüstblöcken"
+    Radius: 20
+    NeededText: "15 Gerüste"
+    Needed:
+    - Scaffolding;15
+    RewardText: "1 Glocke, 5 Eisenbarren"
+    Reward:
+    - Bell;1
+    - Iron_Ingot;5
+
+  Schildkrötenliebhaber:
+    Slot: 10
+    ShownItem: Scute
+    Type: onPlayer
+    Description: "Erfarme einen Schildkrötenpanzer und 2 Hornschilde (Scute)."
+    NeededText: "1 Schildkrötenpanzer, 2 Hornschilde"
+    Needed:
+    - Turtle_Helmet;1
+    - Scute;2
+    RewardText: "1 Herz des Meeres"
+    Reward:
+    - Heart_Of_The_Sea;1
+    RepeatRewardText: "1 Nautilusschale"
+    RepeatReward:
+    - Nautilus_Shell;1
+
+  Baumeister:
+    Slot: 11
     ShownItem: Golden_Pickaxe
     Type: islandlevel
     Description: "Erreiche Level 100 mit deiner Insel. (Dein aktuelles Level siehst du mit: /island level)."
@@ -422,7 +470,7 @@ Hard:
     ShownItem: Compass
     Type: onPlayer
     Description: "Erstelle eine Karte, einen Kompass, eine Uhr und sammle 64 Nethersteine, 16 Seelensand und eine Ghastträne."
-    NeededText: "1 leere Karte, 1 Kompass, 1 Uhr, 64 Nethersteine, 16 Seelensand, 1 Ghastträne"
+    NeededText: "1 leere Karte, 1 Kompass, 1 Uhr, 64 Netherrack, 16 Seelensand, 1 Ghastträne"
     Needed:
     - Map;1
     - Compass;1
@@ -527,31 +575,20 @@ Hard:
     Description: "Sammle von jedem gekochten oder hergestellten Essen ein Stück. (Kein Supergoldapfel)"
     NeededText: "1 Stück von jedem Essen"
     Needed:
-    - Apple;1
     - Mushroom_Stew;1
     - Bread;1
-    - Porkchop;1
     - Cooked_Porkchop;1
     - Golden_Apple;1
-    - Cod;1
-    - Salmon;1
     - Cooked_Cod;1
     - Cooked_Salmon;1
     - Cake;1
     - Cookie;1
-    - Melon_Slice;1
-    - Beef;1
     - Cooked_Beef;1
-    - Chicken;1
     - Cooked_Chicken;1
-    - Carrot;1
-    - Potato;1
     - Baked_Potato;1
     - Pumpkin_Pie;1
-    - Rabbit;1
     - Cooked_Rabbit;1
     - Rabbit_Stew;1
-    - Mutton;1
     - Cooked_Mutton;1
     - Beetroot_Soup;1
     RewardText: "2 Diamanten, 3 Schallplatten, 1 Pilzkuhspawnegg, 1 Smaragd"
@@ -567,3 +604,20 @@ Hard:
     - Gold_Ingot;1
     - Mooshroom_Spawn_Egg;1
     - Emerald;1
+
+  Herscher der Meere:
+    Slot: 11
+    ShownItem: Trident
+    Type: onPlayer
+    Description: "Erhalte einen Dreizack"
+    NeededText: "1 Dreizack"
+    Needed:
+    - Trident;1
+    RewardText: "2 Diamant-Blöcke, 5 Eisen-Blöcke"
+    Reward:
+    - Diamond_Block;2
+    - Iron_Block;5
+    RepeatRewardText: "5 Diamanten, 2 Eisen-Blöcke"
+    RepeatReward:
+    - Diamond;5
+    - Iron_Block;2

@@ -1,9 +1,9 @@
 InventoryName: Insel Optionen
 Accept: Übernehmen
 Visit:
-  Allowed: Besucher erlaubt
+  Allowed: §2Besucher erlaubt
   AllowedItem: PLAYER_HEAD
-  NotAllowed: Besucher nicht erlaubt
+  NotAllowed: §cBesucher nicht erlaubt
   NotAllowedItem: SKELETON_SKULL
 Difficulty:
   Easy: Einfach

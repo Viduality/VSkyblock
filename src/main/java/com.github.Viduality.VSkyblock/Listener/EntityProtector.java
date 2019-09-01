@@ -31,6 +31,9 @@ public class EntityProtector implements Listener {
                     entityDamageByEntityEvent.setCancelled(true);
                 }
             } else {
+                if (!Island.playerislands.get(player.getUniqueId().toString()).equals(Island.playerislands.get(damagedplayer.getUniqueId().toString()))) {
+                    entityDamageByEntityEvent.setCancelled(true);
+                }
                 if (!pvpisland) {
                     entityDamageByEntityEvent.setCancelled(true);
                 }
@@ -47,7 +50,7 @@ public class EntityProtector implements Listener {
         if (entity instanceof Player) {
             String uuid = entity.getUniqueId().toString();
             if (!entity.getWorld().getName().equals(Island.playerislands.get(uuid))) {
-                if (!hostilemobs.contains(damagedentity.getType())) {
+                if (!hostilemobs.contains(damagedentity.getType()) && damagedentity.getType().equals(EntityType.PLAYER)) {
                     entityDamageByEntityEvent.setCancelled(true);
                 }
             }

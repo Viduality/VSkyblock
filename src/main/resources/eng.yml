@@ -2,90 +2,105 @@
 Prefix: §7[§9VSky§7]
 
 
-NotAPlayer: §cYou have to be a Player to use this command!
-FalseInput: §cFalse Input! use §b/help VSkyblock §c for details.
-PlayerNotOnline: §c%SecondPlayer% is not Online!
-PermissionLack: §cYou don't have permission to perform this command!
-NotIslandOwner: §cYou have to be the Owner of your Island to perform this command!
-NotAtPlayersIsland: §cYou have to be on your Island to perform this command!
-HasIslandMembers: §cThere are other Players playing on your Island. Kick them with §b/is kick <Player> §c or give the ownership of the island to one of them with §b/is setowner <Player>§c!
-MidAir: §cYou can't do this airborne!
-
-RestartFirst: §cUse §b/is restart §cfirst, then confirm it with §b/is restart confirm§c!
-LeaveFirst: §cUse §b/is leave §cfirst, then confirm it with §b/is leave confirm§c!
-
-MasterIsland: §cMaster island is generating! This may cause some lags!
-MasterIslandReady: §aFinished creating master island!
-PlayerDoesNotExist: §cPlayer does not exist!
-PlayerNotIslandMember: §cThis player is no member of your island!
-KickedFromIsland: §cYou got kicked from your current island! You can join another island or create your own with §b/is§c!
-KickedFromIslandOffline: §4You got kicked from your island while you were Offline! You can join another island or create your own with §b/is§c!
-LeftIsland: §6You left your current island!
-AlreadyIslandMember: §cThis player is already a member of your island!
-KickedMember: §cYou kicked §b%SecondPlayer%§c from your island!
-MissingValue: §cYou need to define a Value for that Command!
-CantKickYourself: §cYou can't kick yourself!
-NoIsland: §cYou don't have an island. Generate one with §b/is§c first!
-OnlyMember: §aYou are alone on this island.
 AcceptLeave: §cYou are about to leave your current island and lose all your progress! You have 20 seconds to confirm with §b/is leave confirm§c!
-
-GenerateNewIsland: §aYour island is beeing generated. Wait a second!
-SethomeSuccess: §aSuccessfully set new homepoint for your island!
-ConfirmRestart: §cYour Island will be deleted and a new one will be generated. You have 20 seconds to confirm with §b/is restart confirm§c!
-InviteToIsland: §6You invited %SecondPlayer% to your island!
-GetInviteToIsland: §6%Player% invited you to join their island!
-HowToAcceptInvite: §cYou will lose all your progress! If you want to join their island, type §b/is accept§c within the next 20 seconds!
-NoPendingInvite: §cThere is no pending island invite for you!
-InviteYourself: §cYou can't invite yourself!
-NewIslandOwner: §6You are now the new island owner!
-SetNewIslandOwner: §cYou gave another player the title of the island owner!
-NoIsland: §cYou don't have a island! Create one with §b/island§c!
+AlreadyIslandMember: §cThis player is already a member of your island!
 AlreadyUsedIslandLevel: §cWait a bit before using this command again! You recently just used it!
-CalculatingNewIslandLevel: §aCalculating your new island level. Please wait a second since it could take some time!
-CurrentIslandLevel: §6Current islan level is %replacement%.
-NewIslandLevel: §6New island level is %replacement%.
-KickVisitingPlayer: §6It's time to go. You should leave the island you are visiting!
-PlayerLimitReached: §cYou can't invite any more players to your island because you reached the player limit!
-CannotVisitIsland: §cYou can't visit this island because the owner doesn't want other players to see his island!
-VisitYourself: §cYou can't visit yourself!
 
 BlockBreak: §cYou aren't allowed to break blocks on this island!
 BlockPlace: §cYou aren't allowed to place blocks on this island!
-DropItem: §cYou can't drop things here! Drop your trash at another place!
-InteractBlocker: §cYou can't use that here!
 
-FailedToCreateIsland: §cFailed to create an island! Please try again or call an server admin!
-
-NotEnoughInventorySpace: §cThere are not enough free inventory slots to claim your reward!
-NotEnoughItems: §cYou don't have enough items for this challenge!
-IslandLevelNotHighEnough: §cYour island doesn't have the required level! Build more to gain higher levels!
+CalculatingNewIslandLevel: §aCalculating your new island level. Please wait a second since it could take some time!
+CannotVisitIsland: §cYou can't visit this island because the owner doesn't want other players to see his island!
+CantKickYourself: §cYou can't kick yourself!
 ChallengeComplete: §6%Player% §acompleted §6%Challenge%§a!
-IslandDoesNotMatchRequirements: §cYour island doesn't match the requirements for this challenge!
 ChallengeNotRepeatable: §cThis challenge can be completed only once!
 CheckingIslandForChallenge: §6Checking your island for the requirements of this challenge. Wait a second!
-GenerateCooldown: §cWait a few minutes before you create another island! Time between command reuse is %replacement% minutes.
-
-TeleportedToWorld: §bTeleported to world §6%replacement% §b.
+ConfirmRestart: §cYour Island will be deleted and a new one will be generated. You have 20 seconds to confirm with §b/is restart confirm§c!
 CouldNotTeleportToWorld: §cCould not teleport to world §6%replacement%§c!
-NoLoadedWorldFound: §cCould not find any loaded world named §6%replacement%§c.
-WorldLoaded: §bWorld loaded successfully!
-WorldFailedToLoad: §cFailed to load world §6%replacement%§c!
-WorldAlreadyLoaded: §cWorld is already loaded!
-NoWorldFound: §cCould not find any world named §6%replacement% §cin the config!
-WorldUnloaded: §bWorld unloaded successfully!
-WorldFailedToUnload: §cFailed to unload world §6%replacement%§c!
+CurrentIslandLevel: §6Current islan level is %replacement%.
+
 DeletedPlayer: §bSuccessfully deleted all data from player §6%replacement%§b!
-WorldDeleted: §bDeleted world successfully!
+DropItem: §cYou can't drop things here! Drop your trash at another place!
+
+FailedToCreateIsland: §cFailed to create an island! Please try again or call an server admin!
 FailedToDeleteWorld: §cCould not delete world properly! Something went wrong...
-ResettedChallenges: §bSuccessfully resetted challenges for player §6%replacement%§b!
-UseInNetherWorld: §cYou can only use this command in a NETHER world!
-SetNewNether: §bSuccessfully set a new Nether!
-SetNewSpawnWorld: §bSuccessfully set a new Spawn World!
-SetNewSpawnpoint: §bSuccessfully set a new spawnpoint for the world §6%replacement%§b!
-SetAutoLoad: §bAutoLoad has been set to §6%replacement% §bfor your current world!
+FalseInput: §cFalse Input! use §b/help VSkyblock §c for details.
+
+GenerateCooldown: §cWait a few minutes before you create another island! Time between command reuse is %replacement% minutes.
+GenerateNewIsland: §aYour island is beeing generated. Wait a second!
+GetInviteToIsland: §6%Player% invited you to join their island!
+
+HasIslandMembers: §cThere are other Players playing on your Island. Kick them with §b/is kick <Player> §c or give the ownership of the island to one of them with §b/is setowner <Player>§c!
+HowToAcceptInvite: §cYou will lose all your progress! If you want to join their island, type §b/is accept§c within the next 20 seconds!
+
+ImportNotSuccessfull: §bCould not import world!
+ImportSuccessfull: §bSuccessfully imported world!
+InteractBlocker: §cYou can't use that here!
+InviteToIsland: §6You invited %SecondPlayer% to your island!
+InviteYourself: §cYou can't invite yourself!
+IslandDoesNotMatchRequirements: §cYour island doesn't match the requirements for this challenge!
+IslandLevelNotHighEnough: §cYour island doesn't have the required level! Build more to gain higher levels!
+IslandSpawnNotSafe: §cIsland spawn is not safe! Canceled the teleport.
+
+KickedFromIsland: §cYou got kicked from your current island! You can join another island or create your own with §b/is§c!
+KickedFromIslandOffline: §4You got kicked from your island while you were Offline! You can join another island or create your own with §b/is§c!
+KickedMember: §cYou kicked §b%SecondPlayer%§c from your island!
+KickVisitingPlayer: §6It's time to go. You should leave the island you are visiting!
+
+LeaveFirst: §cUse §b/is leave §cfirst, then confirm it with §b/is leave confirm§c!
+LeftIsland: §6You left your current island!
+
+MasterIsland: §cMaster island is generating! This may cause some lags!
+MasterIslandReady: §aFinished creating master island!
+MidAir: §cYou can't do this airborne!
+MissingValue: §cYou need to define a Value for that Command!
+
+NewIslandLevel: §6New island level is %replacement%.
+NewIslandOwner: §6You are now the new island owner!
+NoIsland: §cYou don't have a island! Create one with §b/island§c!
+NoLoadedWorldFound: §cCould not find any loaded world named §6%replacement%§c.
+NoPendingInvite: §cThere is no pending island invite for you!
+NoWorldFound: §cCould not find any world named §6%replacement% §cin the config!
+NotAtPlayersIsland: §cYou have to be on your Island to perform this command!
+NotAPlayer: §cYou have to be a Player to use this command!
+NotEnoughInventorySpace: §cThere are not enough free inventory slots to claim your reward!
+NotEnoughItems: §cYou don't have enough items for this challenge!
+NotIslandOwner: §cYou have to be the Owner of your Island to perform this command!
+
+OnlyMember: §aYou are alone on this island.
 OnlyTrueOrFalse: §cPlease use "true" or "false" for this option!
 
-WorldListHeader: '§bVSkyblock worlds:'
+PermissionLack: §cYou don't have permission to perform this command!
+PlayerDoesNotExist: §cPlayer does not exist!
+PlayerLimitReached: §cYou can't invite any more players to your island because you reached the player limit!
+PlayerNotIslandMember: §cThis player is no member of your island!
+PlayerNotOnline: §c%SecondPlayer% is not Online!
+PlayerVisitingYourIsland: §6%replacement% §bis visiting your island right now.
+
+ResettedChallenges: §bSuccessfully resetted challenges for player §6%replacement%§b!
+RestartFirst: §cUse §b/is restart §cfirst, then confirm it with §b/is restart confirm§c!
+
+SetAutoLoad: §bAutoLoad has been set to §6%replacement% §bfor your current world!
+SethomeSuccess: §aSuccessfully set new homepoint for your island!
+SetNewIslandOwner: §cYou gave another player the title of the island owner!
+SetNewNether: §bSuccessfully set a new Nether!
+SetNewSpawnpoint: §bSuccessfully set a new spawnpoint for the world §6%replacement%§b!
+SetNewSpawnWorld: §bSuccessfully set a new Spawn World!
 Site: §8Site %replacement%/%replacement2%
 
+TeleportedToWorld: §bTeleported to world §6%replacement% §b.
+
 UpdatedIslandOptions: §bUpdated island options! They are live now!
+UseInNetherWorld: §cYou can only use this command in a NETHER world!
+
+VisitYourself: §cYou can't visit yourself!
+
+WorldAlreadyExisting: §cWorld does already exist! You can load it with §6/VSkyblock load <world> §c!
+WorldAlreadyLoaded: §cWorld is already loaded!
+WorldDeleted: §bDeleted world successfully!
+WorldFailedToLoad: §cFailed to load world §6%replacement%§c!
+WorldFailedToUnload: §cFailed to unload world §6%replacement%§c!
+WorldIsNoWorld: §bGiven "world" is not a world!
+WorldListHeader: '§bVSkyblock worlds:'
+WorldLoaded: §bWorld loaded successfully!
+WorldUnloaded: §bWorld unloaded successfully!

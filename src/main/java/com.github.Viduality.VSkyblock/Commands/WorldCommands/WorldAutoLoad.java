@@ -10,7 +10,7 @@ public class WorldAutoLoad implements AdminSubCommand {
 
 
     @Override
-    public void execute(Player player, String args) {
+    public void execute(Player player, String args, String option1, String option2) {
         if (player.hasPermission("VSkyblock.AutoLoad")) {
             if (wm.getAllWorlds().contains(player.getWorld().getName())) {
                 if (args.equalsIgnoreCase("true")) {

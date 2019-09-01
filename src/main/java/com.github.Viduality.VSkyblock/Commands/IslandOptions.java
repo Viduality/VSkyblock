@@ -26,6 +26,8 @@ public class IslandOptions implements SubCommand {
         if (databaseCache.getIslandId() != 0) {
             databaseReader.getIslandOptions(databaseCache.getIslandId(), isoptionsCache ->
                     createOptionsInventory(isoptionsCache, databaseCache.getPlayer(), databaseCache.isIslandowner()));
+        } else {
+            ConfigShorts.messagefromString("NoIsland", databaseCache.getPlayer());
         }
     }
 
