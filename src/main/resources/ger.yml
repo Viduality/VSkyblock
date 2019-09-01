@@ -33,7 +33,8 @@ GetInviteToIsland: §6%Player% hat dich auf seine Insel eingeladen!
 HasIslandMembers: §cAuf deiner Insel befinden sich noch andere Spieler! Kicke Alle mit §b/is kick <Spieler> §coder übertrage den Owner der Insel mit §b/is setowner §cauf einen anderen Spieler deiner Insel!
 HowToAcceptInvite: §cDu verlierst den ganzen Fortschritt auf der Insel! Wenn du dennoch der Insel beitreten möchtest, bestätige dies in den nächsten 20 Sekunden mit §b/is accept§c!
 
-ImportNotSuccessfull: §bKonnte Welt nicht richtig importieren!
+ImportingWorld: §bVersuche Welt zu importieren. Dies könnte Laggs verursachen!
+ImportNotSuccessfull: §cKonnte Welt nicht richtig importieren!
 ImportSuccessfull: §bWelt erfolgreich importiert!
 InteractBlocker: §cDu kannst das hier nicht benutzen!
 InviteToIsland: §6Du hast %SecondPlayer% auf deine Insel eingeladen!

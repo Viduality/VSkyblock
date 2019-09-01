@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 
 public class NetherPortalListener implements Listener {
@@ -21,12 +22,14 @@ public class NetherPortalListener implements Listener {
     public void onNetherPortalUse(PlayerPortalEvent playerPortalEvent) {
         Player player = playerPortalEvent.getPlayer();
         playerPortalEvent.setCancelled(true);
-        if (playerPortalEvent.getFrom().getBlock().getType().equals(Material.NETHER_PORTAL)) {
+        System.out.println("YES");
+        if (playerPortalEvent.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL)) {
+            System.out.println("PORTAL");
             databaseReader.getPlayerData(player.getUniqueId().toString(), new DatabaseReader.Callback() {
                 @Override
                 public void onQueryDone(DatabaseCache result) {
                     if (player.getWorld().getName().equals(result.getIslandname())) {
-                        player.teleport(wm.getSpawnLocation("NetherWorld"));
+                        player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("NetherWorld")));
                     }
                 }
             });

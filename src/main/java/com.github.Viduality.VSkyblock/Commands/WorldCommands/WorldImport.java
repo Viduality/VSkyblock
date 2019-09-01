@@ -18,6 +18,7 @@ public class WorldImport implements AdminSubCommand {
     public void execute(Player player, String args, String option1, String option2) {
         if (player.hasPermission("VSkyblock.Import")) {
             if (!wm.getAllWorlds().contains(args)) {
+                ConfigShorts.messagefromString("ImportingWorld", player);
                 File worldContainer = plugin.getServer().getWorldContainer();
                 File importworld = new File(worldContainer, args);
                 if (importworld.isDirectory()) {

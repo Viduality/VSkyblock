@@ -125,7 +125,7 @@ public class WorldManager {
      */
     private String getGenerator(String world) {
         ConfigShorts.loadWorldConfig();
-        String option = plugin.getConfig().getString("Worlds." + world + "generator");
+        String option = plugin.getConfig().getString("Worlds." + world + ".generator");
         ConfigShorts.loaddefConfig();
         if (option != null) {
             if (option.equals("default")) {
@@ -148,7 +148,7 @@ public class WorldManager {
      */
     private World.Environment getEnvironment(String world) {
         ConfigShorts.loadWorldConfig();
-        String option = plugin.getConfig().getString("Worlds." + world + "environment");
+        String option = plugin.getConfig().getString("Worlds." + world + ".environment");
         ConfigShorts.loaddefConfig();
         if (option != null) {
             String env = option.toUpperCase();
@@ -174,8 +174,8 @@ public class WorldManager {
         if (getAllWorlds().contains(world)) {
             if (loadWorld(world)) {
                 World delete = plugin.getServer().getWorld(world);
+                File deleteFolder = delete.getWorldFolder();
                 if (unloadWorld(world)) {
-                    File deleteFolder = delete.getWorldFolder();
 
                     if(deleteFolder.exists()) {
                         File files[] = deleteFolder.listFiles();

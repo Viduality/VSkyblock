@@ -33,7 +33,8 @@ GetInviteToIsland: §6%Player% invited you to join their island!
 HasIslandMembers: §cThere are other Players playing on your Island. Kick them with §b/is kick <Player> §c or give the ownership of the island to one of them with §b/is setowner <Player>§c!
 HowToAcceptInvite: §cYou will lose all your progress! If you want to join their island, type §b/is accept§c within the next 20 seconds!
 
-ImportNotSuccessfull: §bCould not import world!
+ImportingWorld: §bTrying to import world. This may cause some lags!
+ImportNotSuccessfull: §cCould not import world!
 ImportSuccessfull: §bSuccessfully imported world!
 InteractBlocker: §cYou can't use that here!
 InviteToIsland: §6You invited %SecondPlayer% to your island!
