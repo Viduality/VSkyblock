@@ -1,0 +1,50 @@
+package com.github.Viduality.VSkyblock.Commands.Admin;
+
+import com.github.Viduality.VSkyblock.Commands.WorldCommands.AdminSubCommand;
+import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+public class AdminCommandsHelp implements AdminSubCommand {
+
+    private VSkyblock plugin = VSkyblock.getInstance();
+
+    @Override
+    public void execute(Player player, String args, String option1, String option2) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                ConfigShorts.loadHelpConfig();
+                String intro = plugin.getConfig().getString("IntroTextAdmin");
+                String deletePlayer = plugin.getConfig().getString("VSkyblockDeletePlayer");
+                String resetChallenges = plugin.getConfig().getString("VSkyblockResetChallenges");
+                String setNether = plugin.getConfig().getString("VSkyblockSetNether");
+                String setSpawnWorld = plugin.getConfig().getString("VSkyblockSetSpawnWorld");
+                String setSpawnPoint = plugin.getConfig().getString("VSkyblockSetSpawnPoint");
+                String setAutoLoad = plugin.getConfig().getString("VSkyblockSetAutoLoad");
+                String teleport = plugin.getConfig().getString("VSkyblockTeleport");
+                String load = plugin.getConfig().getString("VSkyblockLoad");
+                String unload = plugin.getConfig().getString("VSkyblockUnload");
+                String deleteWorld = plugin.getConfig().getString("VSkyblockDeleteWorld");
+                String list = plugin.getConfig().getString("VSkyblockList");
+                String importWorld = plugin.getConfig().getString("VSkyblockImport");
+                ConfigShorts.loaddefConfig();
+                String message = ChatColor.AQUA + intro + "\n" +
+                        ChatColor.YELLOW +  "/VSkyblock delete player <Player>" + "\n" + ChatColor.RESET + " - " + deletePlayer + "\n" +
+                        ChatColor.YELLOW +  "/VSkyblock reset challenges <Player>" + "\n" + ChatColor.RESET + " - " + resetChallenges + "\n" +
+                        ChatColor.YELLOW +  "/VSkyblock set nether" + "\n" + ChatColor.RESET + " - " + setNether + "\n" +
+                        ChatColor.YELLOW +  "/VSkyblock set spawnworld" + "\n" + ChatColor.RESET + " - " + setSpawnWorld + "\n" +
+                        ChatColor.YELLOW +  "/VSkyblock set spawnpoint" + "\n" + ChatColor.RESET + " - " + setSpawnPoint + "\n" +
+                        ChatColor.YELLOW +  "/VSkyblock set autoload <true|false>" + "\n" + ChatColor.RESET + " - " + setAutoLoad + "\n" +
+                        ChatColor.YELLOW +  "/VSkyblock teleport <World>" + "\n" + ChatColor.RESET + " - " + teleport + "\n" +
+                        ChatColor.YELLOW +  "/VSkyblock load <World>" + "\n" + ChatColor.RESET + " - " + load + "\n" +
+                        ChatColor.YELLOW +  "/VSkyblock unload <World>" + "\n" + ChatColor.RESET + " - " + unload + "\n" +
+                        ChatColor.YELLOW +  "/VSkyblock delete world <World>" + "\n" + ChatColor.RESET + " - " + deleteWorld + "\n" +
+                        ChatColor.YELLOW +  "/VSkyblock list" + "\n" + ChatColor.RESET + " - " + list + "\n" +
+                        ChatColor.YELLOW +  "/VSkyblock import <world>" + "\n" + ChatColor.RESET + " - " + importWorld;
+                player.sendMessage(message);
+            }
+        });
+    }
+}

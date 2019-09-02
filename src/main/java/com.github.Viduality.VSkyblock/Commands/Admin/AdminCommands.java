@@ -31,11 +31,15 @@ public class AdminCommands implements CommandExecutor {
                 AdminSubCommand worldSubCommand = null;
 
                 if (args.length == 0) {
-                    //TODO IMPLEMENT HELP FOR ADMIN COMMANDS
-                    player.sendMessage("0 args");
+                    worldSubCommand = new AdminCommandsHelp();
                 }
 
                 if (args.length == 1) {
+
+                    if (args[0].equalsIgnoreCase("help")) {
+                        worldSubCommand = new AdminCommandsHelp();
+                    }
+
                     if (args[0].equalsIgnoreCase("list")) {
                         worldSubCommand = new WorldList();
                     }

@@ -31,7 +31,8 @@ public class IslandHelp implements SubCommand {
                 String members = plugin.getConfig().getString("IslandMembers");
                 String top = plugin.getConfig().getString("IslandTop");
                 String challenges = plugin.getConfig().getString("Challenges");
-                String message = intro + "\n" +
+                ConfigShorts.loaddefConfig();
+                String message = ChatColor.AQUA + intro + "\n" +
                         ChatColor.YELLOW +  "/island" + "\n" + ChatColor.RESET + " - " + island + "\n" +
                         ChatColor.YELLOW +  "/island sethome" + "\n" + ChatColor.RESET + " - " + sethome + "\n" +
                         ChatColor.YELLOW +  "/island restart" + "\n" + ChatColor.RESET + " - " + restart + "\n" +
