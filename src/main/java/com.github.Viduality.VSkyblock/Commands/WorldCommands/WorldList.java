@@ -16,23 +16,28 @@ public class WorldList implements AdminSubCommand {
 
     @Override
     public void execute(Player player, String args, String option1, String option2) {
-        if (player.hasPermission("VSkyblock.List")) {
-            List<String> worlds = wm.getAllWorlds();
-            int sites = Math.round((worlds.size()/7)+1);
-            int site = 1;
-            if (isInt(args)) {
-                if (Integer.parseInt(args) != 0) {
-                    if (Integer.parseInt(args) <= sites) {
-                        site = Integer.parseInt(args);
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                if (player.hasPermission("VSkyblock.List")) {
+                    List<String> worlds = wm.getAllWorlds();
+                    int sites = Math.round((worlds.size()/7)+1);
+                    int site = 1;
+                    if (isInt(args)) {
+                        if (Integer.parseInt(args) != 0) {
+                            if (Integer.parseInt(args) <= sites) {
+                                site = Integer.parseInt(args);
+                            }
+                        }
                     }
+                    String header = ConfigShorts.getCustomString("WorldListHeader");
+                    String sitesString = ConfigShorts.getCustomString("Site", String.valueOf(site), String.valueOf(sites));
+                    String worldsString = getWorlds(site);
+                    String message = header + '\n' + worldsString + '\n' + sitesString;
+                    player.sendMessage(message);
                 }
             }
-            String header = ConfigShorts.getCustomString("WorldListHeader");
-            String sitesString = ConfigShorts.getCustomString("Site", String.valueOf(site), String.valueOf(sites));
-            String worldsString = getWorlds(site);
-            String message = header + '\n' + worldsString + '\n' + sitesString;
-            player.sendMessage(message);
-        }
+        });
     }
 
 

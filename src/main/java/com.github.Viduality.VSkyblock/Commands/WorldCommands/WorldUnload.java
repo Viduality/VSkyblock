@@ -12,22 +12,27 @@ public class WorldUnload implements AdminSubCommand {
 
     @Override
     public void execute(Player player, String args, String option1, String option2) {
-        if (player.hasPermission("VSkyblock.UnloadWorld")) {
-            if (wm.getAllWorlds().contains(args)) {
-                if (wm.getLoadedWorlds().contains(args)) {
-                    if (wm.unloadWorld(args)) {
-                        ConfigShorts.messagefromString("WorldUnloaded", player);
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                if (player.hasPermission("VSkyblock.UnloadWorld")) {
+                    if (wm.getAllWorlds().contains(args)) {
+                        if (wm.getLoadedWorlds().contains(args)) {
+                            if (wm.unloadWorld(args)) {
+                                ConfigShorts.messagefromString("WorldUnloaded", player);
+                            } else {
+                                ConfigShorts.custommessagefromString("WorldFailedToUnload", player, args);
+                            }
+                        } else {
+                            ConfigShorts.messagefromString("NoLoadedWorldFound", player);
+                        }
                     } else {
-                        ConfigShorts.custommessagefromString("WorldFailedToUnload", player, args);
+                        ConfigShorts.custommessagefromString("NoWorldFound", player, args);
                     }
                 } else {
-                    ConfigShorts.messagefromString("NoLoadedWorldFound", player);
+                    ConfigShorts.messagefromString("PermissionLack", player);
                 }
-            } else {
-                ConfigShorts.custommessagefromString("NoWorldFound", player, args);
             }
-        } else {
-            ConfigShorts.messagefromString("PermissionLack", player);
-        }
+        });
     }
 }

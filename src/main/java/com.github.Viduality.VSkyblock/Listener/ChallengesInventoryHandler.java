@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 
 import java.io.IOException;
 
@@ -50,6 +51,17 @@ public class ChallengesInventoryHandler implements Listener {
                     }
                 }
             }
+        }
+        ConfigShorts.loaddefConfig();
+    }
+
+    @EventHandler
+    public void cinvHandler2(InventoryDragEvent inventoryDragEvent) {
+        ConfigShorts.loadChallengesConfig();
+        if (inventoryDragEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Easy")) ||
+                inventoryDragEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Medium")) ||
+                inventoryDragEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Hard"))) {
+            inventoryDragEvent.setCancelled(true);
         }
         ConfigShorts.loaddefConfig();
     }

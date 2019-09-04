@@ -15,6 +15,8 @@ CantKickYourself: §cYou can't kick yourself!
 ChallengeComplete: §6%Player% §acompleted §6%Challenge%§a!
 ChallengeNotRepeatable: §cThis challenge can be completed only once!
 CheckingIslandForChallenge: §6Checking your island for the requirements of this challenge. Wait a second!
+CleaningUpOldIslands: §cCleaning up Worlds, could lag for a short time!
+CleaningUpOldIslandsDone: §2Cleaning up Worlds done!
 ConfirmRestart: §cYour Island will be deleted and a new one will be generated. You have 20 seconds to confirm with §b/is restart confirm§c!
 CouldNotTeleportToWorld: §cCould not teleport to world §6%replacement%§c!
 CurrentIslandLevel: §6Current islan level is %replacement%.

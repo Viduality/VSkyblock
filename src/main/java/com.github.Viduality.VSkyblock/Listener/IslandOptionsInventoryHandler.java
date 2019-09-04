@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -72,6 +73,13 @@ public class IslandOptionsInventoryHandler implements Listener {
                         databaseReader.getislandidfromplayer(player.getUniqueId().toString(), result ->
                                 updateIsland(result, finalDifficulty)));
             }
+        }
+    }
+
+    @EventHandler
+    public void isOptionsHandler2(InventoryDragEvent inventoryDragEvent) {
+        if (inventoryDragEvent.getView().getTitle().equalsIgnoreCase(getInvName())) {
+            inventoryDragEvent.setCancelled(true);
         }
     }
 

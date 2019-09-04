@@ -32,7 +32,7 @@ public class DeleteOldIslands implements Runnable {
      * Starts the whole cleanup.
      */
     private void startCleanUp() {
-        plugin.getServer().broadcastMessage(ChatColor.RED + "Cleaning up Worlds, could lag for a short time!");
+        ConfigShorts.broadcastfromString("CleaningUpOldIslands");
         databaseReader.getemptyIslands(new DatabaseReader.CallbackList() {
             @Override
             public void onQueryDone(List<String> result) {
@@ -42,7 +42,7 @@ public class DeleteOldIslands implements Runnable {
                         databaseWriter.deleteIsland(currentIsland);
                     }
                 }
-                plugin.getServer().broadcastMessage(ChatColor.GREEN + "Cleaning up done! :)");
+                ConfigShorts.broadcastfromString("CleaningUpOldIslandsDone");
             }
         });
     }

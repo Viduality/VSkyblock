@@ -16,6 +16,8 @@ public class WorldManager {
 
     private VSkyblock plugin = VSkyblock.getInstance();
 
+    public static final String ANSI_RED = "\u001B[31m";
+
 
     /**
      * Creates a new island. Also writes it into the Worlds.yml config file
@@ -55,14 +57,14 @@ public class WorldManager {
                 if (addWorld(island, "VSkyblock", "NORMAL")) {
                     return true;
                 } else {
-                    System.out.println("Could not add world to config!");
+                    System.out.println(ANSI_RED + "Could not add world to config!");
                     return false;
                 }
             } else {
-                System.out.println("Folder already exists!");
+                System.out.println(ANSI_RED + "Folder already exists!");
             }
         } else {
-            System.out.println(ChatColor.RED + "Tried to create save a world but VSkyblock already knows about it!");
+            System.out.println(ANSI_RED + "Tried to create a world but VSkyblock already knows about it!");
         }
         return false;
     }
@@ -83,7 +85,7 @@ public class WorldManager {
             plugin.getServer().unloadWorld(world, true);
             return true;
         } else {
-            System.out.println(ChatColor.RED + "Tried to unload a world VSkyblock does not know about. :(");
+            System.out.println(ANSI_RED + "Tried to unload a world VSkyblock does not know about. :(");
             return false;
         }
     }
@@ -110,7 +112,7 @@ public class WorldManager {
                 }
             }
         } else {
-            System.out.println(ChatColor.RED + "VSkyblock does not know about this world!");
+            System.out.println(ANSI_RED + "VSkyblock does not know about this world!");
             return false;
         }
         return false;
@@ -192,15 +194,15 @@ public class WorldManager {
                     deleteWorldfromConfig(world);
                     return(deleteFolder.delete());
                 } else {
-                    System.out.println("§cCould not delete world " + world);
+                    System.out.println(ANSI_RED + "§cCould not delete world " + world);
                     return false;
                 }
             } else {
-                System.out.println("§cCould not delete world " + world);
+                System.out.println(ANSI_RED + "§cCould not delete world " + world);
                 return false;
             }
         } else {
-            System.out.println("§cVSkyblock does not know about this world!");
+            System.out.println(ANSI_RED + "VSkyblock does not know about this world!");
             return false;
         }
     }
@@ -226,7 +228,7 @@ public class WorldManager {
             ConfigShorts.loaddefConfig();
             return new Location(world1, x, y, z, yaw, pitch);
         } else {
-            System.out.println(ChatColor.RED + "Could not find a spawn location for world " + world + "!");
+            System.out.println(ANSI_RED + "Could not find a spawn location for world " + world + "!");
             return null;
         }
     }
@@ -321,7 +323,7 @@ public class WorldManager {
             return true;
 
         } catch (Exception e) {
-            System.out.println("Problem reading file.");
+            System.out.println(ANSI_RED + "Problem reading file.");
             e.printStackTrace();
         }
         return false;
@@ -380,7 +382,7 @@ public class WorldManager {
             ConfigShorts.loaddefConfig();
 
         } catch (Exception e) {
-            System.out.println("Problem reading file.");
+            System.out.println(ANSI_RED + "Problem reading file.");
             e.printStackTrace();
         }
     }
@@ -437,7 +439,7 @@ public class WorldManager {
                     newWorldInfo = newWorldInfo.replace(OldLine, NewLine);
                 }
             } else {
-                System.out.println("Keine Zeile in der Config gefunden!");
+                System.out.println(ANSI_RED + "Keine Zeile in der Config gefunden!");
             }
 
 
@@ -451,7 +453,7 @@ public class WorldManager {
             ConfigShorts.loaddefConfig();
 
         } catch (Exception e) {
-            System.out.println("Problem reading file.");
+            System.out.println(ANSI_RED + "Problem reading file.");
             e.printStackTrace();
         }
     }
@@ -523,7 +525,7 @@ public class WorldManager {
                             newWorldInfo = newWorldInfo.replace(OldLine, NewLine);
                         }
                     } else {
-                        System.out.println("Keine Zeile in der Config gefunden!");
+                        System.out.println(ANSI_RED + "Keine Zeile in der Config gefunden!");
                     }
                 }
 
@@ -537,7 +539,7 @@ public class WorldManager {
 
                 ConfigShorts.loaddefConfig();
             } catch (Exception e) {
-                System.out.println("Problem reading file.");
+                System.out.println(ANSI_RED + "Problem reading file.");
                 e.printStackTrace();
             }
         } else {

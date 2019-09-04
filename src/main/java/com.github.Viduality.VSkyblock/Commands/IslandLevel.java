@@ -50,7 +50,6 @@ public class IslandLevel implements SubCommand {
                         public void run() {
                             double worldsize = plugin.getServer().getWorld(databaseCache.getIslandname()).getWorldBorder().getSize();
                             int y1 = 0;
-                            int y2 = plugin.getServer().getWorld(databaseCache.getIslandname()).getMaxHeight();
                             double x1 = -1 * (worldsize/2);
                             double x2 = worldsize/2;
                             double z1 = x1;
@@ -71,12 +70,15 @@ public class IslandLevel implements SubCommand {
                             double level;
 
                             for (int x = (int) x1; x <= x2; x++) {
-                                for (int y = y1; y <= y2; y++) {
-                                    for (int z = (int) z1; z <= z2; z++) {
-                                        Material block = plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x, y, z).getType();
-                                        if (!plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x, y, z).getType().equals(Material.AIR) && !plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x,y,z).getType().equals(Material.VOID_AIR)) {
-                                            if (DefaultFiles.blockvalues.containsKey(block)) {
-                                                value = value + DefaultFiles.blockvalues.get(block);
+                                for (int z = (int) z1; z <= z2; z++) {
+                                    if (plugin.getServer().getWorld(databaseCache.getIslandname()).getHighestBlockYAt(x, z) != 0) {
+                                        int y2 = plugin.getServer().getWorld(databaseCache.getIslandname()).getHighestBlockYAt(x, z);
+                                        for (int y = y1; y <= y2; y++) {
+                                            Material block = plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x, y, z).getType();
+                                            if (!plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x, y, z).getType().equals(Material.AIR) && !plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x,y,z).getType().equals(Material.VOID_AIR)) {
+                                                if (DefaultFiles.blockvalues.containsKey(block)) {
+                                                    value = value + DefaultFiles.blockvalues.get(block);
+                                                }
                                             }
                                         }
                                     }
