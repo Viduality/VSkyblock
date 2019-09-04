@@ -34,6 +34,9 @@ IslandLevelReuse: 5
 # Time in MINUTES between two island generations from one player.
 IslandGenerateCooldown: 5
 
+# Time in MINUTES between a player can join another island after joining the first one.
+IslandJoinCooldown: 10
+
 # Number of players a island can contain (Owner included).
 IslandPlayerLimit: 4
 

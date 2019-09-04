@@ -31,18 +31,18 @@ public class AdminCommandsHelp implements AdminSubCommand {
                 String importWorld = plugin.getConfig().getString("VSkyblockImport");
                 ConfigShorts.loaddefConfig();
                 String message = ChatColor.AQUA + intro + "\n" +
-                        ChatColor.YELLOW +  "/VSkyblock delete player <Player>" + "\n" + ChatColor.RESET + " - " + deletePlayer + "\n" +
-                        ChatColor.YELLOW +  "/VSkyblock reset challenges <Player>" + "\n" + ChatColor.RESET + " - " + resetChallenges + "\n" +
-                        ChatColor.YELLOW +  "/VSkyblock set nether" + "\n" + ChatColor.RESET + " - " + setNether + "\n" +
-                        ChatColor.YELLOW +  "/VSkyblock set spawnworld" + "\n" + ChatColor.RESET + " - " + setSpawnWorld + "\n" +
-                        ChatColor.YELLOW +  "/VSkyblock set spawnpoint" + "\n" + ChatColor.RESET + " - " + setSpawnPoint + "\n" +
-                        ChatColor.YELLOW +  "/VSkyblock set autoload <true|false>" + "\n" + ChatColor.RESET + " - " + setAutoLoad + "\n" +
-                        ChatColor.YELLOW +  "/VSkyblock teleport <World>" + "\n" + ChatColor.RESET + " - " + teleport + "\n" +
-                        ChatColor.YELLOW +  "/VSkyblock load <World>" + "\n" + ChatColor.RESET + " - " + load + "\n" +
-                        ChatColor.YELLOW +  "/VSkyblock unload <World>" + "\n" + ChatColor.RESET + " - " + unload + "\n" +
-                        ChatColor.YELLOW +  "/VSkyblock delete world <World>" + "\n" + ChatColor.RESET + " - " + deleteWorld + "\n" +
-                        ChatColor.YELLOW +  "/VSkyblock list" + "\n" + ChatColor.RESET + " - " + list + "\n" +
-                        ChatColor.YELLOW +  "/VSkyblock import <world>" + "\n" + ChatColor.RESET + " - " + importWorld;
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock delete player <Player>" + "\n" + ChatColor.RESET + " - " + deletePlayer + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock reset challenges <Player>" + "\n" + ChatColor.RESET + " - " + resetChallenges + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock set nether" + "\n" + ChatColor.RESET + " - " + setNether + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock set spawnworld" + "\n" + ChatColor.RESET + " - " + setSpawnWorld + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock set spawnpoint" + "\n" + ChatColor.RESET + " - " + setSpawnPoint + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock set autoload <true|false>" + "\n" + ChatColor.RESET + " - " + setAutoLoad + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock teleport <World>" + "\n" + ChatColor.RESET + " - " + teleport + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock load <World>" + "\n" + ChatColor.RESET + " - " + load + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock unload <World>" + "\n" + ChatColor.RESET + " - " + unload + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock delete world <World>" + "\n" + ChatColor.RESET + " - " + deleteWorld + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock list" + "\n" + ChatColor.RESET + " - " + list + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock import <world>" + "\n" + ChatColor.RESET + " - " + importWorld;
                 player.sendMessage(message);
             }
         });

@@ -64,6 +64,10 @@ public class PlayerJoinListener implements Listener {
                         }
                     } else {
                         player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
+                        if (result.isKicked()) {
+                            ConfigShorts.messagefromString("KickedFromIslandOffline", player);
+                            databaseWriter.removeKicked(result.getuuid());
+                        }
                     }
 
                 }

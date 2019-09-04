@@ -1,6 +1,7 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +18,23 @@ public class WorldLoader implements Runnable{
             public void run() {
                 List<String> worlds = wm.getAllWorlds();
                 List<String> autoloadedislands = new ArrayList<>();
-                ConfigShorts.loadWorldConfig();
-                for (String world : worlds) {
-                    if (plugin.getConfig().getBoolean("Worlds." + world + ".autoLoad")) {
-                        autoloadedislands.add(world);
+                for (World world : plugin.getServer().getWorlds()) {
+                    if (!wm.getAllWorlds().contains(world.getName())) {
+                        wm.addWorld(world.getName(), String.valueOf(world.getGenerator()), world.getEnvironment().name());
+                        wm.setSpawnLocation(world.getSpawnLocation());
                     }
                 }
-                if (!autoloadedislands.isEmpty()) {
-                    for (String world1 : autoloadedislands) {
-                        wm.loadWorld(world1);
+                ConfigShorts.loadWorldConfig();
+                if (!worlds.isEmpty()) {
+                    for (String world : worlds) {
+                        if (plugin.getConfig().getBoolean("Worlds." + world + ".autoLoad")) {
+                            autoloadedislands.add(world);
+                        }
+                    }
+                    if (!autoloadedislands.isEmpty()) {
+                        for (String world1 : autoloadedislands) {
+                            wm.loadWorld(world1);
+                        }
                     }
                 }
             }

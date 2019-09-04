@@ -89,7 +89,7 @@ public class SQLConnector {
             connection.createStatement().execute(
                     "CREATE TABLE IF NOT EXISTS VSkyblock_Player("
                             + "playername VARCHAR(16) NOT NULL,"
-                            + "uuid CHAR(32) UNIQUE NOT NULL,"
+                            + "uuid CHAR(64) UNIQUE NOT NULL,"
                             + "islandid BIGINT,"
                             + "islandowner BOOLEAN NOT NULL DEFAULT false,"
                             + "owneruuid CHAR(32),"
@@ -100,7 +100,7 @@ public class SQLConnector {
                             + "islandid BIGINT AUTO_INCREMENT NOT NULL,"
                             + "island VARCHAR(100) NOT NULL,"
                             + "islandlevel VARCHAR(100) DEFAULT 0,"
-                            + "difficulty VARCHAR(100) DEFAULT NORMAL,"
+                            + "difficulty VARCHAR(100) NOT NULL DEFAULT 'NORMAL',"
                             + "visit BOOLEAN NOT NULL DEFAULT TRUE,"
                             + "PRIMARY KEY (islandid))");
             connection.createStatement().execute(

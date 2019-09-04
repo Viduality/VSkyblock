@@ -623,7 +623,6 @@ public class DatabaseReader {
 
                     while (resultSet.next()) {
                         visitable = resultSet.getBoolean("visit");
-                        System.out.println(resultSet.getBoolean("visit"));
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();

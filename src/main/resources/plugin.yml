@@ -228,6 +228,7 @@ commands:
 permissions:
   VSkyblock.*:
     description: Gives access to all VSkyblock commands
+    default: false
     children:
       VSkyblock.VSkyblock: true
       VSkyblock.DeletePlayer: true

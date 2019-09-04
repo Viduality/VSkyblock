@@ -42,6 +42,7 @@ public class IslandAccept implements SubCommand {
                                             databaseWriter.resetChallenges(newmemberuuid);
                                             Island.invitemap.asMap().remove(player.getUniqueId());
                                             Island.playerislands.put(player.getUniqueId().toString(), newisland);
+                                            Island.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
                                             wm.unloadWorld(databaseCache.getIslandname());
                                         } else {
                                             ConfigShorts.messagefromString("HasIslandMembers", player);
@@ -56,6 +57,7 @@ public class IslandAccept implements SubCommand {
                                 databaseWriter.resetChallenges(newmemberuuid);
                                 Island.invitemap.asMap().remove(player.getUniqueId());
                                 Island.playerislands.put(player.getUniqueId().toString(), newisland);
+                                Island.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
                                 if (databaseCache.getIslandname() != null) {
                                     if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
                                         wm.unloadWorld(databaseCache.getIslandname());

@@ -26,7 +26,8 @@ DropItem: §cDu kannst hier nichts droppen! Wirf deinen Abfall bei dir weg!
 
 FailedToCreateIsland: §cEs konnte keine Insel generiert werden! Bitte versuch es nochmal oder informiere einen Server-Admin!
 FailedToDeleteWorld: §cKonnte Welt nicht richtig löschen. Da ist wohl etwas schief gelaufen...
-FalseInput: §cFalsche Eingabe! Benutze §b/help VSkyblock §c für weitere Infos.
+FalseInput: §cFalsche Eingabe! Benutze §b/island help §c für weitere Infos.
+FalseInputAdmin: §cFalsche Eingabe! Benutze §b/VSkyblock help §c für weitere Infos.
 
 GenerateCooldown: §cWarte ein paar Minuten bevor du eine neue Insel erstellst! Die Zeit zwischen dem Generieren von zwei Inseln beträgt %replacement% Minuten.
 GenerateNewIsland: §aDeine Insel wird generiert. Warte einen Moment!
@@ -42,6 +43,7 @@ InteractBlocker: §cDu kannst das hier nicht benutzen!
 InviteToIsland: §6Du hast %SecondPlayer% auf deine Insel eingeladen!
 InviteYourself: §cDu kannst dich nicht selbst einladen!
 IslandDoesNotMatchRequirements: §cDeine Insel entspricht den Anforderungen für diese Challenge nicht!
+IslandJoinCooldown: §cDieser Spieler kann in den nächsten %replacement% Minuten keiner Insel beitreten, da er erst vor kurzem einer anderen Insel beigetreten ist.
 IslandLevelNotHighEnough: §cDas Level deiner Insel ist nicht hoch genug! Baue mehr um das Level deiner Insel zu erhöhen!
 IslandSpawnNotSafe: §cInsel-Spawn ist nicht sicher. Teleportation abgebrochen.
 

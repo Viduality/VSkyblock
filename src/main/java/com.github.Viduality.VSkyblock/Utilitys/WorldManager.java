@@ -77,13 +77,17 @@ public class WorldManager {
      */
     public boolean unloadWorld(String world) {
         if (plugin.getServer().getWorlds().contains(plugin.getServer().getWorld(world))) {
-            if (plugin.getServer().getWorld(world).getPlayers() != null) {
-                for (Player player : plugin.getServer().getWorld(world).getPlayers()) {
-                    player.teleport(plugin.getServer().getWorld(plugin.getConfig().getString("SpawnWorld")).getSpawnLocation());
+            if (!plugin.getConfig().getString("SpawnWorld").equals(world)) {
+                if (plugin.getServer().getWorld(world).getPlayers() != null) {
+                    for (Player player : plugin.getServer().getWorld(world).getPlayers()) {
+                        player.teleport(plugin.getServer().getWorld(plugin.getConfig().getString("SpawnWorld")).getSpawnLocation());
+                    }
                 }
+                boolean unloaded = plugin.getServer().unloadWorld(world, true);
+                return unloaded;
+            } else {
+                return false;
             }
-            plugin.getServer().unloadWorld(world, true);
-            return true;
         } else {
             System.out.println(ANSI_RED + "Tried to unload a world VSkyblock does not know about. :(");
             return false;
@@ -273,9 +277,14 @@ public class WorldManager {
      */
     public List<String> getAllWorlds() {
         ConfigShorts.loadWorldConfig();
-        Set<String> allworlds = plugin.getConfig().getConfigurationSection("Worlds").getKeys(false);
-        ConfigShorts.loaddefConfig();
-        return new ArrayList<>(allworlds);
+        if (plugin.getConfig().get("Worlds") != null) {
+            Set<String> allworlds = plugin.getConfig().getConfigurationSection("Worlds").getKeys(false);
+            ConfigShorts.loaddefConfig();
+            return new ArrayList<>(allworlds);
+        } else {
+            ConfigShorts.loaddefConfig();
+            return  new ArrayList<>();
+        }
     }
 
     /**

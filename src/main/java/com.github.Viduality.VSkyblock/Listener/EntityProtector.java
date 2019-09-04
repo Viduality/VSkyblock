@@ -26,17 +26,21 @@ public class EntityProtector implements Listener {
         boolean pvpisland = plugin.getConfig().getBoolean("PvPIslands");
         boolean pvpnether = plugin.getConfig().getBoolean("PvPNether");
         if (player.getType().equals(EntityType.PLAYER) && damagedplayer.getType().equals(EntityType.PLAYER)) {
-            if (player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
-                if (!pvpnether) {
-                    entityDamageByEntityEvent.setCancelled(true);
+            if (Island.playerislands.get(player.getUniqueId().toString()) != null) {
+                if (player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+                    if (!pvpnether) {
+                        entityDamageByEntityEvent.setCancelled(true);
+                    }
+                } else {
+                    if (!Island.playerislands.get(player.getUniqueId().toString()).equals(Island.playerislands.get(damagedplayer.getUniqueId().toString()))) {
+                        entityDamageByEntityEvent.setCancelled(true);
+                    }
+                    if (!pvpisland) {
+                        entityDamageByEntityEvent.setCancelled(true);
+                    }
                 }
             } else {
-                if (!Island.playerislands.get(player.getUniqueId().toString()).equals(Island.playerislands.get(damagedplayer.getUniqueId().toString()))) {
-                    entityDamageByEntityEvent.setCancelled(true);
-                }
-                if (!pvpisland) {
-                    entityDamageByEntityEvent.setCancelled(true);
-                }
+                entityDamageByEntityEvent.setCancelled(true);
             }
         }
     }

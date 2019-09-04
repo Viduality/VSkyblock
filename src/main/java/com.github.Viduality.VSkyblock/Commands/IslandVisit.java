@@ -42,7 +42,6 @@ public class IslandVisit implements SubCommand {
                                                 @Override
                                                 public void onQueryDone(boolean result) {
                                                     if (result) {
-                                                        System.out.println(wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getType());
                                                         if (!wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
                                                             if (wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getType().equals(Material.AIR)) {
                                                                 if (wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getRelative(BlockFace.UP).getType().equals(Material.AIR)) {

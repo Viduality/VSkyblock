@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Island implements CommandExecutor {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private static VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseReader databaseReader = new DatabaseReader();
 
 
@@ -67,6 +67,18 @@ public class Island implements CommandExecutor {
     public static LoadingCache<UUID, UUID> isgencooldown = CacheBuilder.newBuilder()
             .maximumSize(10000)
             .expireAfterWrite(getisgencooldown(), TimeUnit.MINUTES)
+            .build(
+                    new CacheLoader<UUID, UUID>() {
+                        @Override
+                        public UUID load(UUID uuid) throws Exception {
+                            return null;
+                        }
+                    }
+            );
+
+    public static LoadingCache<UUID, UUID> isjoincooldown = CacheBuilder.newBuilder()
+            .maximumSize(10000)
+            .expireAfterWrite(getisjoincooldown(), TimeUnit.MINUTES)
             .build(
                     new CacheLoader<UUID, UUID>() {
                         @Override
@@ -303,11 +315,21 @@ public class Island implements CommandExecutor {
     }
 
     public static int getisgencooldown() {
-        int isgencooldown = 5;
-        if (isInt(VSkyblock.getInstance().getConfig().getString("IslandGenerateCooldown"))) {
-            isgencooldown = VSkyblock.getInstance().getConfig().getInt("IslandGenerateCooldown");
+        ConfigShorts.loaddefConfig();
+        if (isInt(plugin.getConfig().getString("IslandGenerateCooldown"))) {
+            return plugin.getConfig().getInt("IslandGenerateCooldown");
+        } else {
+            return 5;
         }
-        return isgencooldown;
+    }
+
+    public static int getisjoincooldown() {
+        ConfigShorts.loaddefConfig();
+        if (isInt(plugin.getConfig().getString("IslandJoinCooldown"))) {
+            return plugin.getConfig().getInt("IslandJoinCooldown");
+        } else {
+            return 10;
+        }
     }
 
     private static boolean isInt(String s) {

@@ -26,7 +26,8 @@ DropItem: §cYou can't drop things here! Drop your trash at another place!
 
 FailedToCreateIsland: §cFailed to create an island! Please try again or call an server admin!
 FailedToDeleteWorld: §cCould not delete world properly! Something went wrong...
-FalseInput: §cFalse Input! use §b/help VSkyblock §c for details.
+FalseInput: §cFalse Input! use §b/island help §c for details.
+FalseInputAdmin: §cFalse Input! use §b/VSkyblock help §c for details.
 
 GenerateCooldown: §cWait a few minutes before you create another island! Time between command reuse is %replacement% minutes.
 GenerateNewIsland: §aYour island is beeing generated. Wait a second!
@@ -42,6 +43,7 @@ InteractBlocker: §cYou can't use that here!
 InviteToIsland: §6You invited %SecondPlayer% to your island!
 InviteYourself: §cYou can't invite yourself!
 IslandDoesNotMatchRequirements: §cYour island doesn't match the requirements for this challenge!
+IslandJoinCooldown: §cThis player can't join an island for the next %replacement% minutes. Please wait until his cooldown expired.
 IslandLevelNotHighEnough: §cYour island doesn't have the required level! Build more to gain higher levels!
 IslandSpawnNotSafe: §cIsland spawn is not safe! Canceled the teleport.
 

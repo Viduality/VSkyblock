@@ -119,7 +119,7 @@ public class AdminCommands implements CommandExecutor {
                 if (worldSubCommand != null) {
                     worldSubCommand.execute(player, arg, opt1, opt2);
                 } else {
-                    ConfigShorts.messagefromString("FalseInput", player);
+                    ConfigShorts.messagefromString("FalseInputAdmin", player);
                 }
             }
         }

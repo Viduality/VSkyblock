@@ -35,7 +35,8 @@ public class IslandInvite implements SubCommand {
                         public void onQueryDone(List<String> result) {
                             if (result.size() < getislandplayerlimit()) {
                                 if (target.isOnline()) {
-                                    if (target != player) {
+                                    Player onlinetarget = (Player) target;
+                                    if (onlinetarget != player) {
                                         List<String> members = new ArrayList<>();
                                         Connection connection = getDatabase.getConnection();
                                         try {
@@ -51,13 +52,16 @@ public class IslandInvite implements SubCommand {
                                         } finally {
                                             getDatabase.closeConnection(connection);
                                         }
-                                        if (!members.contains(target.getUniqueId().toString())) {
+                                        if (!members.contains(onlinetarget.getUniqueId().toString())) {
+                                            if (!Island.isjoincooldown.asMap().containsKey(onlinetarget.getUniqueId())) {
+                                                ConfigShorts.custommessagefromString("InviteToIsland", player, player.getName(), onlinetarget.getName());
+                                                Island.invitemap.put(onlinetarget.getUniqueId(), player.getUniqueId());
 
-                                            ConfigShorts.custommessagefromString("InviteToIsland", player, player.getName(), target.getName());
-                                            Island.invitemap.put(target.getUniqueId(), player.getUniqueId());
-
-                                            ConfigShorts.custommessagefromString("GetInviteToIsland", (Player) target, player.getName(), target.getName());
-                                            ConfigShorts.messagefromString("HowToAcceptInvite", (Player) target);
+                                                ConfigShorts.custommessagefromString("GetInviteToIsland", onlinetarget, player.getName(), onlinetarget.getName());
+                                                ConfigShorts.messagefromString("HowToAcceptInvite", onlinetarget);
+                                            } else {
+                                                ConfigShorts.custommessagefromString("IslandJoinCooldown", player, String.valueOf(Island.getisjoincooldown()));
+                                            }
                                         } else {
                                             ConfigShorts.messagefromString("AlreadyIslandMember", player);
                                         }
