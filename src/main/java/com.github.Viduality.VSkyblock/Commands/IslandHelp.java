@@ -30,6 +30,7 @@ public class IslandHelp implements SubCommand {
                 String leaveconfirm = plugin.getConfig().getString("IslandLeaveConfirm");
                 String level = plugin.getConfig().getString("IslandLevel");
                 String members = plugin.getConfig().getString("IslandMembers");
+                String options = plugin.getConfig().getString("IslandOptions");
                 String top = plugin.getConfig().getString("IslandTop");
                 String visit = plugin.getConfig().getString("IslandVisit");
                 String challenges = plugin.getConfig().getString("Challenges");

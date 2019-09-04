@@ -33,7 +33,7 @@ public class IslandInvite implements SubCommand {
                     databaseReader.getIslandMembers(databaseCache.getIslandId(), new DatabaseReader.CallbackList() {
                         @Override
                         public void onQueryDone(List<String> result) {
-                            if (result.size() < getislandplayerlimit()) {
+                            if (result.size() <= getislandplayerlimit()) {
                                 if (target.isOnline()) {
                                     Player onlinetarget = (Player) target;
                                     if (onlinetarget != player) {

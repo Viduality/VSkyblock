@@ -1,6 +1,3 @@
-##### DO NOT ADD OR REMOVE ANY CHALLENGES! YOU MAY ONLY CHANGE THE DESCRIPTION, NEEDED AMOUNT AND REWARD-AMOUNT!
-
-### Description up to 4 lines! Note that if the line is too long players cant read it anymore!
 ### Needed and Reward set the amount and the specific item for the challenges. Always make sure you have an amount for
 ### each item or it will fail to load!
 
@@ -307,9 +304,10 @@ Medium:
     - Furnace;1
     - Glass;1
     - Torch;1
-    RewardText: "1 Jukebox, 10 Lapis Lazuli Blöcke"
+    RewardText: "1 Jukebox, 15 Lapis Lazuli Blöcke"
     Reward:
     - Jukebox;1
+    - Lapis_Block;15
 
   Bauarbeiter:
     Slot: 7
@@ -561,7 +559,7 @@ Hard:
     NeededText: "50 Smaragde"
     Needed:
     - Emerald;50
-    RewardText: "2 Diamanten"
+    RewardText: "3 Diamanten"
     Reward:
     - Diamond;3
     RepeatRewardText: "1 Diamanten"

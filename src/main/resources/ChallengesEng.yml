@@ -1,22 +1,25 @@
-##### DO NOT ADD OR REMOVE ANY CHALLENGES! YOU MAY ONLY CHANGE THE DESCRIPTION, NEEDED AMOUNT AND REWARD-AMOUNT!
-
-### Description up to 4 lines! Note that if the line is too long players cant read it anymore!
 ### Needed and Reward set the amount and the specific item for the challenges. Always make sure you have an amount for
 ### each item or it will fail to load!
 
+### Separate amount with ";"!
+
 ItemOverlay:
-  Completed: "Completed %amount% times."
-  Lore: Description
-  Needed: Needed Items
-  Reward: Reward
+  Completed: "%amount% times completed."
+  Lore: "Description"
+  Needed:
+    onPlayer: "Needed items"
+    onIsland: "Needed"
+    islandlevel: "Needed level"
+  Reward: "Reward"
   DescriptionColor: §b
+  NotRepeatable: "Not repeatable!"
 
 
 CompletedChallenges:
   MinEasy: 5
-  MinEasyCompleted: "Complete atleast 5 challenges on easy!"
+  MinEasyCompleted: "Complete at least 5 challenges on easy!"
   MinMedium: 5
-  MinMediumCompleted: "Complete atleast 5 challenges on medium!"
+  MinMediumCompleted: "Complete at least 5 challenges on medium!"
 
 
 Difficulty:
@@ -28,94 +31,592 @@ Easy:
   Cobblestone-Generator:
     Slot: 1
     ShownItem: Cobblestone
-    Description: Build an cobblestone-generator and obtain 64 Cobblestone!
+    Type: onPlayer
+    Description: "Build an cobblestone-generator and farm 64 cobblestone."
+    NeededText: "64 Cobblestone"
     Needed:
     - Cobblestone;64
+    RewardText: "3 Leather"
     Reward:
-    - Leather;5
+    - Leather;3
+    RepeatRewardText: "1 Leather"
     RepeatReward:
     - Leather;1
 
-  Challenge2:
-    Name: Cobblestone-Generator
+  Applecollector:
     Slot: 2
-    ShownItem: Cobblestone
-    Description: §bBuild an cobblestone-generator and obtain 64 Cobblestone!
+    ShownItem: Apple
+    Type: onPlayer
+    Description: "Collect 2 apples."
+    NeededText: "2 apples"
     Needed:
-    - Cobblestone;64
+    - Apple;2
+    RewardText: "One sapling from each type."
     Reward:
-    - Leather;5
+    - Oak_Sapling;1
+    - Spruce_Sapling;1
+    - Birch_Sapling;1
+    - Jungle_Sapling;1
+    - Acacia_Sapling;1
+    - Dark_Oak_Sapling;1
+    RepeatRewardText: "One sapling from each type."
+    RepeatReward:
+    - Oak_Sapling;1
+    - Spruce_Sapling;1
+    - Birch_Sapling;1
+    - Jungle_Sapling;1
+    - Acacia_Sapling;1
+    - Dark_Oak_Sapling;1
 
-  Challenge5:
-      Name: Cobblestone-Generator
-      Slot: 3
-      ShownItem: Cobblestone
-      Description: §bBuild an cobblestone-generator and obtain 64 Cobblestone!
-      Needed:
-      - Cobblestone;64
-      Reward:
-      - Leather;5
+  Weathfarmer:
+    Slot: 3
+    ShownItem: Wheat
+    Type: onPlayer
+    Description: "Build a weath farm and collect 64 weath."
+    NeededText: "64 weath"
+    Needed:
+    - Wheat;64
+    RewardText: "5 dirt"
+    Reward:
+    - Dirt;5
+    RepeatRewardText: "1 dirt"
+    RepeatReward:
+    - Dirt;1
+
+  Cactusfarmer:
+    Slot: 4
+    ShownItem: Cactus
+    Type: onPlayer
+    Description: "Build a cactus farm and collect 64 cactus."
+    NeededText: "64 cactus"
+    Needed:
+    - Cactus;64
+    RewardText: "10 sand"
+    Reward:
+    - Sand;10
+    RepeatRewardText: "5 sand"
+    RepeatReward:
+    - Sand;5
+
+  Sugarfarmer:
+    Slot: 5
+    ShownItem: Sugar_Cane
+    Type: onPlayer
+    Description: "Build a sugar farm and collect 64 sugar."
+    NeededText: "64 sugar"
+    Needed:
+    - Sugar;64
+    RewardText: "5 dirt and 15 clay."
+    Reward:
+    - Dirt;5
+    - Clay;15
+    RepeatRewardText: "2 clay and 2 bamboo"
+    RepeatReward:
+    - Clay;2
+    - Bamboo;1
+
+  Melonfarmer:
+    Slot: 6
+    ShownItem: Melon_Slice
+    Type: onPlayer
+    Description: "Build a melon farm and collect 128 melon slices."
+    NeededText: "128 melon slices"
+    Needed:
+    - Melon_Slice;128
+    RewardText: "5 dirt"
+    Reward:
+    - Dirt;5
+    RepeatRewardText: "2 dirt"
+    RepeatReward:
+    - Dirt;2
+
+  Kürbissfarmer:
+    Slot: 7
+    ShownItem: Pumpkin
+    Type: onPlayer
+    Description: "Build a pumpkin farm and collect 64 pumpkins."
+    NeededText: "64 pumpkins"
+    Needed:
+    - Pumpkin;64
+    RewardText: "5 dirt"
+    Reward:
+    - Dirt;5
+    RepeatRewardText: "2 dirt"
+    RepeatReward:
+    - Dirt;2
+
+  Mushroomcollector:
+    Slot: 8
+    ShownItem: Red_Mushroom
+    Type: onPlayer
+    Description: "Build a mushroom farm and collect 64 red and 64 brown mushrooms."
+    NeededText: "64 red and 64 brown mushrooms."
+    Needed:
+    - Red_Mushroom;64
+    - Brown_Mushroom;64
+    RewardText: "1 mycelium"
+    Reward:
+    - Mycelium;1
+    RepeatRewardText: "1 mycelium"
+    RepeatReward:
+    - Mycelium;1
+
+  Building-Trainee:
+    Slot: 9
+    ShownItem: Iron_Pickaxe
+    Type: islandlevel
+    Description: "Reach level 20 with your island.."
+    NeededText: "Island level 20"
+    Needed: 20
+    RewardText: "1 iron pickace and 5 dirt"
+    Reward:
+    - Iron_Pickaxe;1
+    - Dirt;5
 
 Medium:
-  Cobblestone-Generator:
+  Monsterhunter:
     Slot: 1
-    ShownItem: Cobblestone
-    Description: Build an cobblestone-generator and obtain 64 Cobblestone!
+    ShownItem: Bone
+    Type: onPlayer
+    Description: "Kill monster and collect 64 rotten flesh, 32 bones, 32 strings, 32 arrows, 16 gunpowder and 5 spider eyes."
+    NeededText: "64 rotten flesh, 32 bones, 32 strings, 32 arrows, 16 gunpowder, 5 spider eyes"
     Needed:
-    - Cobblestone;64
+    - Rotten_Flesh;64
+    - Bone;32
+    - String;32
+    - Arrow;32
+    - Gunpowder;16
+    - Spider_Eye;5
+    RewardText: "16 redstone, 1 flint und 5 iron ore"
     Reward:
-    - Leather;5
+    - Redstone;16
+    - Flint;1
+    - Iron_Ore;5
+    RepeatRewardText: "2 redstone, 1 flint und 1 iron ore"
     RepeatReward:
-    - Leather;1
+    - Redstone;2
+    - Flint;1
+    - Iron_Ore;1
 
-  Challenge2:
-    Name: Cobblestone-Generator
+  Farmexpert:
     Slot: 2
-    ShownItem: Cobblestone
-    Description: §bBuild an cobblestone-generator and obtain 64 Cobblestone!
+    ShownItem: Diamond_Hoe
+    Type: onPlayer
+    Description: "Collect 64 weath, sugar, melons, carrots, potatoes, pumpkins and beetroots."
+    NeededText: "64 weath, 64 sugar, 64 melons, 64 carrots, 64 potatoes, 64 pumpkins, 64 beetroots"
     Needed:
-    - Cobblestone;64
+    - Wheat;64
+    - Sugar;64
+    - Melon;64
+    - Carrot;64
+    - Potato;64
+    - Pumpkin;64
+    - Beetroot;64
+    RewardText: "16 redstone, 1 cocoa bean, 4 spawneggs(1*chicken, 1*cow, 1*pig, 1*rabbit)"
     Reward:
-    - Leather;5
+    - Redstone;16
+    - Cocoa_Beans;1
+    - Chicken_Spawn_Egg;1
+    - Cow_Spawn_Egg;1
+    - Pig_Spawn_Egg;1
+    - Rabbit_Spawn_Egg;1
+    RepeatRewardText: "1 cacao bean, 4 spawneggs(1*chicken, 1*cow, 1*pig, 1*rabbit)"
+    RepeatReward:
+    - Cocoa_Beans;1
+    - Chicken_Spawn_Egg;1
+    - Cow_Spawn_Egg;1
+    - Pig_Spawn_Egg;1
+    - Rabbit_Spawn_Egg;1
 
-  Challenge5:
-      Name: Cobblestone-Generator
-      Slot: 3
-      ShownItem: Cobblestone
-      Description: §bBuild an cobblestone-generator and obtain 64 Cobblestone!
-      Needed:
-      - Cobblestone;64
-      Reward:
-      - Leather;5
+  Fisher:
+    Slot: 3
+    ShownItem: Salmon
+    Type: onPlayer
+    Description: "Build a fish farm and catch and cook 10 cods and 10 salmons."
+    NeededText: "10 cooked cod, 10 cooked salmon"
+    Needed:
+    - Cooked_Cod;10
+    - Cooked_Salmon;10
+    RewardText: "16 redstone, 5 ink sac, 5 iron ore, 2 turtle eggs"
+    Reward:
+    - Redstone;16
+    - Ink_Sac;5
+    - Iron_Ore;5
+    - Turtle_Egg;2
+    RepeatRewardText: "2 redstone, 1 iron ore, 1 kelp"
+    RepeatReward:
+    - Redstone;2
+    - Iron_Ore;1
+    - Kelp;1
+
+  Woodworker:
+    Slot: 4
+    ShownItem: Oak_Log
+    Type: onPlayer
+    Description: "Build a Woodfarm and collect 32 oak-, spruce-, birch-, jungle-, acacia-, and dark oak logs."
+    NeededText: "32 oak logs, 32 spruce logs, 32 birch logs, 32 jungle logs, 32 acacia logs, 32 dark oak logs"
+    Needed:
+    - Oak_Log;32
+    - Spruce_Log;32
+    - Birch_Log;32
+    - Jungle_Log;32
+    - Acacia_Log;32
+    - Dark_Oak_Log;32
+    RewardText: "16 redstone, 5 iron ore, 1 wolf spawnegg"
+    Reward:
+    - Redstone;16
+    - Iron_Ore;5
+    - Wolf_Spawn_Egg
+    RepeatRewardText: "2 redstone, 1 iron ore"
+    RepeatReward:
+    - Redstone;2
+    - Iron_Ore;1
+
+  Cookiemonster:
+    Slot: 5
+    ShownItem: Cookie
+    Type: onPlayer
+    Description: "Obtain 128 cookies and a bucket of milk."
+    NeededText: "128 cookies, 1 milk bucket"
+    Needed:
+    - Cookie;128
+    - Milk_Bucket;1
+    RewardText: "16 redstone, 5 iron ore"
+    Reward:
+    - Redstone;16
+    - Iron_Ore;5
+    RepeatRewardText: "2 redstone, 1 iron ore"
+    RepeatReward:
+    - Redstone;2
+    - Iron_Ore;1
+
+  Landlord:
+    Slot: 6
+    ShownItem: White_Bed
+    Type: onIsland
+    Description: "Build a house with at least one white bed, one bookshelf, one workbench, one furnace, one window (glass) and one torch."
+    Radius: 7
+    NeededText: "A house at your island"
+    Needed:
+    - White_Bed;1
+    - Bookshelf;1
+    - Crafting_Table;1
+    - Furnace;1
+    - Glass;1
+    - Torch;1
+    RewardText: "1 jukebox, 15 Lapis Lazuli Blöcke"
+    Reward:
+    - Jukebox;1
+    - Lapis_Block;15
+
+  Architect:
+    Slot: 7
+    ShownItem: Blue_Concrete
+    Type: onPlayer
+    Description: "Collect 5 blocks of every concrete color"
+    NeededText: "5 blocks per concrete color"
+    Needed:
+    - White_Concrete;5
+    - Orange_Concrete;5
+    - Magenta_Concrete;5
+    - Light_Blue_Concrete;5
+    - Yellow_Concrete;5
+    - Lime_Concrete;5
+    - Pink_Concrete;5
+    - Gray_Concrete;5
+    - Light_Gray_Concrete;5
+    - Cyan_Concrete;5
+    - Purple_Concrete;5
+    - Blue_Concrete;5
+    - Brown_Concrete;5
+    - Green_Concrete;5
+    - Red_Concrete;5
+    - Black_Concrete;5
+    RewardText: "3 diamonds, 3 emeralds, 3 gold ingots, 1 horse spawnegg"
+    Reward:
+    - Diamond;3
+    - Emerald;3
+    - Gold_Ingot;3
+    - Horse_Spawn_Egg;1
+    RepeatRewardText: "3 emeralds, 3 gold ingots"
+    RepeatReward:
+    - Emerald;3
+    - Gold_Ingot;3
+
+  Bamboofarmer:
+    Slot: 8
+    ShownItem: Bamboo
+    Type: onPlayer
+    Description: "Farm 5 stacks bamboo"
+    NeededText: "5 stacks bamboo"
+    Needed:
+    - Bamboo;320
+    RewardText: "1 sweet berry"
+    Reward:
+    - Sweet_Berries;1
+    RepeatRewardText: "1 sweet berry"
+    RepeatReward:
+    - Sweet_Berries;1
+
+  Cunstructor:
+    Slot: 9
+    ShownItem: Scaffolding
+    Type: onIsland
+    Description: "Build a big scaffolding with at least 15 scaffolding blocks"
+    Radius: 20
+    NeededText: "15 scaffoldings"
+    Needed:
+    - Scaffolding;15
+    RewardText: "1 bell, 5 iron ingots"
+    Reward:
+    - Bell;1
+    - Iron_Ingot;5
+
+  Turtle-Lover:
+    Slot: 10
+    ShownItem: Scute
+    Type: onPlayer
+    Description: "Obtain one turtle helmet and 2 scute."
+    NeededText: "1 turtle helmet, 2 scute"
+    Needed:
+    - Turtle_Helmet;1
+    - Scute;2
+    RewardText: "1 heart of the sea"
+    Reward:
+    - Heart_Of_The_Sea;1
+    RepeatRewardText: "1 nautilus shell"
+    RepeatReward:
+    - Nautilus_Shell;1
+
+  Builder:
+    Slot: 11
+    ShownItem: Golden_Pickaxe
+    Type: islandlevel
+    Description: "Reach level 100 with your island."
+    NeededText: "Island level 100"
+    Needed: 100
+    RewardText: "10 obsidian"
+    Reward:
+    - Obsidian;10
 
 Hard:
-  Cobblestone-Generator:
+  Netherportal:
     Slot: 1
-    ShownItem: Cobblestone
-    Description: Build an cobblestone-generator and obtain 64 Cobblestone!
+    ShownItem: Obsidian
+    Type: onIsland
+    Description: "Build a netherportal and activate it."
+    Radius: 5
+    NeededText: "Active netherportal at your island"
     Needed:
-    - Cobblestone;64
+    - Nether_Portal;1
+    RewardText: "1 diamond sword"
     Reward:
-    - Leather;5
-    RepeatReward:
-    - Leather;1
+    - Diamond_Sword;1
 
-  Challenge2:
-    Name: Cobblestone-Generator
+  Pearlcollector:
     Slot: 2
-    ShownItem: Cobblestone
-    Description: §bBuild an cobblestone-generator and obtain 64 Cobblestone!
+    ShownItem: Ender_Pearl
+    Type: onPlayer
+    Description: "Collect 15 ender pearls."
+    NeededText: "15 ender pearls"
     Needed:
-    - Cobblestone;64
+    - Ender_Pearl;15
+    RewardText: "5 gold ingots, 1 blaze rod."
     Reward:
-    - Leather;5
+    - Gold_Ingot;5
+    - Blaze_Rod;1
+    RepeatRewardText: "1 gold ingot, 1 blaze rod."
+    RepeatReward:
+    - Gold_Ingot;1
+    - Blaze_Rod;1
 
-  Challenge5:
-      Name: Cobblestone-Generator
-      Slot: 3
-      ShownItem: Cobblestone
-      Description: §bBuild an cobblestone-generator and obtain 64 Cobblestone!
-      Needed:
-      - Cobblestone;64
-      Reward:
-      - Leather;5
+  Toady:
+    Slot: 3
+    ShownItem: Slime_Ball
+    Type: onPlayer
+    Description: "Collect 40 slime balls."
+    NeededText: "40 slime balls"
+    Needed:
+    - Slime_Ball;40
+    RewardText: "5 gold ingots, 5 emeralds"
+    Reward:
+    - Gold_Ingot;5
+    - Emerald;5
+    RepeatRewardText: "8 redstone"
+    RepeatReward:
+    - Redstone;8
+
+  Baker:
+    Slot: 4
+    ShownItem: Cake
+    Type: onPlayer
+    Description: "bake 5 cakes and 4 pumpkin pies."
+    NeededText: "5 cakes, 5 pumpkin pies"
+    Needed:
+    - Cake;5
+    - Pumpkin_Pie;5
+    RewardText: "5 gold ingots, 1 diamond"
+    Reward:
+    - Gold_Ingot;5
+    - Diamond;1
+    RepeatRewardText: "1 iron ingot"
+    RepeatReward:
+    - Iron_Ore;1
+
+  Explorer:
+    Slot: 5
+    ShownItem: Compass
+    Type: onPlayer
+    Description: "Get one map, one compass, one clock. Collect 64 netherrack, 16 soul sand and one ghast tear."
+    NeededText: "1 empty map, 1 compass, 1 clock, 64 netherrack, 16 soul sand, 1 ghast tear"
+    Needed:
+    - Map;1
+    - Compass;1
+    - Clock;1
+    - Netherrack;64
+    - Soul_Sand;16
+    - Ghast_Tear;1
+    RewardText: "256 rails, 32 powered rails, 1 ocelot spawn egg, 1 diamond."
+    Reward:
+    - Rail;256
+    - Powered_Rail;32
+    - Ocelot_Spawn_Egg;1
+    - Diamond;1
+    RepeatRewardText: "5 iron ore, 1 ocelot spawn egg"
+    RepeatReward:
+    - Iron_Ore;5
+    - Ocelot_Spawn_Egg;1
+
+  Masterbuilder:
+    Slot: 6
+    ShownItem: Diamond_Pickaxe
+    Type: islandlevel
+    Description: "Reach level 250 with your island."
+    NeededText: "Island level 250"
+    Needed: 250
+    RewardText: "3 diamonds, 20 dirt, 20 sand"
+    Reward:
+    - Diamond;3
+    - Dirt;20
+    - Sand;20
+
+  Shepherd:
+    Slot: 7
+    ShownItem: White_Wool
+    Type: onPlayer
+    Description: "Collect 5 blocks of each wool color."
+    NeededText: "5 blocks of each wool color"
+    Needed:
+    - White_Wool;5
+    - Orange_Wool;5
+    - Magenta_Wool;5
+    - Light_Blue_Wool;5
+    - Yellow_Wool;5
+    - Lime_Wool;5
+    - Pink_Wool;5
+    - Gray_Wool;5
+    - Light_Gray_Wool;5
+    - Cyan_Wool;5
+    - Purple_Wool;5
+    - Blue_Wool;5
+    - Brown_Wool;5
+    - Green_Wool;5
+    - Red_Wool;5
+    - Black_Wool;5
+    RewardText: "2 diamonds, 5 emeralds, 3 music discs und 1 sheep spawnegg"
+    Reward:
+    - Diamond;2
+    - Emerald;5
+    - Music_Disc_13;1
+    - Music_Disc_Cat;1
+    - Music_Disc_Blocks;1
+    - Sheep_Spawn_Egg;1
+    RepeatRewardText: "1 emerald, 1 sheep spawnegg"
+    RepeatReward:
+    - Emerald;1
+    - Sheep_Spawn_Egg;1
+
+  DJ:
+    Slot: 8
+    ShownItem: Music_Disc_Strad
+    Type: onPlayer
+    Description: "Craft one jukebox"
+    NeededText: "1 jukebox"
+    Needed:
+    - Jukebox;1
+    RewardText: "3 diamonds, 10 emeralds"
+    Reward:
+    - Diamond;3
+    - Emerald;10
+    RepeatRewardText: "5 gold ingots"
+    RepeatReward:
+    - Gold_Ingot;5
+
+  Villager:
+    Slot: 9
+    ShownItem: Emerald
+    Type: onPlayer
+    Description: "Collect 50 emeralds"
+    NeededText: "50 emeralds"
+    Needed:
+    - Emerald;50
+    RewardText: "2 diamonds"
+    Reward:
+    - Diamond;3
+    RepeatRewardText: "1 diamond"
+    RepeatReward:
+    - Diamond;1
+
+  Head Chef:
+    Slot: 10
+    ShownItem: Golden_Apple
+    Type: onPlayer
+    Description: "Collect one piece of every cooked or crafted food (Excludes Super-Goldapple)"
+    NeededText: "1 piece of every cooked or crafted food"
+    Needed:
+    - Mushroom_Stew;1
+    - Bread;1
+    - Cooked_Porkchop;1
+    - Golden_Apple;1
+    - Cooked_Cod;1
+    - Cooked_Salmon;1
+    - Cake;1
+    - Cookie;1
+    - Cooked_Beef;1
+    - Cooked_Chicken;1
+    - Baked_Potato;1
+    - Pumpkin_Pie;1
+    - Cooked_Rabbit;1
+    - Rabbit_Stew;1
+    - Cooked_Mutton;1
+    - Beetroot_Soup;1
+    RewardText: "2 diamonds, 3 music discs, 1 mooshroom spawnegg, 1 emerald"
+    Reward:
+    - Diamond;2
+    - Music_Disc_Chirp;1
+    - Music_Disc_Far;1
+    - Music_Disc_Mall;1
+    - Mooshroom_Spawn_Egg;1
+    - Emerald;1
+    RepeatRewardText: "1 gold ingot, 1 mooshroom spawnegg, 1 emerald"
+    RepeatReward:
+    - Gold_Ingot;1
+    - Mooshroom_Spawn_Egg;1
+    - Emerald;1
+
+  Poseidon:
+    Slot: 11
+    ShownItem: Trident
+    Type: onPlayer
+    Description: "Obtain an trident"
+    NeededText: "1 trident"
+    Needed:
+    - Trident;1
+    RewardText: "2 diamond blocks, 5 iron blocks"
+    Reward:
+    - Diamond_Block;2
+    - Iron_Block;5
+    RepeatRewardText: "5 diamonds, 2 iron blocks"
+    RepeatReward:
+    - Diamond;5
+    - Iron_Block;2

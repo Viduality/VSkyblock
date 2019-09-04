@@ -63,15 +63,16 @@ public class DatabaseWriter {
      * @param island (islandname)
      * @param uuid
      */
-    public void addIsland(String island, String uuid) {
+    public void addIsland(String island, String uuid, String difficutly) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
                 Connection connection = getDatabase.getConnection();
                 try {
                     PreparedStatement preparedStatement;
-                    preparedStatement = connection.prepareStatement("INSERT INTO VSkyblock_Island(island) VALUES(?)");
+                    preparedStatement = connection.prepareStatement("INSERT INTO VSkyblock_Island(island, difficulty) VALUES(?, ?)");
                     preparedStatement.setString(1, island);
+                    preparedStatement.setString(2, difficutly);
                     preparedStatement.executeUpdate();
                     preparedStatement.close();
                 } catch (SQLException e) {

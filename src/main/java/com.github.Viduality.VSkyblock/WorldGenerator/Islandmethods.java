@@ -70,15 +70,24 @@ public class Islandmethods {
                      * Difficulty
                      */
 
-                    if (difficulty.equalsIgnoreCase("EASY")) {
-                        plugin.getServer().getWorld(result).setDifficulty(Difficulty.EASY);
-                    } else if (difficulty.equalsIgnoreCase("HARD")) {
-                        plugin.getServer().getWorld(result).setDifficulty(Difficulty.HARD);
-                    } else if (difficulty.equalsIgnoreCase("PEACEFUL")) {
-                        plugin.getServer().getWorld(result).setDifficulty(Difficulty.PEACEFUL);
+                    String finaldifficutly = difficulty;
+
+                    if (difficulty != null) {
+                        if (difficulty.equalsIgnoreCase("EASY")) {
+                            plugin.getServer().getWorld(result).setDifficulty(Difficulty.EASY);
+                        } else if (difficulty.equalsIgnoreCase("HARD")) {
+                            plugin.getServer().getWorld(result).setDifficulty(Difficulty.HARD);
+                        } else if (difficulty.equalsIgnoreCase("PEACEFUL")) {
+                            plugin.getServer().getWorld(result).setDifficulty(Difficulty.PEACEFUL);
+                        } else {
+                            plugin.getServer().getWorld(result).setDifficulty(Difficulty.NORMAL);
+                            finaldifficutly = "NORMAL";
+                        }
                     } else {
                         plugin.getServer().getWorld(result).setDifficulty(Difficulty.NORMAL);
+                        finaldifficutly = "NORMAL";
                     }
+
 
 
                     Island.restartmap.asMap().remove(player.getUniqueId());
@@ -87,7 +96,7 @@ public class Islandmethods {
                     if (oldIsland != null) {
                         wm.unloadWorld(oldIsland);
                     }
-                    databaseWriter.addIsland(result, uuid);
+                    databaseWriter.addIsland(result, uuid, finaldifficutly.toUpperCase());
                 } else {
                     ConfigShorts.messagefromString("FailedToCreateIsland", player);
                 }
