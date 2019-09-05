@@ -2,8 +2,8 @@ package com.github.Viduality.VSkyblock.Utilitys;
 
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 import org.bukkit.entity.Player;
+import org.bukkit.util.FileUtil;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -32,12 +32,7 @@ public class WorldManager {
 
                 File source = new File(plugin.getServer().getWorldContainer().getAbsolutePath() + "/VSkyblockMasterIsland");
 
-                try {
-
-                    FileUtils.copyDirectory(source, dir);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                FileUtil.copy(source, dir);
 
                 File files[] = dir.listFiles();
                 for (File file : files) {
