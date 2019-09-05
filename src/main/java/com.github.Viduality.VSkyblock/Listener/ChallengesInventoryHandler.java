@@ -4,16 +4,13 @@ import com.github.Viduality.VSkyblock.ChallengesHandler;
 import com.github.Viduality.VSkyblock.Commands.Challenges.CreateChallengesInventory;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 
-import java.io.IOException;
 
 public class ChallengesInventoryHandler implements Listener {
 

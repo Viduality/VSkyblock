@@ -4,7 +4,6 @@ import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 import org.bukkit.entity.Player;
-import org.omg.CORBA.Environment;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -34,6 +33,7 @@ public class WorldManager {
                 File source = new File(plugin.getServer().getWorldContainer().getAbsolutePath() + "/VSkyblockMasterIsland");
 
                 try {
+
                     FileUtils.copyDirectory(source, dir);
                 } catch (IOException e) {
                     e.printStackTrace();

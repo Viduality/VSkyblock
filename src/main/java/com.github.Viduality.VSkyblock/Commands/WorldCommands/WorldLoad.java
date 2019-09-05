@@ -2,12 +2,10 @@ package com.github.Viduality.VSkyblock.Commands.WorldCommands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
-import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.entity.Player;
 
 public class WorldLoad implements AdminSubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
     private WorldManager wm = new WorldManager();
 
     @Override

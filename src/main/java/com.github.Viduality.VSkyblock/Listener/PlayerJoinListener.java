@@ -1,7 +1,6 @@
 package com.github.Viduality.VSkyblock.Listener;
 
 import com.github.Viduality.VSkyblock.Commands.Island;
-import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
@@ -21,7 +20,6 @@ public class PlayerJoinListener implements Listener {
     private VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseReader databaseReader = new DatabaseReader();
     private DatabaseWriter databaseWriter = new DatabaseWriter();
-    private SQLConnector getDatabase = new SQLConnector();
     private WorldManager wm = new WorldManager();
 
 

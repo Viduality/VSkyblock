@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 
 public class WorldUnload implements AdminSubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
     private WorldManager wm = new WorldManager();
 
     @Override

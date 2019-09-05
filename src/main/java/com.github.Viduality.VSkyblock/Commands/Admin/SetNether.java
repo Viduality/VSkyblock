@@ -4,13 +4,8 @@ import com.github.Viduality.VSkyblock.Commands.WorldCommands.AdminSubCommand;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigChanger;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import sun.security.krb5.Config;
 
 public class SetNether implements AdminSubCommand {
 

@@ -4,7 +4,6 @@ import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ConfigShorts {

@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 
 public class AdminCommands implements CommandExecutor {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-
     private VSkyblock adminCommands;
     public AdminCommands(VSkyblock adminCommands) {
         this.adminCommands = adminCommands;

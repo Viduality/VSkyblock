@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 public class IslandRestartConfirm implements SubCommand{
 
-    private VSkyblock plugin = VSkyblock.getInstance();
     private Islandmethods islandmethods = new Islandmethods();
     private DatabaseWriter databaseWriter = new DatabaseWriter();
 

@@ -1,6 +1,6 @@
 name: VSkyblock
 main: com.github.Viduality.VSkyblock.VSkyblock
-version: 1.1-SNAPSHOT
+version: 1.2-SNAPSHOT
 author: Viduality
 api-version: 1.14
 load: POSTWORLD

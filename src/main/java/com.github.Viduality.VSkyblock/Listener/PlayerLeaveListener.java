@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerLeaveListener implements Listener {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
     private WorldManager wm = new WorldManager();
 
 
