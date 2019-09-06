@@ -58,8 +58,8 @@ public class WorldList implements AdminSubCommand {
         StringBuilder str = new StringBuilder();
         ConfigShorts.loadWorldConfig();
         for (int i = 0; i < 6; i++) {
-            if (worlds.size() > (site*7)-7+i) {
-                String currentWorld = worlds.get((site*7)-7+i);
+            if (worlds.size() > (site*6)-6+i) {
+                String currentWorld = worlds.get((site*6)-6+i);
                 str.append(prefix);
                 str.append("§f");
                 str.append(currentWorld);

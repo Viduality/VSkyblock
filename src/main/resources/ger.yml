@@ -102,7 +102,11 @@ VisitYourself: §cDu kannst dich nicht selbst besuchen!
 
 WorldAlreadyExisting: §cWelt existiert bereits! Du kannst sie mit §6/VSkyblock load <Welt> §claden!
 WorldAlreadyLoaded: §cWelt ist bereits geladen!
+WorldCreate: §bWelt wird generiert...
+WorldCreated: §bWelt erfolgreich generiert!
+WorldCreationFailed: §cWelt konnte nicht generiert werden!
 WorldDeleted: §bWelt erfolgreich gelöscht!
+WorldEnvironmentNotFound: §cEnvironment §6%replacement% §cfür die Welt wurde nicht gefunden!
 WorldFailedToLoad: §cWelt §6%replacement% §ckonnte nicht geladen werden!
 WorldFailedToUnload: §cWelt §6%replacement% §ckonnte nicht entladen werden!
 WorldIsNoWorld: §bDie angegebenen "Welt" ist keine Welt!

@@ -201,6 +201,13 @@ commands:
     permission: VSkyblock.DeleteWorld
     permission-message: You don't have permission!
 
+  VSkyblock create world:
+    description: Creates an new world
+    usage: /VSkyblock create world <world> <generator> <Environment>
+    aliases: [vsky create world]
+    permission: VSkyblock.CreateWorld
+    permission-message: You don't have permission!
+
   VSkyblock list:
     description: Shows a list of VSkyblock worlds.
     usage: /VSkyblock list <site>
@@ -241,6 +248,7 @@ permissions:
       VSkyblock.LoadWorld: true
       VSkyblock.UnloadWorld: true
       VSkyblock.DeleteWorld: true
+      VSkyblock.CreateWorld: true
       VSkyblock.List: true
       VSkyblock.Import: true
       VSkyblock.IgnoreProtected: true
@@ -275,6 +283,7 @@ permissions:
       VSkyblock.LoadWorld: true
       VSkyblock.UnloadWorld: true
       VSkyblock.DeleteWorld: true
+      VSkyblock.CreateWorld: true
       VSkyblock.List: true
       VSkyblock.Import: true
 
@@ -307,6 +316,9 @@ permissions:
     default: op
   VSkyblock.DeleteWorld:
     description: Allows the player to delete a world.
+    default: op
+  VSkyblock.CreateWorld:
+    description: Allows the player to create a world.
     default: op
   VSkyblock.List:
     description: Allows to show a list of all worlds.

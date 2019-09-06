@@ -27,6 +27,7 @@ public class AdminCommandsHelp implements AdminSubCommand {
                 String load = plugin.getConfig().getString("VSkyblockLoad");
                 String unload = plugin.getConfig().getString("VSkyblockUnload");
                 String deleteWorld = plugin.getConfig().getString("VSkyblockDeleteWorld");
+                String createWorld = plugin.getConfig().getString("VSkyblockCreateWorld");
                 String list = plugin.getConfig().getString("VSkyblockList");
                 String importWorld = plugin.getConfig().getString("VSkyblockImport");
                 ConfigShorts.loaddefConfig();
@@ -41,6 +42,7 @@ public class AdminCommandsHelp implements AdminSubCommand {
                         ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock load <World>" + "\n" + ChatColor.RESET + " - " + load + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock unload <World>" + "\n" + ChatColor.RESET + " - " + unload + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock delete world <World>" + "\n" + ChatColor.RESET + " - " + deleteWorld + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock create world <World> <Generator> <Environment>" + "\n" + ChatColor.RESET + " - " + createWorld + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock list" + "\n" + ChatColor.RESET + " - " + list + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock import <world>" + "\n" + ChatColor.RESET + " - " + importWorld;
                 player.sendMessage(message);

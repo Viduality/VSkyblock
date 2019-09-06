@@ -21,9 +21,7 @@ public class NetherPortalListener implements Listener {
     public void onNetherPortalUse(PlayerPortalEvent playerPortalEvent) {
         Player player = playerPortalEvent.getPlayer();
         playerPortalEvent.setCancelled(true);
-        System.out.println("YES");
         if (playerPortalEvent.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL)) {
-            System.out.println("PORTAL");
             databaseReader.getPlayerData(player.getUniqueId().toString(), new DatabaseReader.Callback() {
                 @Override
                 public void onQueryDone(DatabaseCache result) {

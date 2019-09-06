@@ -101,6 +101,10 @@ public class AdminCommands implements CommandExecutor {
                         worldSubCommand = new WorldAutoLoad();
                     }
 
+                    if (args[0].equalsIgnoreCase("create") && args[1].equalsIgnoreCase("world")) {
+                        worldSubCommand = new WorldCreate();
+                    }
+
                 }
 
                 if (args.length == 4) {
@@ -111,6 +115,17 @@ public class AdminCommands implements CommandExecutor {
 
                     if (args[0].equalsIgnoreCase("import")) {
                         worldSubCommand = new WorldImport();
+                    }
+                }
+
+                if (args.length == 5) {
+
+                    arg = args[2];
+                    opt1 = args[3];
+                    opt2 = args[4];
+
+                    if (args[0].equalsIgnoreCase("create") && args[1].equalsIgnoreCase("world")) {
+                        worldSubCommand = new WorldCreate();
                     }
 
                 }
