@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.entity.Entity;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -46,6 +47,22 @@ public class EntityProtector implements Listener {
     }
 
 
+    @EventHandler
+    public void islandVisitProtection(EntityDamageEvent entityDamageEvent) {
+        Entity entity = entityDamageEvent.getEntity();
+        if (entity instanceof Player) {
+            Player player = (Player) entity;
+            if (Island.playerislands.get(player.getUniqueId().toString()) != null) {
+                if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(player.getUniqueId().toString()).equals(player.getWorld().getName())) {
+                    if (entity.getLocation().getBlockY() > 0) {
+                        entityDamageEvent.setCancelled(true);
+                    }
+                }
+            }
+        }
+    }
+
+
 
     @EventHandler
     public void entityprotector(EntityDamageByEntityEvent entityDamageByEntityEvent) {
@@ -54,7 +71,7 @@ public class EntityProtector implements Listener {
         if (entity instanceof Player) {
             String uuid = entity.getUniqueId().toString();
             if (!entity.getWorld().getName().equals(Island.playerislands.get(uuid))) {
-                if (!hostilemobs.contains(damagedentity.getType()) && damagedentity.getType().equals(EntityType.PLAYER)) {
+                if (!hostilemobs.contains(damagedentity.getType()) && entity.getType().equals(EntityType.PLAYER)) {
                     entityDamageByEntityEvent.setCancelled(true);
                 }
             }

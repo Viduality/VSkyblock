@@ -108,6 +108,7 @@ public class WorldManager {
                 wc.type(WorldType.FLAT);
                 wc.generateStructures(false);
                 World loadedworld = wc.createWorld();
+                loadedworld.setDifficulty(getDifficulty(loadedworld.getName()));
                 plugin.getServer().getWorlds().add(loadedworld);
                 return true;
             } else {
@@ -568,5 +569,31 @@ public class WorldManager {
         }
         ConfigShorts.loaddefConfig();
         return autoLoad;
+    }
+
+    /**
+     * Gets the difficulty for the world
+     *
+     * @param world
+     * @return String
+     */
+    public Difficulty getDifficulty(String world) {
+        ConfigShorts.loadWorldConfig();
+        if (plugin.getConfig().get("Worlds") != null) {
+            String difficultyConfig = plugin.getConfig().getString("Worlds." + world + ".difficulty");
+            if (difficultyConfig != null) {
+                switch (difficultyConfig.toUpperCase()) {
+                    case "EASY":
+                        return Difficulty.EASY;
+                    case "HARD":
+                        return Difficulty.HARD;
+                    case "PEACEFUL":
+                        return Difficulty.PEACEFUL;
+                    default:
+                        return Difficulty.NORMAL;
+                }
+            }
+        }
+        return Difficulty.NORMAL;
     }
 }

@@ -15,6 +15,7 @@ public class DatabaseWriter {
     private SQLConnector getDatabase = new SQLConnector();
     private VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseReader databaseReader = new DatabaseReader();
+    private WorldManager wm = new WorldManager();
 
     /**
      * Adds a player to the database. (database action)
@@ -368,6 +369,7 @@ public class DatabaseWriter {
                 Connection connection = getDatabase.getConnection();
                 try {
                     int islandid = 0;
+                    String islandname = null;
                     PreparedStatement preparedStatementREAD;
                     preparedStatementREAD = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
                     preparedStatementREAD.setString(1, player.getUniqueId().toString());
@@ -385,6 +387,17 @@ public class DatabaseWriter {
                     preparedStatement.setInt(3, islandid);
                     preparedStatement.executeUpdate();
                     preparedStatement.close();
+
+                    PreparedStatement preparedStatementGetIslandName;
+                    preparedStatementGetIslandName = connection.prepareStatement("SELECT island FROM VSkyblock_Island WHERE islandid = ?");
+                    preparedStatementGetIslandName.setInt(1, islandid);
+                    ResultSet resultSet1 = preparedStatementGetIslandName.executeQuery();
+                    while (resultSet1.next()) {
+                        islandname = resultSet1.getString("island");
+                    }
+                    preparedStatementGetIslandName.close();
+
+                    wm.setOption(islandname, "difficulty", difficulty);
 
                     Bukkit.getScheduler().runTask(plugin, new Runnable() {
                         @Override

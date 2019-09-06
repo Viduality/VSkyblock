@@ -547,7 +547,7 @@ public class DatabaseReader {
                 Connection connection = getDatabase.getConnection();
                 try {
                     PreparedStatement preparedStatement;
-                    preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island ORDER BY islandlevel desc limit 5");
+                    preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island ORDER BY CAST(islandlevel as unsigned) desc limit 5");
                     ResultSet resultSet = preparedStatement.executeQuery();
                     while (resultSet.next()) {
                         islandids.add(resultSet.getInt("islandid"));

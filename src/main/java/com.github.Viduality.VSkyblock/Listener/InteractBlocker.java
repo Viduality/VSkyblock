@@ -5,6 +5,7 @@ import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class InteractBlocker implements Listener {
@@ -22,6 +23,9 @@ public class InteractBlocker implements Listener {
                         playerInteractEvent.setCancelled(true);
                         ConfigShorts.messagefromString("InteractBlocker", player);
                     }
+                }
+                if (playerInteractEvent.getAction() == Action.PHYSICAL) {
+                    playerInteractEvent.setCancelled(true);
                 }
             }
         }

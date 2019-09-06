@@ -110,7 +110,7 @@ Easy:
     Reward:
     - Dirt;5
     - Clay;15
-    RepeatRewardText: "2 Lehmblöcke"
+    RepeatRewardText: "2 Lehmblöcke, 1 Bambus"
     RepeatReward:
     - Clay;2
     - Bamboo;1

@@ -8,3 +8,4 @@
     autoLoad: false
     generator: default
     environment: NORMAL
+    difficulty: NORMAL
