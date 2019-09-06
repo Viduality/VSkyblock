@@ -1,9 +1,9 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.util.FileUtil;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -26,13 +26,18 @@ public class WorldManager {
 
         //Check if the world doesn't already exists
         if (!getAllWorlds().contains(island)) {
-            File dir = new File(plugin.getServer().getWorldContainer().getAbsolutePath() + "/" + island);
+            File dir = new File(plugin.getServer().getWorldContainer().getAbsolutePath(), island);
             if (!dir.exists()) {
                 dir.mkdirs();
 
-                File source = new File(plugin.getServer().getWorldContainer().getAbsolutePath() + "/VSkyblockMasterIsland");
+                File source = new File(plugin.getServer().getWorldContainer().getAbsolutePath(), "VSkyblockMasterIsland");
 
-                FileUtil.copy(source, dir);
+                try {
+                    FileUtils.copyDirectory(source, dir);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
 
                 File files[] = dir.listFiles();
                 for (File file : files) {
@@ -106,15 +111,12 @@ public class WorldManager {
                 plugin.getServer().getWorlds().add(loadedworld);
                 return true;
             } else {
-                if (getLoadedWorlds().contains(world)) {
-                    return true;
-                }
+                return getLoadedWorlds().contains(world);
             }
         } else {
             System.out.println(ANSI_RED + "VSkyblock does not know about this world!");
             return false;
         }
-        return false;
     }
 
     /**
