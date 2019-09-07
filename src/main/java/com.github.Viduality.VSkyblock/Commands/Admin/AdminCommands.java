@@ -125,6 +125,10 @@ public class AdminCommands implements CommandExecutor {
                     if (args[0].equalsIgnoreCase("import")) {
                         worldSubCommand = new WorldImport();
                     }
+
+                    if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("worldconfig")) {
+                        worldSubCommand = new WorldSetConfig();
+                    }
                 }
 
                 if (args.length == 5) {

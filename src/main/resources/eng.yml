@@ -14,6 +14,8 @@ CannotVisitIsland: §cYou can't visit this island because the owner doesn't want
 CantKickYourself: §cYou can't kick yourself!
 ChallengeComplete: §6%Player% §acompleted §6%Challenge%§a!
 ChallengeNotRepeatable: §cThis challenge can be completed only once!
+ChangeEnvironmentMidGame: §cYou should not change the environment mid-game! Abort command.
+ChangeGeneratorMidGame: §cYou should not change the generator mid-game! Abort command.
 CheckingIslandForChallenge: §6Checking your island for the requirements of this challenge. Wait a second!
 CleaningUpOldIslands: §cCleaning up Worlds, could lag for a short time!
 CleaningUpOldIslandsDone: §2Cleaning up Worlds done!
@@ -66,14 +68,16 @@ NoIsland: §cYou don't have a island! Create one with §b/island§c!
 NoLoadedWorldFound: §cCould not find any loaded world named §6%replacement%§c.
 NoPendingInvite: §cThere is no pending island invite for you!
 NoWorldFound: §cCould not find any world named §6%replacement% §cin the config!
-NotAtPlayersIsland: §cYou have to be on your Island to perform this command!
 NotAPlayer: §cYou have to be a Player to use this command!
+NotAtPlayersIsland: §cYou have to be on your Island to perform this command!
+NotAValidOption: §cCheck your input. This is not a valid option!
 NotEnoughInventorySpace: §cThere are not enough free inventory slots to claim your reward!
 NotEnoughItems: §cYou don't have enough items for this challenge!
 NotIslandOwner: §cYou have to be the Owner of your Island to perform this command!
 
 OnlyMember: §aYou are alone on this island.
 OnlyTrueOrFalse: §cPlease use "true" or "false" for this option!
+OptionChanged: §aSuccessfully changed world option. It is now active.
 
 PermissionLack: §cYou don't have permission to perform this command!
 PlayerDoesNotExist: §cPlayer does not exist!
@@ -96,6 +100,7 @@ Site: §8Site %replacement%/%replacement2%
 TeleportedToWorld: §bTeleported to world §6%replacement% §b.
 
 UpdatedIslandOptions: §bUpdated island options! They are live now!
+UseCommandSetSpawnPoint: §cUse command §b/vsky set spawnpoint §cto change this "option"!
 UseInNetherWorld: §cYou can only use this command in a NETHER world!
 
 VisitYourself: §cYou can't visit yourself!
@@ -106,6 +111,7 @@ WorldCreate: §bWorld is generating...
 WorldCreated: §bWorld successfully created!
 WorldCreationFailed: §cWorld could not generate!
 WorldDeleted: §bDeleted world successfully!
+WorldDifficultyNotFound: §cDifficulty §6%replacement% §cis not a valid difficulty!
 WorldEnvironmentNotFound: §cEnvironment §6%replacement% §cnot found!
 WorldFailedToLoad: §cFailed to load world §6%replacement%§c!
 WorldFailedToUnload: §cFailed to unload world §6%replacement%§c!

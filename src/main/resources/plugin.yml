@@ -223,10 +223,17 @@ commands:
     permission-message: You don't have permission!
 
   VSkyblock info:
-    descriptions: Returns all informations about a VSkyblock world.
+    description: Returns all informations about a VSkyblock world.
     usage: /VSkyblock info (<world>)
     aliases: [vsky info]
     permission: VSkyblock.Info
+    permission-message: You don't have permission!
+
+  VSkyblock set worldconfig:
+    description: Changes the world config and applies the option to the game.
+    usage: /VSkyblock set config <option> <value>
+    aliases: [vsky set config]
+    permission: VSkyblock.SetWorldConfig
     permission-message: You don't have permission!
 
   Challenges:
@@ -259,6 +266,7 @@ permissions:
       VSkyblock.List: true
       VSkyblock.Import: true
       VSkyblock.Info: true
+      Skyblock.SetWorldConfig: true
       VSkyblock.IgnoreProtected: true
       VSkyblock.IgnoreKick: true
       VSkyblock.Island: true
@@ -295,6 +303,7 @@ permissions:
       VSkyblock.List: true
       VSkyblock.Import: true
       VSkyblock.Info: true
+      VSkyblock.SetWorldConfig: true
 
   VSkyblock.DeletePlayer:
     description: Allows the player to delete a player from the database.
@@ -337,6 +346,9 @@ permissions:
     default: op
   VSkyblock.Info:
     description: Allows to see all informations about a VSkyblock world.
+    default: op
+  VSkyblock.SetWorldConfig:
+    description: Allows to change the world config.
     default: op
   VSkyblock.IgnoreProtected:
     description: Allows the player to bypass all protections at other islands.
