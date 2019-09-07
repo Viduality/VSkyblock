@@ -41,6 +41,11 @@ public class AdminCommands implements CommandExecutor {
                     if (args[0].equalsIgnoreCase("list")) {
                         worldSubCommand = new WorldList();
                     }
+
+                    if (args[0].equalsIgnoreCase("info")) {
+                        arg = player.getWorld().getName();
+                        worldSubCommand = new WorldInfo();
+                    }
                 }
 
                 if (args.length == 2) {
@@ -77,6 +82,10 @@ public class AdminCommands implements CommandExecutor {
 
                     if (args[0].equalsIgnoreCase("import")) {
                         worldSubCommand = new WorldImport();
+                    }
+
+                    if (args[0].equalsIgnoreCase("info")) {
+                        worldSubCommand = new WorldInfo();
                     }
 
                 }

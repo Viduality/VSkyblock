@@ -15,7 +15,7 @@ public class WorldManager {
 
     private VSkyblock plugin = VSkyblock.getInstance();
 
-    public static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_RED = "\u001B[31m";
 
 
     /**
@@ -54,6 +54,8 @@ public class WorldManager {
                 World newIsland = wc.createWorld();
                 plugin.getServer().getWorlds().add(newIsland);
                 plugin.getServer().getWorld(island).setSpawnLocation(0, 67, 0);
+                newIsland.setDifficulty(getDifficulty(newIsland.getName()));
+                newIsland.setKeepSpawnInMemory(false);
                 if (addWorld(island, "VSkyblock", "NORMAL")) {
                     return true;
                 } else {
@@ -106,9 +108,14 @@ public class WorldManager {
                 wc.generator(getGenerator(world));
                 wc.environment(getEnvironment(world));
                 wc.type(WorldType.FLAT);
-                wc.generateStructures(false);
+                wc.generateStructures(generateStructures(world));
                 World loadedworld = wc.createWorld();
                 loadedworld.setDifficulty(getDifficulty(loadedworld.getName()));
+                if (keepSpawnInMemory(world)) {
+                    loadedworld.setKeepSpawnInMemory(true);
+                } else {
+                    loadedworld.setKeepSpawnInMemory(false);
+                }
                 plugin.getServer().getWorlds().add(loadedworld);
                 return true;
             } else {
@@ -210,7 +217,7 @@ public class WorldManager {
     }
 
     /**
-     * Returns the spawn location from a world (from the config)
+     * Returns the spawn location from a world. (from the config)
      * @param world
      * @return Location
      */
@@ -221,6 +228,30 @@ public class WorldManager {
             if (getUnloadedWorlds().contains(world)) {
                 loadWorld(world);
             }
+            World world1 = plugin.getServer().getWorld(world);
+            double x = plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.x");
+            double y = plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.y");
+            double z = plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.z");
+            float yaw = (float) plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.yaw");
+            float pitch = (float) plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.pitch");
+            ConfigShorts.loaddefConfig();
+            return new Location(world1, x, y, z, yaw, pitch);
+        } else {
+            System.out.println(ANSI_RED + "Could not find a spawn location for world " + world + "!");
+            return null;
+        }
+    }
+
+    /**
+     * Returns the spawn location from a world without loading it. (from the config)
+     *
+     * @param world
+     * @return Location
+     */
+    public Location getSpawnLocationFromConfig(String world) {
+        ConfigShorts.loadWorldConfig();
+        List<String> worlds = getAllWorlds();
+        if (worlds.contains(world)) {
             World world1 = plugin.getServer().getWorld(world);
             double x = plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.x");
             double y = plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.y");
@@ -581,6 +612,7 @@ public class WorldManager {
         ConfigShorts.loadWorldConfig();
         if (plugin.getConfig().get("Worlds") != null) {
             String difficultyConfig = plugin.getConfig().getString("Worlds." + world + ".difficulty");
+            ConfigShorts.loaddefConfig();
             if (difficultyConfig != null) {
                 switch (difficultyConfig.toUpperCase()) {
                     case "EASY":
@@ -595,5 +627,97 @@ public class WorldManager {
             }
         }
         return Difficulty.NORMAL;
+    }
+
+    /**
+     * Returns the keepSpawnInMemory boolean from the config.
+     *
+     * @param world
+     * @return boolean
+     */
+    public boolean keepSpawnInMemory(String world) {
+        ConfigShorts.loadWorldConfig();
+        if (plugin.getConfig().get("Worlds") != null) {
+            String keepSpawnInMemoryStr = plugin.getConfig().getString("Worlds." + world + ".keepSpawnInMemory");
+            ConfigShorts.loaddefConfig();
+            if (keepSpawnInMemoryStr != null) {
+                if (keepSpawnInMemoryStr.equalsIgnoreCase("true")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns the generateStructures boolean from the config.
+     *
+     * @param world
+     * @return boolean
+     */
+    public boolean generateStructures(String world) {
+        ConfigShorts.loadWorldConfig();
+        if (plugin.getConfig().get("Worlds") != null) {
+            String generateStructuresStr = plugin.getConfig().getString("Worlds." + world + ".generateStructures");
+            ConfigShorts.loaddefConfig();
+            if (generateStructuresStr != null) {
+                if (generateStructuresStr.equalsIgnoreCase("true")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns a String with all Infos for a given world.
+     *
+     * @param world
+     * @return String
+     */
+    public String getWorldInformation(String world) {
+        if (getAllWorlds().contains(world)) {
+            String difficulty = getDifficulty(world).name();
+            String generator = getGenerator(world);
+            boolean autoLoad = getAutoLoad(world);
+            String environment = getEnvironment(world).name();
+            boolean keepSpawnInMemory = keepSpawnInMemory(world);
+            boolean generateStructures = generateStructures(world);
+
+            Location spawnloc = getSpawnLocationFromConfig(world);
+            double spawnlocX = spawnloc.getX();
+            double spawnlocY = spawnloc.getY();
+            double spawnlocZ = spawnloc.getZ();
+            double spawnlocPitch = spawnloc.getPitch();
+            double spawnlocYaw = spawnloc.getYaw();
+
+            String worldInfo = ChatColor.AQUA + "----- " + world + " -----" + "\n" + "\n" +
+                    ChatColor.GOLD + "Difficulty: " + ChatColor.RESET + difficulty + "\n" +
+                    ChatColor.GOLD + "Generator: " + ChatColor.RESET + generator + "\n" +
+                    ChatColor.GOLD + "AutoLoad: " + ChatColor.RESET + autoLoad + "\n" +
+                    ChatColor.GOLD + "Environment: " + ChatColor.RESET + environment + "\n" +
+                    ChatColor.GOLD + "KeepSpawnInMemory: " + ChatColor.RESET + keepSpawnInMemory + "\n" +
+                    ChatColor.GOLD + "GenerateStructures: " + ChatColor.RESET + generateStructures + "\n" + "\n" +
+
+                    ChatColor.AQUA + "----- Spawn -----" + "\n" +
+                    ChatColor.GOLD + "X: " + ChatColor.RESET + spawnlocX + "\n" +
+                    ChatColor.GOLD + "Y: " + ChatColor.RESET + spawnlocY + "\n" +
+                    ChatColor.GOLD + "Z: " + ChatColor.RESET + spawnlocZ + "\n" +
+                    ChatColor.GOLD + "Pitch: " + ChatColor.RESET + spawnlocPitch + "\n" +
+                    ChatColor.GOLD + "Yaw: " + ChatColor.RESET + spawnlocYaw + "\n";
+            return worldInfo;
+        } else {
+            return world;
+        }
     }
 }

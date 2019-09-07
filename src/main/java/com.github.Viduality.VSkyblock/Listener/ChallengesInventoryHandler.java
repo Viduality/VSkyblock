@@ -37,12 +37,13 @@ public class ChallengesInventoryHandler implements Listener {
                     if (inventoryClickEvent.getSlot() >= 0 && inventoryClickEvent.getSlot() <= 17 ) {
                         if (!inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR)) {
                             int challenge = inventoryClickEvent.getSlot() + 1;
+                            String challengewithColors = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName();
                             if (inventoryClickEvent.getView().getTitle().equals("Challenges " + plugin.getConfig().getString("Difficulty.Easy"))) {
-                                cH.checkChallenge(challenge, inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(), "Easy", (Player) inventoryClickEvent.getWhoClicked());
+                                cH.checkChallenge(challenge, getChallenge(challengewithColors), "Easy", (Player) inventoryClickEvent.getWhoClicked());
                             } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Medium"))) {
-                                cH.checkChallenge(challenge, inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(), "Medium", (Player) inventoryClickEvent.getWhoClicked());
+                                cH.checkChallenge(challenge, getChallenge(challengewithColors), "Medium", (Player) inventoryClickEvent.getWhoClicked());
                             } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Hard"))) {
-                                cH.checkChallenge(challenge, inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(), "Hard", (Player) inventoryClickEvent.getWhoClicked());
+                                cH.checkChallenge(challenge, getChallenge(challengewithColors), "Hard", (Player) inventoryClickEvent.getWhoClicked());
                             }
                         }
                     }
@@ -50,6 +51,24 @@ public class ChallengesInventoryHandler implements Listener {
             }
         }
         ConfigShorts.loaddefConfig();
+    }
+
+    /**
+     * Deletes color codes from item names.
+     *
+     * @param challengewithColors
+     * @return String
+     */
+    private String getChallenge(String challengewithColors) {
+        String challenge = challengewithColors;
+        for (int i = 1; i > 0; i++) {
+            if (challenge.contains("§")) {
+                challenge = challenge.substring(2);
+            } else {
+                i = -1;
+            }
+        }
+        return challenge;
     }
 
     @EventHandler

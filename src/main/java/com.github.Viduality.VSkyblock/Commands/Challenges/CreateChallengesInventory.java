@@ -42,6 +42,7 @@ public class CreateChallengesInventory {
                 Inventory cinv = Bukkit.createInventory(null, 27, "Challenges " + plugin.getConfig().getString("Difficulty." + difficulty));
                 Set<String> challenges = plugin.getConfig().getConfigurationSection(difficulty).getKeys(false);
                 String descriptioncolor = plugin.getConfig().getString("ItemOverlay.DescriptionColor");
+                String challengeNameColor = plugin.getConfig().getString("ItemOverlay.ChallengeNameColor");
                 List<Integer> usedSlots = new ArrayList<>();
                 int completedchallenges = 0;
                 int challengecount = 0;
@@ -155,7 +156,7 @@ public class CreateChallengesInventory {
                                                     ItemStack challenge = new ItemStack(item, 1);
                                                     ItemMeta challengemeta = challenge.getItemMeta();
 
-                                                    challengemeta.setDisplayName(currentChallenge);
+                                                    challengemeta.setDisplayName(challengeNameColor + currentChallenge);
                                                     challengemeta.setLore(lore);
 
 
@@ -262,7 +263,7 @@ public class CreateChallengesInventory {
                                                     ItemStack challenge = new ItemStack(item, 1);
                                                     ItemMeta challengemeta = challenge.getItemMeta();
 
-                                                    challengemeta.setDisplayName(currentChallenge);
+                                                    challengemeta.setDisplayName(challengeNameColor + currentChallenge);
                                                     challengemeta.setLore(lore);
 
 

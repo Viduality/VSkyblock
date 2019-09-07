@@ -41,7 +41,7 @@ IslandJoinCooldown: 10
 IslandPlayerLimit: 4
 
 # Allow or disable PvP in the Nether and on Islands. Default is true.
-PvPNether: true
+PvPNether: false
 PvPIslands: true
 
 # Needed island value per level. For Example if the needed value is 300 (standard) and the player has 3000 island value, his level will be level 10.

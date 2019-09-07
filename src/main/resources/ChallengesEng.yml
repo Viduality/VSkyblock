@@ -4,14 +4,15 @@
 ### Separate amount with ";"!
 
 ItemOverlay:
-  Completed: "%amount% times completed."
-  Lore: "Description"
+  Completed: "%amount% §6times completed."
+  Lore: "§6§oDescription"
   Needed:
-    onPlayer: "Needed items"
-    onIsland: "Needed"
-    islandlevel: "Needed level"
-  Reward: "Reward"
-  DescriptionColor: §b
+    onPlayer: "§6§oNeeded items"
+    onIsland: "§6§oNeeded"
+    islandlevel: "§6§oNeeded level"
+  Reward: "§6§oReward"
+  DescriptionColor: §9
+  ChallengeNameColor: §8§l§n
   NotRepeatable: "Not repeatable!"
 
 

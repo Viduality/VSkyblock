@@ -9,3 +9,5 @@
     generator: default
     environment: NORMAL
     difficulty: NORMAL
+    keepSpawnInMemory: false
+    generateStructures: false
