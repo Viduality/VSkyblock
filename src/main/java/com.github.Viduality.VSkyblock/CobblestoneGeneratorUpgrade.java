@@ -19,7 +19,11 @@ public class CobblestoneGeneratorUpgrade {
     private DatabaseWriter databaseWriter = new DatabaseWriter();
     private DatabaseReader databaseReader = new DatabaseReader();
 
-
+    /**
+     * Checks if the current cobblestone generator can be upgraded.
+     * @param island
+     * @param player
+     */
     public void checkForGeneratorUpgrade(String island, Player player) {
         int currentlevel = CobblestoneGenerator.islandGenLevel.get(island);
         int nextlevel = currentlevel + 1;
@@ -76,6 +80,12 @@ public class CobblestoneGeneratorUpgrade {
         }
     }
 
+    /**
+     * Returns the needed items to upgrade the generator.
+     * Use with getneededItemsAmount method.
+     * @param nextLevel
+     * @return Material List
+     */
     private List<Material> getneededItems(int nextLevel) {
         ConfigShorts.loadOptionsConfig();
         List<String> neededItemsStringwithAmount = plugin.getConfig().getStringList("CobblestoneGenerator.Upgrade.Level_" + nextLevel + ".Needed");
@@ -94,6 +104,12 @@ public class CobblestoneGeneratorUpgrade {
         return neededItems;
     }
 
+    /**
+     * Returns the needed item amount to upgrade the generator.
+     * Use with getneededItems method.
+     * @param nextLevel
+     * @return Integer List
+     */
     private List<Integer> getneededItemsAmount(int nextLevel) {
         ConfigShorts.loadOptionsConfig();
         List<String> neededAmountStringwithItems = plugin.getConfig().getStringList("CobblestoneGenerator.Upgrade.Level_" + nextLevel + ".Needed");
@@ -106,11 +122,23 @@ public class CobblestoneGeneratorUpgrade {
         return neededAmount;
     }
 
+    /**
+     * Upgrades the current cobblestone generator.
+     * @param island
+     * @param nextLevel
+     */
     private void upgradeCobbleGenerator(String island, int nextLevel) {
         databaseWriter.updateCobblestoneGeneratorLevel(island, nextLevel);
         CobblestoneGenerator.islandGenLevel.put(island, nextLevel);
     }
 
+    /**
+     * Deletes the given Items from the players inventory.
+     *
+     * @param items
+     * @param amounts
+     * @param player
+     */
     private void removeItems(List<Material> items, List<Integer> amounts, Player player) {
         for (int i = 0; i < items.size(); i++) {
             int neededamount = amounts.get(i);
@@ -142,6 +170,12 @@ public class CobblestoneGeneratorUpgrade {
         }
     }
 
+    /**
+     * Returns the required island level to upgrade the current cobblestone generator.
+     *
+     * @param nextGeneratorLevel
+     * @return Double
+     */
     private Double getRequiredIslandLevel(int nextGeneratorLevel) {
         switch (nextGeneratorLevel) {
             case 1:

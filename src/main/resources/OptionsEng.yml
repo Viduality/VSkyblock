@@ -12,3 +12,100 @@ Difficulty:
   NormalItem: STONE_SWORD
   Hard: Hard
   HardItem: IRON_SWORD
+CobblestoneGenerator:
+  DisplayName: §8§lCobblestone-Generator
+  CobbleDropChance: §8§l§nCobblestone Drops
+  CobbleDropChanceMax: "§6§oUp to: %number% Cobblestone"
+  CobbleDropChanceDescription: §9(The higher your islands level, the more cobblestone can be dropped.)
+  Chances:
+    ShowPercentagePerItem: true
+    Overview: §8§l§nCobblestone-Generator Drops
+    ChanceInfo: "§9   -> Chance at: %number%%"
+    Level_0_Item: WOODEN_PICKAXE
+    Level_0_Info: §6- Generates only cobblestone.
+    Level_1_Item: STONE_PICKAXE
+    Level_1_Info: §6- Chance for coal
+    Level_2_Item: STONE_PICKAXE
+    Level_2_Info: §6- Chance for iron
+    Level_3_Item: IRON_PICKAXE
+    Level_3_Info: §6- Chance for redstone
+    Level_4_Item: IRON_PICKAXE
+    Level_4_Info: §6- Chance for lapis lazuli
+    Level_5_Item: GOLDEN_PICKAXE
+    Level_5_Info: §6- Chance for gold
+    Level_6_Item: DIAMOND_PICKAXE
+    Level_6_Info: §6- Chance for emeralds
+    Level_7_Item: DIAMOND_PICKAXE
+    Level_7_Info: §6- Chance for diamonds
+  Upgrade:
+    DisplayName: §8§l§nUpgrade
+    DisplayNameMaxLevel: §8§l§nMax. Level
+    Adds: "§6§oAdds the following feature for your cobblestone-generator:"
+    NeededColor: §9
+    Needed: "§6§oNeeded Items:"
+    NeededLevel: "§6§oNeeded island level: %number%"
+    Level_1:
+      Item: COAL_ORE
+      AddsFeature: §9Chance for coal
+      Needed:
+      - Cobblestone;640
+      - Apple;10
+      - Wheat;64
+      - Pumpkin;64
+      NeededText: 10 stacks cobblestone, 10 apples, 64 wheat, 64 pumpkins
+    Level_2:
+      Item: IRON_ORE
+      AddsFeature: §9Chance for iron
+      Needed:
+      - Coal;64
+      - Melon;32
+      - Cactus;64
+      - Mycelium;1
+      NeededText: 64 coal, 32 melons, 64 cactus, 1 mycelium
+    Level_3:
+      Item: REDSTONE_ORE
+      AddsFeature: §9Chance for redstone
+      Needed:
+      - Iron_Ingot;64
+      - Beetroot;64
+      - Oak_Log;64
+      - Acacia_Log;64
+      NeededText: 64 iron ingots, 64 beetroot, 64 oak logs, 64 acacia logs
+    Level_4:
+      Item: LAPIS_ORE
+      AddsFeature: §9Chance for lapis lazuli
+      Needed:
+      - Redstone;64
+      - Apple;10
+      - Sugar;64
+      NeededText: 64 redstone, 10 apples, 64 sugar
+    Level_5:
+      Item: GOLD_ORE
+      AddsFeature: §9Chance for gold
+      Needed:
+      - Lapis_Lazuli;128
+      - Dark_Oak_Log;64
+      - Sweet_Berries;64
+      - Scute;10
+      NeededText: 128 lapis lazuli, 64 dark oak logs, 64 sweet berries, 10 scute
+    Level_6:
+      Item: EMERALD_ORE
+      AddsFeature: §9Chance for emeralds
+      Needed:
+      - Gold_Ingot;64
+      - Golden_Apple;2
+      - Lava_Bucket;5
+      NeededText: 64 gold ingots, 2 golden apples, 5 lava buckets
+    Level_7:
+      Item: DIAMOND_ORE
+      AddsFeature: §9Chance for diamonds
+      Needed:
+      - Coal;64
+      - Iron_Ingot;64
+      - Lapis_Lazuli;64
+      - Gold_Ingot;64
+      - Emerald;25
+      NeededText: 64 coal, 64 iron ingots, 64 lapis lazuli, 64 gold ingots, 25 emeralds
+    Max_Level:
+      Item: NETHER_STAR
+      Description: §6§oYou reached the highest level for your cobblestone generator. There are no other upgrades possible yet. Good job!

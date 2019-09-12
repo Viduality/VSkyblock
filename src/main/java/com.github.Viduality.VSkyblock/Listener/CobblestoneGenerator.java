@@ -85,6 +85,11 @@ public class CobblestoneGenerator implements Listener {
         }
     }
 
+    /**
+     * Rolls the chances for the coal level cobblestone-generator.
+     * Returns either cobblestone or coal.
+     * @return Material
+     */
     private Material rollCoalLevel() {
         double random = Math.random();
         double chance = generatorValues.get("CoalChance") / 100;
@@ -95,6 +100,11 @@ public class CobblestoneGenerator implements Listener {
         }
     }
 
+    /**
+     * Rolls the chances for the iron level cobblestone-generator.
+     * Returns either cobblestone, coal or iron.
+     * @return Material
+     */
     private Material rollIronLevel() {
         double random = Math.random();
         double chanceIron = generatorValues.get("IronChance") / 100;
@@ -108,6 +118,11 @@ public class CobblestoneGenerator implements Listener {
         }
     }
 
+    /**
+     * Rolls the chances for the redstone level cobblestone-generator.
+     * Returns either cobblestone, coal, iron or redstone.
+     * @return Material
+     */
     private Material rollRedstoneLevel() {
         double random = Math.random();
         double chanceRedstone = generatorValues.get("RedstoneChance") / 100;
@@ -124,6 +139,11 @@ public class CobblestoneGenerator implements Listener {
         }
     }
 
+    /**
+     * Rolls the chances for the lapis level cobblestone-generator.
+     * Returns either cobblestone, coal, iron, redstone or lapis.
+     * @return Material
+     */
     private Material rollLapisLevel() {
         double random = Math.random();
         double chanceLapis = generatorValues.get("LapisChance") / 100;
@@ -143,6 +163,11 @@ public class CobblestoneGenerator implements Listener {
         }
     }
 
+    /**
+     * Rolls the chances for the gold level cobblestone-generator.
+     * Returns either cobblestone, coal, iron, redstone, lapis or gold.
+     * @return Material
+     */
     private Material rollGoldLevel() {
         double random = Math.random();
         double chanceGold = generatorValues.get("GoldChance") / 100;
@@ -165,6 +190,11 @@ public class CobblestoneGenerator implements Listener {
         }
     }
 
+    /**
+     * Rolls the chances for the emerald level cobblestone-generator.
+     * Returns either cobblestone, coal, iron, redstone, lapis, gold or emerald.
+     * @return Material
+     */
     private Material rollEmeraldLevel() {
         double random = Math.random();
         double chanceEmerald = generatorValues.get("EmeraldChance") / 100;
@@ -190,6 +220,11 @@ public class CobblestoneGenerator implements Listener {
         }
     }
 
+    /**
+     * Rolls the chances for the diamond level cobblestone-generator.
+     * Returns either cobblestone, coal, iron, redstone, lapis, gold, emerald or diamonds.
+     * @return Material
+     */
     private Material rollDiamondLevel() {
         double random = Math.random();
         double chanceDiamond = generatorValues.get("DiamondChance") / 100;
@@ -218,6 +253,11 @@ public class CobblestoneGenerator implements Listener {
         }
     }
 
+    /**
+     * Rolls the chances for the amount of cobblestone to be dropped.
+     * @param island
+     * @return int
+     */
     private int rollCobbleAmount(String island) {
         double chance = generatorValues.get("CobblestoneChance") / 100;
         int chances = (int) (islandlevels.get(island) / generatorValues.get("CobblestoneLevelIntervall"));

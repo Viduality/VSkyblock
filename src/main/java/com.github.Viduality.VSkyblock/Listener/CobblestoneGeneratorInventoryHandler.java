@@ -37,6 +37,11 @@ public class CobblestoneGeneratorInventoryHandler implements Listener {
         }
     }
 
+    /**
+     * Returns the cobblestone generators inventory name from the config.
+     *
+     * @return String
+     */
     private String getInvName() {
         ConfigShorts.loadOptionsConfig();
         String displayname = plugin.getConfig().getString("CobblestoneGenerator.DisplayName");

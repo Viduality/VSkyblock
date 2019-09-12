@@ -75,9 +75,10 @@ CobblestoneGenerator:
       Item: LAPIS_ORE
       AddsFeature: §9Chance auf Lapis Lazuli
       Needed:
-      - Iron_Ingot;64
-      - Beetroot;64
-      - Redstone;10
+      - Redstone;64
+      - Apple;10
+      - Sugar;64
+      NeededText: 64 Redstone, 10 Äpfel, 64 Zucker
     Level_5:
       Item: GOLD_ORE
       AddsFeature: §9Chance auf Gold
@@ -107,4 +108,4 @@ CobblestoneGenerator:
       NeededText: 64 Kohle, 64 Eisenbarren, 64 Lapis Lazuli, 64 Goldbarren, 25 Smaragde
     Max_Level:
       Item: NETHER_STAR
-      Description: §6§oDu hast das maximale Level für deinen Cobblestone-Generator erreicht. Es sind zur Zeit keine weiteren Upgrades möglich.
+      Description: §6§oGut gemacht!. Du hast das maximale Level für deinen Cobblestone-Generator erreicht. Es sind zur Zeit keine weiteren Upgrades möglich.
