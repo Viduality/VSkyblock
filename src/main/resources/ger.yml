@@ -17,8 +17,8 @@ ChallengeNotRepeatable: §cDu kannst diese Challenge nur einmal abschließen!
 ChangeEnvironmentMidGame: §cDu solltest das Environment nicht im nachhinein ändern. Command wird abgebrochen.
 ChangeGeneratorMidGame: §cDu solltest den Generator nicht im nachhinein ändern. Command wird abgebrochen.
 CheckingIslandForChallenge: §6Durchsuche Insel nach den Anforderungen der Challenge. Warte einen Moment!
-CleaningUpOldIslands: §cSäubere tote Welten, dies könnte kurz laggen!
-CleaningUpOldIslandsDone: §2Säuberung abgeschlossen!
+CleaningUpOldIslands: §cSäubere verlassene Welten, dies könnte kurz laggen!
+CleaningUpOldIslandsDone: §2Säuberung verlassener Welten abgeschlossen!
 ConfirmRestart: §cDeine Insel wird gelöscht und eine Neue generiert! Bestätige dies in den nächsten 20 Sekunden mit §b/is restart confirm§c!
 CouldNotTeleportToWorld: §cKonnte nicht in die Welt §6%replacement% §cteleportieren!
 CurrentIslandLevel: §6Aktuelles Insel-Level beträgt %replacement%.
@@ -73,6 +73,7 @@ NotAtPlayersIsland: §cDu musst dich auf deiner Insel befinden um diesen Befehl 
 NotAValidOption: §cÜberprüfe deine Eingabe! Die Option existiert nicht!
 NotEnoughInventorySpace: §cDu hast nicht genügend Platz in deinem Inventar für die Belohnung der Challenge!
 NotEnoughItems: §cDu hast nicht genügend Items für diese Challenge!
+NotEnoughItemsGenerator: §cDu hast nicht genügend Items um den Generator zu upgraden!
 NotIslandOwner: §cDu musst der Owner der Insel sein um diesen Befehl ausführen zu können!
 
 OnlyMember: §aDu bist alleine auf deiner Insel!
@@ -100,6 +101,7 @@ Site: §8Seite %replacement%/%replacement2%
 TeleportedToWorld: §bTeleportiere zu Welt §6%replacement%§b.
 
 UpdatedIslandOptions: §bInsel Optionen wurden übernommen und sind jetzt aktiv!
+UpgradedYourCobblestoneGenerator: §2Dein Cobblestone-Generator wurde geupgradet. Infos zum Generator erhältst du im Menü der Insel-Optionen.
 UseCommandSetSpawnPoint: §cBenutze den Befehl §b/vsky set spawnpoint §cum diese "Option" zu ändern!
 UseInNetherWorld: §cDu kannst diesen Befehl nur im NETHER benutzen!
 

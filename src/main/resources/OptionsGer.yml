@@ -1,14 +1,110 @@
 InventoryName: Insel Optionen
 Accept: Übernehmen
 Visit:
-  Allowed: §2Besucher erlaubt
+  Allowed: §2§lBesucher erlaubt
   AllowedItem: PLAYER_HEAD
-  NotAllowed: §cBesucher nicht erlaubt
+  NotAllowed: §c§lBesucher nicht erlaubt
   NotAllowedItem: SKELETON_SKULL
 Difficulty:
-  Easy: Einfach
+  Easy: §b§lEinfach
   EasyItem: WOODEN_SWORD
-  Normal: Normal
+  Normal: §b§lNormal
   NormalItem: STONE_SWORD
-  Hard: Schwer
+  Hard: §b§lSchwer
   HardItem: IRON_SWORD
+CobblestoneGenerator:
+  DisplayName: §8§lCobblestone-Generator
+  CobbleDropChance: §8§l§nCobblestone Drops
+  CobbleDropChanceMax: "§6§oBis zu: %number% Cobblestone"
+  CobbleDropChanceDescription: §9(Die maximale Anzahl an Cobblestone die dein Cobblestone-Generator zur Zeit droppen kann. Steigere dein Insel-Level um die Nummer zu erhöhen!)
+  Chances:
+    ShowPercentagePerItem: true
+    Overview: §8§l§nCobblestone-Generator Drops
+    ChanceInfo: "§9   -> Chance liegt bei: %number%%"
+    Level_0_Item: WOODEN_PICKAXE
+    Level_0_Info: §6- Es entsteht nur Cobblestone. Keine anderen Items.
+    Level_1_Item: STONE_PICKAXE
+    Level_1_Info: §6- Chance auf Kohle
+    Level_2_Item: STONE_PICKAXE
+    Level_2_Info: §6- Chance auf Eisen
+    Level_3_Item: IRON_PICKAXE
+    Level_3_Info: §6- Chance auf Redstone
+    Level_4_Item: IRON_PICKAXE
+    Level_4_Info: §6- Chance auf Lapis Lazuli
+    Level_5_Item: GOLDEN_PICKAXE
+    Level_5_Info: §6- Chance auf Gold
+    Level_6_Item: DIAMOND_PICKAXE
+    Level_6_Info: §6- Chance auf Smaragde
+    Level_7_Item: DIAMOND_PICKAXE
+    Level_7_Info: §6- Chance auf Diamanten
+  Upgrade:
+    DisplayName: §8§l§nUpgrade
+    DisplayNameMaxLevel: §8§l§nMax. Level
+    Adds: "§6§oFügt dem Cobblestone-Generator folgendes Feature hinzu:"
+    NeededColor: §9
+    Needed: "§6§oBenötigte Items:"
+    NeededLevel: "§6§oBenötigtes Insel-Level: %number%"
+    Level_1:
+      Item: COAL_ORE
+      AddsFeature: §9Chance auf Kohle
+      Needed:
+      - Cobblestone;640
+      - Apple;10
+      - Wheat;64
+      - Pumpkin;64
+      NeededText: 10 Stacks Cobblestone, 10 Äpfel, 1 Stack Weizen, 64 Kürbisse
+    Level_2:
+      Item: IRON_ORE
+      AddsFeature: §9Chance auf Eisen
+      Needed:
+      - Coal;64
+      - Melon;32
+      - Cactus;64
+      - Mycelium;1
+      NeededText: 64 Kohle, 32 Melonen, 64 Kakteen, 1 Mycelium
+    Level_3:
+      Item: REDSTONE_ORE
+      AddsFeature: §9Chance auf Redstone
+      Needed:
+      - Iron_Ingot;64
+      - Beetroot;64
+      - Oak_Log;64
+      - Acacia_Log;64
+      NeededText: 64 Eisenbarren, 64 Rote Beete, 64 Eichenholzstämme, 64 Akazienholzstämme
+    Level_4:
+      Item: LAPIS_ORE
+      AddsFeature: §9Chance auf Lapis Lazuli
+      Needed:
+      - Iron_Ingot;64
+      - Beetroot;64
+      - Redstone;10
+    Level_5:
+      Item: GOLD_ORE
+      AddsFeature: §9Chance auf Gold
+      Needed:
+      - Lapis_Lazuli;128
+      - Dark_Oak_Log;64
+      - Sweet_Berries;64
+      - Scute;10
+      NeededText: 128 Lapis Lazuli, 64 Schwarzeichenholzstämme, 64 Süßbeeren, 10 Scute
+    Level_6:
+      Item: EMERALD_ORE
+      AddsFeature: §9Chance auf Smaragde
+      Needed:
+      - Gold_Ingot;64
+      - Golden_Apple;2
+      - Lava_Bucket;5
+      NeededText: 64 Goldbarren, 2 Goldäpfel, 5 Lava-Eimer
+    Level_7:
+      Item: DIAMOND_ORE
+      AddsFeature: §9Chance auf Diamanten
+      Needed:
+      - Coal;64
+      - Iron_Ingot;64
+      - Lapis_Lazuli;64
+      - Gold_Ingot;64
+      - Emerald;25
+      NeededText: 64 Kohle, 64 Eisenbarren, 64 Lapis Lazuli, 64 Goldbarren, 25 Smaragde
+    Max_Level:
+      Item: NETHER_STAR
+      Description: §6§oDu hast das maximale Level für deinen Cobblestone-Generator erreicht. Es sind zur Zeit keine weiteren Upgrades möglich.

@@ -61,3 +61,23 @@ SpawnWorld: world
 # Nether for all islands. Every player entering a nether portal will get teleported to its World Spawn.
 # Don't change it by hand! Use /VSkySetNether to change this.
 NetherWorld: world_nether
+
+CobblestoneGenerator:
+  Cobblestone:
+    MultipleDrops: true
+    CobblestoneLevelIntervall: 10
+    CobblestoneChance: 20
+  CoalLevel: 20
+  CoalChance: 3
+  IronLevel: 35
+  IronChance: 1.5
+  RedstoneLevel: 50
+  RedstoneChance: 2.5
+  LapisLevel: 60
+  LapisChance: 2
+  GoldLevel: 80
+  GoldChance: 1
+  EmeraldLevel: 100
+  EmeraldChance: 0.05
+  DiamondLevel: 125
+  DiamondChance: 0.2

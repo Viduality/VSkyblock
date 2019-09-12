@@ -98,6 +98,8 @@ public class VSkyblock extends JavaPlugin implements Listener {
         pm.registerEvents(new PortalAccessor(), this);
         pm.registerEvents(new TeleporterInventoryHandler(), this);
         pm.registerEvents(new IslandOptionsInventoryHandler(), this);
+        pm.registerEvents(new CobblestoneGenerator(), this);
+        pm.registerEvents(new CobblestoneGeneratorInventoryHandler(), this);
 
         new DeleteOldIslands().run();
 
@@ -134,6 +136,8 @@ public class VSkyblock extends JavaPlugin implements Listener {
         if (getOnlinePlayers().size() != 0) {
             databaseReader.refreshIslands(getOnlinePlayers());
         }
+
+        setGeneratorChances();
     }
 
 
@@ -167,5 +171,145 @@ public class VSkyblock extends JavaPlugin implements Listener {
     @Override
     public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
         return new VoidGenerator();
+    }
+
+    private void setGeneratorChances() {
+        double coalLevel = 20;
+        double coalChance = 3;
+        double ironLevel = 35;
+        double ironChance = 1.5;
+        double redstoneLevel = 50;
+        double redstoneChance = 1.5;
+        double lapisLevel = 60;
+        double lapisChance = 2;
+        double goldLevel = 80;
+        double goldChance = 1;
+        double emeraldLevel = 100;
+        double emeraldChance = 0.05;
+        double diamondLevel = 100;
+        double diamondChance = 0.2;
+        int cobblestoneLevelIntervall = 10;
+        double cobblestoneChance = 20;
+        if (getConfig().getString("CobblestoneGenerator.CoalLevel") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.CoalLevel"))) {
+                coalLevel = getConfig().getDouble("CobblestoneGenerator.CoalLevel");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.CoalChance") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.CoalChance"))) {
+                coalChance = getConfig().getDouble("CobblestoneGenerator.CoalChance");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.IronLevel") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.IronLevel"))) {
+                ironLevel = getConfig().getDouble("CobblestoneGenerator.IronLevel");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.IronChance") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.IronChance"))) {
+                ironChance = getConfig().getDouble("CobblestoneGenerator.IronChance");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.RedstoneLevel") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.RedstoneLevel"))) {
+                redstoneLevel = getConfig().getDouble("CobblestoneGenerator.RedstoneLevel");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.RedstoneChance") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.RedstoneChance"))) {
+                redstoneChance = getConfig().getDouble("CobblestoneGenerator.RedstoneChance");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.LapisLevel") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.LapisLevel"))) {
+                lapisLevel = getConfig().getDouble("CobblestoneGenerator.LapisLevel");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.LapisChance") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.LapisChance"))) {
+                lapisChance = getConfig().getDouble("CobblestoneGenerator.LapisChance");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.GoldLevel") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.GoldLevel"))) {
+                goldLevel = getConfig().getDouble("CobblestoneGenerator.GoldLevel");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.GoldChance") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.GoldChance"))) {
+                goldChance = getConfig().getDouble("CobblestoneGenerator.GoldChance");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.EmeraldLevel") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.EmeraldLevel"))) {
+                emeraldLevel = getConfig().getDouble("CobblestoneGenerator.EmeraldLevel");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.EmeraldChance") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.EmeraldChance"))) {
+                emeraldChance = getConfig().getDouble("CobblestoneGenerator.EmeraldChance");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.DiamondLevel") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.DiamondLevel"))) {
+                diamondLevel = getConfig().getDouble("CobblestoneGenerator.DiamondLevel");
+            }
+        }
+        if (getConfig().getString("CobblestoneGenerator.DiamondChance") != null) {
+            if (isDouble(getConfig().getString("CobblestoneGenerator.DiamondChance"))) {
+                diamondChance = getConfig().getDouble("CobblestoneGenerator.DiamondChance");
+            }
+        }
+        CobblestoneGenerator.generatorValues.put("CoalLevel", coalLevel);
+        CobblestoneGenerator.generatorValues.put("CoalChance", coalChance);
+        CobblestoneGenerator.generatorValues.put("IronLevel", ironLevel);
+        CobblestoneGenerator.generatorValues.put("IronChance", ironChance);
+        CobblestoneGenerator.generatorValues.put("RedstoneLevel", redstoneLevel);
+        CobblestoneGenerator.generatorValues.put("RedstoneChance", redstoneChance);
+        CobblestoneGenerator.generatorValues.put("LapisLevel", lapisLevel);
+        CobblestoneGenerator.generatorValues.put("LapisChance", lapisChance);
+        CobblestoneGenerator.generatorValues.put("GoldLevel", goldLevel);
+        CobblestoneGenerator.generatorValues.put("GoldChance", goldChance);
+        CobblestoneGenerator.generatorValues.put("EmeraldLevel", emeraldLevel);
+        CobblestoneGenerator.generatorValues.put("EmeraldChance", emeraldChance);
+        CobblestoneGenerator.generatorValues.put("DiamondLevel", diamondLevel);
+        CobblestoneGenerator.generatorValues.put("DiamondChance", diamondChance);
+
+
+        if (getConfig().getString("CobblestoneGenerator.Cobblestone.MultipleDrops") != null) {
+            if (getConfig().getString("CobblestoneGenerator.Cobblestone.MultipleDrops").equalsIgnoreCase("true")) {
+                if (getConfig().getString("CobblestoneGenerator.Cobblestone.CobblestoneLevelIntervall") != null) {
+                    if (isInt(getConfig().getString("CobblestoneGenerator.Cobblestone.CobblestoneLevelIntervall"))) {
+                        cobblestoneLevelIntervall = getConfig().getInt("CobblestoneGenerator.Cobblestone.CobblestoneLevelIntervall");
+                    }
+                }
+                if (getConfig().getString("CobblestoneGenerator.Cobblestone.CobblestoneChance") != null) {
+                    if (isInt(getConfig().getString("CobblestoneGenerator.Cobblestone.CobblestoneChance"))) {
+                        cobblestoneChance = getConfig().getInt("CobblestoneGenerator.Cobblestone.CobblestoneChance");
+                    }
+                }
+            }
+        }
+
+        CobblestoneGenerator.generatorValues.put("CobblestoneLevelIntervall", (double) cobblestoneLevelIntervall);
+        CobblestoneGenerator.generatorValues.put("CobblestoneChance", cobblestoneChance);
+    }
+
+    private boolean isDouble(String s) {
+        try {
+            Double.parseDouble(s);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isInt(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }

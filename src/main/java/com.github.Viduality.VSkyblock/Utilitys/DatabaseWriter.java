@@ -414,6 +414,30 @@ public class DatabaseWriter {
         });
     }
 
+    /**
+     * Updates the level of an islands cobblestonegenerator (database action).
+     *
+     * @param islandname
+     * @param level
+     */
+    public void updateCobblestoneGeneratorLevel(String islandname, Integer level) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            Connection connection = getDatabase.getConnection();
+            try {
+                PreparedStatement updateGeneratorLevel;
+                updateGeneratorLevel = connection.prepareStatement("UPDATE VSkyblock_Island SET cobblestonelevel = ? WHERE island = ?");
+                updateGeneratorLevel.setInt(1, level);
+                updateGeneratorLevel.setString(2, islandname);
+                updateGeneratorLevel.executeUpdate();
+                updateGeneratorLevel.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                getDatabase.closeConnection(connection);
+            }
+        });
+    }
+
     public interface Callback {
         public void onQueryDone(boolean done);
     }

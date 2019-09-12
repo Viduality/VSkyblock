@@ -264,7 +264,6 @@ public class ChallengesHandler {
      */
     private void clearItems(Inventory inv, List<String> items, List<Integer> amounts) {
         for (int i = 0; i < items.size(); i++) {
-            int size = inv.getSize();
             int amount = amounts.get(i);
             Material current = Material.getMaterial(items.get(i).toUpperCase());
             int x = 0;

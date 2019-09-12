@@ -102,6 +102,7 @@ public class SQLConnector {
                             + "islandlevel VARCHAR(100) DEFAULT 0,"
                             + "difficulty VARCHAR(100) NOT NULL DEFAULT 'NORMAL',"
                             + "visit BOOLEAN NOT NULL DEFAULT TRUE,"
+                            + "cobblestonelevel BIGINT DEFAULT 0,"
                             + "PRIMARY KEY (islandid))");
             connection.createStatement().execute(
                         "CREATE TABLE IF NOT EXISTS VSkyblock_Challenges_Easy("

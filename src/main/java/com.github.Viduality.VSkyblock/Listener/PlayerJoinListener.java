@@ -47,6 +47,7 @@ public class PlayerJoinListener implements Listener {
                         if (!Island.playerislands.containsValue(result.getIslandname())) {
                             wm.loadWorld(result.getIslandname());
                             Island.playerislands.put(result.getuuid(), result.getIslandname());
+                            databaseReader.addToCobbleStoneGenerators(result.getIslandname());
 
                             if (wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
                                 wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);

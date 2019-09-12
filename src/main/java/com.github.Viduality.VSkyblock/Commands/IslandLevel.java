@@ -1,6 +1,7 @@
 package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.DefaultFiles;
+import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
@@ -89,7 +90,12 @@ public class IslandLevel implements SubCommand {
                             int roundlevel = (int) level;
                             databaseWriter.updateIslandLevel(databaseCache.getIslandname(), roundlevel);
                             ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
-
+                            plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
+                                @Override
+                                public void run() {
+                                    CobblestoneGenerator.islandlevels.put(databaseCache.getIslandname(), roundlevel);
+                                }
+                            });
                         }
                     });
                 }

@@ -42,6 +42,9 @@ public class IslandOptions implements SubCommand {
         boolean visit = cache.getVisit();
         ConfigShorts.loadOptionsConfig();
         Inventory isOptions = Bukkit.createInventory(null, 18, getInvName());
+
+        //VISIT
+
         Material visitBlock;
         if (visit) {
             visitBlock = getMaterial(plugin.getConfig().getString("Visit.AllowedItem"));
@@ -62,8 +65,9 @@ public class IslandOptions implements SubCommand {
         }
 
         visitSlot.setItemMeta(visitSlotItemMeta);
-        isOptions.setItem(3, visitSlot);
+        isOptions.setItem(2, visitSlot);
 
+        //DIFFICULTY
 
         Material difficultyBlock;
         switch (difficulty) {
@@ -82,13 +86,13 @@ public class IslandOptions implements SubCommand {
         if (difficultySlotItemMeta != null) {
             switch (difficulty) {
                 case "EASY":
-                    difficultySlotItemMeta.setDisplayName("§b" + getDisplayNameDifficulty("Easy"));
+                    difficultySlotItemMeta.setDisplayName(getDisplayNameDifficulty("Easy"));
                     break;
                 case "HARD":
-                    difficultySlotItemMeta.setDisplayName("§b" + getDisplayNameDifficulty("Hard"));
+                    difficultySlotItemMeta.setDisplayName(getDisplayNameDifficulty("Hard"));
                     break;
                 default:
-                    difficultySlotItemMeta.setDisplayName("§b" + getDisplayNameDifficulty("Normal"));
+                    difficultySlotItemMeta.setDisplayName(getDisplayNameDifficulty("Normal"));
                     break;
             }
             difficultySlotItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -96,8 +100,24 @@ public class IslandOptions implements SubCommand {
             difficultySlotItemMeta.addItemFlags(ItemFlag.values());
         }
         difficultySlot.setItemMeta(difficultySlotItemMeta);
-        isOptions.setItem(5, difficultySlot);
+        isOptions.setItem(6, difficultySlot);
 
+        //COBBLESTONEGENERATOR
+
+        ItemStack generatorSlot = new ItemStack(Material.COBBLESTONE, 1);
+        ItemMeta generatorSlotItemMeta = difficultySlot.getItemMeta();
+        if (generatorSlotItemMeta != null) {
+
+            generatorSlotItemMeta.setDisplayName(getDisplayNameGenerator());
+
+            generatorSlotItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            generatorSlotItemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            generatorSlotItemMeta.addItemFlags(ItemFlag.values());
+        }
+        generatorSlot.setItemMeta(generatorSlotItemMeta);
+        isOptions.setItem(4, generatorSlot);
+
+        //CONFIRM BUTTON
 
         if (islandOwner) {
             Material acceptBlock = Material.LIME_WOOL;
@@ -171,6 +191,20 @@ public class IslandOptions implements SubCommand {
             return displayname;
         } else {
             return "Visitors allowed";
+        }
+    }
+
+    /**
+     * Checks given string and returns it if not null.
+     *
+     * @return String
+     */
+    private String getDisplayNameGenerator() {
+        String displayname = plugin.getConfig().getString("CobblestoneGenerator.DisplayName");
+        if (displayname != null) {
+            return displayname;
+        } else {
+            return "Cobblestone-Generator";
         }
     }
 

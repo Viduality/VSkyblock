@@ -203,11 +203,11 @@ public class WorldManager {
                     deleteWorldfromConfig(world);
                     return(deleteFolder.delete());
                 } else {
-                    System.out.println(ANSI_RED + "§cCould not delete world " + world);
+                    System.out.println(ANSI_RED + "Could not delete world " + world);
                     return false;
                 }
             } else {
-                System.out.println(ANSI_RED + "§cCould not delete world " + world);
+                System.out.println(ANSI_RED + "Could not delete world " + world);
                 return false;
             }
         } else {

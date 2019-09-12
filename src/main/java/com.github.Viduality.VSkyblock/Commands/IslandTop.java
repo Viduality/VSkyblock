@@ -19,10 +19,10 @@ public class IslandTop implements SubCommand {
         databaseReader.getHighestIslands(new DatabaseReader.CallbackList() {
             @Override
             public void onQueryDone(List<String> result) {
-                String message = ChatColor.AQUA + "Top Islands:" + "\n";
+                String message = "§9§l-----Top Islands-----" + "\n";
                 for (int i = 0; i < result.size(); i++) {
                     int rank = i + 1;
-                    message = message + ChatColor.YELLOW + rank + ".: " + ChatColor.RESET + result.get(i) + "\n";
+                    message = message + ChatColor.GOLD + rank + ".: " + ChatColor.RESET + result.get(i) + "\n";
                 }
                 databaseCache.getPlayer().sendMessage(message);
             }

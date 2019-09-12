@@ -1,6 +1,7 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
 import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
@@ -501,6 +502,8 @@ public class DatabaseReader {
                     for (int i = 0; i < onlineplayers.size(); i++) {
                         String islandname = null;
                         int islandid = 0;
+                        int cobblestonelevel = 0;
+                        int islandlevel = 0;
                         PreparedStatement preparedStatement;
                         preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
                         preparedStatement.setString(1, onlineplayers.get(i).getUniqueId().toString());
@@ -516,12 +519,71 @@ public class DatabaseReader {
                             while (resultSet1.next()) {
                                 islandname = resultSet1.getString("island");
                             }
+                            resultSet1.close();
+                            PreparedStatement preparedStatementGetGeneratorLevel;
+                            preparedStatementGetGeneratorLevel = connection.prepareStatement("SELECT cobblestonelevel FROM VSkyblock_Island WHERE islandid = ?");
+                            preparedStatementGetGeneratorLevel.setInt(1, islandid);
+                            ResultSet resultSet2 = preparedStatementGetGeneratorLevel.executeQuery();
+                            while (resultSet2.next()) {
+                                cobblestonelevel = resultSet2.getInt("cobblestonelevel");
+                            }
+                            preparedStatementGetGeneratorLevel.close();
+
+                            PreparedStatement preparedStatementGetIslandLevel;
+                            preparedStatementGetIslandLevel = connection.prepareStatement("SELECT islandlevel FROM VSkyblock_Island WHERE islandid = ?");
+                            preparedStatementGetIslandLevel.setInt(1, islandid);
+                            ResultSet resultSet3 = preparedStatementGetIslandLevel.executeQuery();
+                            while (resultSet3.next()) {
+                                islandlevel = resultSet3.getInt("islandlevel");
+                            }
+                            preparedStatementGetIslandLevel.close();
                         }
                         if (islandname != null && !islandname.equals("NULL")) {
                             Island.playerislands.put(onlineplayers.get(i).getUniqueId().toString(), islandname);
+                            CobblestoneGenerator.islandGenLevel.put(islandname, cobblestonelevel);
+                            CobblestoneGenerator.islandlevels.put(islandname, islandlevel);
                         }
                         preparedStatement.close();
                     }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    getDatabase.closeConnection(connection);
+                }
+            }
+        });
+    }
+
+    public void addToCobbleStoneGenerators(String islandname) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                Connection connection = getDatabase.getConnection();
+                try {
+                    int islandgeneratorLVL = 0;
+                    int islandlevel = 0;
+                    PreparedStatement preparedStatementGetGeneratorLevel;
+                    preparedStatementGetGeneratorLevel = connection.prepareStatement("SELECT cobblestonelevel FROM VSkyblock_Island WHERE island = ?");
+                    preparedStatementGetGeneratorLevel.setString(1, islandname);
+                    ResultSet resultSet = preparedStatementGetGeneratorLevel.executeQuery();
+                    while (resultSet.next()) {
+                        islandgeneratorLVL = resultSet.getInt("cobblestonelevel");
+                    }
+                    CobblestoneGenerator.islandGenLevel.put(islandname, islandgeneratorLVL);
+                    preparedStatementGetGeneratorLevel.close();
+
+                    PreparedStatement preparedStatementGetIslandLevel;
+                    preparedStatementGetIslandLevel = connection.prepareStatement("SELECT islandlevel FROM VSkyblock_Island WHERE island = ?");
+                    preparedStatementGetIslandLevel.setString(1, islandname);
+                    ResultSet resultSet1 = preparedStatementGetIslandLevel.executeQuery();
+                    while (resultSet1.next()) {
+                        islandlevel = resultSet1.getInt("islandlevel");
+                    }
+                    CobblestoneGenerator.islandlevels.put(islandname, islandlevel);
+                    preparedStatementGetIslandLevel.close();
+
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
