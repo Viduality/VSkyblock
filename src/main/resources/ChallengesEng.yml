@@ -305,10 +305,11 @@ Medium:
     - Furnace;1
     - Glass;1
     - Torch;1
-    RewardText: "1 jukebox, 15 Lapis Lazuli Blöcke"
+    RewardText: "1 jukebox, 15 Lapis Lazuli Blöcke, 1 parrot spawnegg"
     Reward:
     - Jukebox;1
     - Lapis_Block;15
+    - Parrot_Spawn_Egg;1
 
   Architect:
     Slot: 7
@@ -352,9 +353,9 @@ Medium:
     NeededText: "5 stacks bamboo"
     Needed:
     - Bamboo;320
-    RewardText: "1 sweet berry"
+    RewardText: "1 panda spawnegg"
     Reward:
-    - Sweet_Berries;1
+    - Panda_Spawn_Egg;1
     RepeatRewardText: "1 sweet berry"
     RepeatReward:
     - Sweet_Berries;1
@@ -377,17 +378,23 @@ Medium:
     Slot: 10
     ShownItem: Scute
     Type: onPlayer
-    Description: "Obtain one turtle helmet and 2 scute."
-    NeededText: "1 turtle helmet, 2 scute"
+    Description: "Obtain one turtle helmet and 2 scute. Fish one nautilus shell"
+    NeededText: "1 turtle helmet, 2 scute, 1 nautilus shell"
     Needed:
     - Turtle_Helmet;1
     - Scute;2
-    RewardText: "1 heart of the sea"
+    - Nautilus_Shell;1
+    RewardText: "1 heart of the sea, 32 prismarine, 32 prismarine bricks, 16 dark prismarine"
     Reward:
     - Heart_Of_The_Sea;1
-    RepeatRewardText: "1 nautilus shell"
+    - Prismarine;32
+    - Prismarine_Bricks;32
+    - Dark_Prismarine;16
+    RepeatRewardText: "16 prismarine, 16 prismarine bricks, 8 dark prismarine"
     RepeatReward:
-    - Nautilus_Shell;1
+    - Prismarine;16
+    - Prismarine_Bricks;16
+    - Dark_Prismarine;8
 
   Builder:
     Slot: 11
@@ -621,3 +628,34 @@ Hard:
     RepeatReward:
     - Diamond;5
     - Iron_Block;2
+
+  Water Temple:
+    Slot: 12
+    ShownItem: Conduit
+    Type: onIsland
+    Description: "Activate an conduit."
+    Radius: 10
+    NeededText: "Activae conduit at your island"
+    Needed:
+    - Conduit;1
+    RewardText: "1 dolphin-Spawnegg, 16 sea lanterns"
+    Reward:
+    - Dolphin_Spawn_Egg;1
+    - Sea_Lantern;16
+
+  Shepherds enemy:
+    Slot: 13
+    ShownItem: Hay_Block
+    Type: onPlayer
+    Description: "Obtain 1 leash, 64 sweet berries and 32 slime balls"
+    NeededText: "1 leash, 64 sweet berries, 32 slime balls"
+    Needed:
+    - Lead;1
+    - Sweet_Berries;64
+    - Slime_Ball;32
+    RewardText: "1 fox spawnegg"
+    Reward:
+    - Fox_Spawn_Egg;1
+    RepeatRewardText: "1 fox spawnegg"
+    RepeatReward:
+    - Fox_Spawn_Egg;1
