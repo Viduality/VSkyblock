@@ -10,17 +10,13 @@ import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.Utilitys.DeleteOldIslands;
 import com.github.Viduality.VSkyblock.Utilitys.WorldLoader;
 import com.github.Viduality.VSkyblock.WorldGenerator.VoidGenerator;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -103,7 +99,8 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
         new DeleteOldIslands().run();
 
-        {   //Teleporter Recipe
+        /*  NOT IMPLEMENTED YET
+         {   //Teleporter Recipe
             ItemStack portalFrame = new ItemStack(Material.END_PORTAL_FRAME);
             ItemMeta portalFramemeta = portalFrame.getItemMeta();
             portalFramemeta.setDisplayName(ChatColor.DARK_PURPLE + "Teleporter");
@@ -111,7 +108,8 @@ public class VSkyblock extends JavaPlugin implements Listener {
             portalFramemeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             portalFrame.setItemMeta(portalFramemeta);
 
-            ShapedRecipe portal = new ShapedRecipe(portalFrame);
+            NamespacedKey portalFrameKey = NamespacedKey.minecraft("vskyblockportalFrame");
+            ShapedRecipe portal = new ShapedRecipe(portalFrameKey ,portalFrame);
             portal.shape("ded", "oeo", "sss");
             portal.setIngredient('e', Material.ENDER_EYE);
             portal.setIngredient('d', Material.DIAMOND);
@@ -119,10 +117,13 @@ public class VSkyblock extends JavaPlugin implements Listener {
             portal.setIngredient('s', Material.END_STONE);
             getServer().addRecipe(portal);
         }
+         */
+
 
         {
             ItemStack gravel = new ItemStack(Material.GRAVEL, 4);
-            ShapelessRecipe gravel1 = new ShapelessRecipe(gravel);
+            NamespacedKey gravelKey = NamespacedKey.minecraft("vskyblockgravel");
+            ShapelessRecipe gravel1 = new ShapelessRecipe(gravelKey, gravel);
             gravel1.addIngredient(3, Material.COBBLESTONE);
             gravel1.addIngredient(1, Material.DIRT);
             getServer().addRecipe(gravel1);

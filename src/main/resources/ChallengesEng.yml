@@ -162,6 +162,20 @@ Easy:
     RepeatReward:
     - Mycelium;1
 
+  Environmentalist:
+    Slot: 9
+    ShownItem: Composter
+    Type: onIsland
+    Description: "Build a recycling depot consisting of at least 3 composter."
+    Radius: 7
+    NeededText: "An recycling depot on your island."
+    Needed:
+      - Composter;3
+    RewardText: "2 composter, 5 bone blocks"
+    Reward:
+      - Composter;2
+      - Bone_Block;5
+
   Building-Trainee:
     Slot: 9
     ShownItem: Iron_Pickaxe
@@ -396,8 +410,24 @@ Medium:
     - Prismarine_Bricks;16
     - Dark_Prismarine;8
 
-  Builder:
+  Apiarist:
     Slot: 11
+    ShownItem: Beehive
+    Type: onPlayer
+    Description: "Gather 16 honey combs."
+    NeededText: "16 honey combs"
+    Needed:
+      - Honeycomb;16
+    RewardText: "2 honey blocks, 1 beespawnegg"
+    Reward:
+      - Honey_Block;2
+      - Bee_Spawn_Egg;1
+    RepeatRewardText: "1 beespawnegg"
+    RepeatReward:
+      - Bee_Spawn_Egg;1
+
+  Builder:
+    Slot: 12
     ShownItem: Golden_Pickaxe
     Type: islandlevel
     Description: "Reach level 100 with your island."

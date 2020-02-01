@@ -3,6 +3,7 @@ package com.github.Viduality.VSkyblock.Portals;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +24,8 @@ public class CraftPortal {
         portalFramemeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         portalFrame.setItemMeta(portalFramemeta);
 
-        ShapedRecipe portal = new ShapedRecipe(portalFrame);
+        NamespacedKey portalFrameKey = NamespacedKey.minecraft("vskyblockportalframe");
+        ShapedRecipe portal = new ShapedRecipe(portalFrameKey, portalFrame);
         portal.shape("ded", "oeo", "sss");
         portal.setIngredient('e', Material.ENDER_EYE);
         portal.setIngredient('d', Material.DIAMOND);

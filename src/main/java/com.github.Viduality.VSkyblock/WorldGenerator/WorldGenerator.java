@@ -6,6 +6,7 @@ import com.github.Viduality.VSkyblock.VSkyblock;
 
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Chest;
 import org.bukkit.inventory.ItemStack;
 
 public class WorldGenerator {
@@ -149,10 +150,10 @@ public class WorldGenerator {
                 ///// Chest with Start Equip /////
 
                 plugin.getServer().getWorld(islandName).getBlockAt(4, 67, 0).setType(Material.CHEST);
-                org.bukkit.material.Chest ChestData = new org.bukkit.material.Chest(Material.CHEST);
-                ChestData.setFacingDirection(BlockFace.WEST);
+                org.bukkit.material.Chest chestData = new org.bukkit.material.Chest(Material.CHEST);
+                chestData.setFacingDirection(BlockFace.WEST);
                 org.bukkit.block.Chest chest = (org.bukkit.block.Chest) plugin.getServer().getWorld(islandName).getBlockAt(4, 67, 0).getState();
-                chest.setData(ChestData);
+                chest.setData(chestData);
                 chest.update();
 
 

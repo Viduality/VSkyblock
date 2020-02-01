@@ -162,8 +162,22 @@ Easy:
     RepeatReward:
     - Mycelium;1
 
-  Bauazubi:
+  Umweltschützer:
     Slot: 9
+    ShownItem: Composter
+    Type: onIsland
+    Description: "Baue ein Compostplatz mit mindestens 3 Kompostern."
+    Radius: 7
+    NeededText: "Ein Compostplatz auf deiner Insel"
+    Needed:
+      - Composter;3
+    RewardText: "2 Komposter, 5 Knochenblöcke"
+    Reward:
+      - Composter;2
+      - Bone_Block;5
+
+  Bauazubi:
+    Slot: 10
     ShownItem: Iron_Pickaxe
     Type: islandlevel
     Description: "Erreiche Level 20 mit deiner Insel.(Dein aktuelles Level siehst du mit: /island level)."
@@ -396,8 +410,24 @@ Medium:
     - Prismarine_Bricks;16
     - Dark_Prismarine;8
 
-  Baumeister:
+  Imker:
     Slot: 11
+    ShownItem: Beehive
+    Type: onPlayer
+    Description: "Erfarme 16 Honigwaben."
+    NeededText: "16 Honigwaben"
+    Needed:
+      - Honeycomb;16
+    RewardText: "2 Honigblöcke, 1 Bienenspawnegg"
+    Reward:
+      - Honey_Block;2
+      - Bee_Spawn_Egg;1
+    RepeatRewardText: "1 Bienenspawnegg"
+    RepeatReward:
+      - Bee_Spawn_Egg;1
+
+  Baumeister:
+    Slot: 12
     ShownItem: Golden_Pickaxe
     Type: islandlevel
     Description: "Erreiche Level 100 mit deiner Insel. (Dein aktuelles Level siehst du mit: /island level)."
