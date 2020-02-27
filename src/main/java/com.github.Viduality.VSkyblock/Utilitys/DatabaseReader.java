@@ -92,7 +92,7 @@ public class DatabaseReader {
                 PreparedStatement preparedStatement;
                 try {
                     String database = getDatabase.getDatabase();
-                    String preparedStatement1 = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \"" + database + "\" AND TABLE_NAME = \"" + database + "_Island\"";
+                    String preparedStatement1 = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \"" + database + "\" AND TABLE_NAME = \"VSkyblock_Island\"";
                     preparedStatement = connection.prepareStatement(preparedStatement1);
                     ResultSet r = preparedStatement.executeQuery();
                     while (r.next()) {
@@ -103,6 +103,9 @@ public class DatabaseReader {
                     e.printStackTrace();
                 } finally {
                     getDatabase.closeConnection(connection);
+                }
+                if (latestIsland == 0) {
+                    latestIsland = 1;
                 }
                 final String islandname = "VSkyblockIsland_" + latestIsland;
                 final boolean a = true;
