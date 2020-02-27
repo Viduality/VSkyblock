@@ -266,6 +266,7 @@ public class IslandOptionsInventoryHandler implements Listener {
     }
 
     private ItemStack getUpgradeButton(String playerUUID) {
+        ConfigShorts.loadOptionsConfig();
         String island = Island.playerislands.get(playerUUID);
         Integer currentGeneratorLevel = CobblestoneGenerator.islandGenLevel.get(island);
         Integer nextGeneratorLevel = currentGeneratorLevel + 1;
@@ -281,6 +282,8 @@ public class IslandOptionsInventoryHandler implements Listener {
 
         upgradeButtonMeta.setDisplayName(getDisplayNameGeneratorUpgradeButton(nextGeneratorLevel));
         upgradeButtonMeta.setLore(getDescriptionGeneratorUpgradeButton(nextGeneratorLevel));
+
+        ConfigShorts.loaddefConfig();
 
         upgradeButtonMeta.addEnchant(Enchantment.DURABILITY, 1, true);
         upgradeButtonMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
