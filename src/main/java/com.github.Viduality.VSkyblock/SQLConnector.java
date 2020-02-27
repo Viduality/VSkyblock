@@ -29,7 +29,7 @@ public class SQLConnector {
      * Get Database name
      * @return Database name
      */
-    private String getDatabase() {
+    public String getDatabase() {
         return plugin.getConfig().getString("database.database");
     }
 

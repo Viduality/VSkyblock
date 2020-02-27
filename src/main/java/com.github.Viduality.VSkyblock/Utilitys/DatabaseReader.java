@@ -91,7 +91,9 @@ public class DatabaseReader {
                 Connection connection = getDatabase.getConnection();
                 PreparedStatement preparedStatement;
                 try {
-                    preparedStatement = connection.prepareStatement("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \"VSkyblock\" AND TABLE_NAME = \"VSkyblock_Island\"");
+                    String database = getDatabase.getDatabase();
+                    String preparedStatement1 = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \"" + database + "\" AND TABLE_NAME = \"" + database + "_Island\"";
+                    preparedStatement = connection.prepareStatement(preparedStatement1);
                     ResultSet r = preparedStatement.executeQuery();
                     while (r.next()) {
                         latestIsland = r.getInt("AUTO_INCREMENT");
