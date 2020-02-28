@@ -4,6 +4,7 @@ import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Difficulty;
+import org.bukkit.GameRule;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -85,6 +86,7 @@ public class Islandmethods {
                         finaldifficutly = "NORMAL";
                     }
 
+                    plugin.getServer().getWorld(result).setGameRule(GameRule.DO_INSOMNIA, false);
 
 
                     Island.restartmap.asMap().remove(player.getUniqueId());

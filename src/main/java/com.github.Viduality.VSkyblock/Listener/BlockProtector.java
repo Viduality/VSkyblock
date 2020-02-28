@@ -46,28 +46,7 @@ public class BlockProtector implements Listener {
                 ConfigShorts.messagefromString("BlockPlace", player);
             }
         }
-        if (beds.contains(blockPlaceEvent.getBlockPlaced().getType())) {
-            player.setBedSpawnLocation(blockPlaceEvent.getBlockPlaced().getLocation());
-        }
     }
-
-    private final Set<Material> beds = EnumSet.of(
-            Material.BLACK_BED,
-            Material.BLUE_BED,
-            Material.BROWN_BED,
-            Material.CYAN_BED,
-            Material.GREEN_BED,
-            Material.LIGHT_BLUE_BED,
-            Material.LIGHT_GRAY_BED,
-            Material.LIME_BED,
-            Material.MAGENTA_BED,
-            Material.ORANGE_BED,
-            Material.PINK_BED,
-            Material.PURPLE_BED,
-            Material.RED_BED,
-            Material.WHITE_BED,
-            Material.YELLOW_BED
-    );
 
 
 
@@ -79,7 +58,6 @@ public class BlockProtector implements Listener {
             if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(Island.playerislands.get(uuid)))) {
                 playerBucketEmptyEvent.setCancelled(true);
                 ConfigShorts.messagefromString("BlockPlace", player);
-
             }
         }
     }
