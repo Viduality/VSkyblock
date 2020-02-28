@@ -4,6 +4,7 @@ import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +12,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
+
+import java.util.EnumSet;
+import java.util.Set;
 
 public class BlockProtector implements Listener {
 
@@ -42,7 +46,28 @@ public class BlockProtector implements Listener {
                 ConfigShorts.messagefromString("BlockPlace", player);
             }
         }
+        if (beds.contains(blockPlaceEvent.getBlockPlaced().getType())) {
+            player.setBedSpawnLocation(blockPlaceEvent.getBlockPlaced().getLocation());
+        }
     }
+
+    private final Set<Material> beds = EnumSet.of(
+            Material.BLACK_BED,
+            Material.BLUE_BED,
+            Material.BROWN_BED,
+            Material.CYAN_BED,
+            Material.GREEN_BED,
+            Material.LIGHT_BLUE_BED,
+            Material.LIGHT_GRAY_BED,
+            Material.LIME_BED,
+            Material.MAGENTA_BED,
+            Material.ORANGE_BED,
+            Material.PINK_BED,
+            Material.PURPLE_BED,
+            Material.RED_BED,
+            Material.WHITE_BED,
+            Material.YELLOW_BED
+    );
 
 
 

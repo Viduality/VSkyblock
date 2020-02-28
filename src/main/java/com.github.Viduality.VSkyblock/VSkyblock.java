@@ -99,6 +99,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
         pm.registerEvents(new IslandOptionsInventoryHandler(), this);
         pm.registerEvents(new CobblestoneGenerator(), this);
         pm.registerEvents(new CobblestoneGeneratorInventoryHandler(), this);
+        pm.registerEvents(new PhantomSpawn(), this);
 
         new DeleteOldIslands().run();
 
@@ -143,8 +144,10 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
         ScoreboardManager sm = getServer().getScoreboardManager();
         Scoreboard scoreboard = sm.getMainScoreboard();
-        Objective deathCount = scoreboard.registerNewObjective("deaths", "deathCount", "Deaths");
-        deathCount.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        if (!scoreboardmanager.doesobjectiveexist("deaths")) {
+            Objective deathCount = scoreboard.registerNewObjective("deaths", "deathCount", "Deaths");
+            deathCount.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        }
 
         if (getOnlinePlayers().size() != 0) {
             databaseReader.refreshIslands(getOnlinePlayers());
