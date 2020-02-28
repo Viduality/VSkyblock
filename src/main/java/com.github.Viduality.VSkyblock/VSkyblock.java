@@ -8,6 +8,7 @@ import com.github.Viduality.VSkyblock.Commands.Admin.AdminCommands;
 import com.github.Viduality.VSkyblock.Listener.*;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.Utilitys.DeleteOldIslands;
+import com.github.Viduality.VSkyblock.Utilitys.Scoreboardmanager;
 import com.github.Viduality.VSkyblock.Utilitys.WorldLoader;
 import com.github.Viduality.VSkyblock.WorldGenerator.VoidGenerator;
 import org.bukkit.Material;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
     private static VSkyblock instance;
     private SQLConnector sqlConnector;
+    public Scoreboardmanager scoreboardmanager;
 
     private Island islandExecutor;
     private Testcommand testcommandExecutor;
@@ -134,11 +137,19 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
         new WorldLoader().run();
 
+        setGeneratorChances();
+
+        scoreboardmanager = new Scoreboardmanager();
+
+        ScoreboardManager sm = getServer().getScoreboardManager();
+        Scoreboard scoreboard = sm.getMainScoreboard();
+        Objective deathCount = scoreboard.registerNewObjective("deaths", "deathCount", "Deaths");
+        deathCount.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+
         if (getOnlinePlayers().size() != 0) {
             databaseReader.refreshIslands(getOnlinePlayers());
+            databaseReader.refreshDeathCounts(getOnlinePlayers());
         }
-
-        setGeneratorChances();
     }
 
 
@@ -148,6 +159,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
         getServer().getScheduler().cancelTasks(this);
         sqlConnector.close();
         getServer().resetRecipes();
+        getServer().getScoreboardManager().getMainScoreboard().getObjective("deaths").unregister();
     }
 
     /**

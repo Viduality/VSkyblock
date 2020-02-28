@@ -13,10 +13,10 @@ public class ConfigShorts {
     /**
      * Sends a message from the config.yml file to a player.
      *
-     * @param String
+     * @param string
      * @param player
      */
-    public static void messagefromString(String String, Player player) {
+    public static void messagefromString(String string, Player player) {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
         } catch (IOException e) {
@@ -31,12 +31,12 @@ public class ConfigShorts {
         if (actualLanguage.equalsIgnoreCase("ger")) {
             loadGERConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
         else {
             loadENGConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
 
         player.sendMessage(message);
@@ -46,9 +46,9 @@ public class ConfigShorts {
     /**
      * Broadcasts a custom message from the config.yml file to the server.
      *
-     * @param String
+     * @param string
      */
-    public static void broadcastfromString(String String) {
+    public static void broadcastfromString(String string) {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
         } catch (IOException e) {
@@ -63,12 +63,12 @@ public class ConfigShorts {
         if (actualLanguage.equalsIgnoreCase("ger")) {
             loadGERConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
         else {
             loadENGConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
 
         plugin.getServer().broadcastMessage(message);
@@ -78,11 +78,11 @@ public class ConfigShorts {
     /**
      * Broadcasts that a specific player has completed a specific challenge.
      *
-     * @param String
+     * @param string
      * @param playername
      * @param challenge
      */
-    public static void broadcastChallengeCompleted(String String, String playername, String challenge) {
+    public static void broadcastChallengeCompleted(String string, String playername, String challenge) {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
         } catch (IOException e) {
@@ -97,12 +97,12 @@ public class ConfigShorts {
         if (actualLanguage.equalsIgnoreCase("ger")) {
             loadGERConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
         else {
             loadENGConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
 
         if (message.contains("%Player")) {
@@ -123,12 +123,12 @@ public class ConfigShorts {
     /**
      * Sends a custom message from the config.yml file to a player.
      * Playername and targetname will be shown in the message when included as "%Player%" or "%SecondPlayer%" in the config.yml file.
-     * @param String
+     * @param string
      * @param player
      * @param playername
      * @param targetname
      */
-    public static void custommessagefromString(String String, Player player, String playername, String targetname) {
+    public static void custommessagefromString(String string, Player player, String playername, String targetname) {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
         } catch (IOException e) {
@@ -143,12 +143,12 @@ public class ConfigShorts {
         if (actualLanguage.equalsIgnoreCase("ger")) {
             loadGERConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
         else {
             loadENGConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
 
         if (message.contains("%Player")) {
@@ -168,11 +168,11 @@ public class ConfigShorts {
     /**
      * Sends a custom message from the config.yml file to a player.
      * The replacement will be shown in the message when included as "%replacement%" in the config.yml file.
-     * @param String
+     * @param string
      * @param player
      * @param replacement
      */
-    public static void custommessagefromString(String String, Player player, String replacement) {
+    public static void custommessagefromString(String string, Player player, String replacement) {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
         } catch (IOException e) {
@@ -187,12 +187,12 @@ public class ConfigShorts {
         if (actualLanguage.equalsIgnoreCase("ger")) {
             loadGERConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
         else {
             loadENGConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
 
         if (message.contains("%replacement%")) {
@@ -205,12 +205,12 @@ public class ConfigShorts {
 
     /**
      * Returns a custom String from the config and replaces "%replacement%" and "%replacement2%"
-     * @param String
+     * @param string
      * @param replacement
      * @param replacement2
      * @return custom String
      */
-    public static String getCustomString(String String, String replacement, String replacement2) {
+    public static String getCustomString(String string, String replacement, String replacement2) {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
         } catch (IOException e) {
@@ -225,12 +225,12 @@ public class ConfigShorts {
         if (actualLanguage.equalsIgnoreCase("ger")) {
             loadGERConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
         else {
             loadENGConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
 
         if (message.contains("%replacement%")) {
@@ -246,10 +246,10 @@ public class ConfigShorts {
 
     /**
      * Returns a custom String from the config
-     * @param String
+     * @param string
      * @return String
      */
-    public static String getCustomString(String String) {
+    public static String getCustomString(String string) {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
         } catch (IOException e) {
@@ -264,12 +264,12 @@ public class ConfigShorts {
         if (actualLanguage.equalsIgnoreCase("ger")) {
             loadGERConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
         else {
             loadENGConfig();
             prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(String);
+            message = prefix + " " + plugin.getConfig().getString(string);
         }
         loaddefConfig();
         return message;

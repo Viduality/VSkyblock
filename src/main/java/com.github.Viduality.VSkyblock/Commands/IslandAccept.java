@@ -44,6 +44,9 @@ public class IslandAccept implements SubCommand {
                                             Island.playerislands.put(player.getUniqueId().toString(), newisland);
                                             Island.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
                                             wm.unloadWorld(databaseCache.getIslandname());
+                                            databaseWriter.updateDeathCount(newmemberuuid, 0);
+                                            plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", 0);
+
                                         } else {
                                             ConfigShorts.messagefromString("HasIslandMembers", player);
                                         }

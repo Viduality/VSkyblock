@@ -438,6 +438,30 @@ public class DatabaseWriter {
         });
     }
 
+    /**
+     * Updates the death count of a specific player.
+     *
+     * @param uuid
+     * @param count
+     */
+    public void updateDeathCount(String uuid, int count) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            Connection connection = getDatabase.getConnection();
+            try {
+                PreparedStatement preparedStatement;
+                preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET deaths = ? WHERE uuid = ?");
+                preparedStatement.setInt(1, count);
+                preparedStatement.setString(2, uuid);
+                preparedStatement.executeUpdate();
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                getDatabase.closeConnection(connection);
+            }
+        });
+    }
+
     public interface Callback {
         public void onQueryDone(boolean done);
     }

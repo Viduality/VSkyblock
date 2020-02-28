@@ -177,7 +177,7 @@ Easy:
       - Bone_Block;5
 
   Building-Trainee:
-    Slot: 9
+    Slot: 10
     ShownItem: Iron_Pickaxe
     Type: islandlevel
     Description: "Reach level 20 with your island.."

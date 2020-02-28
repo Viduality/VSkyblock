@@ -1,10 +1,7 @@
 package com.github.Viduality.VSkyblock.WorldGenerator;
 
 import com.github.Viduality.VSkyblock.Commands.Island;
-import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
-import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
+import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Difficulty;
 import org.bukkit.entity.Player;
@@ -97,6 +94,8 @@ public class Islandmethods {
                         wm.unloadWorld(oldIsland);
                     }
                     databaseWriter.addIsland(result, uuid, finaldifficutly.toUpperCase());
+                    databaseWriter.updateDeathCount(uuid, 0);
+                    plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", 0);
                 } else {
                     ConfigShorts.messagefromString("FailedToCreateIsland", player);
                 }

@@ -1,19 +1,16 @@
 package com.github.Viduality.VSkyblock.Listener;
 
 import com.github.Viduality.VSkyblock.Commands.Island;
-import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
+import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.WorldGenerator.WorldGenerator;
-import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.Objective;
 
 public class PlayerJoinListener implements Listener {
 
@@ -43,6 +40,11 @@ public class PlayerJoinListener implements Listener {
                 if (result.getuuid() == null) {
                     databaseWriter.addPlayer(player.getUniqueId().toString(), player.getName());
                 } else {
+                    if (plugin.scoreboardmanager.doesobjectiveexist("deaths")) {
+                        if (plugin.scoreboardmanager.addPlayerToObjective(player, "deaths")) {
+                            plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", result.getDeathCount());
+                        }
+                    }
                     if (result.getIslandname() != null) {
                         if (!Island.playerislands.containsValue(result.getIslandname())) {
                             wm.loadWorld(result.getIslandname());

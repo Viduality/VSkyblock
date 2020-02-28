@@ -6,6 +6,7 @@ import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Objective;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class DatabaseReader {
                         databaseCache1.setIslandowner(r.getBoolean("islandowner"));
                         databaseCache1.setIslandId(r.getInt("islandid"));
                         databaseCache1.setIslandowneruuid(r.getString("owneruuid"));
+                        databaseCache1.setDeathCount(r.getInt("deaths"));
                     }
                     preparedStatement.close();
 
@@ -741,6 +743,51 @@ public class DatabaseReader {
                         callback.onQueryDone(cache);
                     }
                 });
+            }
+        });
+    }
+
+    /**
+     * Refreshes deathcounts of all online players.
+     *
+     * @param onlineplayers
+     */
+    public void refreshDeathCounts(List<Player> onlineplayers) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                Connection connection = getDatabase.getConnection();
+                try {
+                    for (int i = 0; i < onlineplayers.size(); i++) {
+                        int deathcount = 0;
+                        PreparedStatement preparedStatement;
+                        preparedStatement = connection.prepareStatement("SELECT deaths FROM VSkyblock_Player WHERE uuid = ?");
+                        preparedStatement.setString(1, onlineplayers.get(i).getUniqueId().toString());
+                        ResultSet resultSet = preparedStatement.executeQuery();
+                        while (resultSet.next()) {
+                            deathcount = resultSet.getInt("deaths");
+                        }
+                        if (deathcount != 0) {
+                            if (plugin.scoreboardmanager.doesobjectiveexist("deaths")) {
+                                if (plugin.scoreboardmanager.hasPlayerScore(onlineplayers.get(i).getName(), "deaths")) {
+                                    plugin.scoreboardmanager.updatePlayerScore(onlineplayers.get(i).getName(), "deaths", deathcount);
+                                }
+                            }
+                            if (plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective("deaths") != null) {
+                                Objective objective = plugin.getServer().getScoreboardManager().getMainScoreboard().getObjective("deaths");
+                                if (objective.getScore(onlineplayers.get(i).getName()) != null) {
+                                    objective.getScore(onlineplayers.get(i).getName()).setScore(deathcount);
+                                }
+                            }
+                        }
+                        preparedStatement.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    getDatabase.closeConnection(connection);
+                }
             }
         });
     }

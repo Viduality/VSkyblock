@@ -24,6 +24,7 @@ public class DatabaseCache {
     private int islandLevel = 0;
     private List<String> islandmembers = new ArrayList<>();
     private String arg = null;
+    private int deathCount = 0;
 
     private Player player;
     private OfflinePlayer offlinePlayer;
@@ -222,9 +223,24 @@ public class DatabaseCache {
 
     /**
      * Returns a list of all island members.
-     * @return
+     * @return list of all members
      */
     public List<String> getislandmembers() {
         return islandmembers;
+    }
+
+    /**
+     * Sets the death count for the player.
+     */
+    public void setDeathCount(int deathCount) {
+        this.deathCount = deathCount;
+    }
+
+    /**
+     * Returns the death count of the player.
+     * @return deathcount
+     */
+    public int getDeathCount() {
+        return deathCount;
     }
 }
