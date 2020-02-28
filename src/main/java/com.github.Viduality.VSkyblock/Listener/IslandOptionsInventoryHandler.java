@@ -294,6 +294,7 @@ public class IslandOptionsInventoryHandler implements Listener {
     }
 
     private ItemStack getCobbleDropChanceInfo(String playerUUID) {
+        ConfigShorts.loadOptionsConfig();
         String island = Island.playerislands.get(playerUUID);
         Integer currentIslandLevel = CobblestoneGenerator.islandlevels.get(island);
         Double levelIntervall = CobblestoneGenerator.generatorValues.get("CobblestoneLevelIntervall");
@@ -307,6 +308,8 @@ public class IslandOptionsInventoryHandler implements Listener {
         cobbleDropChanceInfoMeta.setDisplayName(getDisplayNameCobbleDropChance());
         cobbleDropChanceInfoMeta.setLore(getDescriptionCobblestoneDropChance(maxDrops));
 
+        ConfigShorts.loaddefConfig();
+
         cobbleDropChanceInfoMeta.addEnchant(Enchantment.DURABILITY, 1, true);
         cobbleDropChanceInfoMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         cobbleDropChanceInfoMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -316,6 +319,7 @@ public class IslandOptionsInventoryHandler implements Listener {
     }
 
     private ItemStack getChancesOverview(String playerUUID) {
+        ConfigShorts.loadOptionsConfig();
         String island = Island.playerislands.get(playerUUID);
         Integer currentgeneratorLevel = CobblestoneGenerator.islandGenLevel.get(island);
 
@@ -327,6 +331,7 @@ public class IslandOptionsInventoryHandler implements Listener {
 
         chancesOverviewMeta.setDisplayName(getDisplayNameChancesOverview());
         chancesOverviewMeta.setLore(getDescriptionChancesOverview(currentgeneratorLevel));
+        ConfigShorts.loaddefConfig();
 
         chancesOverviewMeta.addEnchant(Enchantment.DURABILITY, 1, true);
         chancesOverviewMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
