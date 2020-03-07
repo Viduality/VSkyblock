@@ -10,6 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -70,10 +74,29 @@ public class EntityProtector implements Listener {
         Entity damagedentity = entityDamageByEntityEvent.getEntity();
         if (entity instanceof Player) {
             String uuid = entity.getUniqueId().toString();
-            if (!entity.getWorld().getName().equals(Island.playerislands.get(uuid))) {
-                if (!hostilemobs.contains(damagedentity.getType()) && entity.getType().equals(EntityType.PLAYER)) {
-                    entityDamageByEntityEvent.setCancelled(true);
-                }
+            if (!entity.getWorld().getName().equals(Island.playerislands.get(uuid)) && !entity.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+                entityDamageByEntityEvent.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void targetPlayer(EntityTargetEvent entityTargetEvent) {
+        Entity entity = entityTargetEvent.getTarget();
+        if (entity instanceof Player) {
+            String uuid = entity.getUniqueId().toString();
+            if (!entity.getWorld().getName().equals(Island.playerislands.get(uuid)) && !entity.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+                entityTargetEvent.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void inventoryListener(InventoryOpenEvent inventoryOpenEvent) {
+        Player player = (Player) inventoryOpenEvent.getPlayer();
+        if (!player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString())) && !player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+            if (inventoryOpenEvent.getInventory().getType().equals(InventoryType.MERCHANT)) {
+                inventoryOpenEvent.setCancelled(true);
             }
         }
     }
