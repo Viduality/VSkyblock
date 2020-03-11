@@ -13,7 +13,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -94,9 +93,11 @@ public class EntityProtector implements Listener {
     @EventHandler
     public void inventoryListener(InventoryOpenEvent inventoryOpenEvent) {
         Player player = (Player) inventoryOpenEvent.getPlayer();
-        if (!player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString())) && !player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
-            if (inventoryOpenEvent.getInventory().getType().equals(InventoryType.MERCHANT)) {
-                inventoryOpenEvent.setCancelled(true);
+        if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
+            if (!player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString())) && !player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+                if (inventoryOpenEvent.getInventory().getType().equals(InventoryType.MERCHANT)) {
+                    inventoryOpenEvent.setCancelled(true);
+                }
             }
         }
     }
