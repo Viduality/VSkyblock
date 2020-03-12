@@ -74,9 +74,12 @@ public class EntityProtector implements Listener {
         Entity entity = entityDamageByEntityEvent.getDamager();
         Entity damagedentity = entityDamageByEntityEvent.getEntity();
         if (entity instanceof Player) {
-            String uuid = entity.getUniqueId().toString();
+            Player player = (Player) entity;
+            String uuid = player.getUniqueId().toString();
             if (!entity.getWorld().getName().equals(Island.playerislands.get(uuid)) && !entity.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
-                entityDamageByEntityEvent.setCancelled(true);
+                if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
+                    entityDamageByEntityEvent.setCancelled(true);
+                }
             }
         }
     }
