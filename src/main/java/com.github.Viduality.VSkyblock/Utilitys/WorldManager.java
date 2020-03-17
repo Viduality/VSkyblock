@@ -212,7 +212,7 @@ public class WorldManager {
                 return false;
             }
         } else {
-            System.out.println(ANSI_RED + "VSkyblock does not know about this world!" + ANSI_RESET);
+            System.out.println(ANSI_RED + "VSkyblock does not know about this world: " + world + ANSI_RESET);
             return false;
         }
     }
