@@ -5,6 +5,8 @@ import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 
@@ -18,6 +20,7 @@ public class DatabaseReader {
 
     private SQLConnector getDatabase = new SQLConnector();
     private VSkyblock plugin = VSkyblock.getInstance();
+    private WorldManager wm = new WorldManager();
 
     /**
      * Gets the data of an player (database action).
@@ -839,6 +842,84 @@ public class DatabaseReader {
         });
     }
 
+    /**
+     * Returns all options for an island.
+     *
+     * @param uuid
+     * @param callback
+     */
+    public void getlastLocation(final String uuid, final CallbackLocation callback) {
+        Bukkit.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                Location location = null;
+                double x = 0;
+                double y = 0;
+                double z = 0;
+                double pitch = 0;
+                double yaw = 0;
+                String lastWorld = null;
+                int islandid = 0;
+                String island = null;
+                Connection connection = getDatabase.getConnection();
+                try {
+                    PreparedStatement preparedStatement;
+                    preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE uuid = ?");
+                    preparedStatement.setString(1, uuid);
+                    ResultSet r = preparedStatement.executeQuery();
+                    while (r.next()) {
+                        islandid = r.getInt("islandid");
+                        x = r.getDouble("lastX");
+                        y = r.getDouble("lastY");
+                        z = r.getDouble("lastZ");
+                        pitch = r.getDouble("lastPitch");
+                        yaw = r.getDouble("lastYaw");
+                        lastWorld = r.getString("lastWorld");
+                    }
+                    preparedStatement.close();
+
+                    if (islandid != 0) {
+                        PreparedStatement preparedStatement1;
+                        preparedStatement1 = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE islandid = ?");
+                        preparedStatement1.setInt(1, islandid);
+                        ResultSet r1 = preparedStatement1.executeQuery();
+                        while (r1.next()) {
+                            island = r1.getString("island");
+                        }
+                        preparedStatement1.close();
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+
+                finally {
+                    getDatabase.closeConnection(connection);
+                }
+
+                if (lastWorld != null) {
+                    if (y != 0) {
+                        if (wm.getLoadedWorlds().contains(lastWorld)) {
+                            if (plugin.getServer().getWorld(lastWorld).getEnvironment().equals(World.Environment.NETHER) || lastWorld.equals(island)) {
+                                World world = plugin.getServer().getWorld(lastWorld);;
+                                location = new Location(world, x, y, z, (float) yaw, (float) pitch);
+                            }
+                        }
+                    }
+                }
+
+                Location finalLocation = location;
+                Bukkit.getScheduler().runTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onQueryDone(finalLocation);
+                    }
+                });
+            }
+        });
+    }
+
 
 
 
@@ -876,5 +957,9 @@ public class DatabaseReader {
 
     public interface CallbackStrings {
         public void onQueryDone(String result, boolean a);
+    }
+
+    public interface CallbackLocation {
+        public void onQueryDone(Location loc);
     }
 }

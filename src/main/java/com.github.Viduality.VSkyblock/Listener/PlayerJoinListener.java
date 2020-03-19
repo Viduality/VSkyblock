@@ -4,6 +4,7 @@ import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.WorldGenerator.WorldGenerator;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -52,13 +53,34 @@ public class PlayerJoinListener implements Listener {
                             if (wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
                                 wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
                             }
-                            player.teleport(wm.getSpawnLocation(result.getIslandname()));
+                            wm.loadWorld(result.getIslandname());
+                            databaseReader.getlastLocation(result.getuuid(), new DatabaseReader.CallbackLocation() {
+                                @Override
+                                public void onQueryDone(Location loc) {
+                                    if (loc != null) {
+                                        player.teleport(loc);
+                                    } else {
+                                        player.teleport(wm.getSpawnLocation(result.getIslandname()));
+                                    }
+                                }
+                            });
+
                         } else {
                             Island.playerislands.put(result.getuuid(), result.getIslandname());
                             if (wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
                                 wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
                             }
-                            player.teleport(wm.getSpawnLocation(result.getIslandname()));
+                            wm.loadWorld(result.getIslandname());
+                            databaseReader.getlastLocation(result.getuuid(), new DatabaseReader.CallbackLocation() {
+                                @Override
+                                public void onQueryDone(Location loc) {
+                                    if (loc != null) {
+                                        player.teleport(loc);
+                                    } else {
+                                        player.teleport(wm.getSpawnLocation(result.getIslandname()));
+                                    }
+                                }
+                            });
                         }
                     } else {
                         player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));

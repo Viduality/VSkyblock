@@ -22,6 +22,7 @@ public class PlayerLeaveListener implements Listener {
     @EventHandler
     public void onPlayerLeaveEvent(PlayerQuitEvent playerQuitEvent) {
         Player player = playerQuitEvent.getPlayer();
+        Location loc = player.getLocation();
         if (Island.playerislands.containsKey(player.getUniqueId().toString())) {
             String island = Island.playerislands.get(player.getUniqueId().toString());
             Island.playerislands.remove(player.getUniqueId().toString());
@@ -37,12 +38,11 @@ public class PlayerLeaveListener implements Listener {
                 databaseWriter.updateDeathCount(player.getUniqueId().toString(), currentcount);
             }
         }
-        saveLocation(player);
+        saveLocation(player, loc);
     }
 
 
-    private void saveLocation(Player player) {
-        Location loc = player.getLocation();
+    private void saveLocation(Player player, Location loc) {
         databaseWriter.savelastLocation(player.getUniqueId().toString(), loc);
     }
 }
