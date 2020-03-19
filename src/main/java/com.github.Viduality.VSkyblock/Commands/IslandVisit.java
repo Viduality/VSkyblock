@@ -43,25 +43,29 @@ public class IslandVisit implements SubCommand {
                                                 public void onQueryDone(boolean result) {
                                                     if (result) {
                                                         String island = "VSkyblockIsland_" + islandid;
-                                                        if (!wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
-                                                            if (wm.getSpawnLocation(island).getBlock().getType().equals(Material.AIR)) {
-                                                                if (wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.UP).getType().equals(Material.AIR)) {
-                                                                    if (!wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.LAVA)) {
-                                                                        if (!wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.MAGMA_BLOCK)) {
-                                                                            if (!wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.WITHER_ROSE)) {
-                                                                                player.teleport(wm.getSpawnLocation(island));
-                                                                                databaseReader.getIslandMembers(islandid, new DatabaseReader.CallbackList() {
-                                                                                    @Override
-                                                                                    public void onQueryDone(List<String> result) {
-                                                                                        for (String member : result) {
-                                                                                            OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(member);
-                                                                                            if (offlinePlayer.isOnline()) {
-                                                                                                Player onlinePlayer = (Player) offlinePlayer;
-                                                                                                ConfigShorts.custommessagefromString("PlayerVisitingYourIsland", onlinePlayer, player.getName());
+                                                        if (wm.getLoadedWorlds().contains(island)) {
+                                                            if (wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
+                                                                if (wm.getSpawnLocation(island).getBlock().getType().equals(Material.AIR)) {
+                                                                    if (wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.UP).getType().equals(Material.AIR)) {
+                                                                        if (!wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.LAVA)) {
+                                                                            if (!wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.MAGMA_BLOCK)) {
+                                                                                if (!wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.WITHER_ROSE)) {
+                                                                                    player.teleport(wm.getSpawnLocation(island));
+                                                                                    databaseReader.getIslandMembers(islandid, new DatabaseReader.CallbackList() {
+                                                                                        @Override
+                                                                                        public void onQueryDone(List<String> result) {
+                                                                                            for (String member : result) {
+                                                                                                OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(member);
+                                                                                                if (offlinePlayer.isOnline()) {
+                                                                                                    Player onlinePlayer = (Player) offlinePlayer;
+                                                                                                    ConfigShorts.custommessagefromString("PlayerVisitingYourIsland", onlinePlayer, player.getName());
+                                                                                                }
                                                                                             }
                                                                                         }
-                                                                                    }
-                                                                                });
+                                                                                    });
+                                                                                } else {
+                                                                                    ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
+                                                                                }
                                                                             } else {
                                                                                 ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
                                                                             }
