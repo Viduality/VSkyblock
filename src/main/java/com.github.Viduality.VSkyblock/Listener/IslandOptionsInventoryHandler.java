@@ -86,7 +86,7 @@ public class IslandOptionsInventoryHandler implements Listener {
                 String finalDifficulty = difficulty;
                 ConfigShorts.loaddefConfig();
                 databaseWriter.updateIslandOptions(player, visit, difficulty, done ->
-                        databaseReader.getislandidfromplayer(player.getUniqueId().toString(), result ->
+                        databaseReader.getislandnamefromplayer(player.getUniqueId().toString(), result ->
                                 updateIsland(result, finalDifficulty)));
             }
         }
@@ -145,13 +145,12 @@ public class IslandOptionsInventoryHandler implements Listener {
     /**
      * Updates the islands difficulty.
      *
-     * @param islandid
+     * @param islandname
      * @param difficulty
      */
-    private void updateIsland(int islandid, String difficulty) {
-        String islandName = "VSkyblockIsland_" + islandid;
-        if (plugin.getServer().getWorld(islandName) != null) {
-            plugin.getServer().getWorld(islandName).setDifficulty(Difficulty.valueOf(difficulty.toUpperCase()));
+    private void updateIsland(String islandname, String difficulty) {
+        if (plugin.getServer().getWorld(islandname) != null) {
+            plugin.getServer().getWorld(islandname).setDifficulty(Difficulty.valueOf(difficulty.toUpperCase()));
         }
     }
 

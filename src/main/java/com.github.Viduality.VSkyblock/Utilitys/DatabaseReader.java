@@ -239,6 +239,53 @@ public class DatabaseReader {
     }
 
     /**
+     * Gets the island id from a player (database action).
+     *
+     * @param uuid
+     * @param callback
+     */
+    public void getislandnamefromplayer(String uuid, CallbackString callback) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                DatabaseCache databaseCache = new DatabaseCache();
+                Connection connection = getDatabase.getConnection();
+                try {
+                    PreparedStatement preparedStatement;
+                    preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
+                    preparedStatement.setString(1, uuid);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    while (resultSet.next()) {
+                        databaseCache.setIslandId(resultSet.getInt("islandid"));
+                    }
+                    preparedStatement.close();
+
+                    PreparedStatement preparedStatement1;
+                    preparedStatement1 = connection.prepareStatement("SELECT island FROM VSkyblock_Island WHERE islandid = ?");
+                    preparedStatement1.setInt(1, databaseCache.getIslandId());
+                    ResultSet resultSet1 = preparedStatement1.executeQuery();
+                    while (resultSet1.next()) {
+                        databaseCache.setIslandname(resultSet1.getString("island"));
+                    }
+                    preparedStatement1.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    getDatabase.closeConnection(connection);
+                }
+                final String island = databaseCache.getIslandname();
+                plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onQueryDone(island);
+                    }
+                });
+            }
+        });
+    }
+
+    /**
      * Gets all members of an island (database action).
      * Does not matter if a player is the owner of the island. He will be listed aswell.
      * @param islandid
