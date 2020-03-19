@@ -5,6 +5,7 @@ import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
 import com.github.Viduality.VSkyblock.Utilitys.Scoreboardmanager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,5 +37,12 @@ public class PlayerLeaveListener implements Listener {
                 databaseWriter.updateDeathCount(player.getUniqueId().toString(), currentcount);
             }
         }
+        saveLocation(player);
+    }
+
+
+    private void saveLocation(Player player) {
+        Location loc = player.getLocation();
+        databaseWriter.savelastLocation(player.getUniqueId().toString(), loc);
     }
 }

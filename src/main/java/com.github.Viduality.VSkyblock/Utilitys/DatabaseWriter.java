@@ -3,6 +3,7 @@ package com.github.Viduality.VSkyblock.Utilitys;
 import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -458,6 +459,38 @@ public class DatabaseWriter {
                 e.printStackTrace();
             } finally {
                 getDatabase.closeConnection(connection);
+            }
+        });
+    }
+
+    public void savelastLocation(String uuid, Location loc) {
+        double x = loc.getX();
+        double y = loc.getY();
+        double z = loc.getZ();
+        double pitch = loc.getPitch();
+        double yaw = loc.getYaw();
+        String world = loc.getWorld().getName();
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                Connection connection = getDatabase.getConnection();
+                try {
+                    PreparedStatement savelastLoc;
+                    savelastLoc = connection.prepareStatement("UPDATE VSkyblock_Player SET lastX = ?, lastY = ?, lastZ = ?, lastPitch = ?, lastYaw = ?, lastWorld = ? WHERE uuid = ?");
+                    savelastLoc.setDouble(1, x);
+                    savelastLoc.setDouble(2, y);
+                    savelastLoc.setDouble(3, z);
+                    savelastLoc.setDouble(4, pitch);
+                    savelastLoc.setDouble(5, yaw);
+                    savelastLoc.setString(6, world);
+                    savelastLoc.setString(7, uuid);
+                    savelastLoc.executeUpdate();
+                    savelastLoc.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    getDatabase.closeConnection(connection);
+                }
             }
         });
     }

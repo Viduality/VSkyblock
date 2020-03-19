@@ -88,7 +88,7 @@ Easy:
     Slot: 4
     ShownItem: Cactus
     Type: onPlayer
-    Description: "Baue eine Kaktusfarm und ernte 64 Weizen."
+    Description: "Baue eine Kaktusfarm und ernte 64 Kakteen."
     NeededText: "64 Kakteen"
     Needed:
     - Cactus;64

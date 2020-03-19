@@ -42,13 +42,14 @@ public class IslandVisit implements SubCommand {
                                                 @Override
                                                 public void onQueryDone(boolean result) {
                                                     if (result) {
-                                                        if (!wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
-                                                            if (wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getType().equals(Material.AIR)) {
-                                                                if (wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getRelative(BlockFace.UP).getType().equals(Material.AIR)) {
-                                                                    if (!wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.LAVA)) {
-                                                                        if (!wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.MAGMA_BLOCK)) {
-                                                                            if (!wm.getSpawnLocation("VSkyblockIsland_" + islandid).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.WITHER_ROSE)) {
-                                                                                player.teleport(wm.getSpawnLocation("VSkyblockIsland_" + islandid));
+                                                        String island = "VSkyblockIsland_" + islandid;
+                                                        if (!wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
+                                                            if (wm.getSpawnLocation(island).getBlock().getType().equals(Material.AIR)) {
+                                                                if (wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.UP).getType().equals(Material.AIR)) {
+                                                                    if (!wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.LAVA)) {
+                                                                        if (!wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.MAGMA_BLOCK)) {
+                                                                            if (!wm.getSpawnLocation(island).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.WITHER_ROSE)) {
+                                                                                player.teleport(wm.getSpawnLocation(island));
                                                                                 databaseReader.getIslandMembers(islandid, new DatabaseReader.CallbackList() {
                                                                                     @Override
                                                                                     public void onQueryDone(List<String> result) {

@@ -95,6 +95,12 @@ public class SQLConnector {
                             + "owneruuid CHAR(32),"
                             + "kicked BOOLEAN NOT NULL DEFAULT false,"
                             + "deaths BIGINT DEFAULT 0,"
+                            + "lastX DOUBLE,"
+                            + "lastY DOUBLE,"
+                            + "lastZ DOUBLE,"
+                            + "lastPitch DOUBLE,"
+                            + "lastYaw DOUBLE,"
+                            + "lastWorld CHAR(128),"
                             + "PRIMARY KEY (playername));");
             connection.createStatement().execute(
                     "CREATE TABLE IF NOT EXISTS VSkyblock_Island("
@@ -174,6 +180,15 @@ public class SQLConnector {
             //Auto adds new columns (if they are implemented in future updates and the plugin is already running on the server)
             connection.createStatement().execute(
                     "ALTER TABLE VSkyblock_Player ADD COLUMN IF NOT EXISTS deaths BIGINT DEFAULT 0;"
+            );
+            connection.createStatement().execute(
+                    "ALTER TABLE VSkyblock_Player ADD COLUMN IF NOT EXISTS("
+                    + "lastX DOUBLE,"
+                    + "lastY DOUBLE,"
+                    + "lastZ DOUBLE,"
+                    + "lastPitch DOUBLE,"
+                    + "lastYaw DOUBLE,"
+                    + "lastWorld CHAR(128));"
             );
             connection.close();
         } catch (SQLException e) {

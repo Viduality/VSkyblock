@@ -109,7 +109,7 @@ commands:
   Island Options:
     description: Shows the island options menu.
     usage: /island options
-    aliases: [island option, is options, is option]
+    aliases: [island option, is options, is option, is settings, is setting, island settings, island setting]
     permission: VSkyblock.Island
     permission-message: You don't have permission
 

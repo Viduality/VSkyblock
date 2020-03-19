@@ -150,7 +150,9 @@ public class IslandOptionsInventoryHandler implements Listener {
      */
     private void updateIsland(int islandid, String difficulty) {
         String islandName = "VSkyblockIsland_" + islandid;
-        plugin.getServer().getWorld(islandName).setDifficulty(Difficulty.valueOf(difficulty.toUpperCase()));
+        if (plugin.getServer().getWorld(islandName) != null) {
+            plugin.getServer().getWorld(islandName).setDifficulty(Difficulty.valueOf(difficulty.toUpperCase()));
+        }
     }
 
     /**

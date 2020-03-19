@@ -25,6 +25,11 @@ public class DatabaseCache {
     private List<String> islandmembers = new ArrayList<>();
     private String arg = null;
     private int deathCount = 0;
+    private double spawnX;
+    private double spawnY;
+    private double spawnZ;
+    private double spawnPitch;
+    private double spawnYaw;
 
     private Player player;
     private OfflinePlayer offlinePlayer;
