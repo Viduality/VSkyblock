@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class PlayerJoinListener implements Listener {
 
@@ -23,6 +25,12 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent playerJoinEvent) {
+        Player player = playerJoinEvent.getPlayer();
+        PotionEffect potionEffectBlindness = new PotionEffect(PotionEffectType.BLINDNESS, 50, 1);
+        PotionEffect potionEffectNightVision = new PotionEffect(PotionEffectType.NIGHT_VISION, 50, 1);
+        player.addPotionEffect(potionEffectBlindness);
+        player.addPotionEffect(potionEffectNightVision);
+
         ConfigShorts.loaddefConfig();
 
 
@@ -33,7 +41,7 @@ public class PlayerJoinListener implements Listener {
             wm.loadWorld(plugin.getConfig().getString("NetherWorld"));
         }
 
-        Player player = playerJoinEvent.getPlayer();
+
         databaseReader.getPlayerData(player.getUniqueId().toString(), new DatabaseReader.Callback() {
             @Override
             public void onQueryDone(DatabaseCache result) {
@@ -62,6 +70,8 @@ public class PlayerJoinListener implements Listener {
                                     } else {
                                         player.teleport(wm.getSpawnLocation(result.getIslandname()));
                                     }
+                                    player.removePotionEffect(PotionEffectType.BLINDNESS);
+                                    player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                                 }
                             });
 
@@ -79,11 +89,15 @@ public class PlayerJoinListener implements Listener {
                                     } else {
                                         player.teleport(wm.getSpawnLocation(result.getIslandname()));
                                     }
+                                    player.removePotionEffect(PotionEffectType.BLINDNESS);
+                                    player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                                 }
                             });
                         }
                     } else {
                         player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
+                        player.removePotionEffect(PotionEffectType.BLINDNESS);
+                        player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                         if (result.isKicked()) {
                             ConfigShorts.messagefromString("KickedFromIslandOffline", player);
                             databaseWriter.removeKicked(result.getuuid());

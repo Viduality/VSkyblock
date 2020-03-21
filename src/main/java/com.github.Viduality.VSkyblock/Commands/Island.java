@@ -210,7 +210,10 @@ public class Island implements CommandExecutor {
                                             /*
                                              * Shows the island options menu.
                                              */
-                                            else if (args[0].equalsIgnoreCase("options")) {
+                                            else if (args[0].equalsIgnoreCase("options") ||
+                                            args[0].equalsIgnoreCase("option") ||
+                                            args[0].equalsIgnoreCase("settings") ||
+                                            args[0].equalsIgnoreCase("setting")) {
                                                 subCommand = new IslandOptions();
                                             }
 

@@ -70,6 +70,8 @@ public class IslandLevel implements SubCommand {
 
                             double level;
 
+                            int blocks = 0;
+
                             for (int x = (int) x1; x <= x2; x++) {
                                 for (int z = (int) z1; z <= z2; z++) {
                                     if (plugin.getServer().getWorld(databaseCache.getIslandname()).getHighestBlockYAt(x, z) != 0) {
@@ -77,6 +79,7 @@ public class IslandLevel implements SubCommand {
                                         for (int y = y1; y <= y2; y++) {
                                             Material block = plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x, y, z).getType();
                                             if (!plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x, y, z).getType().equals(Material.AIR) && !plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x,y,z).getType().equals(Material.VOID_AIR)) {
+                                                blocks = blocks + 1;
                                                 if (DefaultFiles.blockvalues.containsKey(block)) {
                                                     value = value + DefaultFiles.blockvalues.get(block);
                                                 }
@@ -88,7 +91,7 @@ public class IslandLevel implements SubCommand {
 
                             level = value/valueperlevel;
                             int roundlevel = (int) level;
-                            databaseWriter.updateIslandLevel(databaseCache.getIslandname(), roundlevel);
+                            databaseWriter.updateIslandLevel(databaseCache.getIslandname(), roundlevel, blocks);
                             ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
                             plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                                 @Override

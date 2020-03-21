@@ -110,6 +110,7 @@ public class SQLConnector {
                             + "difficulty VARCHAR(100) NOT NULL DEFAULT 'NORMAL',"
                             + "visit BOOLEAN NOT NULL DEFAULT TRUE,"
                             + "cobblestonelevel BIGINT DEFAULT 0,"
+                            + "totalblocks BIGINT DEFAULT 140,"
                             + "PRIMARY KEY (islandid))");
             connection.createStatement().execute(
                         "CREATE TABLE IF NOT EXISTS VSkyblock_Challenges_Easy("
@@ -179,16 +180,18 @@ public class SQLConnector {
                             + "PRIMARY KEY (uuid));");
             //Auto adds new columns (if they are implemented in future updates and the plugin is already running on the server)
             connection.createStatement().execute(
-                    "ALTER TABLE VSkyblock_Player ADD COLUMN IF NOT EXISTS deaths BIGINT DEFAULT 0;"
-            );
-            connection.createStatement().execute(
                     "ALTER TABLE VSkyblock_Player ADD COLUMN IF NOT EXISTS("
+                    + "deaths BIGINT DEFAULT 0,"
                     + "lastX DOUBLE,"
                     + "lastY DOUBLE,"
                     + "lastZ DOUBLE,"
                     + "lastPitch DOUBLE,"
                     + "lastYaw DOUBLE,"
                     + "lastWorld CHAR(128));"
+            );
+            connection.createStatement().execute(
+                    "ALTER TABLE VSkyblock_Island ADD COLUMN IF NOT EXISTS("
+                    + "totalblocks BIGINT DEFAULT 140);"
             );
             connection.close();
         } catch (SQLException e) {

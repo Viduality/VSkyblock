@@ -301,14 +301,15 @@ public class DatabaseWriter {
      * @param islandname
      * @param level
      */
-    public void updateIslandLevel(String islandname, Integer level) {
+    public void updateIslandLevel(String islandname, Integer level, Integer totalblocks) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             Connection connection = getDatabase.getConnection();
             try {
                 PreparedStatement updateChallengeCount;
-                updateChallengeCount = connection.prepareStatement("UPDATE VSkyblock_Island SET islandlevel = ? WHERE island = ?");
+                updateChallengeCount = connection.prepareStatement("UPDATE VSkyblock_Island SET islandlevel = ?, totalblocks = ? WHERE island = ?");
                 updateChallengeCount.setInt(1, level);
-                updateChallengeCount.setString(2, islandname);
+                updateChallengeCount.setInt(2, totalblocks);
+                updateChallengeCount.setString(3, islandname);
                 updateChallengeCount.executeUpdate();
                 updateChallengeCount.close();
             } catch (SQLException e) {
