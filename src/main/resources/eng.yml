@@ -21,7 +21,7 @@ CleaningUpOldIslands: §cCleaning up Worlds, could lag for a short time!
 CleaningUpOldIslandsDone: §2Cleaning up Worlds done!
 ConfirmRestart: §cYour Island will be deleted and a new one will be generated. You have 20 seconds to confirm with §b/is restart confirm§c!
 CouldNotTeleportToWorld: §cCould not teleport to world §6%replacement%§c!
-CurrentIslandLevel: §6Current islan level is %replacement%.
+CurrentIslandLevel: §6Current island level is %replacement%.
 
 DeletedPlayer: §bSuccessfully deleted all data from player §6%replacement%§b!
 DropItem: §cYou can't drop things here! Drop your trash at another place!
@@ -85,6 +85,7 @@ PlayerDoesNotExist: §cPlayer does not exist!
 PlayerLimitReached: §cYou can't invite any more players to your island because you reached the player limit!
 PlayerNotIslandMember: §cThis player is no member of your island!
 PlayerNotOnline: §c%SecondPlayer% is not Online!
+PlayersIslandLevel: §6%SecondPlayer%'s island level is %Player%.
 PlayerVisitingYourIsland: §6%replacement% §bis visiting your island right now.
 
 ResettedChallenges: §bSuccessfully resetted challenges for player §6%replacement%§b!

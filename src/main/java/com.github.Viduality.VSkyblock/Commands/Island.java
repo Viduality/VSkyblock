@@ -294,6 +294,15 @@ public class Island implements CommandExecutor {
                                             else if (args[0].equalsIgnoreCase("visit")) {
                                                 subCommand = new IslandVisit();
                                             }
+
+
+
+                                            /*
+                                             * Shows the island level from the given player.
+                                             */
+                                            else if (args[0].equalsIgnoreCase("level")) {
+                                                subCommand = new IslandLevel();
+                                            }
                                         } else {
                                             ConfigShorts.messagefromString("FalseInput", player);
                                         }

@@ -20,21 +20,25 @@ public class IslandLeave implements SubCommand{
             @Override
             public void run() {
                 Player player = databaseCache.getPlayer();
-                if (databaseCache.isIslandowner()) {
-                    databaseReader.hasislandmembers(databaseCache.getIslandId(), new DatabaseReader.CallbackBoolean() {
-                        @Override
-                        public void onQueryDone(boolean result) {
-                            if (!result) {
-                                Island.leavemap.put(UUID.fromString(databaseCache.getuuid()), 1);
-                                ConfigShorts.messagefromString("AcceptLeave", player);
-                            } else {
-                                ConfigShorts.messagefromString("HasIslandMembers", player);
+                if (databaseCache.getIslandId() != 0) {
+                    if (databaseCache.isIslandowner()) {
+                        databaseReader.hasislandmembers(databaseCache.getIslandId(), new DatabaseReader.CallbackBoolean() {
+                            @Override
+                            public void onQueryDone(boolean result) {
+                                if (!result) {
+                                    Island.leavemap.put(UUID.fromString(databaseCache.getuuid()), 1);
+                                    ConfigShorts.messagefromString("AcceptLeave", player);
+                                } else {
+                                    ConfigShorts.messagefromString("HasIslandMembers", player);
+                                }
                             }
-                        }
-                    });
+                        });
+                    } else {
+                        Island.leavemap.put(UUID.fromString(databaseCache.getuuid()), 1);
+                        ConfigShorts.messagefromString("AcceptLeave", player);
+                    }
                 } else {
-                    Island.leavemap.put(UUID.fromString(databaseCache.getuuid()), 1);
-                    ConfigShorts.messagefromString("AcceptLeave", player);
+                    ConfigShorts.messagefromString("NoIsland", databaseCache.getPlayer());
                 }
             }
         });

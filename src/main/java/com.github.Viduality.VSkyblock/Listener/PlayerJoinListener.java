@@ -6,7 +6,9 @@ import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.WorldGenerator.WorldGenerator;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +32,9 @@ public class PlayerJoinListener implements Listener {
         PotionEffect potionEffectNightVision = new PotionEffect(PotionEffectType.NIGHT_VISION, 50, 1);
         player.addPotionEffect(potionEffectBlindness);
         player.addPotionEffect(potionEffectNightVision);
+        Location location = player.getLocation();
+        location.setPitch(-90);
+        player.teleport(location);
 
         ConfigShorts.loaddefConfig();
 
@@ -48,6 +53,9 @@ public class PlayerJoinListener implements Listener {
                 if (result.getuuid() == null) {
                     databaseWriter.addPlayer(player.getUniqueId().toString(), player.getName());
                 } else {
+                    if (!result.getName().equals(player.getName())) {
+                        databaseWriter.updatePlayerName(player.getUniqueId().toString(), player.getName());
+                    }
                     if (plugin.scoreboardmanager.doesobjectiveexist("deaths")) {
                         if (plugin.scoreboardmanager.addPlayerToObjective(player, "deaths")) {
                             plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", result.getDeathCount());

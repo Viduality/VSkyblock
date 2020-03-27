@@ -85,6 +85,7 @@ PlayerDoesNotExist: §cDer Spieler existiert nicht!
 PlayerLimitReached: §cDu kannst keinen Spieler mehr auf deine Insel einladen da du das Spieler-Limit erreicht hast!
 PlayerNotIslandMember: §cDieser Spieler ist kein Spieler auf deiner Insel!
 PlayerNotOnline: §c%SecondPlayer% ist nicht Online!
+PlayersIslandLevel: §6%SecondPlayer%'s Insel-Level beträgt %Player%.
 PlayerVisitingYourIsland: §6%replacement% §bbesucht gerade deine Insel.
 
 ResettedChallenges: §bErfolgreich Challenges von §6%replacement% §bresettet!

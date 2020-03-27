@@ -464,6 +464,36 @@ public class DatabaseWriter {
         });
     }
 
+    /**
+     * Updates the players name after a name change.
+     *
+     * @param uuid
+     * @param name
+     */
+    public void updatePlayerName(String uuid, String name) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            Connection connection = getDatabase.getConnection();
+            try {
+                PreparedStatement preparedStatement;
+                preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET playername = ? WHERE uuid = ?");
+                preparedStatement.setString(1, name);
+                preparedStatement.setString(2, uuid);
+                preparedStatement.executeUpdate();
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                getDatabase.closeConnection(connection);
+            }
+        });
+    }
+
+    /**
+     * Saves the last location of a specific player.
+     *
+     * @param uuid
+     * @param loc
+     */
     public void savelastLocation(String uuid, Location loc) {
         double x = loc.getX();
         double y = loc.getY();
