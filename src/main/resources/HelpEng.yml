@@ -30,3 +30,6 @@ VSkyblockDeleteWorld: "Deletes an world entirely. (Folder and Config but NOT dat
 VSkyblockCreateWorld: "Creates an world. CAUSES MASSIVE LAGGS WHILE GENERATING WORLD!"
 VSkyblockList: "Shows a list of all VSkyblock worlds."
 VSkyblockImport: "Imports an existing world into the VSkyblock world config. (NOT database if it is an island!)"
+VSkyblockRecreateLanguageFiles: "Recreates the language files."
+VSkyblockRecreateHelpFiles: "Recreates the help files."
+VSkyblockRecreateChallengeFiles: "Recreates the challenge files."

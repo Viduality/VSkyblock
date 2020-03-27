@@ -90,6 +90,9 @@ PlayerVisitingYourIsland: §6%replacement% §bis visiting your island right now.
 
 ResettedChallenges: §bSuccessfully resetted challenges for player §6%replacement%§b!
 RestartFirst: §cUse §b/is restart §cfirst, then confirm it with §b/is restart confirm§c!
+RecreatedLanguageFiles: §bAll language files have been recreated.
+RecreatedHelpFiles: §bAll help files have been recreated.
+RecreatedChallengeFiles: §bAll challenge files have been recreated.
 
 SetAutoLoad: §bAutoLoad has been set to §6%replacement% §bfor your current world!
 SethomeSuccess: §aSuccessfully set new homepoint for your island!

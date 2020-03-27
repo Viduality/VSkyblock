@@ -236,6 +236,27 @@ commands:
     permission: VSkyblock.SetWorldConfig
     permission-message: You don't have permission!
 
+  VSkyblock recreate languages:
+    description: Recreates all language files.
+    usage: /VSkyblock recreate languages
+    aliases: [vsky recreate languages]
+    permission: VSkyblock.RecreateLanguageFiles
+    permission-message: You don't have permission!
+
+  VSkyblock recreate help:
+    description: Recreates all help files.
+    usage: /VSkyblock recreate help
+    aliases: [vsky recreate help]
+    permission: VSkyblock.RecreateHelpFiles
+    permission-message: You don't have permission!
+
+  VSkyblock recreate challenges:
+    description: Recreates all challenge files.
+    usage: /VSkyblock recreate challenges
+    aliases: [vsky recreate challenges]
+    permission: VSkyblock.RecreateChallengeFiles
+    permission-message: You don't have permission!
+
   Challenges:
     description: Opens the challenges menu.
     usage: /challenges
@@ -271,6 +292,9 @@ permissions:
       VSkyblock.IgnoreKick: true
       VSkyblock.Island: true
       VSkyblock.Challenges: true
+      VSkyblock.RecreateLanguageFiles: true
+      VSkyblock.RecreateHelpFiles: true
+      VSkyblock.RecreateChallengeFiles: true
 
   VSkyblock.Mod:
     description: Permissions for Mods with limited rights on the server.
@@ -310,6 +334,15 @@ permissions:
     default: op
   VSkyblock.ResetChallenges:
     description: Resets the challenges from a player.
+    default: op
+  VSkyblock.RecreateLanguageFiles:
+    description: Recreates all language files.
+    default: op
+  VSkyblock.RecreateHelpFiles:
+    description: Recreates all help files.
+    default: op
+  VSkyblock.RecreateChallengeFiles:
+    description: Recreates all challenge files.
     default: op
   VSkyblock.SetNether:
     description: Allows the player to set a new nether.

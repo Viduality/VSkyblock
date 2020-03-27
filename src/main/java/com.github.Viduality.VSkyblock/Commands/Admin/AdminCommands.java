@@ -26,25 +26,25 @@ public class AdminCommands implements CommandExecutor {
             String opt1 = null;
             String opt2 = null;
             if (cmd.getName().equalsIgnoreCase("VSkyblock")) {
-                AdminSubCommand worldSubCommand = null;
+                AdminSubCommand adminSubCommand = null;
 
                 if (args.length == 0) {
-                    worldSubCommand = new AdminCommandsHelp();
+                    adminSubCommand = new AdminCommandsHelp();
                 }
 
                 if (args.length == 1) {
 
                     if (args[0].equalsIgnoreCase("help")) {
-                        worldSubCommand = new AdminCommandsHelp();
+                        adminSubCommand = new AdminCommandsHelp();
                     }
 
                     if (args[0].equalsIgnoreCase("list")) {
-                        worldSubCommand = new WorldList();
+                        adminSubCommand = new WorldList();
                     }
 
                     if (args[0].equalsIgnoreCase("info")) {
                         arg = player.getWorld().getName();
-                        worldSubCommand = new WorldInfo();
+                        adminSubCommand = new WorldInfo();
                     }
                 }
 
@@ -53,39 +53,51 @@ public class AdminCommands implements CommandExecutor {
                     arg = args[1];
 
                     if (args[0].equalsIgnoreCase("teleport") || args[0].equalsIgnoreCase("tp")) {
-                        worldSubCommand = new WorldTeleportation();
+                        adminSubCommand = new WorldTeleportation();
                     }
 
                     if (args[0].equalsIgnoreCase("load")) {
-                        worldSubCommand = new WorldLoad();
+                        adminSubCommand = new WorldLoad();
                     }
 
                     if (args[0].equalsIgnoreCase("unload")) {
-                        worldSubCommand = new WorldUnload();
+                        adminSubCommand = new WorldUnload();
                     }
 
                     if (args[0].equalsIgnoreCase("list")) {
-                        worldSubCommand = new WorldList();
+                        adminSubCommand = new WorldList();
                     }
 
                     if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("Nether")) {
-                        worldSubCommand = new SetNether();
+                        adminSubCommand = new SetNether();
                     }
 
                     if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("SpawnWorld")) {
-                        worldSubCommand = new SetSpawnWorld();
+                        adminSubCommand = new SetSpawnWorld();
                     }
 
                     if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("SpawnPoint")) {
-                        worldSubCommand = new WorldSetSpawnpoint();
+                        adminSubCommand = new WorldSetSpawnpoint();
                     }
 
                     if (args[0].equalsIgnoreCase("import")) {
-                        worldSubCommand = new WorldImport();
+                        adminSubCommand = new WorldImport();
                     }
 
                     if (args[0].equalsIgnoreCase("info")) {
-                        worldSubCommand = new WorldInfo();
+                        adminSubCommand = new WorldInfo();
+                    }
+
+                    if (args[0].equalsIgnoreCase("recreate") && args[1].equalsIgnoreCase("languages")) {
+                        adminSubCommand = new RecreateLanguageFiles();
+                    }
+
+                    if (args[0].equalsIgnoreCase("recreate") && args[1].equalsIgnoreCase("help")) {
+                        adminSubCommand = new RecreateHelpFiles();
+                    }
+
+                    if (args[0].equalsIgnoreCase("recreate") && args[1].equalsIgnoreCase("challenges")) {
+                        adminSubCommand = new RecreateChallengeFiles();
                     }
 
                 }
@@ -95,23 +107,23 @@ public class AdminCommands implements CommandExecutor {
                     arg = args[2];
 
                     if (args[0].equalsIgnoreCase("delete") && args[1].equalsIgnoreCase("world")) {
-                        worldSubCommand = new WorldDelete();
+                        adminSubCommand = new WorldDelete();
                     }
 
                     if (args[0].equalsIgnoreCase("delete") && args[1].equalsIgnoreCase("player")) {
-                        worldSubCommand = new DeletePlayer();
+                        adminSubCommand = new DeletePlayer();
                     }
 
                     if (args[0].equalsIgnoreCase("reset") && args[1].equalsIgnoreCase("challenges")) {
-                        worldSubCommand = new ResetChallenges();
+                        adminSubCommand = new ResetChallenges();
                     }
 
                     if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("autoLoad")) {
-                        worldSubCommand = new WorldAutoLoad();
+                        adminSubCommand = new WorldAutoLoad();
                     }
 
                     if (args[0].equalsIgnoreCase("create") && args[1].equalsIgnoreCase("world")) {
-                        worldSubCommand = new WorldCreate();
+                        adminSubCommand = new WorldCreate();
                     }
 
                 }
@@ -123,11 +135,11 @@ public class AdminCommands implements CommandExecutor {
                     opt2 = args[3];
 
                     if (args[0].equalsIgnoreCase("import")) {
-                        worldSubCommand = new WorldImport();
+                        adminSubCommand = new WorldImport();
                     }
 
                     if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("worldconfig")) {
-                        worldSubCommand = new WorldSetConfig();
+                        adminSubCommand = new WorldSetConfig();
                     }
                 }
 
@@ -138,12 +150,12 @@ public class AdminCommands implements CommandExecutor {
                     opt2 = args[4];
 
                     if (args[0].equalsIgnoreCase("create") && args[1].equalsIgnoreCase("world")) {
-                        worldSubCommand = new WorldCreate();
+                        adminSubCommand = new WorldCreate();
                     }
 
                 }
-                if (worldSubCommand != null) {
-                    worldSubCommand.execute(player, arg, opt1, opt2);
+                if (adminSubCommand != null) {
+                    adminSubCommand.execute(player, arg, opt1, opt2);
                 } else {
                     ConfigShorts.messagefromString("FalseInputAdmin", player);
                 }

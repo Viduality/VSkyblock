@@ -90,6 +90,9 @@ PlayerVisitingYourIsland: §6%replacement% §bbesucht gerade deine Insel.
 
 ResettedChallenges: §bErfolgreich Challenges von §6%replacement% §bresettet!
 RestartFirst: §cBenutze erst §b/is restart §cund bestätige danach mit §b/is restart confirm§c!
+RecreatedLanguageFiles: §bAlle Language-Files wurden neu erstellt.
+RecreatedHelpFiles: §bAlle Help-Files wurden neu erstellt.
+RecreatedChallengeFiles: §bAlle Challenge-Files wurden neu erstellt.
 
 SetAutoLoad: §bAutoLoad wurde für deine jetzige Welt auf §6%replacement% §bgesetzt!
 SethomeSuccess: §aErfolgreich neuen Spawnpunkt deiner Insel gesetzt!
