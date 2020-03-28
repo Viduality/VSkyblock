@@ -1,5 +1,6 @@
 package com.github.Viduality.VSkyblock.Listener;
 
+import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
@@ -27,6 +28,8 @@ public class NetherPortalListener implements Listener {
                 public void onQueryDone(DatabaseCache result) {
                     if (player.getWorld().getName().equals(result.getIslandname())) {
                         player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("NetherWorld")));
+                        ConfigShorts.messagefromString("NetherJoin1", player);
+                        ConfigShorts.messagefromString("NetherJoin2", player);
                     }
                 }
             });

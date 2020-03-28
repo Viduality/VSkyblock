@@ -62,6 +62,8 @@ MasterIslandReady: §aVSkyblock Masterisland fertig generiert!
 MidAir: §cDu kannst das nicht in der Luft machen!
 MissingValue: §cDu brauchst einen Wert für diesen Command!
 
+NetherJoin1: §fWillkommen im §4§lNether§r§f!
+NetherJoin2: "§fAchtung: Der Spawn ist §l50§r§f Blöcke in alle Richtungen gesichert!"
 NewIslandLevel: §6Neues Insel-Level beträgt %replacement%.
 NewIslandOwner: §6Du bist jetzt der neue Besitzer der Insel!
 NoIsland: §cDu besitzt keine Insel! Erstelle eine mit §b/island§c!
