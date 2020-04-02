@@ -1,6 +1,7 @@
 package com.github.Viduality.VSkyblock.WorldGenerator;
 
 import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Difficulty;
@@ -91,6 +92,8 @@ public class Islandmethods {
 
                     Island.restartmap.asMap().remove(player.getUniqueId());
                     Island.playerislands.put(uuid, result);
+                    CobblestoneGenerator.islandGenLevel.put(result, 0);
+                    CobblestoneGenerator.islandlevels.put(result, 0);
                     plugin.getServer().getPlayer(player.getUniqueId()).teleport(plugin.getServer().getWorld(result).getSpawnLocation());
                     if (oldIsland != null) {
                         wm.unloadWorld(oldIsland);

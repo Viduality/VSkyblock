@@ -26,7 +26,6 @@ public class DeletePlayer implements AdminSubCommand {
             @Override
             public void run() {
                 if (player.hasPermission("VSkyblock.DeletePlayer")) {
-                    Player player = plugin.getServer().getPlayer(args);
                     DatabaseCache databaseCache = new DatabaseCache();
                     Connection connection = getDatabase.getConnection();
 
@@ -67,10 +66,10 @@ public class DeletePlayer implements AdminSubCommand {
                         } finally {
                             getDatabase.closeConnection(connection);
                         }
-                        ConfigShorts.custommessagefromString("DeletedPlayer", player, args);
                         plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                             @Override
                             public void run() {
+                                ConfigShorts.custommessagefromString("DeletedPlayer", player, args);
                                 OfflinePlayer target = plugin.getServer().getOfflinePlayer(args);
                                 if (target.isOnline()) {
                                     Player onlinetarget = (Player) target;
@@ -79,10 +78,20 @@ public class DeletePlayer implements AdminSubCommand {
                             }
                         });
                     } else {
-                        ConfigShorts.messagefromString("PlayerDoesNotExist", player);
+                        plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
+                            @Override
+                            public void run() {
+                                ConfigShorts.messagefromString("PlayerDoesNotExist", player);
+                            }
+                        });
                     }
                 } else {
-                    ConfigShorts.messagefromString("PermissionLack", player);
+                    plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            ConfigShorts.messagefromString("PermissionLack", player);
+                        }
+                    });
                 }
             }
         });
