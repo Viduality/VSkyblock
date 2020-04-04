@@ -92,7 +92,7 @@ public class WorldManager {
                 return false;
             }
         } else {
-            System.out.println(ANSI_RED + "Tried to unload a world VSkyblock does not know about. :(" + ANSI_RESET);
+            System.out.println(ANSI_RED + "Tried to unload a world VSkyblock does not know about or which is already unloaded." + ANSI_RESET);
             return false;
         }
     }

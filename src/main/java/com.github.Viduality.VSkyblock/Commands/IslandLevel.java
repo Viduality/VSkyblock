@@ -103,7 +103,7 @@ public class IslandLevel implements SubCommand {
 
                                     level = value/valueperlevel;
                                     int roundlevel = (int) level;
-                                    databaseWriter.updateIslandLevel(databaseCache.getIslandname(), roundlevel, blocks);
+                                    databaseWriter.updateIslandLevel(databaseCache.getIslandId(), roundlevel, blocks, player.getUniqueId().toString());
                                     ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
                                     plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                                         @Override

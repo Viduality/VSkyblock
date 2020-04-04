@@ -6,7 +6,7 @@ acacia_door: 1.4
 acacia_fence: 1.5
 acacia_fence_gate: 0.8
 acacia_leaves: 0.1
-acacia_log: 3.5
+acacia_log: 3
 acacia_planks: 1
 acacia_pressure_plate: 0.5
 acacia_sapling: 0.2
@@ -39,7 +39,7 @@ birch_door: 1.4
 birch_fence: 1.5
 birch_fence_gate: 0.8
 birch_leaves: 0.1
-birch_log: 3.5
+birch_log: 3
 birch_planks: 1.1
 birch_pressure_plate: 0.5
 birch_sapling: 0.1
@@ -159,7 +159,7 @@ dark_oak_door: 1.4
 dark_oak_fence: 1.5
 dark_oak_fence_gate: 0.8
 dark_oak_leaves: 0.1
-dark_oak_log: 3.5
+dark_oak_log: 3
 dark_oak_planks: 1
 dark_oak_pressure_plate: 0.5
 dark_oak_sapling: 0.1
@@ -272,12 +272,6 @@ horn_coral_block: 1
 horn_coral_fan: 1
 horn_coral_wall_fan: 1
 ice: 2
-infested_chiseled_stone_bricks: 0.1
-infested_cobblestone: 0.1
-infested_cracked_stone_bricks: 0.1
-infested_mossy_stone_bricks: 0.1
-infested_stone: 0.1
-infested_stone_bricks: 0.1
 iron_bars: 2
 iron_block: 30
 iron_door: 2
@@ -290,7 +284,7 @@ jungle_door: 1.4
 jungle_fence: 1.5
 jungle_fence_gate: 0.8
 jungle_leaves: 0.1
-jungle_log: 3.5
+jungle_log: 3
 jungle_planks: 1
 jungle_pressure_plate: 0.5
 jungle_sapling: 0.1
@@ -389,7 +383,7 @@ oak_door: 1.4
 oak_fence: 1.5
 oak_fence_gate:  0.8
 oak_leaves: 0.1
-oak_log: 3.5
+oak_log: 3
 oak_planks: 1
 oak_pressure_plate: 0.5
 oak_sapling: 0.1
@@ -540,7 +534,7 @@ spruce_door: 1.4
 spruce_fence: 1.5
 spruce_fence_gate: 0.8
 spruce_leaves: 0.1
-spruce_log: 3.5
+spruce_log: 3
 spruce_planks: 1
 spruce_pressure_plate: 0.5
 spruce_sapling: 0.1

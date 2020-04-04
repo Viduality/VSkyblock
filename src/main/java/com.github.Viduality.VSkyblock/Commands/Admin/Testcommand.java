@@ -1,8 +1,10 @@
 package com.github.Viduality.VSkyblock.Commands.Admin;
 
+import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,9 +27,6 @@ public class Testcommand implements CommandExecutor {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (player.hasPermission("VSkyblock.Testcommand")) {
-                    ItemStack chest = new ItemStack(Material.CHEST, 1);
-                    ItemMeta chestItemMeta = chest.getItemMeta();
-                    player.sendMessage("TEST");
                 }
             }
         }

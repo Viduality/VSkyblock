@@ -9,7 +9,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.metadata.Metadatable;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -26,6 +32,7 @@ public class CobblestoneGenerator implements Listener {
         Block block = blockFormEvent.getNewState().getBlock();
         Material newmaterial = blockFormEvent.getNewState().getType();
         if (newmaterial.equals(Material.COBBLESTONE)) {
+            blockFormEvent.getNewState().setType(Material.INFESTED_COBBLESTONE);
             if (islandGenLevel.containsKey(block.getLocation().getWorld().getName())) {
                 int level = islandGenLevel.get(block.getLocation().getWorld().getName());
                 switch (level) {
@@ -96,7 +103,7 @@ public class CobblestoneGenerator implements Listener {
         if (chance >= random) {
             return Material.COAL_ORE;
         } else {
-            return Material.COBBLESTONE;
+            return Material.INFESTED_COBBLESTONE;
         }
     }
 
@@ -114,7 +121,7 @@ public class CobblestoneGenerator implements Listener {
         } else if (chanceCoal >= random){
             return Material.COAL_ORE;
         } else {
-            return Material.COBBLESTONE;
+            return Material.INFESTED_COBBLESTONE;
         }
     }
 
@@ -135,7 +142,7 @@ public class CobblestoneGenerator implements Listener {
         } else if (chanceCoal >= random){
             return Material.COAL_ORE;
         } else {
-            return Material.COBBLESTONE;
+            return Material.INFESTED_COBBLESTONE;
         }
     }
 
@@ -159,7 +166,7 @@ public class CobblestoneGenerator implements Listener {
         } else if (chanceCoal >= random){
             return Material.COAL_ORE;
         } else {
-            return Material.COBBLESTONE;
+            return Material.INFESTED_COBBLESTONE;
         }
     }
 
@@ -186,7 +193,7 @@ public class CobblestoneGenerator implements Listener {
         } else if (chanceCoal >= random){
             return Material.COAL_ORE;
         } else {
-            return Material.COBBLESTONE;
+            return Material.INFESTED_COBBLESTONE;
         }
     }
 
@@ -216,7 +223,7 @@ public class CobblestoneGenerator implements Listener {
         } else if (chanceCoal >= random){
             return Material.COAL_ORE;
         } else {
-            return Material.COBBLESTONE;
+            return Material.INFESTED_COBBLESTONE;
         }
     }
 
@@ -249,7 +256,7 @@ public class CobblestoneGenerator implements Listener {
         } else if (chanceCoal >= random){
             return Material.COAL_ORE;
         } else {
-            return Material.COBBLESTONE;
+            return Material.INFESTED_COBBLESTONE;
         }
     }
 

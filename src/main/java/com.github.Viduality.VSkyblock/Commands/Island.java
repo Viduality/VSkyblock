@@ -4,19 +4,16 @@ package com.github.Viduality.VSkyblock.Commands;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
+import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Island implements CommandExecutor {
@@ -88,10 +85,34 @@ public class Island implements CommandExecutor {
                     }
             );
 
+    public static RemovalListener<String, String> unloadIslands = new RemovalListener<String, String>() {
+        @Override
+        public void onRemoval(RemovalNotification<String, String> removal) {
+            if (removal.getCause().equals(RemovalCause.EXPIRED)) {
+                wm.unloadWorld(removal.getValue());
+            }
+        }
+    };
+
+    public static LoadingCache<String, String> emptyloadedislands = CacheBuilder.newBuilder()
+            .maximumSize(10000)
+            .expireAfterWrite(10, TimeUnit.SECONDS)
+            .removalListener(unloadIslands)
+            .build(
+                    new CacheLoader<String, String>() {
+                        @Override
+                        public String load(String key) throws Exception {
+                            return null;
+                        }
+                    }
+            );
+
 
 
 
     private VSkyblock island;
+
+    public static WorldManager wm = new WorldManager();
 
     public Island(VSkyblock island) {
         this.island = island;

@@ -28,7 +28,8 @@ public class PlayerLeaveListener implements Listener {
             Island.playerislands.remove(player.getUniqueId().toString());
             if (!Island.playerislands.containsValue(island)) {
                 if (!wm.getAutoLoad(island)) {
-                    wm.unloadWorld(island);
+                    Island.emptyloadedislands.put(island, island);
+                    Island.emptyloadedislands.cleanUp();
                 }
             }
         }

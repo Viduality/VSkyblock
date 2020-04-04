@@ -101,6 +101,7 @@ public class SQLConnector {
                             + "lastPitch DOUBLE,"
                             + "lastYaw DOUBLE,"
                             + "lastWorld CHAR(128),"
+                            + "highestreachedlevel VARCHAR(100) DEFAULT 0,"
                             + "PRIMARY KEY (playername));");
             connection.createStatement().execute(
                     "CREATE TABLE IF NOT EXISTS VSkyblock_Island("
@@ -187,7 +188,8 @@ public class SQLConnector {
                     + "lastZ DOUBLE,"
                     + "lastPitch DOUBLE,"
                     + "lastYaw DOUBLE,"
-                    + "lastWorld CHAR(128));"
+                    + "lastWorld CHAR(128),"
+                    + "highestreachedlevel VARCHAR(100) DEFAULT 0);"
             );
             connection.createStatement().execute(
                     "ALTER TABLE VSkyblock_Island ADD COLUMN IF NOT EXISTS("

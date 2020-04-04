@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class DatabaseWriter {
 
@@ -298,24 +299,47 @@ public class DatabaseWriter {
     /**
      * Updates the level of an island (database action).
      *
-     * @param islandname
+     * @param islandid
      * @param level
      */
-    public void updateIslandLevel(String islandname, Integer level, Integer totalblocks) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Connection connection = getDatabase.getConnection();
-            try {
-                PreparedStatement updateChallengeCount;
-                updateChallengeCount = connection.prepareStatement("UPDATE VSkyblock_Island SET islandlevel = ?, totalblocks = ? WHERE island = ?");
-                updateChallengeCount.setInt(1, level);
-                updateChallengeCount.setInt(2, totalblocks);
-                updateChallengeCount.setString(3, islandname);
-                updateChallengeCount.executeUpdate();
-                updateChallengeCount.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                getDatabase.closeConnection(connection);
+    public void updateIslandLevel(int islandid, Integer level, Integer totalblocks, String uuid) {
+        databaseReader.getIslandMembers(islandid, new DatabaseReader.CallbackList() {
+            @Override
+            public void onQueryDone(List<String> result) {
+                plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+                    Connection connection = getDatabase.getConnection();
+                    try {
+                        PreparedStatement updateChallengeCount;
+                        updateChallengeCount = connection.prepareStatement("UPDATE VSkyblock_Island SET islandlevel = ?, totalblocks = ? WHERE islandid = ?");
+                        updateChallengeCount.setInt(1, level);
+                        updateChallengeCount.setInt(2, totalblocks);
+                        updateChallengeCount.setInt(3, islandid);
+                        updateChallengeCount.executeUpdate();
+                        updateChallengeCount.close();
+
+                        PreparedStatement gethighestreachedlevel;
+                        gethighestreachedlevel = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE uuid = ?");
+                        gethighestreachedlevel.setString(1, uuid);
+                        ResultSet r = gethighestreachedlevel.executeQuery();
+                        int highestreached = 0;
+                        while (r.next()) {
+                            highestreached = r.getInt("highestreachedlevel");
+                        }
+                        gethighestreachedlevel.close();
+                        if (highestreached < level) {
+                            PreparedStatement updatehighestreachedlevel;
+                            updatehighestreachedlevel = connection.prepareStatement("UPDATE VSkyblock_Player SET highestreachedlevel = ? WHERE uuid = ?");
+                            updatehighestreachedlevel.setInt(1, level);
+                            updatehighestreachedlevel.setString(2, uuid);
+                            updatehighestreachedlevel.executeUpdate();
+                            updatehighestreachedlevel.close();
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } finally {
+                        getDatabase.closeConnection(connection);
+                    }
+                });
             }
         });
     }
