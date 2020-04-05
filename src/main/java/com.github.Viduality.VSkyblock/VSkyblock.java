@@ -124,15 +124,6 @@ public class VSkyblock extends JavaPlugin implements Listener {
          */
 
 
-        {
-            ItemStack gravel = new ItemStack(Material.GRAVEL, 4);
-            NamespacedKey gravelKey = NamespacedKey.minecraft("vskyblockgravel");
-            ShapelessRecipe gravel1 = new ShapelessRecipe(gravelKey, gravel);
-            gravel1.addIngredient(3, Material.COBBLESTONE);
-            gravel1.addIngredient(1, Material.DIRT);
-            getServer().addRecipe(gravel1);
-        }
-
         sqlConnector = new SQLConnector();
         sqlConnector.initConnection();
 
