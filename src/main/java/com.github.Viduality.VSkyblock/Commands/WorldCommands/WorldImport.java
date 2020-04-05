@@ -4,6 +4,7 @@ import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -15,10 +16,10 @@ public class WorldImport implements AdminSubCommand {
 
 
     @Override
-    public void execute(Player player, String args, String option1, String option2) {
-        if (player.hasPermission("VSkyblock.Import")) {
+    public void execute(CommandSender sender, String args, String option1, String option2) {
+        if (sender.hasPermission("VSkyblock.Import")) {
             if (!wm.getAllWorlds().contains(args)) {
-                ConfigShorts.messagefromString("ImportingWorld", player);
+                ConfigShorts.messagefromString("ImportingWorld", sender);
                 File worldContainer = plugin.getServer().getWorldContainer();
                 File importworld = new File(worldContainer, args);
                 if (importworld.isDirectory()) {
@@ -57,33 +58,33 @@ public class WorldImport implements AdminSubCommand {
                                 Location spawnlocation = plugin.getServer().getWorld(args).getSpawnLocation();
                                 if (wm.setSpawnLocation(spawnlocation)) {
                                     if (wm.unloadWorld(args)) {
-                                        ConfigShorts.messagefromString("ImportSuccessfull", player);
+                                        ConfigShorts.messagefromString("ImportSuccessfull", sender);
                                     } else {
                                         wm.deleteWorldfromConfig(args);
-                                        ConfigShorts.messagefromString("ImportNotSuccessfull", player);
+                                        ConfigShorts.messagefromString("ImportNotSuccessfull", sender);
                                     }
                                 } else {
                                     wm.deleteWorldfromConfig(args);
-                                    ConfigShorts.messagefromString("ImportNotSuccessfull", player);
+                                    ConfigShorts.messagefromString("ImportNotSuccessfull", sender);
                                 }
                             } else {
                                 wm.deleteWorldfromConfig(args);
-                                ConfigShorts.messagefromString("ImportNotSuccessfull", player);
+                                ConfigShorts.messagefromString("ImportNotSuccessfull", sender);
                             }
                         } else {
-                            ConfigShorts.messagefromString("ImportNotSuccessfull", player);
+                            ConfigShorts.messagefromString("ImportNotSuccessfull", sender);
                         }
                     } else {
-                        ConfigShorts.messagefromString("WorldIsNoWorld", player);
+                        ConfigShorts.messagefromString("WorldIsNoWorld", sender);
                     }
                 } else {
-                    ConfigShorts.messagefromString("WorldIsNoWorld", player);
+                    ConfigShorts.messagefromString("WorldIsNoWorld", sender);
                 }
             } else {
-                ConfigShorts.messagefromString("WorldAlreadyExisting", player);
+                ConfigShorts.messagefromString("WorldAlreadyExisting", sender);
             }
         } else {
-            ConfigShorts.messagefromString("PermissionLack", player);
+            ConfigShorts.messagefromString("PermissionLack", sender);
         }
     }
 }

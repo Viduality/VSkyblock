@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class WorldCreate implements AdminSubCommand {
@@ -16,49 +17,56 @@ public class WorldCreate implements AdminSubCommand {
 
 
     @Override
-    public void execute(Player player, String args, String option1, String option2) {
-        if (player.hasPermission("VSkyblock.CreateWorld")) {
-            if (!wm.getAllWorlds().contains(args)) {
-                ConfigShorts.messagefromString("WorldCreate", player);
-                String generator = option1;
-                String environment = option2;
-                if (environment == null) {
-                    environment = "NORMAL";
-                }
-                if (checkEnvironment(environment.toUpperCase())) {
-                    WorldCreator wc = new WorldCreator(args);
-                    if (generator != null) {
-                        wc.generator(generator);
-                    } else {
-                        generator = "default";
+    public void execute(CommandSender sender, String args, String option1, String option2) {
+        if (sender instanceof  Player) {
+            Player player = (Player) sender;
+            if (sender.hasPermission("VSkyblock.CreateWorld")) {
+                if (!wm.getAllWorlds().contains(args)) {
+                    ConfigShorts.messagefromString("WorldCreate", player);
+                    String generator = option1;
+                    String environment = option2;
+                    if (environment == null) {
+                        environment = "NORMAL";
                     }
-                    wc.environment(getEnvironment(environment.toUpperCase()));
-                    wc.type(WorldType.NORMAL);
-                    wc.generateStructures(true);
-                    World loadedworld = wc.createWorld();
-                    if (loadedworld != null) {
-                        if (wm.addWorld(args, generator, environment.toUpperCase())) {
-                            Location spawnlocation = plugin.getServer().getWorld(args).getSpawnLocation();
-                            if (wm.setSpawnLocation(spawnlocation)) {
-                                ConfigShorts.messagefromString("WorldCreated", player);
-                                player.teleport(wm.getSpawnLocation(args));
+                    if (checkEnvironment(environment.toUpperCase())) {
+                        WorldCreator wc = new WorldCreator(args);
+                        if (generator != null) {
+                            wc.generator(generator);
+                        } else {
+                            generator = "default";
+                        }
+                        wc.environment(getEnvironment(environment.toUpperCase()));
+                        wc.type(WorldType.NORMAL);
+                        wc.generateStructures(true);
+                        World loadedworld = wc.createWorld();
+                        if (loadedworld != null) {
+                            if (wm.addWorld(args, generator, environment.toUpperCase())) {
+                                Location spawnlocation = plugin.getServer().getWorld(args).getSpawnLocation();
+                                if (wm.setSpawnLocation(spawnlocation)) {
+                                    ConfigShorts.messagefromString("WorldCreated", player);
+                                    player.teleport(wm.getSpawnLocation(args));
+                                } else {
+                                    ConfigShorts.messagefromString("WorldCreationFailed", player);
+                                    wm.deleteWorld(args);
+                                }
                             } else {
                                 ConfigShorts.messagefromString("WorldCreationFailed", player);
                                 wm.deleteWorld(args);
                             }
                         } else {
                             ConfigShorts.messagefromString("WorldCreationFailed", player);
-                            wm.deleteWorld(args);
                         }
                     } else {
-                        ConfigShorts.messagefromString("WorldCreationFailed", player);
+                        ConfigShorts.custommessagefromString("WorldEnvironmentNotFound", player, option2);
                     }
                 } else {
-                    ConfigShorts.custommessagefromString("WorldEnvironmentNotFound", player, option2);
+                    ConfigShorts.messagefromString("WorldAlreadyExisting", player);
                 }
             } else {
-                ConfigShorts.messagefromString("WorldAlreadyExisting", player);
+                ConfigShorts.messagefromString("PermissionLack", player);
             }
+        } else {
+            ConfigShorts.messagefromString("NotAPlayer", sender);
         }
     }
 

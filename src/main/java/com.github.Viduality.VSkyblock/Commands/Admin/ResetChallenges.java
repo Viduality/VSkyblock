@@ -5,6 +5,7 @@ import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -19,11 +20,11 @@ public class ResetChallenges implements AdminSubCommand {
 
 
     @Override
-    public void execute(Player player, String args, String option1, String option2) {
+    public void execute(CommandSender sender, String args, String option1, String option2) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                if (player.hasPermission("VSkyblock.ResetChallenges")) {
+                if (sender.hasPermission("VSkyblock.ResetChallenges")) {
                     DatabaseCache databaseCache = new DatabaseCache();
                     Connection connection = getDatabase.getConnection();
 
@@ -68,12 +69,12 @@ public class ResetChallenges implements AdminSubCommand {
                         } finally {
                             getDatabase.closeConnection(connection);
                         }
-                        ConfigShorts.custommessagefromString("ResettedChallenges", player, args);
+                        ConfigShorts.custommessagefromString("ResettedChallenges", sender, args);
                     } else {
-                        ConfigShorts.messagefromString("PlayerDoesNotExist", player);
+                        ConfigShorts.messagefromString("PlayerDoesNotExist", sender);
                     }
                 } else {
-                    ConfigShorts.messagefromString("PermissionLack", player);
+                    ConfigShorts.messagefromString("PermissionLack", sender);
                 }
             }
         });

@@ -2,6 +2,7 @@ package com.github.Viduality.VSkyblock.Commands.WorldCommands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class WorldTeleportation implements AdminSubCommand {
@@ -10,19 +11,24 @@ public class WorldTeleportation implements AdminSubCommand {
 
 
     @Override
-    public void execute(Player player, String args, String option1, String option2) {
-        if (player.hasPermission("VSkyblock.Teleportation")) {
-            if (wm.getLoadedWorlds().contains(args)) {
-                if (player.teleport(wm.getSpawnLocation(args))) {
-                    ConfigShorts.custommessagefromString("TeleportedToWorld", player, args);
+    public void execute(CommandSender sender, String args, String option1, String option2) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (player.hasPermission("VSkyblock.Teleportation")) {
+                if (wm.getLoadedWorlds().contains(args)) {
+                    if (player.teleport(wm.getSpawnLocation(args))) {
+                        ConfigShorts.custommessagefromString("TeleportedToWorld", player, args);
+                    } else {
+                        ConfigShorts.custommessagefromString("CouldNotTeleportToWorld", player, args);
+                    }
                 } else {
-                    ConfigShorts.custommessagefromString("CouldNotTeleportToWorld", player, args);
+                    ConfigShorts.custommessagefromString("NoLoadedWorldFound", player, args);
                 }
             } else {
-                ConfigShorts.custommessagefromString("NoLoadedWorldFound", player, args);
+                ConfigShorts.messagefromString("PermissionLack", player);
             }
         } else {
-            ConfigShorts.messagefromString("PermissionLack", player);
+            ConfigShorts.messagefromString("NotAPlayer", sender);
         }
     }
 }

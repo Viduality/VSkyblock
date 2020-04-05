@@ -33,3 +33,4 @@ VSkyblockImport: "Imports an existing world into the VSkyblock world config. (NO
 VSkyblockRecreateLanguageFiles: "Recreates the language files."
 VSkyblockRecreateHelpFiles: "Recreates the help files."
 VSkyblockRecreateChallengeFiles: "Recreates the challenge files."
+VSkyblockReloadBlockValues: "Reloads the block values."

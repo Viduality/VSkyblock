@@ -1,6 +1,7 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 
@@ -14,9 +15,9 @@ public class ConfigShorts {
      * Sends a message from the config.yml file to a player.
      *
      * @param string
-     * @param player
+     * @param sender
      */
-    public static void messagefromString(String string, Player player) {
+    public static void messagefromString(String string, CommandSender sender) {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
         } catch (IOException e) {
@@ -39,7 +40,7 @@ public class ConfigShorts {
             message = prefix + " " + plugin.getConfig().getString(string);
         }
 
-        player.sendMessage(message);
+        sender.sendMessage(message);
         loaddefConfig();
     }
 
@@ -169,10 +170,10 @@ public class ConfigShorts {
      * Sends a custom message from the config.yml file to a player.
      * The replacement will be shown in the message when included as "%replacement%" in the config.yml file.
      * @param string
-     * @param player
+     * @param sender
      * @param replacement
      */
-    public static void custommessagefromString(String string, Player player, String replacement) {
+    public static void custommessagefromString(String string, CommandSender sender, String replacement) {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
         } catch (IOException e) {
@@ -199,7 +200,7 @@ public class ConfigShorts {
             message = message.replace("%replacement%", replacement);
         }
 
-        player.sendMessage(message);
+        sender.sendMessage(message);
         loaddefConfig();
     }
 

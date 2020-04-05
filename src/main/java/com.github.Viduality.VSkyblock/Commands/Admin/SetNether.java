@@ -5,6 +5,7 @@ import com.github.Viduality.VSkyblock.Utilitys.ConfigChanger;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class SetNether implements AdminSubCommand {
@@ -14,20 +15,25 @@ public class SetNether implements AdminSubCommand {
 
 
     @Override
-    public void execute(Player player, String args, String option1, String option2) {
+    public void execute(CommandSender sender, String args, String option1, String option2) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                if (player.hasPermission("VSkyblock.SetNether")) {
-                    if (player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
-                        String world = player.getWorld().getName();
-                        cc.setConfig("NetherWorld", world);
-                        ConfigShorts.messagefromString("SetNewNether", player);
+                if (sender instanceof Player) {
+                    Player player =  (Player) sender;
+                    if (player.hasPermission("VSkyblock.SetNether")) {
+                        if (player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+                            String world = player.getWorld().getName();
+                            cc.setConfig("NetherWorld", world);
+                            ConfigShorts.messagefromString("SetNewNether", player);
+                        } else {
+                            ConfigShorts.messagefromString("UseInNetherWorld", player);
+                        }
                     } else {
-                        ConfigShorts.messagefromString("UseInNetherWorld", player);
+                        ConfigShorts.messagefromString("PermissionLack", player);
                     }
                 } else {
-                    ConfigShorts.messagefromString("PermissionLack", player);
+                    ConfigShorts.messagefromString("NotAPlayer", sender);
                 }
             }
         });

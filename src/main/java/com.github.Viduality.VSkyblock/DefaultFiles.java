@@ -225,7 +225,7 @@ public class DefaultFiles {
 
         loadYamls();
 
-        loadValues();
+        reloadValues();
 
 
     }
@@ -437,7 +437,10 @@ public class DefaultFiles {
     /**
      * Loads the BlockValues.yml file
      */
-    private static void loadValues() {
+    public static void reloadValues() {
+        if (!blockvalues.isEmpty()) {
+            blockvalues.clear();
+        }
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/BlockValues.yml");
         } catch (IOException e) {

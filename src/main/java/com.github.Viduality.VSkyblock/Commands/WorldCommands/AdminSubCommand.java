@@ -1,7 +1,7 @@
 package com.github.Viduality.VSkyblock.Commands.WorldCommands;
 
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 public interface AdminSubCommand {
-    void execute(Player player, String args, String option1, String option2);
+    void execute(CommandSender sender, String args, String option1, String option2);
 }

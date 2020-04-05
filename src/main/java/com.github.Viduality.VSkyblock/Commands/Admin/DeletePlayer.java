@@ -6,6 +6,7 @@ import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -21,11 +22,11 @@ public class DeletePlayer implements AdminSubCommand {
 
 
     @Override
-    public void execute(Player player, String args, String option1, String option2) {
+    public void execute(CommandSender sender, String args, String option1, String option2) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                if (player.hasPermission("VSkyblock.DeletePlayer")) {
+                if (sender.hasPermission("VSkyblock.DeletePlayer")) {
                     DatabaseCache databaseCache = new DatabaseCache();
                     Connection connection = getDatabase.getConnection();
 
@@ -69,7 +70,7 @@ public class DeletePlayer implements AdminSubCommand {
                         plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                             @Override
                             public void run() {
-                                ConfigShorts.custommessagefromString("DeletedPlayer", player, args);
+                                ConfigShorts.custommessagefromString("DeletedPlayer", sender, args);
                                 OfflinePlayer target = plugin.getServer().getOfflinePlayer(args);
                                 if (target.isOnline()) {
                                     Player onlinetarget = (Player) target;
@@ -81,7 +82,7 @@ public class DeletePlayer implements AdminSubCommand {
                         plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                             @Override
                             public void run() {
-                                ConfigShorts.messagefromString("PlayerDoesNotExist", player);
+                                ConfigShorts.messagefromString("PlayerDoesNotExist", sender);
                             }
                         });
                     }
@@ -89,7 +90,7 @@ public class DeletePlayer implements AdminSubCommand {
                     plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                         @Override
                         public void run() {
-                            ConfigShorts.messagefromString("PermissionLack", player);
+                            ConfigShorts.messagefromString("PermissionLack", sender);
                         }
                     });
                 }

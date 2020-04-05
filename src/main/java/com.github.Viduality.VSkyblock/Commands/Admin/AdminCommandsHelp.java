@@ -4,6 +4,7 @@ import com.github.Viduality.VSkyblock.Commands.WorldCommands.AdminSubCommand;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class AdminCommandsHelp implements AdminSubCommand {
@@ -11,7 +12,7 @@ public class AdminCommandsHelp implements AdminSubCommand {
     private VSkyblock plugin = VSkyblock.getInstance();
 
     @Override
-    public void execute(Player player, String args, String option1, String option2) {
+    public void execute(CommandSender sender, String args, String option1, String option2) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
@@ -33,6 +34,7 @@ public class AdminCommandsHelp implements AdminSubCommand {
                 String recreateLanguageFiles = plugin.getConfig().getString("VSkyblockRecreateLanguageFiles");
                 String recreateHelpFiles = plugin.getConfig().getString("VSkyblockRecreateHelpFiles");
                 String recreateChallengeFiles = plugin.getConfig().getString("VSkyblockRecreateChallengeFiles");
+                String reloadBlockValues = plugin.getConfig().getString("VSkyblockReloadBlockValues");
                 ConfigShorts.loaddefConfig();
                 String message = ChatColor.AQUA + intro + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock delete player <Player>" + "\n" + ChatColor.RESET + " - " + deletePlayer + "\n" +
@@ -50,8 +52,9 @@ public class AdminCommandsHelp implements AdminSubCommand {
                         ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock import <world>" + "\n" + ChatColor.RESET + " - " + importWorld + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock recreate languages" + "\n" + ChatColor.RESET + " - " + recreateLanguageFiles + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock recreate help" + "\n" + ChatColor.RESET + " - " + recreateHelpFiles + "\n" +
-                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock recreate challenges" + "\n" + ChatColor.RESET + " - " + recreateChallengeFiles + "\n";
-                player.sendMessage(message);
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock recreate challenges" + "\n" + ChatColor.RESET + " - " + recreateChallengeFiles + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock reload blockvalues" + "\n" + ChatColor.RESET + " - " + reloadBlockValues;
+                sender.sendMessage(message);
             }
         });
     }

@@ -4,6 +4,7 @@ import com.github.Viduality.VSkyblock.Commands.WorldCommands.AdminSubCommand;
 import com.github.Viduality.VSkyblock.DefaultFiles;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -13,8 +14,8 @@ public class RecreateLanguageFiles implements AdminSubCommand {
     private VSkyblock plugin = VSkyblock.getInstance();
 
     @Override
-    public void execute(Player player, String args, String option1, String option2) {
-        if (player.hasPermission("VSkyblock.RecreateLanguageFiles")) {
+    public void execute(CommandSender sender, String args, String option1, String option2) {
+        if (sender.hasPermission("VSkyblock.RecreateLanguageFiles")) {
             File path = new File(plugin.getDataFolder() + "/Languages");
             if (path.exists()) {
                 File[] files = path.listFiles();
@@ -24,7 +25,7 @@ public class RecreateLanguageFiles implements AdminSubCommand {
                     }
                 }
                 DefaultFiles.init();
-                ConfigShorts.messagefromString("RecreatedLanguageFiles", player);
+                ConfigShorts.messagefromString("RecreatedLanguageFiles", sender);
             }
         }
     }

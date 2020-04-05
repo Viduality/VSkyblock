@@ -95,6 +95,7 @@ RestartFirst: §cBenutze erst §b/is restart §cund bestätige danach mit §b/is
 RecreatedLanguageFiles: §bAlle Language-Files wurden neu erstellt.
 RecreatedHelpFiles: §bAlle Help-Files wurden neu erstellt.
 RecreatedChallengeFiles: §bAlle Challenge-Files wurden neu erstellt.
+ReloadedBlockValues: §bBlock-Values wurden neu geladen.
 
 SetAutoLoad: §bAutoLoad wurde für deine jetzige Welt auf §6%replacement% §bgesetzt!
 SethomeSuccess: §aErfolgreich neuen Spawnpunkt deiner Insel gesetzt!

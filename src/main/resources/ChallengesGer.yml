@@ -131,7 +131,7 @@ Easy:
     RepeatReward:
     - Dirt;2
 
-  Kürbissfarmer:
+  Kürbisfarmer:
     Slot: 7
     ShownItem: Pumpkin
     Type: onPlayer
@@ -393,7 +393,7 @@ Medium:
     ShownItem: Scute
     Type: onPlayer
     Description: "Erfarme einen Schildkrötenpanzer und 2 Hornschilde (Scute). Angle eine Nautilusschale"
-    NeededText: "1 Schildkrötenpanzer, 2 Hornschilde"
+    NeededText: "1 Schildkrötenpanzer, 2 Hornschilde, 1 Nautilusschale"
     Needed:
     - Turtle_Helmet;1
     - Scute;2

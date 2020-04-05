@@ -3,6 +3,7 @@ package com.github.Viduality.VSkyblock.Commands.WorldCommands;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import org.bukkit.Difficulty;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class WorldSetConfig implements AdminSubCommand {
@@ -11,75 +12,84 @@ public class WorldSetConfig implements AdminSubCommand {
 
 
     @Override
-    public void execute(Player player, String args, String option1, String option2) {
-        if (player.hasPermission("Skyblock.SetWorldConfig")) {
-            String world = player.getWorld().getName();
-            String option = option1;
-            String value = option2;
-            if (wm.getAllWorlds().contains(world)) {
-                if (value != null) {
-                    switch (option.toUpperCase()) {
-                        case "AUTOLOAD":
-                            if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
-                                wm.setOption(world, "autoLoad", value.toLowerCase());
-                                ConfigShorts.messagefromString("OptionChanged", player);
+    public void execute(CommandSender sender, String args, String option1, String option2) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (player.hasPermission("Skyblock.SetWorldConfig")) {
+                String world = player.getWorld().getName();
+                String option = option1;
+                String value = option2;
+                if (wm.getAllWorlds().contains(world)) {
+                    if (value != null) {
+                        switch (option.toUpperCase()) {
+                            case "AUTOLOAD":
+                                if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
+                                    wm.setOption(world, "autoLoad", value.toLowerCase());
+                                    ConfigShorts.messagefromString("OptionChanged", player);
+                                    break;
+                                } else {
+                                    ConfigShorts.messagefromString("OnlyTrueOrFalse", player);
+                                    break;
+                                }
+                            case "GENERATOR":
+                                ConfigShorts.messagefromString("ChangeGeneratorMidGame", player);
                                 break;
-                            } else {
-                                ConfigShorts.messagefromString("OnlyTrueOrFalse", player);
+                            case "ENVIRONMENT":
+                                ConfigShorts.messagefromString("ChangeEnvironmentMidGame", player);
                                 break;
-                            }
-                        case "GENERATOR":
-                            ConfigShorts.messagefromString("ChangeGeneratorMidGame", player);
-                            break;
-                        case "ENVIRONMENT":
-                            ConfigShorts.messagefromString("ChangeEnvironmentMidGame", player);
-                            break;
-                        case "DIFFICULTY":
-                            if (getDifficultyasString(value) != null) {
-                                wm.setOption(world, "difficulty", value.toUpperCase());
-                                player.getWorld().setDifficulty(getDifficulty(value));
-                                ConfigShorts.messagefromString("OptionChanged", player);
+                            case "DIFFICULTY":
+                                if (getDifficultyasString(value) != null) {
+                                    wm.setOption(world, "difficulty", value.toUpperCase());
+                                    player.getWorld().setDifficulty(getDifficulty(value));
+                                    ConfigShorts.messagefromString("OptionChanged", player);
+                                    break;
+                                } else {
+                                    ConfigShorts.custommessagefromString("WorldDifficultyNotFound", player, value);
+                                    break;
+                                }
+                            case "KEEPSPAWNINMEMORY":
+                                if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
+                                    wm.setOption(world, "keepSpawnInMemory", value.toLowerCase());
+                                    player.getWorld().setKeepSpawnInMemory(Boolean.parseBoolean(value.toLowerCase()));
+                                    ConfigShorts.messagefromString("OptionChanged", player);
+                                    break;
+                                } else {
+                                    ConfigShorts.messagefromString("OnlyTrueOrFalse", player);
+                                    break;
+                                }
+                            case "GENERATESTRUCTURES":
+                                if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
+                                    wm.setOption(world, "generateStructures", value.toLowerCase());
+                                    player.getWorld().setKeepSpawnInMemory(Boolean.parseBoolean(value.toLowerCase()));
+                                    ConfigShorts.messagefromString("OptionChanged", player);
+                                    break;
+                                } else {
+                                    ConfigShorts.messagefromString("OnlyTrueOrFalse", player);
+                                    break;
+                                }
+                            case "SPAWNPOINT":
+                                ConfigShorts.messagefromString("UseCommandSetSpawnPoint", player);
                                 break;
-                            } else {
-                                ConfigShorts.custommessagefromString("WorldDifficultyNotFound", player, value);
+                            case "SETSPAWNPOINT":
+                                ConfigShorts.messagefromString("UseCommandSetSpawnPoint", player);
                                 break;
-                            }
-                        case "KEEPSPAWNINMEMORY":
-                            if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
-                                wm.setOption(world, "keepSpawnInMemory", value.toLowerCase());
-                                player.getWorld().setKeepSpawnInMemory(Boolean.parseBoolean(value.toLowerCase()));
-                                ConfigShorts.messagefromString("OptionChanged", player);
+                            case "SET_SPAWNPOINT":
+                                ConfigShorts.messagefromString("UseCommandSetSpawnPoint", player);
                                 break;
-                            } else {
-                                ConfigShorts.messagefromString("OnlyTrueOrFalse", player);
-                                break;
-                            }
-                        case "GENERATESTRUCTURES":
-                            if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
-                                wm.setOption(world, "generateStructures", value.toLowerCase());
-                                player.getWorld().setKeepSpawnInMemory(Boolean.parseBoolean(value.toLowerCase()));
-                                ConfigShorts.messagefromString("OptionChanged", player);
-                                break;
-                            } else {
-                                ConfigShorts.messagefromString("OnlyTrueOrFalse", player);
-                                break;
-                            }
-                        case "SPAWNPOINT":
-                            ConfigShorts.messagefromString("UseCommandSetSpawnPoint", player);
-                            break;
-                        case "SETSPAWNPOINT":
-                            ConfigShorts.messagefromString("UseCommandSetSpawnPoint", player);
-                            break;
-                        case "SET_SPAWNPOINT":
-                            ConfigShorts.messagefromString("UseCommandSetSpawnPoint", player);
-                            break;
-                        default:
-                            ConfigShorts.messagefromString("NotAValidOption", player);
+                            default:
+                                ConfigShorts.messagefromString("NotAValidOption", player);
+                        }
+                    } else {
+                        ConfigShorts.messagefromString("MissingValue", player);
                     }
                 } else {
-                    ConfigShorts.messagefromString("MissingValue", player);
+                    ConfigShorts.custommessagefromString("NoWorldFound", sender, args);
                 }
+            } else {
+                ConfigShorts.messagefromString("PermissionLack", player);
             }
+        } else {
+            ConfigShorts.messagefromString("NotAPlayer", sender);
         }
     }
 

@@ -62,9 +62,7 @@ public class PlayerJoinListener implements Listener {
                         }
                     }
                     if (result.getIslandname() != null) {
-                        if (Island.emptyloadedislands.asMap().containsKey(result.getIslandname())) {
-                            Island.emptyloadedislands.asMap().remove(result.getIslandname());
-                        }
+                        Island.emptyloadedislands.asMap().remove(result.getIslandname());
                         if (!Island.playerislands.containsValue(result.getIslandname())) {
                             wm.loadWorld(result.getIslandname());
                             Island.playerislands.put(result.getuuid(), result.getIslandname());
