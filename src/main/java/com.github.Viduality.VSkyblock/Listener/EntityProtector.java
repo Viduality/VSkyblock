@@ -61,6 +61,8 @@ public class EntityProtector implements Listener {
                         entityDamageEvent.setCancelled(true);
                     }
                 }
+            } else {
+                entityDamageEvent.setCancelled(true);
             }
         }
     }

@@ -255,6 +255,13 @@ commands:
     usage: /VSkyblock recreate challenges
     aliases: [vsky recreate challenges]
     permission: VSkyblock.RecreateChallengeFiles
+
+
+  VSkyblock reload blockvalues:
+    description: Reloads the block values.
+    usage: /VSkyblock reload blockvalues
+    aliases: [vsky reload blockvalues]
+    permission: VSkyblock.ReloadBlockValues
     permission-message: You don't have permission!
 
   Challenges:
@@ -295,6 +302,7 @@ permissions:
       VSkyblock.RecreateLanguageFiles: true
       VSkyblock.RecreateHelpFiles: true
       VSkyblock.RecreateChallengeFiles: true
+      VSkyblock.ReloadBlockValues: true
 
   VSkyblock.Mod:
     description: Permissions for Mods with limited rights on the server.
@@ -330,19 +338,22 @@ permissions:
       VSkyblock.SetWorldConfig: true
 
   VSkyblock.DeletePlayer:
-    description: Allows the player to delete a player from the database.
+    description: Allows the sender to delete a player from the database.
     default: op
   VSkyblock.ResetChallenges:
-    description: Resets the challenges from a player.
+    description: Allows the sender to resets the challenges from a player.
     default: op
   VSkyblock.RecreateLanguageFiles:
-    description: Recreates all language files.
+    description: Allows the sender to recreate all language files.
     default: op
   VSkyblock.RecreateHelpFiles:
-    description: Recreates all help files.
+    description: Allows the sender to recreate all help files.
     default: op
   VSkyblock.RecreateChallengeFiles:
-    description: Recreates all challenge files.
+    description: Allows the sender to recreate all challenge files.
+    default: op
+  VSkyblock.ReloadBlockValues:
+    description: Allows the sender to reload the block values.
     default: op
   VSkyblock.SetNether:
     description: Allows the player to set a new nether.
@@ -360,13 +371,13 @@ permissions:
     description: Allows the player to teleport between world.
     default: op
   VSkyblock.LoadWorld:
-    description: Allows the player to load a world.
+    description: Allows the sender to load a world.
     default: op
   VSkyblock.UnloadWorld:
-    description: Allows the player to unload a world.
+    description: Allows the sender to unload a world.
     default: op
   VSkyblock.DeleteWorld:
-    description: Allows the player to delete a world.
+    description: Allows the sender to delete a world.
     default: op
   VSkyblock.CreateWorld:
     description: Allows the player to create a world.

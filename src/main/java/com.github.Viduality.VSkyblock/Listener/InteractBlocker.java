@@ -18,18 +18,21 @@ public class InteractBlocker implements Listener {
     @EventHandler
     public void interactEvent(PlayerInteractEvent playerInteractEvent) {
         Player player = playerInteractEvent.getPlayer();
-        String uuid = player.getUniqueId().toString();
         if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(player.getUniqueId().toString()).equals(player.getWorld().getName())) {
-                if (playerInteractEvent.getClickedBlock() != null) {
-                    if (playerInteractEvent.getClickedBlock().getType().isInteractable()) {
+            if (Island.playerislands.get(player.getUniqueId().toString()) != null) {
+                if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(player.getUniqueId().toString()).equals(player.getWorld().getName())) {
+                    if (playerInteractEvent.getClickedBlock() != null) {
+                        if (playerInteractEvent.getClickedBlock().getType().isInteractable()) {
+                            playerInteractEvent.setCancelled(true);
+                            ConfigShorts.messagefromString("InteractBlocker", player);
+                        }
+                    }
+                    if (playerInteractEvent.getAction() == Action.PHYSICAL) {
                         playerInteractEvent.setCancelled(true);
-                        ConfigShorts.messagefromString("InteractBlocker", player);
                     }
                 }
-                if (playerInteractEvent.getAction() == Action.PHYSICAL) {
-                    playerInteractEvent.setCancelled(true);
-                }
+            } else {
+                playerInteractEvent.setCancelled(true);
             }
         }
     }
@@ -39,7 +42,11 @@ public class InteractBlocker implements Listener {
         Player player = playerInteractEntityEvent.getPlayer();
         String uuid = player.getUniqueId().toString();
         if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(uuid).equals(player.getWorld().getName())) {
+            if (Island.playerislands.get(uuid) != null) {
+                if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(uuid).equals(player.getWorld().getName())) {
+                    playerInteractEntityEvent.setCancelled(true);
+                }
+            } else {
                 playerInteractEntityEvent.setCancelled(true);
             }
         }
@@ -50,7 +57,11 @@ public class InteractBlocker implements Listener {
         Player player = playerInteractAtEntityEvent.getPlayer();
         String uuid = player.getUniqueId().toString();
         if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(uuid).equals(player.getWorld().getName())) {
+            if (Island.playerislands.get(uuid) != null) {
+                if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(uuid).equals(player.getWorld().getName())) {
+                    playerInteractAtEntityEvent.setCancelled(true);
+                }
+            } else {
                 playerInteractAtEntityEvent.setCancelled(true);
             }
         }
