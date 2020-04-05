@@ -2,6 +2,7 @@ package com.github.Viduality.VSkyblock.Listener;
 
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class InteractBlocker implements Listener {
 
+    private VSkyblock plugin = VSkyblock.getInstance();
 
 
     @EventHandler
@@ -23,16 +25,22 @@ public class InteractBlocker implements Listener {
                 if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(player.getUniqueId().toString()).equals(player.getWorld().getName())) {
                     if (playerInteractEvent.getClickedBlock() != null) {
                         if (playerInteractEvent.getClickedBlock().getType().isInteractable()) {
-                            playerInteractEvent.setCancelled(true);
-                            ConfigShorts.messagefromString("InteractBlocker", player);
+                            if (!player.getWorld().getName().equals(plugin.getConfig().getString("SpawnWorld"))) {
+                                playerInteractEvent.setCancelled(true);
+                                ConfigShorts.messagefromString("InteractBlocker", player);
+                            }
                         }
                     }
                     if (playerInteractEvent.getAction() == Action.PHYSICAL) {
-                        playerInteractEvent.setCancelled(true);
+                        if (!player.getWorld().getName().equals(plugin.getConfig().getString("SpawnWorld"))) {
+                            playerInteractEvent.setCancelled(true);
+                        }
                     }
                 }
             } else {
-                playerInteractEvent.setCancelled(true);
+                if (!player.getWorld().getName().equals(plugin.getConfig().getString("SpawnWorld"))) {
+                    playerInteractEvent.setCancelled(true);
+                }
             }
         }
     }

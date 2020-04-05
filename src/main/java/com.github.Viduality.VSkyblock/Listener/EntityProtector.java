@@ -1,6 +1,7 @@
 package com.github.Viduality.VSkyblock.Listener;
 
 import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -21,6 +22,7 @@ import java.util.Set;
 public class EntityProtector implements Listener {
 
     private VSkyblock plugin = VSkyblock.getInstance();
+    private WorldManager wm = new WorldManager();
 
 
     @EventHandler
@@ -59,10 +61,20 @@ public class EntityProtector implements Listener {
                 if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(player.getUniqueId().toString()).equals(player.getWorld().getName())) {
                     if (entity.getLocation().getBlockY() > 0) {
                         entityDamageEvent.setCancelled(true);
+                    } else {
+                        double playerhealth = player.getHealth();
+                        player.setHealth(playerhealth + 4);
+                        player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
                     }
                 }
             } else {
-                entityDamageEvent.setCancelled(true);
+                if (entity.getLocation().getBlockY() > 0) {
+                    entityDamageEvent.setCancelled(true);
+                } else {
+                    double playerhealth = player.getHealth();
+                    player.setHealth(playerhealth + 4);
+                    player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
+                }
             }
         }
     }
