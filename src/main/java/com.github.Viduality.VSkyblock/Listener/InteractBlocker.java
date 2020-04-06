@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -40,6 +41,20 @@ public class InteractBlocker implements Listener {
             } else {
                 if (!player.getWorld().getName().equals(plugin.getConfig().getString("SpawnWorld"))) {
                     playerInteractEvent.setCancelled(true);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void playerItemUse(PlayerInteractEvent interactEvent) {
+        Player player = interactEvent.getPlayer();
+        if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
+            if (!player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString())) && !player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+                if (player.getActiveItem() != null) {
+                    if (!player.getActiveItem().getType().isEdible()) {
+                        interactEvent.setCancelled(true);
+                    }
                 }
             }
         }
