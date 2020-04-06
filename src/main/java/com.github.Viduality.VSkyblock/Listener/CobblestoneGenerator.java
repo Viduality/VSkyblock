@@ -1,6 +1,10 @@
 package com.github.Viduality.VSkyblock.Listener;
 
 import com.github.Viduality.VSkyblock.VSkyblock;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -9,14 +13,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.metadata.Metadatable;
 
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 
 public class CobblestoneGenerator implements Listener {
@@ -26,36 +26,48 @@ public class CobblestoneGenerator implements Listener {
     public static HashMap<String, Integer> islandGenLevel = new HashMap<>(); //Islandname and generatorlevel
     public static HashMap<String, Double> generatorValues = new HashMap<>(); //"option" and value
     public static HashMap<String, Integer> islandlevels = new HashMap<>(); //Islandname and islandlevel
+    public static LoadingCache<Location, Location> cobblegen = CacheBuilder.newBuilder()
+            .maximumSize(10000)
+            .expireAfterWrite(10, TimeUnit.MINUTES)
+            .build(
+                    new CacheLoader<Location, Location>() {
+                        @Override
+                        public Location load(Location location) throws Exception {
+                            return null;
+                        }
+                    }
+            );
 
     @EventHandler
     public void cobblestoneGeneratorBlocks(BlockFormEvent blockFormEvent) {
         Block block = blockFormEvent.getNewState().getBlock();
         Material newmaterial = blockFormEvent.getNewState().getType();
+        Location location = blockFormEvent.getNewState().getLocation();
         if (newmaterial.equals(Material.COBBLESTONE)) {
-            blockFormEvent.getNewState().setType(Material.INFESTED_COBBLESTONE);
+            blockFormEvent.getNewState().setType(getCobblestone(location));
             if (islandGenLevel.containsKey(block.getLocation().getWorld().getName())) {
                 int level = islandGenLevel.get(block.getLocation().getWorld().getName());
                 switch (level) {
                     case 1:
-                        blockFormEvent.getNewState().setType(rollCoalLevel());
+                        blockFormEvent.getNewState().setType(rollCoalLevel(location));
                         break;
                     case 2:
-                        blockFormEvent.getNewState().setType(rollIronLevel());
+                        blockFormEvent.getNewState().setType(rollIronLevel(location));
                         break;
                     case 3:
-                        blockFormEvent.getNewState().setType(rollRedstoneLevel());
+                        blockFormEvent.getNewState().setType(rollRedstoneLevel(location));
                         break;
                     case 4:
-                        blockFormEvent.getNewState().setType(rollLapisLevel());
+                        blockFormEvent.getNewState().setType(rollLapisLevel(location));
                         break;
                     case 5:
-                        blockFormEvent.getNewState().setType(rollGoldLevel());
+                        blockFormEvent.getNewState().setType(rollGoldLevel(location));
                         break;
                     case 6:
-                        blockFormEvent.getNewState().setType(rollEmeraldLevel());
+                        blockFormEvent.getNewState().setType(rollEmeraldLevel(location));
                         break;
                     case 7:
-                        blockFormEvent.getNewState().setType(rollDiamondLevel());
+                        blockFormEvent.getNewState().setType(rollDiamondLevel(location));
                         break;
                 }
             }
@@ -97,13 +109,13 @@ public class CobblestoneGenerator implements Listener {
      * Returns either cobblestone or coal.
      * @return Material
      */
-    private Material rollCoalLevel() {
+    private Material rollCoalLevel(Location location) {
         double random = Math.random();
         double chance = generatorValues.get("CoalChance") / 100;
         if (chance >= random) {
             return Material.COAL_ORE;
         } else {
-            return Material.INFESTED_COBBLESTONE;
+            return getCobblestone(location);
         }
     }
 
@@ -112,7 +124,7 @@ public class CobblestoneGenerator implements Listener {
      * Returns either cobblestone, coal or iron.
      * @return Material
      */
-    private Material rollIronLevel() {
+    private Material rollIronLevel(Location location) {
         double random = Math.random();
         double chanceIron = generatorValues.get("IronChance") / 100;
         double chanceCoal = (generatorValues.get("CoalChance") / 100) + chanceIron;
@@ -121,7 +133,7 @@ public class CobblestoneGenerator implements Listener {
         } else if (chanceCoal >= random){
             return Material.COAL_ORE;
         } else {
-            return Material.INFESTED_COBBLESTONE;
+            return getCobblestone(location);
         }
     }
 
@@ -130,7 +142,7 @@ public class CobblestoneGenerator implements Listener {
      * Returns either cobblestone, coal, iron or redstone.
      * @return Material
      */
-    private Material rollRedstoneLevel() {
+    private Material rollRedstoneLevel(Location location) {
         double random = Math.random();
         double chanceRedstone = generatorValues.get("RedstoneChance") / 100;
         double chanceIron = (generatorValues.get("IronChance") / 100) + chanceRedstone;
@@ -142,7 +154,7 @@ public class CobblestoneGenerator implements Listener {
         } else if (chanceCoal >= random){
             return Material.COAL_ORE;
         } else {
-            return Material.INFESTED_COBBLESTONE;
+            return getCobblestone(location);
         }
     }
 
@@ -151,7 +163,7 @@ public class CobblestoneGenerator implements Listener {
      * Returns either cobblestone, coal, iron, redstone or lapis.
      * @return Material
      */
-    private Material rollLapisLevel() {
+    private Material rollLapisLevel(Location location) {
         double random = Math.random();
         double chanceLapis = generatorValues.get("LapisChance") / 100;
         double chanceRedstone = (generatorValues.get("RedstoneChance") / 100) + chanceLapis;
@@ -166,7 +178,7 @@ public class CobblestoneGenerator implements Listener {
         } else if (chanceCoal >= random){
             return Material.COAL_ORE;
         } else {
-            return Material.INFESTED_COBBLESTONE;
+            return getCobblestone(location);
         }
     }
 
@@ -175,7 +187,7 @@ public class CobblestoneGenerator implements Listener {
      * Returns either cobblestone, coal, iron, redstone, lapis or gold.
      * @return Material
      */
-    private Material rollGoldLevel() {
+    private Material rollGoldLevel(Location location) {
         double random = Math.random();
         double chanceGold = generatorValues.get("GoldChance") / 100;
         double chanceLapis = (generatorValues.get("LapisChance") / 100) + chanceGold;
@@ -193,7 +205,7 @@ public class CobblestoneGenerator implements Listener {
         } else if (chanceCoal >= random){
             return Material.COAL_ORE;
         } else {
-            return Material.INFESTED_COBBLESTONE;
+            return getCobblestone(location);
         }
     }
 
@@ -202,7 +214,7 @@ public class CobblestoneGenerator implements Listener {
      * Returns either cobblestone, coal, iron, redstone, lapis, gold or emerald.
      * @return Material
      */
-    private Material rollEmeraldLevel() {
+    private Material rollEmeraldLevel(Location location) {
         double random = Math.random();
         double chanceEmerald = generatorValues.get("EmeraldChance") / 100;
         double chanceGold = (generatorValues.get("GoldChance") / 100) + chanceEmerald;
@@ -223,7 +235,7 @@ public class CobblestoneGenerator implements Listener {
         } else if (chanceCoal >= random){
             return Material.COAL_ORE;
         } else {
-            return Material.INFESTED_COBBLESTONE;
+            return getCobblestone(location);
         }
     }
 
@@ -232,7 +244,7 @@ public class CobblestoneGenerator implements Listener {
      * Returns either cobblestone, coal, iron, redstone, lapis, gold, emerald or diamonds.
      * @return Material
      */
-    private Material rollDiamondLevel() {
+    private Material rollDiamondLevel(Location location) {
         double random = Math.random();
         double chanceDiamond = generatorValues.get("DiamondChance") / 100;
         double chanceEmerald = (generatorValues.get("EmeraldChance") /100) + chanceDiamond;
@@ -256,7 +268,7 @@ public class CobblestoneGenerator implements Listener {
         } else if (chanceCoal >= random){
             return Material.COAL_ORE;
         } else {
-            return Material.INFESTED_COBBLESTONE;
+            return getCobblestone(location);
         }
     }
 
@@ -276,5 +288,13 @@ public class CobblestoneGenerator implements Listener {
             }
         }
         return drops;
+    }
+
+    private Material getCobblestone(Location loc) {
+        if (cobblegen.asMap().get(loc) != null) {
+            return Material.COBBLESTONE;
+        } else {
+            return Material.INFESTED_COBBLESTONE;
+        }
     }
 }

@@ -25,6 +25,7 @@ public class BlockBreakListener implements Listener {
         if (playerInteractEvent.getClickedBlock() != null) {
             if (playerInteractEvent.getClickedBlock().getType().equals(Material.INFESTED_COBBLESTONE)) {
                 playerInteractEvent.getClickedBlock().setType(Material.COBBLESTONE);
+                CobblestoneGenerator.cobblegen.put(playerInteractEvent.getClickedBlock().getLocation(), playerInteractEvent.getClickedBlock().getLocation());
             }
         }
     }
