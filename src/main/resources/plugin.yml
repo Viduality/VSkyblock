@@ -1,8 +1,8 @@
-name: VSkyblock
+name: ${project.name}
 main: com.github.Viduality.VSkyblock.VSkyblock
-version: 1.2-SNAPSHOT
+version: '${minecraft.plugin.version}'
 author: Viduality
-api-version: 1.15
+api-version: '1.15'
 load: POSTWORLD
 database: true
 
