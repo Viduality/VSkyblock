@@ -29,7 +29,6 @@ public class ChallengesHandler {
         databaseReader.getPlayerChallenges(player.getUniqueId().toString(), "VSkyblock_Challenges_" + difficulty, new DatabaseReader.cCallback() {
             @Override
             public void onQueryDone(ChallengesCache cache) {
-                player.closeInventory();
                 boolean repeat;
                 if (cache.getCurrentChallengeCount(challenge) != 0) {
                     repeat = true;
@@ -76,11 +75,14 @@ public class ChallengesHandler {
                             }
                         } else {
                             ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
+                            player.closeInventory();
                         }
                     } else {
                         ConfigShorts.messagefromString("NotEnoughItems", player);
+                        player.closeInventory();
                     }
                 } else if (plugin.getConfig().getString(difficulty + "." + challengeName + ".Type").equals("islandlevel")) {
+                    player.closeInventory();
                     if (!repeat) {
                         Integer neededlevel = plugin.getConfig().getInt(difficulty + "." + challengeName + ".Needed");
                         databaseReader.getislandlevelfromuuid(player.getUniqueId().toString(), new DatabaseReader.CallbackINT() {
@@ -111,6 +113,7 @@ public class ChallengesHandler {
                         ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
                     }
                 } else if (plugin.getConfig().getString(difficulty + "." + challengeName + ".Type").equals("onIsland")) {
+                    player.closeInventory();
                     if (!repeat) {
                         List<String> needed = getNeeded(challengeName, difficulty);
                         List<Integer> neededamount = getNeededAmounts(challengeName, difficulty);
@@ -311,7 +314,7 @@ public class ChallengesHandler {
      */
     private List<Integer> getEmptySlots(Inventory inv) {
         List<Integer> emptySlots = new ArrayList<>();
-        for (int currentSlot = 0; currentSlot < 27; currentSlot++) {
+        for (int currentSlot = 0; currentSlot < 36; currentSlot++) {
             if (inv.getItem(currentSlot) == null) {
                 emptySlots.add(currentSlot);
             }

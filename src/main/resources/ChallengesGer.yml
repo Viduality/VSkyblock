@@ -513,6 +513,7 @@ Hard:
     - Clock;1
     - Netherrack;64
     - Soul_Sand;16
+    - Ghast_Tear;1
     RewardText: "256 Schienen, 32 Booster-Schienen, 1 Ocelotspawnegg, 1 Diamant."
     Reward:
     - Rail;256
