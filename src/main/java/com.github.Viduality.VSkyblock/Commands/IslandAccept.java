@@ -21,9 +21,9 @@ public class IslandAccept implements SubCommand {
             @Override
             public void run() {
                 Player player = databaseCache.getPlayer();
-                if (Island.invitemap.asMap().containsKey(UUID.fromString(databaseCache.getuuid()))) {
-                    String newmemberuuid = databaseCache.getuuid();
-                    String islandowneruuid = String.valueOf(Island.invitemap.asMap().get(UUID.fromString(databaseCache.getuuid())));
+                if (Island.invitemap.asMap().containsKey(databaseCache.getUuid())) {
+                    UUID newmemberuuid = databaseCache.getUuid();
+                    UUID islandowneruuid = Island.invitemap.asMap().get(databaseCache.getUuid());
                     databaseReader.getislandidfromplayer(islandowneruuid, new DatabaseReader.CallbackINT() {
                         @Override
                         public void onQueryDone(int result) {
@@ -41,7 +41,7 @@ public class IslandAccept implements SubCommand {
                                             databaseWriter.updatePlayersIsland(newmemberuuid, islandid, false);
                                             databaseWriter.resetChallenges(newmemberuuid);
                                             Island.invitemap.asMap().remove(player.getUniqueId());
-                                            Island.playerislands.put(player.getUniqueId().toString(), newisland);
+                                            Island.playerislands.put(player.getUniqueId(), newisland);
                                             Island.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
                                             wm.unloadWorld(databaseCache.getIslandname());
                                             databaseWriter.updateDeathCount(newmemberuuid, 0);
@@ -59,7 +59,7 @@ public class IslandAccept implements SubCommand {
                                 databaseWriter.updatePlayersIsland(newmemberuuid, islandid, false);
                                 databaseWriter.resetChallenges(newmemberuuid);
                                 Island.invitemap.asMap().remove(player.getUniqueId());
-                                Island.playerislands.put(player.getUniqueId().toString(), newisland);
+                                Island.playerislands.put(player.getUniqueId(), newisland);
                                 Island.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
                                 if (databaseCache.getIslandname() != null) {
                                     if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {

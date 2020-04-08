@@ -1,11 +1,13 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class DatabaseCache {
 
@@ -13,8 +15,7 @@ public class DatabaseCache {
     private VSkyblock plugin = VSkyblock.getInstance();
 
 
-
-    private String uuidcache = null;
+    private UUID playerId;
     private String name = null;
     private int islandid = 0;
     private boolean islandowner = false;
@@ -31,7 +32,6 @@ public class DatabaseCache {
     private double spawnPitch;
     private double spawnYaw;
 
-    private Player player;
     private OfflinePlayer offlinePlayer;
 
 
@@ -40,7 +40,7 @@ public class DatabaseCache {
      * @return Player
      */
     public Player getPlayer() {
-        return player;
+        return playerId != null ? Bukkit.getPlayer(playerId) : null;
     }
 
     /**
@@ -48,7 +48,7 @@ public class DatabaseCache {
      * @param player
      */
     public void setPlayer(Player player) {
-        this.player = player;
+        this.playerId = player.getUniqueId();
     }
 
     /**
@@ -64,7 +64,7 @@ public class DatabaseCache {
      * @param targetPlayer
      */
     public void setTargetPlayer(OfflinePlayer targetPlayer) {
-        this.offlinePlayer = plugin.getServer().getOfflinePlayer(String.valueOf(targetPlayer));
+        this.offlinePlayer = targetPlayer;
     }
 
     /**
@@ -88,15 +88,15 @@ public class DatabaseCache {
      * @param uuid
      */
     public void setUuid(String uuid) {
-        this.uuidcache = uuid;
+        this.playerId = UUID.fromString(uuid);
     }
 
     /**
      * Returns the playerrs uuid.
      * @return String
      */
-    public String getuuid() {
-        return uuidcache;
+    public UUID getUuid() {
+        return playerId;
     }
 
     /**

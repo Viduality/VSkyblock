@@ -26,7 +26,7 @@ public class IslandLeave implements SubCommand{
                             @Override
                             public void onQueryDone(boolean result) {
                                 if (!result) {
-                                    Island.leavemap.put(UUID.fromString(databaseCache.getuuid()), 1);
+                                    Island.leavemap.put(databaseCache.getUuid(), 1);
                                     ConfigShorts.messagefromString("AcceptLeave", player);
                                 } else {
                                     ConfigShorts.messagefromString("HasIslandMembers", player);
@@ -34,7 +34,7 @@ public class IslandLeave implements SubCommand{
                             }
                         });
                     } else {
-                        Island.leavemap.put(UUID.fromString(databaseCache.getuuid()), 1);
+                        Island.leavemap.put(databaseCache.getUuid(), 1);
                         ConfigShorts.messagefromString("AcceptLeave", player);
                     }
                 } else {

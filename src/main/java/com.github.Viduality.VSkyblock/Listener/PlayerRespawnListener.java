@@ -8,6 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
+import java.util.UUID;
+
 public class PlayerRespawnListener implements Listener {
 
     private VSkyblock plugin = VSkyblock.getInstance();
@@ -17,7 +19,7 @@ public class PlayerRespawnListener implements Listener {
     @EventHandler
     public void playerRespawnListener(PlayerRespawnEvent playerRespawnEvent) {
         Player player = playerRespawnEvent.getPlayer();
-        String uuid = player.getUniqueId().toString();
+        UUID uuid = player.getUniqueId();
         if (Island.playerislands.containsKey(uuid)) {
             if (player.getBedSpawnLocation() == null) {
                 playerRespawnEvent.setRespawnLocation(wm.getSpawnLocation(plugin.getServer().getWorld(Island.playerislands.get(uuid)).getName()));

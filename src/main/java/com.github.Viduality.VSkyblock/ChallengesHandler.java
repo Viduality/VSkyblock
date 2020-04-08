@@ -69,7 +69,7 @@ public class ChallengesHandler {
                         if (emptySlots.size() >= rewards.size()) {
                             clearItems(player.getInventory(), needed, neededamount);
                             giveRewards(player.getInventory(), rewards);
-                            databaseWriter.updateChallengeCount(player.getUniqueId().toString(), "VSkyblock_Challenges_" + difficulty, challenge, cache.getCurrentChallengeCount(challenge) + 1);
+                            databaseWriter.updateChallengeCount(player.getUniqueId(), "VSkyblock_Challenges_" + difficulty, challenge, cache.getCurrentChallengeCount(challenge) + 1);
                             if (!repeat) {
                                 ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challengeName);
                             }
@@ -85,7 +85,7 @@ public class ChallengesHandler {
                     player.closeInventory();
                     if (!repeat) {
                         Integer neededlevel = plugin.getConfig().getInt(difficulty + "." + challengeName + ".Needed");
-                        databaseReader.getislandlevelfromuuid(player.getUniqueId().toString(), new DatabaseReader.CallbackINT() {
+                        databaseReader.getislandlevelfromuuid(player.getUniqueId(), new DatabaseReader.CallbackINT() {
                             @Override
                             public void onQueryDone(int result) {
                                 if (result >= neededlevel) {
@@ -100,7 +100,7 @@ public class ChallengesHandler {
                                         }
                                         giveRewards(player.getInventory(), rewards);
                                         ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challengeName);
-                                        databaseWriter.updateChallengeCount(player.getUniqueId().toString(), "VSkyblock_Challenges_" + difficulty, challenge, 1);
+                                        databaseWriter.updateChallengeCount(player.getUniqueId(), "VSkyblock_Challenges_" + difficulty, challenge, 1);
                                     } else {
                                         ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
                                     }
@@ -143,7 +143,7 @@ public class ChallengesHandler {
                                         }
                                         giveRewards(player.getInventory(), rewards);
                                         ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challengeName);
-                                        databaseWriter.updateChallengeCount(player.getUniqueId().toString(), "VSkyblock_Challenges_" + difficulty, challenge, 1);
+                                        databaseWriter.updateChallengeCount(player.getUniqueId(), "VSkyblock_Challenges_" + difficulty, challenge, 1);
                                     } else {
                                         ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
                                     }

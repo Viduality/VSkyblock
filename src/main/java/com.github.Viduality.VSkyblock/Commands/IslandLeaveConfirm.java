@@ -21,13 +21,13 @@ public class IslandLeaveConfirm implements SubCommand {
             public void run() {
                 Player player = databaseCache.getPlayer();
                 if (Island.leavemap.asMap().containsKey(player.getUniqueId())) {
-                    databaseWriter.leavefromIsland(player.getUniqueId().toString());
-                    databaseWriter.resetChallenges(player.getUniqueId().toString());
+                    databaseWriter.leavefromIsland(player.getUniqueId());
+                    databaseWriter.resetChallenges(player.getUniqueId());
                     ConfigShorts.messagefromString("LeftIsland", player);
                     player.getInventory().clear();
                     player.getEnderChest().clear();
                     Island.leavemap.asMap().remove(player.getUniqueId());
-                    Island.playerislands.remove(player.getUniqueId().toString());
+                    Island.playerislands.remove(player.getUniqueId());
                     if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
                         plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                             @Override

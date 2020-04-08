@@ -22,6 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class IslandOptionsInventoryHandler implements Listener {
 
@@ -64,7 +65,7 @@ public class IslandOptionsInventoryHandler implements Listener {
             } else if (slot == generatorslot) {
                 if (inventoryClickEvent.getCurrentItem().getType().equals(Material.COBBLESTONE)) {
                     inventoryClickEvent.getWhoClicked().closeInventory();
-                    inventoryClickEvent.getWhoClicked().openInventory(getGeneratorMenu(inventoryClickEvent.getWhoClicked().getUniqueId().toString()));
+                    inventoryClickEvent.getWhoClicked().openInventory(getGeneratorMenu(inventoryClickEvent.getWhoClicked().getUniqueId()));
                     ConfigShorts.loaddefConfig();
                 }
 
@@ -86,7 +87,7 @@ public class IslandOptionsInventoryHandler implements Listener {
                 String finalDifficulty = difficulty;
                 ConfigShorts.loaddefConfig();
                 databaseWriter.updateIslandOptions(player, visit, difficulty, done ->
-                        databaseReader.getislandnamefromplayer(player.getUniqueId().toString(), result ->
+                        databaseReader.getislandnamefromplayer(player.getUniqueId(), result ->
                                 updateIsland(result, finalDifficulty)));
             }
         }
@@ -225,7 +226,7 @@ public class IslandOptionsInventoryHandler implements Listener {
      *
      * @return Inventory
      */
-    private Inventory getGeneratorMenu(String playerUUID) {
+    private Inventory getGeneratorMenu(UUID playerUUID) {
         Inventory genInv = Bukkit.createInventory(null, 27, getDisplayNameGenerator());
 
         int slotCobbleDropChance = 10;
@@ -266,7 +267,7 @@ public class IslandOptionsInventoryHandler implements Listener {
         return genInv;
     }
 
-    private ItemStack getUpgradeButton(String playerUUID) {
+    private ItemStack getUpgradeButton(UUID playerUUID) {
         ConfigShorts.loadOptionsConfig();
         String island = Island.playerislands.get(playerUUID);
         Integer currentGeneratorLevel = CobblestoneGenerator.islandGenLevel.get(island);
@@ -294,7 +295,7 @@ public class IslandOptionsInventoryHandler implements Listener {
         return upgradeButton;
     }
 
-    private ItemStack getCobbleDropChanceInfo(String playerUUID) {
+    private ItemStack getCobbleDropChanceInfo(UUID playerUUID) {
         ConfigShorts.loadOptionsConfig();
         String island = Island.playerislands.get(playerUUID);
         Integer currentIslandLevel = CobblestoneGenerator.islandlevels.get(island);
@@ -319,7 +320,7 @@ public class IslandOptionsInventoryHandler implements Listener {
         return cobbleDropChanceInfo;
     }
 
-    private ItemStack getChancesOverview(String playerUUID) {
+    private ItemStack getChancesOverview(UUID playerUUID) {
         ConfigShorts.loadOptionsConfig();
         String island = Island.playerislands.get(playerUUID);
         Integer currentgeneratorLevel = CobblestoneGenerator.islandGenLevel.get(island);

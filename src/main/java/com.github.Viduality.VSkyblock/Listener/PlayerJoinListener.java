@@ -6,9 +6,7 @@ import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.WorldGenerator.WorldGenerator;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -50,11 +48,11 @@ public class PlayerJoinListener implements Listener {
         databaseReader.getPlayerData(player.getUniqueId().toString(), new DatabaseReader.Callback() {
             @Override
             public void onQueryDone(DatabaseCache result) {
-                if (result.getuuid() == null) {
-                    databaseWriter.addPlayer(player.getUniqueId().toString(), player.getName());
+                if (result.getUuid() == null) {
+                    databaseWriter.addPlayer(player.getUniqueId(), player.getName());
                 } else {
                     if (!result.getName().equals(player.getName())) {
-                        databaseWriter.updatePlayerName(player.getUniqueId().toString(), player.getName());
+                        databaseWriter.updatePlayerName(player.getUniqueId(), player.getName());
                     }
                     if (plugin.scoreboardmanager.doesobjectiveexist("deaths")) {
                         if (plugin.scoreboardmanager.addPlayerToObjective(player, "deaths")) {
@@ -65,13 +63,13 @@ public class PlayerJoinListener implements Listener {
                         Island.emptyloadedislands.asMap().remove(result.getIslandname());
                         if (!Island.playerislands.containsValue(result.getIslandname())) {
                             wm.loadWorld(result.getIslandname());
-                            Island.playerislands.put(result.getuuid(), result.getIslandname());
+                            Island.playerislands.put(result.getUuid(), result.getIslandname());
                             databaseReader.addToCobbleStoneGenerators(result.getIslandname());
                             if (wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
                                 wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
                             }
                             wm.loadWorld(result.getIslandname());
-                            databaseReader.getlastLocation(result.getuuid(), new DatabaseReader.CallbackLocation() {
+                            databaseReader.getlastLocation(result.getUuid(), new DatabaseReader.CallbackLocation() {
                                 @Override
                                 public void onQueryDone(Location loc) {
                                     if (loc != null) {
@@ -85,12 +83,12 @@ public class PlayerJoinListener implements Listener {
                             });
 
                         } else {
-                            Island.playerislands.put(result.getuuid(), result.getIslandname());
+                            Island.playerislands.put(result.getUuid(), result.getIslandname());
                             if (wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
                                 wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
                             }
                             wm.loadWorld(result.getIslandname());
-                            databaseReader.getlastLocation(result.getuuid(), new DatabaseReader.CallbackLocation() {
+                            databaseReader.getlastLocation(result.getUuid(), new DatabaseReader.CallbackLocation() {
                                 @Override
                                 public void onQueryDone(Location loc) {
                                     if (loc != null) {
@@ -109,7 +107,7 @@ public class PlayerJoinListener implements Listener {
                         player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                         if (result.isKicked()) {
                             ConfigShorts.messagefromString("KickedFromIslandOffline", player);
-                            databaseWriter.removeKicked(result.getuuid());
+                            databaseWriter.removeKicked(result.getUuid());
                         }
                     }
 

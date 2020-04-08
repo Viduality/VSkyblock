@@ -22,7 +22,7 @@ public class InteractBlocker implements Listener {
         Player player = playerInteractEvent.getPlayer();
         if (player.getWorld().getEnvironment() != World.Environment.NETHER
                 && !player.getWorld().getName().equals(plugin.getConfig().getString("SpawnWorld"))
-                && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString()))
+                && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId()))
                 && !player.hasPermission("VSkyblock.IgnoreProtected")) {
             if (playerInteractEvent.getClickedBlock() != null
                     && playerInteractEvent.getClickedBlock().getType().isInteractable()) {
@@ -49,7 +49,7 @@ public class InteractBlocker implements Listener {
     private void handle(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
         if (player.getWorld().getEnvironment() != World.Environment.NETHER
-                && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString()))
+                && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId()))
                 && !player.hasPermission("VSkyblock.IgnoreProtected")) {
             event.setCancelled(true);
         }

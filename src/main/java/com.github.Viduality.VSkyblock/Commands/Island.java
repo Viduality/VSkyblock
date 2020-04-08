@@ -23,67 +23,27 @@ public class Island implements CommandExecutor {
 
 
     public static HashMap<String, Map.Entry<String, Double>> activeislandslevels = new HashMap<String, Map.Entry<String, Double>>();
-    public static HashMap<String, String> playerislands = new HashMap<>();
+    public static HashMap<UUID, String> playerislands = new HashMap<>();
 
-    public static LoadingCache<UUID, Integer> restartmap = CacheBuilder.newBuilder()
-            .maximumSize(10000)
+    public static Cache<UUID, Integer> restartmap = CacheBuilder.newBuilder()
             .expireAfterWrite(20, TimeUnit.SECONDS)
-            .build(
-                    new CacheLoader<UUID, Integer>() {
-                        @Override
-                        public Integer load(UUID uuid) throws Exception {
-                            return null;
-                        }
-                    }
-            );
+            .build();
 
-    public static LoadingCache<UUID, Integer> leavemap = CacheBuilder.newBuilder()
-            .maximumSize(10000)
+    public static Cache<UUID, Integer> leavemap = CacheBuilder.newBuilder()
             .expireAfterWrite(20, TimeUnit.SECONDS)
-            .build(
-                    new CacheLoader<UUID, Integer>() {
-                        @Override
-                        public Integer load(UUID uuid) throws Exception {
-                            return null;
-                        }
-                    }
-            );
+            .build();
 
-    public static LoadingCache<UUID, UUID> invitemap = CacheBuilder.newBuilder()
-            .maximumSize(10000)
+    public static Cache<UUID, UUID> invitemap = CacheBuilder.newBuilder()
             .expireAfterWrite(20, TimeUnit.SECONDS)
-            .build(
-                    new CacheLoader<UUID, UUID>() {
-                        @Override
-                        public UUID load(UUID uuid) throws Exception {
-                            return null;
-                        }
-                    }
-            );
+            .build();
 
-    public static LoadingCache<UUID, UUID> isgencooldown = CacheBuilder.newBuilder()
-            .maximumSize(10000)
+    public static Cache<UUID, UUID> isgencooldown = CacheBuilder.newBuilder()
             .expireAfterWrite(getisgencooldown(), TimeUnit.MINUTES)
-            .build(
-                    new CacheLoader<UUID, UUID>() {
-                        @Override
-                        public UUID load(UUID uuid) throws Exception {
-                            return null;
-                        }
-                    }
-            );
+            .build();
 
-    public static LoadingCache<UUID, UUID> isjoincooldown = CacheBuilder.newBuilder()
-            .maximumSize(10000)
+    public static Cache<UUID, UUID> isjoincooldown = CacheBuilder.newBuilder()
             .expireAfterWrite(getisjoincooldown(), TimeUnit.MINUTES)
-            .build(
-                    new CacheLoader<UUID, UUID>() {
-                        @Override
-                        public UUID load(UUID uuid) throws Exception {
-                            return null;
-                        }
-                    }
-            );
+            .build();
 
     public static RemovalListener<String, String> unloadIslands = new RemovalListener<String, String>() {
         @Override
@@ -94,18 +54,10 @@ public class Island implements CommandExecutor {
         }
     };
 
-    public static LoadingCache<String, String> emptyloadedislands = CacheBuilder.newBuilder()
-            .maximumSize(10000)
+    public static Cache<String, String> emptyloadedislands = CacheBuilder.newBuilder()
             .expireAfterWrite(10, TimeUnit.SECONDS)
             .removalListener(unloadIslands)
-            .build(
-                    new CacheLoader<String, String>() {
-                        @Override
-                        public String load(String key) throws Exception {
-                            return null;
-                        }
-                    }
-            );
+            .build();
 
 
 

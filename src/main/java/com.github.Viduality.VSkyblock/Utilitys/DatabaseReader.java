@@ -13,6 +13,7 @@ import org.bukkit.scoreboard.Objective;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class DatabaseReader {
@@ -209,7 +210,7 @@ public class DatabaseReader {
      * @param uuid
      * @param callback
      */
-    public void getislandidfromplayer(String uuid, CallbackINT callback) {
+    public void getislandidfromplayer(UUID uuid, CallbackINT callback) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
@@ -218,7 +219,7 @@ public class DatabaseReader {
                 try {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
-                    preparedStatement.setString(1, uuid);
+                    preparedStatement.setString(1, uuid.toString());
                     ResultSet resultSet = preparedStatement.executeQuery();
                     while (resultSet.next()) {
                         databaseCache.setIslandId(resultSet.getInt("islandid"));
@@ -243,11 +244,10 @@ public class DatabaseReader {
 
     /**
      * Gets the island id from a player (database action).
-     *
-     * @param uuid
+     *  @param uuid
      * @param callback
      */
-    public void getislandnamefromplayer(String uuid, CallbackString callback) {
+    public void getislandnamefromplayer(UUID uuid, CallbackString callback) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
@@ -256,7 +256,7 @@ public class DatabaseReader {
                 try {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
-                    preparedStatement.setString(1, uuid);
+                    preparedStatement.setString(1, uuid.toString());
                     ResultSet resultSet = preparedStatement.executeQuery();
                     while (resultSet.next()) {
                         databaseCache.setIslandId(resultSet.getInt("islandid"));
@@ -440,7 +440,7 @@ public class DatabaseReader {
      * @param uuid
      * @param callback
      */
-    public void getislandlevelfromuuid(String uuid, CallbackINT callback) {
+    public void getislandlevelfromuuid(UUID uuid, CallbackINT callback) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
@@ -450,7 +450,7 @@ public class DatabaseReader {
                     int islandid = 0;
                     PreparedStatement prep;
                     prep = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
-                    prep.setString(1, uuid);
+                    prep.setString(1, uuid.toString());
                     ResultSet rs = prep.executeQuery();
                     while (rs.next()) {
                         islandid = rs.getInt("islandid");
@@ -596,7 +596,7 @@ public class DatabaseReader {
                             preparedStatementGetIslandLevel.close();
                         }
                         if (islandname != null && !islandname.equals("NULL")) {
-                            Island.playerislands.put(onlineplayers.get(i).getUniqueId().toString(), islandname);
+                            Island.playerislands.put(onlineplayers.get(i).getUniqueId(), islandname);
                             CobblestoneGenerator.islandGenLevel.put(islandname, cobblestonelevel);
                             CobblestoneGenerator.islandlevels.put(islandname, islandlevel);
                         }
@@ -848,7 +848,7 @@ public class DatabaseReader {
      * @param uuid
      * @param callback
      */
-    public void getlastLocation(final String uuid, final CallbackLocation callback) {
+    public void getlastLocation(final UUID uuid, final CallbackLocation callback) {
         Bukkit.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
@@ -865,7 +865,7 @@ public class DatabaseReader {
                 try {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE uuid = ?");
-                    preparedStatement.setString(1, uuid);
+                    preparedStatement.setString(1, uuid.toString());
                     ResultSet r = preparedStatement.executeQuery();
                     while (r.next()) {
                         islandid = r.getInt("islandid");

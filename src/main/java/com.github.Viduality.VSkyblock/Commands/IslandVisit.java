@@ -11,6 +11,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.UUID;
 
 public class IslandVisit implements SubCommand {
 
@@ -29,7 +30,7 @@ public class IslandVisit implements SubCommand {
                 if (player != target) {
                     if (target.isOnline()) {
                         Player onlinetarget = plugin.getServer().getPlayer(databaseCache.getArg());
-                        String uuid = onlinetarget.getUniqueId().toString();
+                        UUID uuid = onlinetarget.getUniqueId();
                         databaseReader.getislandidfromplayer(uuid, new DatabaseReader.CallbackINT() {
                             @Override
                             public void onQueryDone(int result) {

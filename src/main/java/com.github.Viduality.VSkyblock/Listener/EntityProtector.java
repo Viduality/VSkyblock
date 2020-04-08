@@ -19,6 +19,7 @@ import org.bukkit.event.inventory.InventoryType;
 
 import java.util.EnumSet;
 import java.util.Set;
+import java.util.UUID;
 
 
 public class EntityProtector implements Listener {
@@ -34,13 +35,13 @@ public class EntityProtector implements Listener {
         boolean pvpisland = plugin.getConfig().getBoolean("PvPIslands");
         boolean pvpnether = plugin.getConfig().getBoolean("PvPNether");
         if (player.getType().equals(EntityType.PLAYER) && damagedplayer.getType().equals(EntityType.PLAYER)) {
-            if (Island.playerislands.get(player.getUniqueId().toString()) != null) {
+            if (Island.playerislands.get(player.getUniqueId()) != null) {
                 if (player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
                     if (!pvpnether) {
                         entityDamageByEntityEvent.setCancelled(true);
                     }
                 } else {
-                    if (!Island.playerislands.get(player.getUniqueId().toString()).equals(Island.playerislands.get(damagedplayer.getUniqueId().toString()))) {
+                    if (!Island.playerislands.get(player.getUniqueId()).equals(Island.playerislands.get(damagedplayer.getUniqueId()))) {
                         entityDamageByEntityEvent.setCancelled(true);
                     }
                     if (!pvpisland) {
@@ -59,7 +60,7 @@ public class EntityProtector implements Listener {
         Entity entity = entityDamageEvent.getEntity();
         if (entity instanceof Player) {
             Player player = (Player) entity;
-            if (player.getWorld().getEnvironment() != World.Environment.NETHER && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString()))) {
+            if (player.getWorld().getEnvironment() != World.Environment.NETHER && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId()))) {
                 entityDamageEvent.setCancelled(true);
                 if (entityDamageEvent.getCause() == EntityDamageEvent.DamageCause.VOID || player.getLocation().getY() < 0) {
                     player.setFallDistance(0);
@@ -84,8 +85,7 @@ public class EntityProtector implements Listener {
         }
 
         if (player != null) {
-            String uuid = player.getUniqueId().toString();
-            if (!entity.getWorld().getName().equals(Island.playerislands.get(uuid)) && entity.getWorld().getEnvironment() != World.Environment.NETHER) {
+            if (!entity.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())) && entity.getWorld().getEnvironment() != World.Environment.NETHER) {
                 if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
                     entityDamageByEntityEvent.setCancelled(true);
                 }
@@ -117,8 +117,7 @@ public class EntityProtector implements Listener {
     public void targetPlayer(EntityTargetEvent entityTargetEvent) {
         Entity entity = entityTargetEvent.getTarget();
         if (entity instanceof Player) {
-            String uuid = entity.getUniqueId().toString();
-            if (!entity.getWorld().getName().equals(Island.playerislands.get(uuid)) && !entity.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+            if (!entity.getWorld().getName().equals(Island.playerislands.get(entity.getUniqueId())) && !entity.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
                 entityTargetEvent.setCancelled(true);
             }
         }
@@ -128,7 +127,7 @@ public class EntityProtector implements Listener {
     public void inventoryListener(InventoryOpenEvent inventoryOpenEvent) {
         Player player = (Player) inventoryOpenEvent.getPlayer();
         if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (!player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString())) && !player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+            if (!player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())) && !player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
                 inventoryOpenEvent.setCancelled(true);
             }
         }

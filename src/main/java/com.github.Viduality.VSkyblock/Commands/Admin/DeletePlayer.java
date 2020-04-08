@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 
 public class DeletePlayer implements AdminSubCommand {
@@ -44,22 +45,22 @@ public class DeletePlayer implements AdminSubCommand {
                     }
 
 
-                    String uuid = databaseCache.getuuid();
+                    UUID uuid = databaseCache.getUuid();
                     if (uuid != null) {
                         try {
                             PreparedStatement preparedStatement1;
 
                             preparedStatement1 = connection.prepareStatement("DELETE FROM VSkyblock_Player WHERE uuid = ?");
-                            preparedStatement1.setString(1, uuid);
+                            preparedStatement1.setString(1, uuid.toString());
                             preparedStatement1.executeUpdate();
                             preparedStatement1 = connection.prepareStatement("DELETE FROM VSkyblock_Challenges_Easy WHERE uuid = ?");
-                            preparedStatement1.setString(1, uuid);
+                            preparedStatement1.setString(1, uuid.toString());
                             preparedStatement1.executeUpdate();
                             preparedStatement1 = connection.prepareStatement("DELETE FROM VSkyblock_Challenges_Medium WHERE uuid = ?");
-                            preparedStatement1.setString(1, uuid);
+                            preparedStatement1.setString(1, uuid.toString());
                             preparedStatement1.executeUpdate();
                             preparedStatement1 = connection.prepareStatement("DELETE FROM VSkyblock_Challenges_Hard WHERE uuid = ?");
-                            preparedStatement1.setString(1, uuid);
+                            preparedStatement1.setString(1, uuid.toString());
                             preparedStatement1.executeUpdate();
                             preparedStatement1.close();
                         } catch (SQLException e) {

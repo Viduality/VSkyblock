@@ -3,7 +3,6 @@ package com.github.Viduality.VSkyblock.Commands;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
-import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.WorldGenerator.Islandmethods;
 import org.bukkit.entity.Player;
 
@@ -20,8 +19,8 @@ public class IslandRestartConfirm implements SubCommand{
             if (!Island.isgencooldown.asMap().containsValue(player.getUniqueId())) {
                 Island.isgencooldown.put(player.getUniqueId(), player.getUniqueId());
                 ConfigShorts.messagefromString("GenerateNewIsland", player);
-                islandmethods.createNewIsland(databaseCache.getuuid(), databaseCache.getIslandname());
-                databaseWriter.resetChallenges(databaseCache.getuuid());
+                islandmethods.createNewIsland(databaseCache.getUuid(), databaseCache.getIslandname());
+                databaseWriter.resetChallenges(databaseCache.getUuid());
                 player.getInventory().clear();
                 player.getEnderChest().clear();
             } else {

@@ -31,7 +31,7 @@ public class IslandCommand implements SubCommand {
                 player.getEnderChest().clear();
                 player.getInventory().clear();
                 player.setFoodLevel(20);
-                im.createNewIsland(databaseCache.getuuid(), null);
+                im.createNewIsland(databaseCache.getUuid(), null);
                 Island.isgencooldown.put(player.getUniqueId(), player.getUniqueId());
             } else {
                 ConfigShorts.custommessagefromString("GenerateCooldown", player, String.valueOf(Island.getisgencooldown()));

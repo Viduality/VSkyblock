@@ -36,8 +36,8 @@ public class Islandmethods {
      * @param uuid
      * @param oldIsland
      */
-    public void createNewIsland(String uuid, String oldIsland) {
-        Player player = plugin.getServer().getPlayer(UUID.fromString(uuid));
+    public void createNewIsland(UUID uuid, String oldIsland) {
+        Player player = plugin.getServer().getPlayer(uuid);
         String worldsizeString = plugin.getConfig().getString("WorldSize");
         String difficulty = plugin.getConfig().getString("Difficulty");
         databaseReader.getLatestIsland(new DatabaseReader.CallbackStrings() {

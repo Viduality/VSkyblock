@@ -47,7 +47,7 @@ public class IslandSetOwner implements SubCommand{
                         getDatabase.closeConnection(connection);
                     }
                     if (members.contains(target.getUniqueId().toString())) {
-                        databaseWriter.updateOwner(player.getUniqueId().toString(), target.getUniqueId().toString());
+                        databaseWriter.updateOwner(player.getUniqueId(), target.getUniqueId());
                         ConfigShorts.messagefromString("SetNewIslandOwner", player);
                         if (target.isOnline()) {
                             ConfigShorts.messagefromString("NewIslandOwner", (Player) target);

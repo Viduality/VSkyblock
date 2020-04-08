@@ -23,9 +23,9 @@ public class PlayerLeaveListener implements Listener {
     public void onPlayerLeaveEvent(PlayerQuitEvent playerQuitEvent) {
         Player player = playerQuitEvent.getPlayer();
         Location loc = player.getLocation();
-        if (Island.playerislands.containsKey(player.getUniqueId().toString())) {
-            String island = Island.playerislands.get(player.getUniqueId().toString());
-            Island.playerislands.remove(player.getUniqueId().toString());
+        if (Island.playerislands.containsKey(player.getUniqueId())) {
+            String island = Island.playerislands.get(player.getUniqueId());
+            Island.playerislands.remove(player.getUniqueId());
             if (!Island.playerislands.containsValue(island)) {
                 if (!wm.getAutoLoad(island)) {
                     Island.emptyloadedislands.put(island, island);
@@ -36,7 +36,7 @@ public class PlayerLeaveListener implements Listener {
         if (plugin.scoreboardmanager.doesobjectiveexist("deaths")) {
             if (plugin.scoreboardmanager.hasPlayerScore(player.getName(), "deaths")) {
                 int currentcount = plugin.scoreboardmanager.getPlayerScore(player.getName(), "deaths");
-                databaseWriter.updateDeathCount(player.getUniqueId().toString(), currentcount);
+                databaseWriter.updateDeathCount(player.getUniqueId(), currentcount);
             }
         }
         saveLocation(player, loc);
@@ -44,6 +44,6 @@ public class PlayerLeaveListener implements Listener {
 
 
     private void saveLocation(Player player, Location loc) {
-        databaseWriter.savelastLocation(player.getUniqueId().toString(), loc);
+        databaseWriter.savelastLocation(player.getUniqueId(), loc);
     }
 }

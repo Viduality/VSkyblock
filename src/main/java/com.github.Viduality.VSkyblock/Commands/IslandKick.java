@@ -13,8 +13,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class IslandKick implements SubCommand{
 
@@ -33,8 +34,8 @@ public class IslandKick implements SubCommand{
                 OfflinePlayer target = plugin.getServer().getOfflinePlayer(databaseCache.getArg());
                 if (target != null) {
                     if (target != player) {
-                        String targetuuid = target.getUniqueId().toString();
-                        List<String> members = new ArrayList<>();
+                        UUID targetuuid = target.getUniqueId();
+                        Set<UUID> members = new LinkedHashSet<>();
                         Connection connection = getDatabase.getConnection();
                         try {
                             PreparedStatement preparedStatement;
@@ -42,7 +43,7 @@ public class IslandKick implements SubCommand{
                             preparedStatement.setInt(1, databaseCache.getIslandId());
                             ResultSet resultSet = preparedStatement.executeQuery();
                             while (resultSet.next()) {
-                                members.add(resultSet.getString("uuid"));
+                                members.add(UUID.fromString(resultSet.getString("uuid")));
                             }
                         } catch (SQLException e) {
                             e.printStackTrace();

@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 import java.util.EnumSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class PhantomSpawn implements Listener {
 
@@ -19,7 +20,7 @@ public class PhantomSpawn implements Listener {
     @EventHandler
     public void onBedPlace(BlockPlaceEvent blockPlaceEvent) {
         Player player = blockPlaceEvent.getPlayer();
-        String uuid = player.getUniqueId().toString();
+        UUID uuid = player.getUniqueId();
         if (beds.contains(blockPlaceEvent.getBlockPlaced().getType())) {
             if (player.getWorld().getName().equals(Island.playerislands.get(uuid))) {
                 if (!plugin.getServer().getWorld(Island.playerislands.get(uuid)).getGameRuleValue(GameRule.DO_INSOMNIA)) {

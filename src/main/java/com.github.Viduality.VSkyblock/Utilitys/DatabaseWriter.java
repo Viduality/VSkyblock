@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 public class DatabaseWriter {
 
@@ -26,14 +27,14 @@ public class DatabaseWriter {
      * @param uuid
      * @param name
      */
-    public void addPlayer(String uuid, String name) {
+    public void addPlayer(UUID uuid, String name) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             Connection connection = getDatabase.getConnection();
             try {
                 PreparedStatement preparedStatement;
 
                 preparedStatement = connection.prepareStatement("INSERT INTO VSkyblock_Player(uuid, playername) VALUES(?, ?)");
-                preparedStatement.setString(1, uuid);
+                preparedStatement.setString(1, uuid.toString());
                 preparedStatement.setString(2, name);
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
@@ -42,13 +43,13 @@ public class DatabaseWriter {
                 PreparedStatement preparedStatement1;
 
                 preparedStatement1 = connection.prepareStatement("INSERT INTO VSkyblock_Challenges_Easy(uuid) VALUES (?)");
-                preparedStatement1.setString(1, uuid);
+                preparedStatement1.setString(1, uuid.toString());
                 preparedStatement1.executeUpdate();
                 preparedStatement1 = connection.prepareStatement("INSERT INTO VSkyblock_Challenges_Medium(uuid) VALUES (?)");
-                preparedStatement1.setString(1, uuid);
+                preparedStatement1.setString(1, uuid.toString());
                 preparedStatement1.executeUpdate();
                 preparedStatement1 = connection.prepareStatement("INSERT INTO VSkyblock_Challenges_Hard(uuid) VALUES (?)");
-                preparedStatement1.setString(1, uuid);
+                preparedStatement1.setString(1, uuid.toString());
                 preparedStatement1.executeUpdate();
                 preparedStatement1.close();
 
@@ -66,7 +67,7 @@ public class DatabaseWriter {
      * @param island (islandname)
      * @param uuid
      */
-    public void addIsland(String island, String uuid, String difficutly) {
+    public void addIsland(String island, UUID uuid, String difficutly) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
@@ -95,7 +96,7 @@ public class DatabaseWriter {
                                     PreparedStatement preparedStatement;
                                     preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandid = ?, islandowner = true WHERE uuid = ?");
                                     preparedStatement.setInt(1, islandid);
-                                    preparedStatement.setString(2, uuid);
+                                    preparedStatement.setString(2, uuid.toString());
                                     preparedStatement.executeUpdate();
                                     preparedStatement.close();
                                 } catch (SQLException e) {
@@ -116,7 +117,7 @@ public class DatabaseWriter {
      *
      * @param uuid
      */
-    public void kickPlayerfromIsland(String uuid) {
+    public void kickPlayerfromIsland(UUID uuid) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
@@ -124,7 +125,7 @@ public class DatabaseWriter {
                 try {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandid = NULL, owneruuid = NULL, kicked = 1 WHERE uuid = ?");
-                    preparedStatement.setString(1, uuid);
+                    preparedStatement.setString(1, uuid.toString());
                     preparedStatement.executeUpdate();
                     preparedStatement.close();
                 } catch (SQLException e) {
@@ -141,13 +142,13 @@ public class DatabaseWriter {
      *
      * @param uuid
      */
-    public void removeKicked(String uuid) {
+    public void removeKicked(UUID uuid) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             Connection connection = getDatabase.getConnection();
             try {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET kicked = 0 WHERE uuid = ?");
-                preparedStatement.setString(1, uuid);
+                preparedStatement.setString(1, uuid.toString());
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -164,7 +165,7 @@ public class DatabaseWriter {
      * @param oldOwner (uuid)
      * @param newOwner (uuid)
      */
-    public void updateOwner(String oldOwner, String newOwner) {
+    public void updateOwner(UUID oldOwner, UUID newOwner) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
@@ -172,12 +173,12 @@ public class DatabaseWriter {
                 try {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandowner = 0 WHERE uuid = ?");
-                    preparedStatement.setString(1, oldOwner);
+                    preparedStatement.setString(1, oldOwner.toString());
                     preparedStatement.executeUpdate();
                     preparedStatement.close();
                     PreparedStatement preparedStatement1;
                     preparedStatement1 = connection.prepareStatement("UPDATE VSkyblock_Player SET islandowner = 1 WHERE uuid = ?");
-                    preparedStatement1.setString(1, newOwner);
+                    preparedStatement1.setString(1, newOwner.toString());
                     preparedStatement1.executeUpdate();
                     preparedStatement1.close();
                 } catch (SQLException e) {
@@ -194,7 +195,7 @@ public class DatabaseWriter {
      *
      * @param uuid
      */
-    public void leavefromIsland(String uuid) {
+    public void leavefromIsland(UUID uuid) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
@@ -202,7 +203,7 @@ public class DatabaseWriter {
                 try {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandid = NULL, owneruuid = NULL, islandowner = 0 WHERE uuid = ?");
-                    preparedStatement.setString(1, uuid);
+                    preparedStatement.setString(1, uuid.toString());
                     preparedStatement.executeUpdate();
                     preparedStatement.close();
                 } catch (SQLException e) {
@@ -221,7 +222,7 @@ public class DatabaseWriter {
      * @param islandid
      * @param islandowner
      */
-    public void updatePlayersIsland(String uuid, int islandid, boolean islandowner) {
+    public void updatePlayersIsland(UUID uuid, int islandid, boolean islandowner) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             Connection connection = getDatabase.getConnection();
             Integer islandownerInt;
@@ -236,7 +237,7 @@ public class DatabaseWriter {
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandid = ?, islandowner = ? WHERE uuid = ?");
                 preparedStatement.setInt(1, islandid);
                 preparedStatement.setString(2, String.valueOf(islandownerInt));
-                preparedStatement.setString(3, uuid);
+                preparedStatement.setString(3, uuid.toString());
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -277,7 +278,7 @@ public class DatabaseWriter {
      * @param challenge (1-18)
      * @param count
      */
-    public void updateChallengeCount(String uuid, String challengeTable, Integer challenge, int count) {
+    public void updateChallengeCount(UUID uuid, String challengeTable, Integer challenge, int count) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             String c = "c" + challenge;
             Connection connection = getDatabase.getConnection();
@@ -285,7 +286,7 @@ public class DatabaseWriter {
                 PreparedStatement updateChallengeCount;
                 updateChallengeCount = connection.prepareStatement("UPDATE " + challengeTable + " SET " + c + "  = ? WHERE uuid = ?");
                 updateChallengeCount.setInt(1, count);
-                updateChallengeCount.setString(2, uuid);
+                updateChallengeCount.setString(2, uuid.toString());
                 updateChallengeCount.executeUpdate();
                 updateChallengeCount.close();
             } catch (SQLException e) {
@@ -302,7 +303,7 @@ public class DatabaseWriter {
      * @param islandid
      * @param level
      */
-    public void updateIslandLevel(int islandid, Integer level, Integer totalblocks, String uuid) {
+    public void updateIslandLevel(int islandid, Integer level, Integer totalblocks, UUID uuid) {
         databaseReader.getIslandMembers(islandid, new DatabaseReader.CallbackList() {
             @Override
             public void onQueryDone(List<String> result) {
@@ -319,7 +320,7 @@ public class DatabaseWriter {
 
                         PreparedStatement gethighestreachedlevel;
                         gethighestreachedlevel = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE uuid = ?");
-                        gethighestreachedlevel.setString(1, uuid);
+                        gethighestreachedlevel.setString(1, uuid.toString());
                         ResultSet r = gethighestreachedlevel.executeQuery();
                         int highestreached = 0;
                         while (r.next()) {
@@ -330,7 +331,7 @@ public class DatabaseWriter {
                             PreparedStatement updatehighestreachedlevel;
                             updatehighestreachedlevel = connection.prepareStatement("UPDATE VSkyblock_Player SET highestreachedlevel = ? WHERE uuid = ?");
                             updatehighestreachedlevel.setInt(1, level);
-                            updatehighestreachedlevel.setString(2, uuid);
+                            updatehighestreachedlevel.setString(2, uuid.toString());
                             updatehighestreachedlevel.executeUpdate();
                             updatehighestreachedlevel.close();
                         }
@@ -349,7 +350,7 @@ public class DatabaseWriter {
      * Sets the count for all challenges to 0.
      * @param uuid
      */
-    public void resetChallenges(String uuid) {
+    public void resetChallenges(UUID uuid) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
@@ -357,19 +358,19 @@ public class DatabaseWriter {
                 try {
                     PreparedStatement resetEasyChallenges;
                     resetEasyChallenges = connection.prepareStatement("UPDATE VSkyblock_Challenges_Easy SET c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, c6 = 0, c7 = 0, c8 = 0, c9 = 0, c10 = 0, c11 = 0, c12 = 0, c13 = 0, c14 = 0, c15 = 0, c16 = 0, c17 = 0, c18 = 0 WHERE uuid = ?");
-                    resetEasyChallenges.setString(1, uuid);
+                    resetEasyChallenges.setString(1, uuid.toString());
                     resetEasyChallenges.executeUpdate();
                     resetEasyChallenges.close();
 
                     PreparedStatement resetMediumChallenges;
                     resetMediumChallenges = connection.prepareStatement("UPDATE VSkyblock_Challenges_Medium SET c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, c6 = 0, c7 = 0, c8 = 0, c9 = 0, c10 = 0, c11 = 0, c12 = 0, c13 = 0, c14 = 0, c15 = 0, c16 = 0, c17 = 0, c18 = 0 WHERE uuid = ?");
-                    resetMediumChallenges.setString(1, uuid);
+                    resetMediumChallenges.setString(1, uuid.toString());
                     resetMediumChallenges.executeUpdate();
                     resetMediumChallenges.close();
 
                     PreparedStatement resetHardChallenges;
                     resetHardChallenges = connection.prepareStatement("UPDATE VSkyblock_Challenges_Hard SET c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, c6 = 0, c7 = 0, c8 = 0, c9 = 0, c10 = 0, c11 = 0, c12 = 0, c13 = 0, c14 = 0, c15 = 0, c16 = 0, c17 = 0, c18 = 0 WHERE uuid = ?");
-                    resetHardChallenges.setString(1, uuid);
+                    resetHardChallenges.setString(1, uuid.toString());
                     resetHardChallenges.executeUpdate();
                     resetHardChallenges.close();
                 } catch (SQLException e) {
@@ -466,18 +467,17 @@ public class DatabaseWriter {
 
     /**
      * Updates the death count of a specific player.
-     *
-     * @param uuid
+     *  @param uuid
      * @param count
      */
-    public void updateDeathCount(String uuid, int count) {
+    public void updateDeathCount(UUID uuid, int count) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             Connection connection = getDatabase.getConnection();
             try {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET deaths = ? WHERE uuid = ?");
                 preparedStatement.setInt(1, count);
-                preparedStatement.setString(2, uuid);
+                preparedStatement.setString(2, uuid.toString());
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -494,14 +494,14 @@ public class DatabaseWriter {
      * @param uuid
      * @param name
      */
-    public void updatePlayerName(String uuid, String name) {
+    public void updatePlayerName(UUID uuid, String name) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             Connection connection = getDatabase.getConnection();
             try {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET playername = ? WHERE uuid = ?");
                 preparedStatement.setString(1, name);
-                preparedStatement.setString(2, uuid);
+                preparedStatement.setString(2, uuid.toString());
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -518,7 +518,7 @@ public class DatabaseWriter {
      * @param uuid
      * @param loc
      */
-    public void savelastLocation(String uuid, Location loc) {
+    public void savelastLocation(UUID uuid, Location loc) {
         double x = loc.getX();
         double y = loc.getY();
         double z = loc.getZ();
@@ -538,7 +538,7 @@ public class DatabaseWriter {
                     savelastLoc.setDouble(4, pitch);
                     savelastLoc.setDouble(5, yaw);
                     savelastLoc.setString(6, world);
-                    savelastLoc.setString(7, uuid);
+                    savelastLoc.setString(7, uuid.toString());
                     savelastLoc.executeUpdate();
                     savelastLoc.close();
                 } catch (SQLException e) {

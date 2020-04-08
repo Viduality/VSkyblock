@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class IslandLevel implements SubCommand {
@@ -40,12 +41,12 @@ public class IslandLevel implements SubCommand {
     @Override
     public void execute(DatabaseCache databaseCache) {
         if (databaseCache.getIslandId() != 0) {
-            String uuid = null;
+            UUID uuid = null;
             if (databaseCache.getArg() != null) {
                 OfflinePlayer target = plugin.getServer().getOfflinePlayer(databaseCache.getArg());
-                uuid = target.getUniqueId().toString();
+                uuid = target.getUniqueId();
             } else {
-                uuid = databaseCache.getuuid();
+                uuid = databaseCache.getUuid();
             }
             Player player = databaseCache.getPlayer();
             databaseReader.getislandlevelfromuuid(uuid, new DatabaseReader.CallbackINT() {
@@ -103,7 +104,7 @@ public class IslandLevel implements SubCommand {
 
                                     level = value/valueperlevel;
                                     int roundlevel = (int) level;
-                                    databaseWriter.updateIslandLevel(databaseCache.getIslandId(), roundlevel, blocks, player.getUniqueId().toString());
+                                    databaseWriter.updateIslandLevel(databaseCache.getIslandId(), roundlevel, blocks, player.getUniqueId());
                                     ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
                                     plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                                         @Override

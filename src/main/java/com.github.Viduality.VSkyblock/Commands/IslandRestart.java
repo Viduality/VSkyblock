@@ -19,20 +19,22 @@ public class IslandRestart implements SubCommand {
             @Override
             public void run() {
                 Player player = plugin.getServer().getPlayer(databaseCache.getPlayer().getUniqueId());
-                if (databaseCache.isIslandowner()) {
-                    databaseReader.hasislandmembers(databaseCache.getIslandId(), new DatabaseReader.CallbackBoolean() {
-                        @Override
-                        public void onQueryDone(boolean hasislandmembers) {
-                            if (!hasislandmembers) {
-                                Island.restartmap.put(player.getUniqueId(), 1);
-                                ConfigShorts.messagefromString("ConfirmRestart", player);
-                            } else {
-                                ConfigShorts.messagefromString("HasIslandMembers", player);
+                if (player != null) {
+                    if (databaseCache.isIslandowner()) {
+                        databaseReader.hasislandmembers(databaseCache.getIslandId(), new DatabaseReader.CallbackBoolean() {
+                            @Override
+                            public void onQueryDone(boolean hasislandmembers) {
+                                if (!hasislandmembers) {
+                                    Island.restartmap.put(player.getUniqueId(), 1);
+                                    ConfigShorts.messagefromString("ConfirmRestart", player);
+                                } else {
+                                    ConfigShorts.messagefromString("HasIslandMembers", player);
+                                }
                             }
-                        }
-                    });
-                } else {
-                    ConfigShorts.messagefromString("NotIslandOwner", player);
+                        });
+                    } else {
+                        ConfigShorts.messagefromString("NotIslandOwner", player);
+                    }
                 }
             }
         });

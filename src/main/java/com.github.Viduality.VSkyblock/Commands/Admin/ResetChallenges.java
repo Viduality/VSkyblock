@@ -6,12 +6,12 @@ import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class ResetChallenges implements AdminSubCommand {
 
@@ -42,7 +42,7 @@ public class ResetChallenges implements AdminSubCommand {
                     }
 
 
-                    String uuid = databaseCache.getuuid();
+                    UUID uuid = databaseCache.getUuid();
                     if (uuid != null) {
                         try {
                             for (int i = 0; i < 3; i++) {
@@ -59,7 +59,7 @@ public class ResetChallenges implements AdminSubCommand {
 
                                     PreparedStatement resetChallenges;
                                     resetChallenges = connection.prepareStatement("UPDATE " + table + " SET " + c + " = 0 WHERE uuid = ?");
-                                    resetChallenges.setString(1, uuid);
+                                    resetChallenges.setString(1, uuid.toString());
                                     resetChallenges.executeUpdate();
                                     resetChallenges.close();
                                 }

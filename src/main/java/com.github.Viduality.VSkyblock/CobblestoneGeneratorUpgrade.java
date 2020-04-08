@@ -29,7 +29,7 @@ public class CobblestoneGeneratorUpgrade {
         int nextlevel = currentlevel + 1;
 
         Double requiredIslandLevel = getRequiredIslandLevel(nextlevel);
-        int islandlevel = CobblestoneGenerator.islandlevels.get(Island.playerislands.get(player.getUniqueId().toString()));
+        int islandlevel = CobblestoneGenerator.islandlevels.get(Island.playerislands.get(player.getUniqueId()));
         if (islandlevel >= requiredIslandLevel) {
             List<Material> neededItems = getneededItems(nextlevel);
             List<Integer> neededAmounts = getneededItemsAmount(nextlevel);
@@ -55,7 +55,7 @@ public class CobblestoneGeneratorUpgrade {
                 upgradeCobbleGenerator(island, nextlevel);
                 removeItems(neededItems, neededAmounts, player);
                 player.closeInventory();
-                databaseReader.getislandid(Island.playerislands.get(player.getUniqueId().toString()), new DatabaseReader.CallbackINT() {
+                databaseReader.getislandid(Island.playerislands.get(player.getUniqueId()), new DatabaseReader.CallbackINT() {
                     @Override
                     public void onQueryDone(int result) {
                         databaseReader.getIslandMembers(result, new DatabaseReader.CallbackList() {

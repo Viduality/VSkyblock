@@ -22,9 +22,9 @@ public class CobblestoneGeneratorInventoryHandler implements Listener {
             inventoryClickEvent.setCancelled(true);
             if (inventoryClickEvent.getRawSlot() == 16) {
                 ConfigShorts.loadOptionsConfig();
-                if (inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(plugin.getConfig().getString("CobblestoneGenerator.Upgrade.DisplayName"))) {
+                if (inventoryClickEvent.getCurrentItem() != null && inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(plugin.getConfig().getString("CobblestoneGenerator.Upgrade.DisplayName"))) {
                     ConfigShorts.loaddefConfig();
-                    cobblestoneGeneratorUpgrade.checkForGeneratorUpgrade(Island.playerislands.get(inventoryClickEvent.getWhoClicked().getUniqueId().toString()), (Player) inventoryClickEvent.getWhoClicked());
+                    cobblestoneGeneratorUpgrade.checkForGeneratorUpgrade(Island.playerislands.get(inventoryClickEvent.getWhoClicked().getUniqueId()), (Player) inventoryClickEvent.getWhoClicked());
                 }
             }
         }
