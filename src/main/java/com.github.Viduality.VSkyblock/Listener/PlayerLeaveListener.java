@@ -2,7 +2,6 @@ package com.github.Viduality.VSkyblock.Listener;
 
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
-import com.github.Viduality.VSkyblock.Utilitys.Scoreboardmanager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import org.bukkit.Location;
@@ -10,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scoreboard.Objective;
 
 public class PlayerLeaveListener implements Listener {
 
@@ -28,8 +26,9 @@ public class PlayerLeaveListener implements Listener {
             Island.playerislands.remove(player.getUniqueId());
             if (!Island.playerislands.containsValue(island)) {
                 if (!wm.getAutoLoad(island)) {
-                    Island.emptyloadedislands.put(island, island);
-                    Island.emptyloadedislands.cleanUp();
+                    Island.emptyloadedislands.put(island, plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                        wm.unloadWorld(island);
+                    }, 20 * 60));
                 }
             }
         }

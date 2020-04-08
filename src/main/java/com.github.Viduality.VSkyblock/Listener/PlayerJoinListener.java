@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
 
 public class PlayerJoinListener implements Listener {
 
@@ -60,7 +61,10 @@ public class PlayerJoinListener implements Listener {
                         }
                     }
                     if (result.getIslandname() != null) {
-                        Island.emptyloadedislands.asMap().remove(result.getIslandname());
+                        BukkitTask task = Island.emptyloadedislands.remove(result.getIslandname());
+                        if (task != null) {
+                            task.cancel();
+                        }
                         if (!Island.playerislands.containsValue(result.getIslandname())) {
                             wm.loadWorld(result.getIslandname());
                             Island.playerislands.put(result.getUuid(), result.getIslandname());

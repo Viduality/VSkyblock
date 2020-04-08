@@ -12,6 +12,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -45,21 +46,7 @@ public class Island implements CommandExecutor {
             .expireAfterWrite(getisjoincooldown(), TimeUnit.MINUTES)
             .build();
 
-    public static RemovalListener<String, String> unloadIslands = new RemovalListener<String, String>() {
-        @Override
-        public void onRemoval(RemovalNotification<String, String> removal) {
-            if (removal.getCause().equals(RemovalCause.EXPIRED)) {
-                wm.unloadWorld(removal.getValue());
-            }
-        }
-    };
-
-    public static Cache<String, String> emptyloadedislands = CacheBuilder.newBuilder()
-            .expireAfterWrite(10, TimeUnit.SECONDS)
-            .removalListener(unloadIslands)
-            .build();
-
-
+    public static Map<String, BukkitTask> emptyloadedislands = new HashMap<>();
 
 
     private VSkyblock island;
