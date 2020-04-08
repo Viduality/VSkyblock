@@ -1,9 +1,8 @@
 package com.github.Viduality.VSkyblock.Listener;
 
 import com.github.Viduality.VSkyblock.VSkyblock;
+import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,7 +14,6 @@ import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 
@@ -26,17 +24,10 @@ public class CobblestoneGenerator implements Listener {
     public static HashMap<String, Integer> islandGenLevel = new HashMap<>(); //Islandname and generatorlevel
     public static HashMap<String, Double> generatorValues = new HashMap<>(); //"option" and value
     public static HashMap<String, Integer> islandlevels = new HashMap<>(); //Islandname and islandlevel
-    public static LoadingCache<Location, Location> cobblegen = CacheBuilder.newBuilder()
+    public static Cache<Location, Long> cobblegen = CacheBuilder.newBuilder()
             .maximumSize(10000)
-            .expireAfterWrite(10, TimeUnit.MINUTES)
-            .build(
-                    new CacheLoader<Location, Location>() {
-                        @Override
-                        public Location load(Location location) throws Exception {
-                            return null;
-                        }
-                    }
-            );
+            .expireAfterAccess(10, TimeUnit.MINUTES)
+            .build();
 
     @EventHandler
     public void cobblestoneGeneratorBlocks(BlockFormEvent blockFormEvent) {
@@ -291,7 +282,7 @@ public class CobblestoneGenerator implements Listener {
     }
 
     private Material getCobblestone(Location loc) {
-        if (cobblegen.asMap().get(loc) != null) {
+        if (cobblegen.getIfPresent(loc) != null) {
             return Material.COBBLESTONE;
         } else {
             return Material.INFESTED_COBBLESTONE;
