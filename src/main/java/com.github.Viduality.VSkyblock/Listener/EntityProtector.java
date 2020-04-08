@@ -59,22 +59,10 @@ public class EntityProtector implements Listener {
         Entity entity = entityDamageEvent.getEntity();
         if (entity instanceof Player) {
             Player player = (Player) entity;
-            if (Island.playerislands.get(player.getUniqueId().toString()) != null) {
-                if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(player.getUniqueId().toString()).equals(player.getWorld().getName())) {
-                    if (entity.getLocation().getBlockY() > 0) {
-                        entityDamageEvent.setCancelled(true);
-                    } else {
-                        double playerhealth = player.getHealth();
-                        player.setHealth(playerhealth + 4);
-                        player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
-                    }
-                }
-            } else {
-                if (entity.getLocation().getBlockY() > 0) {
-                    entityDamageEvent.setCancelled(true);
-                } else {
-                    double playerhealth = player.getHealth();
-                    player.setHealth(playerhealth + 4);
+            if (player.getWorld().getEnvironment() != World.Environment.NETHER && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString()))) {
+                entityDamageEvent.setCancelled(true);
+                if (entityDamageEvent.getCause() == EntityDamageEvent.DamageCause.VOID || player.getLocation().getY() < 0) {
+                    player.setFallDistance(0);
                     player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
                 }
             }
