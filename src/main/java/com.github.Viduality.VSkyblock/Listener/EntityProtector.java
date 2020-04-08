@@ -112,9 +112,7 @@ public class EntityProtector implements Listener {
         Player player = (Player) inventoryOpenEvent.getPlayer();
         if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
             if (!player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString())) && !player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
-                if (inventoryOpenEvent.getInventory().getType().equals(InventoryType.MERCHANT)) {
-                    inventoryOpenEvent.setCancelled(true);
-                }
+                inventoryOpenEvent.setCancelled(true);
             }
         }
     }
