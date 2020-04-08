@@ -1,0 +1,83 @@
+database:
+  user: 'root'
+  password: ''
+  database: 'VSkyblock'
+  url: 'localhost:3306'
+  url-parameters: ''
+
+
+
+
+##### This is the configuration file for "VSkyblock". #####
+
+
+##### Language of the messages. Available at the moment: english (eng) and german (ger). If you try to set anything else it will use english as its default. #####
+Language: eng
+
+
+
+##### World Settings #####
+##### Not recommended to change this mid-game! #####
+
+# Default is 500. This will set the WorldBoarder 250 Blocks in every direction. Max. is 2000!
+WorldSize: 500
+
+# Default is normal.
+Difficulty: normal
+
+# Time for CleanUp. Deletes uninhabited islands and deletes it from the database. Must be between 0 and 23. Default is 3 (am).
+CleanUpTime: 3
+
+# Time in MINUTES between the calculation of the island level when using the /island level command. Default is 5 minutes.
+IslandLevelReuse: 5
+
+# Time in MINUTES between two island generations from one player.
+IslandGenerateCooldown: 5
+
+# Time in MINUTES between a player can join another island after joining the first one.
+IslandJoinCooldown: 10
+
+# Number of players a island can contain (Owner included).
+IslandPlayerLimit: 4
+
+# Allow or disable PvP in the Nether and on Islands. Default is true.
+PvPNether: false
+PvPIslands: true
+
+# Needed island value per level. For Example if the needed value is 300 (standard) and the player has 3000 island value, his level will be level 10.
+IslandValue: 300
+
+# The value of every new created island. Will then be updated continuously with the players actions. Standard is 150.
+IslandValueonStart: 150
+
+
+
+
+# The world each player without an island will spawn when connecting to the server.
+# Don't change the value by hand! Use /VSkySetWorld to change this.
+SpawnWorld: world
+
+
+# Nether for all islands. Every player entering a nether portal will get teleported to its World Spawn.
+# Don't change it by hand! Use /VSkySetNether to change this.
+NetherWorld: world_nether
+
+CobblestoneGenerator:
+  Cobblestone:
+    MultipleDrops: true
+    CobblestoneLevelIntervall: 10
+    CobblestoneChance: 20
+  CoalLevel: 20
+  CoalChance: 3
+  IronLevel: 35
+  IronChance: 1.5
+  RedstoneLevel: 50
+  RedstoneChance: 2.5
+  LapisLevel: 60
+  LapisChance: 2
+  GoldLevel: 80
+  GoldChance: 1
+  EmeraldLevel: 100
+  EmeraldChance: 0.05
+  DiamondLevel: 125
+  DiamondChance: 0.2
