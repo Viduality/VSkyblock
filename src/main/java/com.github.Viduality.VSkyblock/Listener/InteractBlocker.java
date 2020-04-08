@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -21,72 +20,38 @@ public class InteractBlocker implements Listener {
     @EventHandler
     public void interactEvent(PlayerInteractEvent playerInteractEvent) {
         Player player = playerInteractEvent.getPlayer();
-        if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (Island.playerislands.get(player.getUniqueId().toString()) != null) {
-                if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(player.getUniqueId().toString()).equals(player.getWorld().getName())) {
-                    if (playerInteractEvent.getClickedBlock() != null) {
-                        if (playerInteractEvent.getClickedBlock().getType().isInteractable()) {
-                            if (!player.getWorld().getName().equals(plugin.getConfig().getString("SpawnWorld"))) {
-                                playerInteractEvent.setCancelled(true);
-                                ConfigShorts.messagefromString("InteractBlocker", player);
-                            }
-                        }
-                    }
-                    if (playerInteractEvent.getAction() == Action.PHYSICAL) {
-                        if (!player.getWorld().getName().equals(plugin.getConfig().getString("SpawnWorld"))) {
-                            playerInteractEvent.setCancelled(true);
-                        }
-                    }
-                }
-            } else {
-                if (!player.getWorld().getName().equals(plugin.getConfig().getString("SpawnWorld"))) {
-                    playerInteractEvent.setCancelled(true);
-                }
-            }
-        }
-    }
-
-    @EventHandler
-    public void playerItemUse(PlayerInteractEvent interactEvent) {
-        Player player = interactEvent.getPlayer();
-        if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (!player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString())) && !player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
-                if (player.getActiveItem() != null) {
-                    if (!player.getActiveItem().getType().isEdible()) {
-                        interactEvent.setCancelled(true);
-                    }
-                }
+        if (player.getWorld().getEnvironment() != World.Environment.NETHER
+                && !player.getWorld().getName().equals(plugin.getConfig().getString("SpawnWorld"))
+                && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString()))
+                && !player.hasPermission("VSkyblock.IgnoreProtected")) {
+            if (playerInteractEvent.getClickedBlock() != null
+                    && playerInteractEvent.getClickedBlock().getType().isInteractable()) {
+                playerInteractEvent.setCancelled(true);
+                ConfigShorts.messagefromString("InteractBlocker", player);
+            } else if (playerInteractEvent.getAction() == Action.PHYSICAL
+                    || playerInteractEvent.getItem() == null
+                    || !playerInteractEvent.getItem().getType().isEdible()) {
+                playerInteractEvent.setCancelled(true);
             }
         }
     }
 
     @EventHandler
     public void interactEntityEvent(PlayerInteractEntityEvent playerInteractEntityEvent) {
-        Player player = playerInteractEntityEvent.getPlayer();
-        String uuid = player.getUniqueId().toString();
-        if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (Island.playerislands.get(uuid) != null) {
-                if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(uuid).equals(player.getWorld().getName())) {
-                    playerInteractEntityEvent.setCancelled(true);
-                }
-            } else {
-                playerInteractEntityEvent.setCancelled(true);
-            }
-        }
+        handle(playerInteractEntityEvent);
     }
 
     @EventHandler
     public void interactatEntityEvent(PlayerInteractAtEntityEvent playerInteractAtEntityEvent) {
-        Player player = playerInteractAtEntityEvent.getPlayer();
-        String uuid = player.getUniqueId().toString();
-        if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (Island.playerislands.get(uuid) != null) {
-                if (!player.getWorld().getEnvironment().equals(World.Environment.NETHER) && !Island.playerislands.get(uuid).equals(player.getWorld().getName())) {
-                    playerInteractAtEntityEvent.setCancelled(true);
-                }
-            } else {
-                playerInteractAtEntityEvent.setCancelled(true);
-            }
+        handle(playerInteractAtEntityEvent);
+    }
+
+    private void handle(PlayerInteractEntityEvent event) {
+        Player player = event.getPlayer();
+        if (player.getWorld().getEnvironment() != World.Environment.NETHER
+                && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId().toString()))
+                && !player.hasPermission("VSkyblock.IgnoreProtected")) {
+            event.setCancelled(true);
         }
     }
 }
