@@ -318,23 +318,13 @@ public class DatabaseWriter {
                         updateChallengeCount.executeUpdate();
                         updateChallengeCount.close();
 
-                        PreparedStatement gethighestreachedlevel;
-                        gethighestreachedlevel = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE uuid = ?");
-                        gethighestreachedlevel.setString(1, uuid.toString());
-                        ResultSet r = gethighestreachedlevel.executeQuery();
-                        int highestreached = 0;
-                        while (r.next()) {
-                            highestreached = r.getInt("highestreachedlevel");
-                        }
-                        gethighestreachedlevel.close();
-                        if (highestreached < level) {
-                            PreparedStatement updatehighestreachedlevel;
-                            updatehighestreachedlevel = connection.prepareStatement("UPDATE VSkyblock_Player SET highestreachedlevel = ? WHERE uuid = ?");
-                            updatehighestreachedlevel.setInt(1, level);
-                            updatehighestreachedlevel.setString(2, uuid.toString());
-                            updatehighestreachedlevel.executeUpdate();
-                            updatehighestreachedlevel.close();
-                        }
+                        PreparedStatement updatehighestreachedlevel;
+                        updatehighestreachedlevel = connection.prepareStatement("UPDATE VSkyblock_Player SET highestreachedlevel = ? WHERE uuid = ? AND highestreachedlevel < ?");
+                        updatehighestreachedlevel.setInt(1, level);
+                        updatehighestreachedlevel.setString(2, uuid.toString());
+                        updatehighestreachedlevel.setInt(3, level);
+                        updatehighestreachedlevel.executeUpdate();
+                        updatehighestreachedlevel.close();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     } finally {
