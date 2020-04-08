@@ -7,36 +7,30 @@ import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Tag;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Leaves;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.logging.Level;
 
 public class IslandLevel implements SubCommand {
 
     private VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseReader databaseReader = new DatabaseReader();
     private DatabaseWriter databaseWriter = new DatabaseWriter();
-    private static LoadingCache<String, String> timebetweenreuse = CacheBuilder.newBuilder()
-            .maximumSize(10000)
+    private static Cache<UUID, Boolean> timebetweenreuse = CacheBuilder.newBuilder()
             .expireAfterWrite(gettimebetweencalc(), TimeUnit.MINUTES)
-            .build(
-                    new CacheLoader<String, String>() {
-                        @Override
-                        public String load(String uuid) throws Exception {
-                            return null;
-                        }
-                    }
-            );
-
-
-
-
+            .build();
 
     @Override
     public void execute(DatabaseCache databaseCache) {
@@ -56,64 +50,52 @@ public class IslandLevel implements SubCommand {
                         ConfigShorts.custommessagefromString("PlayersIslandLevel", player, String.valueOf(result), databaseCache.getArg());
                     } else {
                         ConfigShorts.custommessagefromString("CurrentIslandLevel", player, String.valueOf(result));
-                        if (!timebetweenreuse.asMap().containsValue(player.getUniqueId().toString())) {
-                            timebetweenreuse.put(player.getUniqueId().toString(), player.getUniqueId().toString());
+                        if (timebetweenreuse.getIfPresent(player.getUniqueId()) == null) {
+                            timebetweenreuse.put(player.getUniqueId(), true);
                             ConfigShorts.messagefromString("CalculatingNewIslandLevel", player);
-                            plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-                                @Override
-                                public void run() {
-                                    double worldsize = plugin.getServer().getWorld(databaseCache.getIslandname()).getWorldBorder().getSize();
-                                    int y1 = 0;
-                                    double x1 = -1 * (worldsize/2);
-                                    double x2 = worldsize/2;
-                                    double z1 = x1;
-                                    double z2 = x2;
-                                    double value = 0;
-                                    if (isInt(plugin.getConfig().getString("IslandValueonStart"))) {
-                                        value = plugin.getConfig().getInt("IslandValueonStart");
-                                    } else {
-                                        value = 150;
-                                    }
-                                    int valueperlevel;
-                                    if (isInt(plugin.getConfig().getString("IslandValue"))) {
-                                        valueperlevel = plugin.getConfig().getInt("IslandValue");
-                                    } else {
-                                        valueperlevel = 300;
-                                    }
+                            World world = plugin.getServer().getWorld(databaseCache.getIslandname());
+                            if (world == null) {
+                                plugin.getLogger().log(Level.SEVERE, "World " + databaseCache.getIslandname() + " not found?");
+                                return;
+                            }
+                            double worldsize = world.getWorldBorder().getSize();
+                            int x1 = ((int) (-1 * worldsize / 2)) >> 4;
+                            int x2 = ((int) worldsize / 2) >> 4;
+                            int z1 = x1;
+                            int z2 = x2;
+                            double value = 0;
+                            if (isInt(plugin.getConfig().getString("IslandValueonStart"))) {
+                                value = plugin.getConfig().getInt("IslandValueonStart");
+                            } else {
+                                value = 150;
+                            }
+                            int valueperlevel;
+                            if (isInt(plugin.getConfig().getString("IslandCounter"))) {
+                                valueperlevel = plugin.getConfig().getInt("IslandCounter");
+                            } else {
+                                valueperlevel = 300;
+                            }
 
-                                    double level;
-
-                                    int blocks = 0;
-
-                                    for (int x = (int) x1; x <= x2; x++) {
-                                        for (int z = (int) z1; z <= z2; z++) {
-                                            if (plugin.getServer().getWorld(databaseCache.getIslandname()).getHighestBlockYAt(x, z) != 0) {
-                                                int y2 = plugin.getServer().getWorld(databaseCache.getIslandname()).getHighestBlockYAt(x, z);
-                                                for (int y = y1; y <= y2; y++) {
-                                                    Material block = plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x, y, z).getType();
-                                                    if (!plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x, y, z).getType().equals(Material.AIR) && !plugin.getServer().getWorld(databaseCache.getIslandname()).getBlockAt(x,y,z).getType().equals(Material.VOID_AIR)) {
-                                                        blocks = blocks + 1;
-                                                        if (DefaultFiles.blockvalues.containsKey(block)) {
-                                                            value = value + DefaultFiles.blockvalues.get(block);
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    level = value/valueperlevel;
-                                    int roundlevel = (int) level;
-                                    databaseWriter.updateIslandLevel(databaseCache.getIslandId(), roundlevel, blocks, player.getUniqueId());
-                                    ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
-                                    plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            CobblestoneGenerator.islandlevels.put(databaseCache.getIslandname(), roundlevel);
-                                        }
-                                    });
-                                }
+                            IslandCounter counter = new IslandCounter(value, 0, (c) -> {
+                                double level = c.value/valueperlevel;
+                                int roundlevel = (int) Math.floor(level);
+                                databaseWriter.updateIslandLevel(databaseCache.getIslandId(), roundlevel, c.blocks, player.getUniqueId());
+                                ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
+                                CobblestoneGenerator.islandlevels.put(databaseCache.getIslandname(), roundlevel);
                             });
+
+                            // Two loops are necessary as getChunkAtAsync might return instantly if chunk is loaded
+                            for (int x = x1; x <= x2; x++) {
+                                for (int z = z1; z <= z2; z++) {
+                                    counter.toCount();
+                                }
+                            }
+
+                            for (int x = x1; x <= x2; x++) {
+                                for (int z = z1; z <= z2; z++) {
+                                    world.getChunkAtAsync(x, z, false).whenComplete((c, ex) -> counter.count(c));
+                                }
+                            }
                         }
                     }
                 }
@@ -138,5 +120,50 @@ public class IslandLevel implements SubCommand {
             timebetweencalc = VSkyblock.getInstance().getConfig().getInt("IslandLevelReuse");
         }
         return timebetweencalc;
+    }
+
+    private class IslandCounter {
+        private double value;
+        private int blocks;
+        private int toCount = 0;
+        private final Consumer<IslandCounter> onDone;
+
+        public IslandCounter(double value, int blocks, Consumer<IslandCounter> onDone) {
+            this.value = value;
+            this.blocks = blocks;
+            this.onDone = onDone;
+        }
+
+        public void add(IslandCounter counter) {
+            this.value += counter.value;
+            this.blocks += counter.blocks;
+        }
+
+        public void toCount() {
+            toCount++;
+        }
+
+        public void count(Chunk chunk) {
+            if (chunk != null && chunk.getInhabitedTime() > 0) {
+                for (int x = 0; x < 16; x++) {
+                    for (int z = 0; z < 16; z++) {
+                        for (int y = 0; y < 256; y++) {
+                            Block block = chunk.getBlock(x, y, z);
+                            if (block.getType() == Material.AIR || block.getType() == Material.VOID_AIR) {
+                                continue;
+                            }
+                            if (Tag.LEAVES.isTagged(block.getType()) && !((Leaves) block.getBlockData()).isPersistent()) {
+                                continue;
+                            }
+                            blocks = blocks + 1;
+                            value = value + DefaultFiles.blockvalues.getOrDefault(block.getType(), 0D);
+                        }
+                    }
+                }
+            }
+            if (--toCount == 0) {
+                onDone.accept(this);
+            }
+        }
     }
 }
