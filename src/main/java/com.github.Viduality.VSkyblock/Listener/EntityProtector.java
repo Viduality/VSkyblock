@@ -6,6 +6,8 @@ import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -84,16 +86,43 @@ public class EntityProtector implements Listener {
     @EventHandler
     public void entityprotector(EntityDamageByEntityEvent entityDamageByEntityEvent) {
         Entity entity = entityDamageByEntityEvent.getDamager();
-        Entity damagedentity = entityDamageByEntityEvent.getEntity();
+        Player player = null;
         if (entity instanceof Player) {
-            Player player = (Player) entity;
+            player = (Player) entity;
+        } else if (entity instanceof Projectile && ((Projectile) entity).getShooter() instanceof Player) {
+            player = (Player) ((Projectile) entity).getShooter();
+        } else if (entity instanceof TNTPrimed) {
+            player = getSource((TNTPrimed) entity);
+        }
+
+        if (player != null) {
             String uuid = player.getUniqueId().toString();
-            if (!entity.getWorld().getName().equals(Island.playerislands.get(uuid)) && !entity.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+            if (!entity.getWorld().getName().equals(Island.playerislands.get(uuid)) && entity.getWorld().getEnvironment() != World.Environment.NETHER) {
                 if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
                     entityDamageByEntityEvent.setCancelled(true);
                 }
             }
         }
+    }
+
+    private Player getSource(TNTPrimed tnt) {
+        if (tnt.getSource() != null && tnt.getSource().isValid()) {
+            if (tnt.getSource() instanceof Player) {
+                return (Player) tnt.getSource();
+            } else if (tnt.getSource() instanceof Projectile) {
+                return getShooter((Projectile) tnt.getSource());
+            } else if (tnt.getSource() instanceof TNTPrimed) {
+                return getSource(tnt);
+            }
+        }
+        return null;
+    }
+
+    private Player getShooter(Projectile projectile) {
+        if (projectile.getShooter() instanceof Player) {
+            return (Player) projectile.getShooter();
+        }
+        return null;
     }
 
     @EventHandler
