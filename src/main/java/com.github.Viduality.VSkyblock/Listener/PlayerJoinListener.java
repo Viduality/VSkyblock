@@ -69,10 +69,9 @@ public class PlayerJoinListener implements Listener {
                         if (task != null) {
                             task.cancel();
                         }
-                        if (toLoad.isEmpty()) {
+                        toLoad.add(result);
+                        if (toLoad.size() == 1) {
                             loadWorld(result);
-                        } else {
-                            toLoad.add(result);
                         }
                     } else {
                         player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
@@ -125,7 +124,8 @@ public class PlayerJoinListener implements Listener {
                     wm.unloadWorld(result.getIslandname());
                 }, 20 * 60));
             }
-            DatabaseCache nextResult = toLoad.pollFirst();
+            toLoad.remove(result);
+            DatabaseCache nextResult = toLoad.peekFirst();
             if (nextResult != null) {
                 loadWorld(nextResult);
             }
