@@ -488,7 +488,7 @@ Hard:
     Slot: 4
     ShownItem: Cake
     Type: onPlayer
-    Description: "Backe 5 Kuchen und 4 Kürbisskuchen."
+    Description: "Backe 5 Kuchen und 5 Kürbisskuchen."
     NeededText: "5 Kuchen, 5 Kürbisskuchen"
     Needed:
     - Cake;5

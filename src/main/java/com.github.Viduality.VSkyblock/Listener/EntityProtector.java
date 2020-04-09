@@ -15,11 +15,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.inventory.InventoryType;
 
 import java.util.EnumSet;
 import java.util.Set;
-import java.util.UUID;
 
 
 public class EntityProtector implements Listener {

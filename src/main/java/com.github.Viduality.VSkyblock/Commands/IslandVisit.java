@@ -47,31 +47,19 @@ public class IslandVisit implements SubCommand {
                                                             @Override
                                                             public void onQueryDone(String result) {
                                                                 if (wm.getLoadedWorlds().contains(result)) {
-                                                                    if (wm.getSpawnLocation(result).getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
-                                                                        if (wm.getSpawnLocation(result).getBlock().getType().equals(Material.AIR)) {
-                                                                            if (wm.getSpawnLocation(result).getBlock().getRelative(BlockFace.UP).getType().equals(Material.AIR)) {
-                                                                                player.teleport(wm.getSpawnLocation(result));
-                                                                                databaseReader.getIslandMembers(islandid, new DatabaseReader.CallbackList() {
-                                                                                    @Override
-                                                                                    public void onQueryDone(List<String> result) {
-                                                                                        for (String member : result) {
-                                                                                            OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(member);
-                                                                                            if (offlinePlayer.isOnline()) {
-                                                                                                Player onlinePlayer = (Player) offlinePlayer;
-                                                                                                ConfigShorts.custommessagefromString("PlayerVisitingYourIsland", onlinePlayer, player.getName());
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                });
-                                                                            } else {
-                                                                                ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
+                                                                    player.teleport(wm.getSpawnLocation(result));
+                                                                    databaseReader.getIslandMembers(islandid, new DatabaseReader.CallbackList() {
+                                                                        @Override
+                                                                        public void onQueryDone(List<String> result) {
+                                                                            for (String member : result) {
+                                                                                OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(member);
+                                                                                if (offlinePlayer.isOnline()) {
+                                                                                    Player onlinePlayer = (Player) offlinePlayer;
+                                                                                    ConfigShorts.custommessagefromString("PlayerVisitingYourIsland", onlinePlayer, player.getName());
+                                                                                }
                                                                             }
-                                                                        } else {
-                                                                            ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
                                                                         }
-                                                                    } else {
-                                                                        ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
-                                                                    }
+                                                                    });
                                                                 } else {
                                                                     ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
                                                                 }
