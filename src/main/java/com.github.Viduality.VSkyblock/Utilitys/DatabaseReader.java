@@ -920,6 +920,216 @@ public class DatabaseReader {
         });
     }
 
+    /**
+     * Calculates the challenge points for a island.
+     *
+     * @param islandid
+     * @param callback
+     */
+    public void getChallengePoints(int islandid, CallbackINT callback) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                int challengeValueFirstComplete = getChallengeValueFirstComplete();
+                int challengeValueAfterFirstComplete = getChallengeValueAfterFirstComplete();
+                int challengeValueRepeats = getChallengeValueRepeats();
+                int totalChallengePoints = 0;
+                List<String> players = new ArrayList<>();
+                Connection connection = getDatabase.getConnection();
+                try {
+                    PreparedStatement preparedStatement;
+                    preparedStatement = connection.prepareStatement("SELECT uuid FROM VSkyblock_Player WHERE islandid = ?");
+                    preparedStatement.setInt(1, islandid);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    while (resultSet.next()) {
+                        players.add(resultSet.getString("uuid"));
+                    }
+                    preparedStatement.close();
+                    ChallengesCache cache1 = new ChallengesCache();
+                    ChallengesCache cache2 = new ChallengesCache();
+                    ChallengesCache cache3 = new ChallengesCache();
+                    for (String player : players) {
+                        PreparedStatement getChallengeCountEasy;
+                        getChallengeCountEasy = connection.prepareStatement("SELECT * FROM VSkyblock_Challenges_Easy WHERE uuid = ?");
+                        getChallengeCountEasy.setString(1, player);
+                        ResultSet challengeCountsEasy = getChallengeCountEasy.executeQuery();
+                        while (challengeCountsEasy.next()) {
+                            cache1.setc1(cache1.getc1() + challengeCountsEasy.getInt("c1"));
+                            cache1.setc2(cache1.getc2() + challengeCountsEasy.getInt("c2"));
+                            cache1.setc3(cache1.getc3() + challengeCountsEasy.getInt("c3"));
+                            cache1.setc4(cache1.getc4() + challengeCountsEasy.getInt("c4"));
+                            cache1.setc5(cache1.getc5() + challengeCountsEasy.getInt("c5"));
+                            cache1.setc6(cache1.getc6() + challengeCountsEasy.getInt("c6"));
+                            cache1.setc7(cache1.getc7() + challengeCountsEasy.getInt("c7"));
+                            cache1.setc8(cache1.getc8() + challengeCountsEasy.getInt("c8"));
+                            cache1.setc9(cache1.getc9() + challengeCountsEasy.getInt("c9"));
+                            cache1.setc10(cache1.getc10() + challengeCountsEasy.getInt("c10"));
+                            cache1.setc11(cache1.getc11() + challengeCountsEasy.getInt("c11"));
+                            cache1.setc12(cache1.getc12() + challengeCountsEasy.getInt("c12"));
+                            cache1.setc13(cache1.getc13() + challengeCountsEasy.getInt("c13"));
+                            cache1.setc14(cache1.getc14() + challengeCountsEasy.getInt("c14"));
+                            cache1.setc15(cache1.getc15() + challengeCountsEasy.getInt("c15"));
+                            cache1.setc16(cache1.getc16() + challengeCountsEasy.getInt("c16"));
+                            cache1.setc17(cache1.getc17() + challengeCountsEasy.getInt("c17"));
+                            cache1.setc18(cache1.getc18() + challengeCountsEasy.getInt("c18"));
+                        }
+                        challengeCountsEasy.close();
+                    }
+                    for (int i = 1; i < 19; i++) {
+                        int currentc = cache1.getCurrentChallengeCount(i);
+                        if (currentc > challengeValueRepeats) {
+                            currentc = challengeValueRepeats;
+                        }
+                        if (currentc > 0) {
+                            int repeatedPoints = (currentc - 1) * challengeValueAfterFirstComplete;
+                            totalChallengePoints = totalChallengePoints + challengeValueFirstComplete + repeatedPoints;
+                        }
+                    }
+
+
+
+                    for (String player : players) {
+                        PreparedStatement getChallengeCountMedium;
+                        getChallengeCountMedium = connection.prepareStatement("SELECT * FROM VSkyblock_Challenges_Medium WHERE uuid = ?");
+                        getChallengeCountMedium.setString(1, player);
+                        ResultSet challengeCountsMedium = getChallengeCountMedium.executeQuery();
+                        while (challengeCountsMedium.next()) {
+                            cache2.setc1(cache2.getc1() + challengeCountsMedium.getInt("c1"));
+                            cache2.setc2(cache2.getc2() + challengeCountsMedium.getInt("c2"));
+                            cache2.setc3(cache2.getc3() + challengeCountsMedium.getInt("c3"));
+                            cache2.setc4(cache2.getc4() + challengeCountsMedium.getInt("c4"));
+                            cache2.setc5(cache2.getc5() + challengeCountsMedium.getInt("c5"));
+                            cache2.setc6(cache2.getc6() + challengeCountsMedium.getInt("c6"));
+                            cache2.setc7(cache2.getc7() + challengeCountsMedium.getInt("c7"));
+                            cache2.setc8(cache2.getc8() + challengeCountsMedium.getInt("c8"));
+                            cache2.setc9(cache2.getc9() + challengeCountsMedium.getInt("c9"));
+                            cache2.setc10(cache2.getc10() + challengeCountsMedium.getInt("c10"));
+                            cache2.setc11(cache2.getc11() + challengeCountsMedium.getInt("c11"));
+                            cache2.setc12(cache2.getc12() + challengeCountsMedium.getInt("c12"));
+                            cache2.setc13(cache2.getc13() + challengeCountsMedium.getInt("c13"));
+                            cache2.setc14(cache2.getc14() + challengeCountsMedium.getInt("c14"));
+                            cache2.setc15(cache2.getc15() + challengeCountsMedium.getInt("c15"));
+                            cache2.setc16(cache2.getc16() + challengeCountsMedium.getInt("c16"));
+                            cache2.setc17(cache2.getc17() + challengeCountsMedium.getInt("c17"));
+                            cache2.setc18(cache2.getc18() + challengeCountsMedium.getInt("c18"));
+                        }
+                    }
+                    for (int i = 1; i < 19; i++) {
+                        int currentc = cache2.getCurrentChallengeCount(i);
+                        if (currentc > challengeValueRepeats) {
+                            currentc = challengeValueRepeats;
+                        }
+                        if (currentc > 0) {
+                            int repeatedPoints = (currentc - 1) * challengeValueAfterFirstComplete;
+                            totalChallengePoints = totalChallengePoints + challengeValueFirstComplete + repeatedPoints;
+                        }
+                    }
+
+
+                    for (String player : players) {
+                        PreparedStatement getChallengeCountHard;
+                        getChallengeCountHard = connection.prepareStatement("SELECT * FROM VSkyblock_Challenges_Hard WHERE uuid = ?");
+                        getChallengeCountHard.setString(1, player);
+                        ResultSet challengeCountsHard = getChallengeCountHard.executeQuery();
+                        while (challengeCountsHard.next()) {
+                            cache3.setc1(cache3.getc1() + challengeCountsHard.getInt("c1"));
+                            cache3.setc2(cache3.getc2() + challengeCountsHard.getInt("c2"));
+                            cache3.setc3(cache3.getc3() + challengeCountsHard.getInt("c3"));
+                            cache3.setc4(cache3.getc4() + challengeCountsHard.getInt("c4"));
+                            cache3.setc5(cache3.getc5() + challengeCountsHard.getInt("c5"));
+                            cache3.setc6(cache3.getc6() + challengeCountsHard.getInt("c6"));
+                            cache3.setc7(cache3.getc7() + challengeCountsHard.getInt("c7"));
+                            cache3.setc8(cache3.getc8() + challengeCountsHard.getInt("c8"));
+                            cache3.setc9(cache3.getc9() + challengeCountsHard.getInt("c9"));
+                            cache3.setc10(cache3.getc10() + challengeCountsHard.getInt("c10"));
+                            cache3.setc11(cache3.getc11() + challengeCountsHard.getInt("c11"));
+                            cache3.setc12(cache3.getc12() + challengeCountsHard.getInt("c12"));
+                            cache3.setc13(cache3.getc13() + challengeCountsHard.getInt("c13"));
+                            cache3.setc14(cache3.getc14() + challengeCountsHard.getInt("c14"));
+                            cache3.setc15(cache3.getc15() + challengeCountsHard.getInt("c15"));
+                            cache3.setc16(cache3.getc16() + challengeCountsHard.getInt("c16"));
+                            cache3.setc17(cache3.getc17() + challengeCountsHard.getInt("c17"));
+                            cache3.setc18(cache3.getc18() + challengeCountsHard.getInt("c18"));
+                        }
+                    }
+                    for (int i = 1; i < 19; i++) {
+                        int currentc = cache3.getCurrentChallengeCount(i);
+                        if (currentc > challengeValueRepeats) {
+                            currentc = challengeValueRepeats;
+                        }
+                        if (currentc > 0) {
+                            int repeatedPoints = (currentc - 1) * challengeValueAfterFirstComplete;
+                            totalChallengePoints = totalChallengePoints + challengeValueFirstComplete + repeatedPoints;
+                        }
+                    }
+
+
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    getDatabase.closeConnection(connection);
+                }
+                final int finalchallengepoints = totalChallengePoints;
+                plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onQueryDone(finalchallengepoints);
+                    }
+                });
+            }
+        });
+    }
+
+    private int getChallengeValueFirstComplete() {
+        if (plugin.getConfig().getString("ChallengeValueFirstComplete") != null) {
+            String challengeValueFirstComplete = plugin.getConfig().getString("ChallengeValueFirstComplete");
+            if (isInt(challengeValueFirstComplete)) {
+                return Integer.parseInt(challengeValueFirstComplete);
+            } else {
+                return 10;
+            }
+        } else {
+            return 10;
+        }
+    }
+
+    private int getChallengeValueAfterFirstComplete() {
+        if (plugin.getConfig().getString("ChallengeValueAfterFirstComplete") != null) {
+            String challengeValueAfterFirstComplete = plugin.getConfig().getString("ChallengeValueAfterFirstComplete");
+            if (isInt(challengeValueAfterFirstComplete)) {
+                return Integer.parseInt(challengeValueAfterFirstComplete);
+            } else {
+                return 10;
+            }
+        } else {
+            return 10;
+        }
+    }
+
+    private int getChallengeValueRepeats() {
+        if (plugin.getConfig().getString("ChallengeValueRepeats") != null) {
+            String challengeValueRepeats = plugin.getConfig().getString("ChallengeValueRepeats");
+            if (isInt(challengeValueRepeats)) {
+                return Integer.parseInt(challengeValueRepeats);
+            } else {
+                return 15;
+            }
+        } else {
+            return 15;
+        }
+    }
+
+    private boolean isInt(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
 
 
 

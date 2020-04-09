@@ -50,6 +50,15 @@ IslandValue: 300
 # The value of every new created island. Will then be updated continuously with the players actions. Standard is 150.
 IslandValueonStart: 150
 
+# The value to be added to the island level for completing a challenge for the first time.
+ChallengeValueFirstComplete: 150
+
+# The value to be added to the island level when a challenge is repeated.
+ChallengeValueAfterFirstComplete: 10
+
+# The amount of times a repeatable challenge can be added to the island level.
+ChallengeValueRepeats: 15
+
 
 
 

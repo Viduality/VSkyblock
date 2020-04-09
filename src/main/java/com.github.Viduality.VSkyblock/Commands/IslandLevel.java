@@ -58,44 +58,50 @@ public class IslandLevel implements SubCommand {
                                 plugin.getLogger().log(Level.SEVERE, "World " + databaseCache.getIslandname() + " not found?");
                                 return;
                             }
-                            double worldsize = world.getWorldBorder().getSize();
-                            int x1 = ((int) (-1 * worldsize / 2)) >> 4;
-                            int x2 = ((int) worldsize / 2) >> 4;
-                            int z1 = x1;
-                            int z2 = x2;
-                            double value = 0;
-                            if (isInt(plugin.getConfig().getString("IslandValueonStart"))) {
-                                value = plugin.getConfig().getInt("IslandValueonStart");
-                            } else {
-                                value = 150;
-                            }
-                            int valueperlevel;
-                            if (isInt(plugin.getConfig().getString("IslandCounter"))) {
-                                valueperlevel = plugin.getConfig().getInt("IslandCounter");
-                            } else {
-                                valueperlevel = 300;
-                            }
+                            databaseReader.getChallengePoints(databaseCache.getIslandId(), new DatabaseReader.CallbackINT() {
+                                @Override
+                                public void onQueryDone(int result) {
+                                    double worldsize = world.getWorldBorder().getSize();
+                                    int x1 = ((int) (-1 * worldsize / 2)) >> 4;
+                                    int x2 = ((int) worldsize / 2) >> 4;
+                                    int z1 = x1;
+                                    int z2 = x2;
+                                    double value = 0;
+                                    if (isInt(plugin.getConfig().getString("IslandValueonStart"))) {
+                                        value = plugin.getConfig().getInt("IslandValueonStart");
+                                    } else {
+                                        value = 150;
+                                    }
+                                    value = value + result;
+                                    int valueperlevel;
+                                    if (isInt(plugin.getConfig().getString("IslandCounter"))) {
+                                        valueperlevel = plugin.getConfig().getInt("IslandCounter");
+                                    } else {
+                                        valueperlevel = 300;
+                                    }
 
-                            IslandCounter counter = new IslandCounter(value, 0, (c) -> {
-                                double level = c.value/valueperlevel;
-                                int roundlevel = (int) Math.floor(level);
-                                databaseWriter.updateIslandLevel(databaseCache.getIslandId(), roundlevel, c.blocks, player.getUniqueId());
-                                ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
-                                CobblestoneGenerator.islandlevels.put(databaseCache.getIslandname(), roundlevel);
+                                    IslandCounter counter = new IslandCounter(value, 0, (c) -> {
+                                        double level = c.value/valueperlevel;
+                                        int roundlevel = (int) Math.floor(level);
+                                        databaseWriter.updateIslandLevel(databaseCache.getIslandId(), roundlevel, c.blocks, player.getUniqueId());
+                                        ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
+                                        CobblestoneGenerator.islandlevels.put(databaseCache.getIslandname(), roundlevel);
+                                    });
+
+                                    // Two loops are necessary as getChunkAtAsync might return instantly if chunk is loaded
+                                    for (int x = x1; x <= x2; x++) {
+                                        for (int z = z1; z <= z2; z++) {
+                                            counter.toCount();
+                                        }
+                                    }
+
+                                    for (int x = x1; x <= x2; x++) {
+                                        for (int z = z1; z <= z2; z++) {
+                                            world.getChunkAtAsync(x, z, false).whenComplete((c, ex) -> counter.count(c));
+                                        }
+                                    }
+                                }
                             });
-
-                            // Two loops are necessary as getChunkAtAsync might return instantly if chunk is loaded
-                            for (int x = x1; x <= x2; x++) {
-                                for (int z = z1; z <= z2; z++) {
-                                    counter.toCount();
-                                }
-                            }
-
-                            for (int x = x1; x <= x2; x++) {
-                                for (int z = z1; z <= z2; z++) {
-                                    world.getChunkAtAsync(x, z, false).whenComplete((c, ex) -> counter.count(c));
-                                }
-                            }
                         }
                     }
                 }
