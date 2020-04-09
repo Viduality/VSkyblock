@@ -23,6 +23,8 @@ public class IslandRestartConfirm implements SubCommand{
                 databaseWriter.resetChallenges(databaseCache.getUuid());
                 player.getInventory().clear();
                 player.getEnderChest().clear();
+                player.setExp(0);
+                player.setTotalExperience(0);
             } else {
                 ConfigShorts.custommessagefromString("GenerateCooldown", databaseCache.getPlayer(), String.valueOf(Island.getisgencooldown()));
             }

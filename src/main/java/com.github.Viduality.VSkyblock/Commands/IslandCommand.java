@@ -30,6 +30,8 @@ public class IslandCommand implements SubCommand {
                 ConfigShorts.messagefromString("GenerateNewIsland", player);
                 player.getEnderChest().clear();
                 player.getInventory().clear();
+                player.setTotalExperience(0);
+                player.setExp(0);
                 player.setFoodLevel(20);
                 im.createNewIsland(databaseCache.getUuid(), null);
                 Island.isgencooldown.put(player.getUniqueId(), player.getUniqueId());

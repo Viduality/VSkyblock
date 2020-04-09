@@ -79,6 +79,10 @@ public class PlayerJoinListener implements Listener {
                         player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                         if (result.isKicked()) {
                             ConfigShorts.messagefromString("KickedFromIslandOffline", player);
+                            player.setTotalExperience(0);
+                            player.setExp(0);
+                            player.getEnderChest();
+                            player.getInventory().clear();
                             databaseWriter.removeKicked(result.getUuid());
                         }
                     }

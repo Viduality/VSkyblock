@@ -60,6 +60,8 @@ public class IslandKick implements SubCommand{
                                     ConfigShorts.messagefromString("KickedFromIsland", onlinetarget);
                                     onlinetarget.getInventory().clear();
                                     onlinetarget.getEnderChest().clear();
+                                    onlinetarget.setExp(0);
+                                    onlinetarget.setTotalExperience(0);
                                     databaseWriter.removeKicked(targetuuid);
                                     Island.playerislands.remove(targetuuid);
                                 }

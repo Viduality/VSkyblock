@@ -26,6 +26,8 @@ public class IslandLeaveConfirm implements SubCommand {
                     ConfigShorts.messagefromString("LeftIsland", player);
                     player.getInventory().clear();
                     player.getEnderChest().clear();
+                    player.setExp(0);
+                    player.setTotalExperience(0);
                     Island.leavemap.asMap().remove(player.getUniqueId());
                     Island.playerislands.remove(player.getUniqueId());
                     if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
