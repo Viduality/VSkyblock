@@ -81,7 +81,7 @@ public class PlayerJoinListener implements Listener {
                             ConfigShorts.messagefromString("KickedFromIslandOffline", player);
                             player.setTotalExperience(0);
                             player.setExp(0);
-                            player.getEnderChest();
+                            player.getEnderChest().clear();
                             player.getInventory().clear();
                             databaseWriter.removeKicked(result.getUuid());
                         }
