@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -91,6 +92,17 @@ public class CobblestoneGenerator implements Listener {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void pistonEvent(BlockPistonExtendEvent blockPistonExtendEvent) {
+        if (!blockPistonExtendEvent.getBlocks().isEmpty()) {
+            if (blockPistonExtendEvent.getBlocks().get(0).getType().equals(Material.INFESTED_COBBLESTONE)) {
+                blockPistonExtendEvent.setCancelled(true);
+                blockPistonExtendEvent.getBlocks().get(0).setType(Material.COBBLESTONE);
+                CobblestoneGenerator.cobblegen.put(blockPistonExtendEvent.getBlocks().get(0).getLocation(), System.currentTimeMillis());
             }
         }
     }
