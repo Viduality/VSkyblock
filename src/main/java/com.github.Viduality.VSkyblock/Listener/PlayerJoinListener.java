@@ -15,6 +15,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class PlayerJoinListener implements Listener {
 
     private VSkyblock plugin = VSkyblock.getInstance();
@@ -22,13 +25,14 @@ public class PlayerJoinListener implements Listener {
     private DatabaseWriter databaseWriter = new DatabaseWriter();
     private WorldManager wm = new WorldManager();
 
+    private Deque<DatabaseCache> toLoad = new ArrayDeque<>();
 
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent playerJoinEvent) {
         Player player = playerJoinEvent.getPlayer();
-        PotionEffect potionEffectBlindness = new PotionEffect(PotionEffectType.BLINDNESS, 50, 1);
-        PotionEffect potionEffectNightVision = new PotionEffect(PotionEffectType.NIGHT_VISION, 50, 1);
+        PotionEffect potionEffectBlindness = new PotionEffect(PotionEffectType.BLINDNESS, 600, 1);
+        PotionEffect potionEffectNightVision = new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 1);
         player.addPotionEffect(potionEffectBlindness);
         player.addPotionEffect(potionEffectNightVision);
         Location location = player.getLocation();
@@ -65,45 +69,10 @@ public class PlayerJoinListener implements Listener {
                         if (task != null) {
                             task.cancel();
                         }
-                        if (!Island.playerislands.containsValue(result.getIslandname())) {
-                            wm.loadWorld(result.getIslandname());
-                            Island.playerislands.put(result.getUuid(), result.getIslandname());
-                            databaseReader.addToCobbleStoneGenerators(result.getIslandname());
-                            if (wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
-                                wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
-                            }
-                            wm.loadWorld(result.getIslandname());
-                            databaseReader.getlastLocation(result.getUuid(), new DatabaseReader.CallbackLocation() {
-                                @Override
-                                public void onQueryDone(Location loc) {
-                                    if (loc != null) {
-                                        player.teleport(loc);
-                                    } else {
-                                        player.teleport(wm.getSpawnLocation(result.getIslandname()));
-                                    }
-                                    player.removePotionEffect(PotionEffectType.BLINDNESS);
-                                    player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                                }
-                            });
-
+                        if (toLoad.isEmpty()) {
+                            loadWorld(result);
                         } else {
-                            Island.playerislands.put(result.getUuid(), result.getIslandname());
-                            if (wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
-                                wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
-                            }
-                            wm.loadWorld(result.getIslandname());
-                            databaseReader.getlastLocation(result.getUuid(), new DatabaseReader.CallbackLocation() {
-                                @Override
-                                public void onQueryDone(Location loc) {
-                                    if (loc != null) {
-                                        player.teleport(loc);
-                                    } else {
-                                        player.teleport(wm.getSpawnLocation(result.getIslandname()));
-                                    }
-                                    player.removePotionEffect(PotionEffectType.BLINDNESS);
-                                    player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                                }
-                            });
+                            toLoad.add(result);
                         }
                     } else {
                         player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
@@ -130,5 +99,36 @@ public class PlayerJoinListener implements Listener {
                 }
             });
         }
+    }
+
+    private void loadWorld(DatabaseCache result) {
+        if (!Island.playerislands.containsValue(result.getIslandname())) {
+            databaseReader.addToCobbleStoneGenerators(result.getIslandname());
+        }
+        Island.playerislands.put(result.getUuid(), result.getIslandname());
+        wm.loadWorld(result.getIslandname());
+        if (wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
+            wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
+        }
+        databaseReader.getlastLocation(result.getUuid(), loc -> {
+            Player player = result.getPlayer();
+            if (player != null) {
+                if (loc != null) {
+                    player.teleport(loc);
+                } else {
+                    player.teleport(wm.getSpawnLocation(result.getIslandname()));
+                }
+                player.removePotionEffect(PotionEffectType.BLINDNESS);
+                player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+            } else {
+                Island.emptyloadedislands.put(result.getIslandname(), plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                    wm.unloadWorld(result.getIslandname());
+                }, 20 * 60));
+            }
+            DatabaseCache nextResult = toLoad.pollFirst();
+            if (nextResult != null) {
+                loadWorld(nextResult);
+            }
+        });
     }
 }
