@@ -61,6 +61,8 @@ public class IslandLevel implements SubCommand {
                             databaseReader.getChallengePoints(databaseCache.getIslandId(), new DatabaseReader.CallbackINT() {
                                 @Override
                                 public void onQueryDone(int result) {
+                                    int valueriselevel = getValueRiseLevel();
+                                    int valueincrease = getValueIncrease();
                                     double worldsize = world.getWorldBorder().getSize();
                                     int x1 = ((int) (-1 * worldsize / 2)) >> 4;
                                     int x2 = ((int) worldsize / 2) >> 4;
@@ -74,14 +76,40 @@ public class IslandLevel implements SubCommand {
                                     }
                                     value = value + result;
                                     int valueperlevel;
-                                    if (isInt(plugin.getConfig().getString("IslandCounter"))) {
-                                        valueperlevel = plugin.getConfig().getInt("IslandCounter");
+                                    if (isInt(plugin.getConfig().getString("IslandValue"))) {
+                                        valueperlevel = plugin.getConfig().getInt("IslandValue");
                                     } else {
                                         valueperlevel = 300;
                                     }
 
                                     IslandCounter counter = new IslandCounter(value, 0, (c) -> {
-                                        double level = c.value/valueperlevel;
+
+                                        double currentvalue = c.value;
+
+                                        int level = 0;
+                                        int increasedvaluefornextlevel = valueperlevel + valueincrease;
+                                        for (int i = 0; i < valueriselevel; i++) {
+                                            if (currentvalue-valueperlevel >= 0) {
+                                                level = level + 1;
+                                                currentvalue = currentvalue - valueperlevel;
+                                            } else {
+                                                currentvalue = 0;
+                                                break;
+                                            }
+                                        }
+                                        if (currentvalue-increasedvaluefornextlevel >= 0) {
+                                            while (currentvalue >= 0) {
+                                                if (currentvalue-increasedvaluefornextlevel >= 0) {
+                                                    level++;
+                                                    currentvalue = currentvalue - increasedvaluefornextlevel;
+                                                    increasedvaluefornextlevel = increasedvaluefornextlevel + valueincrease;
+                                                } else {
+                                                    currentvalue = 0;
+                                                    break;
+                                                }
+                                            }
+                                        }
+
                                         int roundlevel = (int) Math.floor(level);
                                         databaseWriter.updateIslandLevel(databaseCache.getIslandId(), roundlevel, c.blocks, player.getUniqueId());
                                         ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
@@ -118,6 +146,32 @@ public class IslandLevel implements SubCommand {
             return false;
         }
         return true;
+    }
+
+    private static int getValueRiseLevel() {
+        String s = VSkyblock.getInstance().getConfig().getString("IslandValueRiseLevel");
+        if (s != null) {
+            if (isInt(s)) {
+                return Integer.parseInt(s);
+            } else {
+                return 150;
+            }
+        } else {
+            return 150;
+        }
+    }
+
+    private static int getValueIncrease() {
+        String s = VSkyblock.getInstance().getConfig().getString("IslandValueIncreasePerLevel");
+        if (s != null) {
+            if (isInt(s)) {
+                return Integer.parseInt(s);
+            } else {
+                return 20;
+            }
+        } else {
+            return 20;
+        }
     }
 
     private static int gettimebetweencalc() {
