@@ -48,6 +48,7 @@ public class IslandVisit implements SubCommand {
                                                             public void onQueryDone(String result) {
                                                                 if (wm.getLoadedWorlds().contains(result)) {
                                                                     player.teleport(wm.getSpawnLocation(result));
+                                                                    player.setCanCollide(false);
                                                                     databaseReader.getIslandMembers(islandid, new DatabaseReader.CallbackList() {
                                                                         @Override
                                                                         public void onQueryDone(List<String> result) {

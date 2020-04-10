@@ -3,27 +3,32 @@ package com.github.Viduality.VSkyblock.Listener;
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.bukkit.World;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.TNTPrimed;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.EnumSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 public class EntityProtector implements Listener {
 
     private VSkyblock plugin = VSkyblock.getInstance();
     private WorldManager wm = new WorldManager();
+    private static Cache<LivingEntity, BukkitTask> nocollideentities = CacheBuilder.newBuilder()
+            .expireAfterWrite(1, TimeUnit.SECONDS)
+            .build();
 
 
     @EventHandler
@@ -130,6 +135,39 @@ public class EntityProtector implements Listener {
             }
         }
     }
+
+    @EventHandler
+    public void onWorldChange(PlayerChangedWorldEvent playerChangedWorldEvent) {
+        Player player = playerChangedWorldEvent.getPlayer();
+        if (player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())) || player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+            player.setCanCollide(true);
+        }
+    }
+
+    /*
+    @EventHandler
+    public void playermove(PlayerMoveEvent playerMoveEvent) {
+        Player player = playerMoveEvent.getPlayer();
+        if (!player.getNearbyEntities(2,2,2).isEmpty()) {
+            for (Entity e : player.getNearbyEntities(2, 2, 2)) {
+                if (e instanceof LivingEntity) {
+                    LivingEntity entity = (LivingEntity) e;
+                    System.out.println(entity.isCollidable());
+                    player.setCanCollide(false);
+                    entity.setCanCollide(false);
+                    System.out.println("PlayerCollidable = " + player.isCollidable());
+                    nocollideentities.put(player, plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                        player.setCanCollide(true);
+                    }, 20 * 5));
+                    nocollideentities.put(entity, plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                        entity.setCanCollide(true);
+                    }, 20 * 5));
+                }
+            }
+        }
+    }
+     */
+
 
 
     private static final Set<EntityType> hostilemobs = EnumSet.of(
