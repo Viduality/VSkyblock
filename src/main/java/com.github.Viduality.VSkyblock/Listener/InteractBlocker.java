@@ -59,27 +59,4 @@ public class InteractBlocker implements Listener {
             event.setCancelled(true);
         }
     }
-
-    @EventHandler
-    public void interactAtCoarseDirt(PlayerInteractEvent playerInteractEvent) {
-        Player player = playerInteractEvent.getPlayer();
-        if (playerInteractEvent.getClickedBlock() != null) {
-            if (playerInteractEvent.getClickedBlock().getType().equals(Material.COARSE_DIRT)
-                    && playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-                if (hoeTool.contains(playerInteractEvent.getPlayer().getInventory().getItemInMainHand().getType())
-                        || hoeTool.contains(playerInteractEvent.getPlayer().getInventory().getItemInOffHand().getType())) {
-                    playerInteractEvent.setCancelled(true);
-                }
-            }
-        }
-    }
-
-
-    private static final Set<Material> hoeTool = EnumSet.of(
-            Material.WOODEN_HOE,
-            Material.STONE_HOE,
-            Material.IRON_HOE,
-            Material.GOLDEN_HOE,
-            Material.DIAMOND_HOE
-    );
 }
