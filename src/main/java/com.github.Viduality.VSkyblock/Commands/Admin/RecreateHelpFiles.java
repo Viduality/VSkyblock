@@ -27,6 +27,8 @@ public class RecreateHelpFiles implements AdminSubCommand {
                 DefaultFiles.init();
                 ConfigShorts.messagefromString("RecreatedHelpFiles", sender);
             }
+        } else {
+            ConfigShorts.messagefromString("PermissionLack", sender);
         }
     }
 }

@@ -27,6 +27,8 @@ public class RecreateLanguageFiles implements AdminSubCommand {
                 DefaultFiles.init();
                 ConfigShorts.messagefromString("RecreatedLanguageFiles", sender);
             }
+        } else {
+            ConfigShorts.messagefromString("PermissionLack", sender);
         }
     }
 }

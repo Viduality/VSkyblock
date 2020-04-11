@@ -27,6 +27,8 @@ public class RecreateChallengeFiles implements AdminSubCommand {
                 DefaultFiles.init();
                 ConfigShorts.messagefromString("RecreatedChallengeFiles", sender);
             }
+        } else {
+            ConfigShorts.messagefromString("PermissionLack", sender);
         }
     }
 }

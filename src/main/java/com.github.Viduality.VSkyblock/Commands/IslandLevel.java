@@ -89,7 +89,7 @@ public class IslandLevel implements SubCommand {
                                         int level = 0;
                                         int increasedvaluefornextlevel = valueperlevel + valueincrease;
                                         for (int i = 0; i < valueriselevel; i++) {
-                                            if (currentvalue-valueperlevel >= 0) {
+                                            if (currentvalue - valueperlevel >= 0) {
                                                 level = level + 1;
                                                 currentvalue = currentvalue - valueperlevel;
                                             } else {
@@ -97,9 +97,9 @@ public class IslandLevel implements SubCommand {
                                                 break;
                                             }
                                         }
-                                        if (currentvalue-increasedvaluefornextlevel >= 0) {
+                                        if (currentvalue - increasedvaluefornextlevel >= 0) {
                                             while (currentvalue >= 0) {
-                                                if (currentvalue-increasedvaluefornextlevel >= 0) {
+                                                if (currentvalue - increasedvaluefornextlevel >= 0) {
                                                     level++;
                                                     currentvalue = currentvalue - increasedvaluefornextlevel;
                                                     increasedvaluefornextlevel = increasedvaluefornextlevel + valueincrease;
@@ -182,9 +182,9 @@ public class IslandLevel implements SubCommand {
         return timebetweencalc;
     }
 
-    private class IslandCounter {
-        private double value;
-        private int blocks;
+    public static class IslandCounter {
+        public double value;
+        public int blocks;
         private int toCount = 0;
         private final Consumer<IslandCounter> onDone;
 

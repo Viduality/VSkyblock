@@ -130,6 +130,11 @@ public class AdminCommands implements CommandExecutor {
                     adminSubCommand = new WorldCreate();
                 }
 
+                if ((args[0].equalsIgnoreCase("recalculate") || args[0].equalsIgnoreCase("recalc"))
+                        && (args[1].equalsIgnoreCase("islandlevel") || args[1].equalsIgnoreCase("islevel"))) {
+                    adminSubCommand = new RecalculateIslandLevel();
+                }
+
             }
 
             if (args.length == 4) {

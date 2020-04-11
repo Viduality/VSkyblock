@@ -256,12 +256,18 @@ commands:
     aliases: [vsky recreate challenges]
     permission: VSkyblock.RecreateChallengeFiles
 
-
   VSkyblock reload blockvalues:
     description: Reloads the block values.
     usage: /VSkyblock reload blockvalues
     aliases: [vsky reload blockvalues]
     permission: VSkyblock.ReloadBlockValues
+    permission-message: You don't have permission!
+
+  VSkyblock recalculate islandlevel:
+    description: Recalculates the island level of a player.
+    usage: /VSkyblock recalculate islandlevel <Player>
+    aliases: [vsky recalculate islandlevel, vsky recalc islevel]
+    permission: VSkyblock.RecalculateIslandLevel
     permission-message: You don't have permission!
 
   Challenges:
@@ -303,6 +309,7 @@ permissions:
       VSkyblock.RecreateHelpFiles: true
       VSkyblock.RecreateChallengeFiles: true
       VSkyblock.ReloadBlockValues: true
+      VSkyblock.RecalculateIslandLevel: true
 
   VSkyblock.Mod:
     description: Permissions for Mods with limited rights on the server.
@@ -405,4 +412,7 @@ permissions:
     default: op
   VSkyblock.Challenges:
     description: Gives access to the challenges.
+    default: op
+  VSkyblock.RecalculateIslandLevel:
+    description: Allows to recalculate the island level of a player.
     default: op

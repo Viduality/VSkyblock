@@ -84,6 +84,7 @@ OptionChanged: §aErfolgreich die Option geändert. Sie ist ab jetzt aktiv
 
 PermissionLack: §cDu hast keine Berechtigung um diesen Befehl ausführen zu können!
 PlayerDoesNotExist: §cDer Spieler existiert nicht!
+PlayerHasNoIsland: §cDer Spieler hat keine Insel!
 PlayerLimitReached: §cDu kannst keinen Spieler mehr auf deine Insel einladen da du das Spieler-Limit erreicht hast!
 PlayerNotIslandMember: §cDieser Spieler ist kein Spieler auf deiner Insel!
 PlayerNotOnline: §c%SecondPlayer% ist nicht Online!
@@ -127,4 +128,5 @@ WorldFailedToUnload: §cWelt §6%replacement% §ckonnte nicht entladen werden!
 WorldIsNoWorld: §bDie angegebenen "Welt" ist keine Welt!
 WorldListHeader: '§bVSkyblock Welten:'
 WorldLoaded: §bWelt erfolgreich geladen!
+WorldNotFound: §cWelt §6%replacement% §cwurde nicht gefunden!
 WorldUnloaded: §bWelt erfolgreich entladen!
