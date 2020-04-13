@@ -19,9 +19,10 @@ public class ChallengesInventoryHandler implements Listener {
     private ChallengesHandler cH = new ChallengesHandler();
 
 
-    @EventHandler
+     @EventHandler
     public void cinvHandler(InventoryClickEvent inventoryClickEvent) {
         ConfigShorts.loadChallengesConfig();
+        Player player = (Player) inventoryClickEvent.getWhoClicked();
         if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Easy")) ||
                 inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Medium")) ||
                 inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Hard"))) {
@@ -29,21 +30,27 @@ public class ChallengesInventoryHandler implements Listener {
             if (inventoryClickEvent.getCurrentItem() != null) {
                 if (inventoryClickEvent.getRawSlot() < 27) {
                     if (inventoryClickEvent.getSlot() == 18 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR) && !inventoryClickEvent.getCurrentItem().getType().equals(Material.BARRIER)) {
-                        getpreviousChallengeinv(inventoryClickEvent.getView().getTitle(), (Player) inventoryClickEvent.getWhoClicked());
+                        getpreviousChallengeinv(inventoryClickEvent.getView().getTitle(), player);
                     }
                     if (inventoryClickEvent.getSlot() == 26 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR) && !inventoryClickEvent.getCurrentItem().getType().equals(Material.BARRIER)) {
-                        getnextChallengeinv(inventoryClickEvent.getView().getTitle(), (Player) inventoryClickEvent.getWhoClicked());
+                        getnextChallengeinv(inventoryClickEvent.getView().getTitle(), player);
                     }
                     if (inventoryClickEvent.getSlot() >= 0 && inventoryClickEvent.getSlot() <= 17 ) {
                         if (!inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR)) {
                             int challenge = inventoryClickEvent.getSlot() + 1;
                             String challengewithColors = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName();
                             if (inventoryClickEvent.getView().getTitle().equals("Challenges " + plugin.getConfig().getString("Difficulty.Easy"))) {
-                                cH.checkChallenge(challenge, getChallenge(challengewithColors), "Easy", (Player) inventoryClickEvent.getWhoClicked());
+                                cH.checkChallenge(challenge, getChallenge(challengewithColors), "Easy", player);
+                                player.closeInventory();
+                                cc.createChallenges(player, "Easy");
                             } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Medium"))) {
-                                cH.checkChallenge(challenge, getChallenge(challengewithColors), "Medium", (Player) inventoryClickEvent.getWhoClicked());
+                                cH.checkChallenge(challenge, getChallenge(challengewithColors), "Medium", player);
+                                player.closeInventory();
+                                cc.createChallenges(player, "Medium");
                             } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Hard"))) {
-                                cH.checkChallenge(challenge, getChallenge(challengewithColors), "Hard", (Player) inventoryClickEvent.getWhoClicked());
+                                cH.checkChallenge(challenge, getChallenge(challengewithColors), "Hard", player);
+                                player.closeInventory();
+                                cc.createChallenges(player, "Hard");
                             }
                         }
                     }
