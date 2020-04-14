@@ -131,37 +131,33 @@ public class ChallengesHandler {
                             List<Integer> rewardamounts = getRewardAmounts(challengeName, difficulty, repeat);
                             Integer radius = plugin.getConfig().getInt(difficulty + "." + challengeName + ".Radius");
                             ConfigShorts.messagefromString("CheckingIslandForChallenge", player);
-                            getBlocks(player, radius, new Callback() {
-                                @Override
-                                public void onQueryDone(HashMap<Material, Integer> result) {
-                                    int b = 0;
-                                    for (int i = 0; i < needed.size(); i++) {
-                                        if (result.containsKey(Material.getMaterial(needed.get(i).toUpperCase()))) {
-                                            if (result.get(Material.getMaterial(needed.get(i).toUpperCase())) < (neededamount.get(i))) {
-                                                b = b + 1;
-                                            }
-                                        } else {
-                                            b = b + 1;
-                                        }
+                            HashMap<Material, Integer> result = getBlocks(player, radius);
+                            int b = 0;
+                            for (int i = 0; i < needed.size(); i++) {
+                                if (result.containsKey(Material.getMaterial(needed.get(i).toUpperCase()))) {
+                                    if (result.get(Material.getMaterial(needed.get(i).toUpperCase())) < (neededamount.get(i))) {
+                                        b = b + 1;
                                     }
-                                    if (b == 0) {
-                                        if (emptySlots.size() >= reward.size()) {
-                                            List<ItemStack> rewards = new ArrayList<>();
-                                            for (int i = 0; i < reward.size(); i++) {
-                                                ItemStack current = new ItemStack(Material.getMaterial(reward.get(i).toUpperCase()), rewardamounts.get(i));
-                                                rewards.add(current);
-                                            }
-                                            giveRewards(player.getInventory(), rewards);
-                                            ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challengeName);
-                                            databaseWriter.updateChallengeCount(player.getUniqueId(), "VSkyblock_Challenges_" + difficulty, challenge, 1);
-                                        } else {
-                                            ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
-                                        }
-                                    } else {
-                                        ConfigShorts.messagefromString("IslandDoesNotMatchRequirements", player);
-                                    }
+                                } else {
+                                    b = b + 1;
                                 }
-                            });
+                            }
+                            if (b == 0) {
+                                if (emptySlots.size() >= reward.size()) {
+                                    List<ItemStack> rewards = new ArrayList<>();
+                                    for (int i = 0; i < reward.size(); i++) {
+                                        ItemStack current = new ItemStack(Material.getMaterial(reward.get(i).toUpperCase()), rewardamounts.get(i));
+                                        rewards.add(current);
+                                    }
+                                    giveRewards(player.getInventory(), rewards);
+                                    ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challengeName);
+                                    databaseWriter.updateChallengeCount(player.getUniqueId(), "VSkyblock_Challenges_" + difficulty, challenge, 1);
+                                } else {
+                                    ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
+                                }
+                            } else {
+                                ConfigShorts.messagefromString("IslandDoesNotMatchRequirements", player);
+                            }
                         } else {
                             ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
                         }
@@ -340,45 +336,27 @@ public class ChallengesHandler {
      *
      * @param player
      * @param radius
-     * @param callback
+     * @return The block type counts
      */
-    private void getBlocks(Player player, Integer radius, final Callback callback) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-            @Override
-            public void run() {
-                HashMap<Material, Integer> blocks = new HashMap<>();
-                Location loc = player.getLocation();
-                int blockx = (int) loc.getX();
-                int blocky = (int) loc.getY();
-                int blockz = (int) loc.getZ();
+    private HashMap<Material, Integer> getBlocks(Player player, Integer radius) {
+        HashMap<Material, Integer> blocks = new HashMap<>();
+        Location loc = player.getLocation();
+        int blockx = (int) loc.getX();
+        int blocky = (int) loc.getY();
+        int blockz = (int) loc.getZ();
 
-                for (int x = blockx - radius; x < blockx + radius; x++ ) {
+        for (int x = blockx - radius; x < blockx + radius; x++ ) {
+            for (int z = blockz - radius; z < blockz + radius; z++) {
+                if (player.getWorld().isChunkLoaded(x >> 4, z >> 4)) {
                     for (int y = blocky - radius; y < blocky + radius; y++) {
-                        for (int z = blockz - radius; z < blockz + radius; z++) {
-                            if (plugin.getServer().getWorld(player.getWorld().getName()).getBlockAt(x, y, z) != null) {
-                                if (!blocks.containsKey(plugin.getServer().getWorld(player.getWorld().getName()).getBlockAt(x, y, z).getType())) {
-                                    blocks.put(plugin.getServer().getWorld(player.getWorld().getName()).getBlockAt(x, y, z).getType(), 1);
-                                } else {
-                                    int currentblockcount = blocks.get(plugin.getServer().getWorld(player.getWorld().getName()).getBlockAt(x, y, z).getType());
-                                    blocks.put(plugin.getServer().getWorld(player.getWorld().getName()).getBlockAt(x, y, z).getType(), currentblockcount + 1);
-                                }
-                            }
+                        Material blockType = player.getWorld().getBlockAt(x, y, z).getType();
+                        if (!blockType.isAir()) {
+                            blocks.put(blockType, blocks.getOrDefault(blockType, 0) + 1);
                         }
                     }
                 }
-                final HashMap<Material, Integer> blocks1 = blocks;
-                plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onQueryDone(blocks1);
-                    }
-                });
             }
-
-        });
-    }
-
-    public interface Callback {
-        public void onQueryDone(HashMap<Material, Integer> result);
+        }
+        return blocks;
     }
 }
