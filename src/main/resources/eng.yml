@@ -3,6 +3,7 @@ Prefix: §7[§9VSky§7]
 
 
 AcceptLeave: §cYou are about to leave your current island and lose all your progress! You have 20 seconds to confirm with §b/is leave confirm§c!
+AlreadyCheckedIsland: §cYou just checked your island for the requirements! Wait a few seconds and try again!
 AlreadyIslandMember: §cThis player is already a member of your island!
 AlreadyUsedIslandLevel: §cWait a bit before using this command again! You recently just used it!
 

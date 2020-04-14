@@ -1,6 +1,8 @@
 package com.github.Viduality.VSkyblock;
 
 import com.github.Viduality.VSkyblock.Utilitys.*;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -10,12 +12,18 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class ChallengesHandler {
 
     private VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseReader databaseReader = new DatabaseReader();
     private DatabaseWriter databaseWriter = new DatabaseWriter();
+
+    public static Cache<UUID, Integer> onIslandDelay = CacheBuilder.newBuilder()
+            .expireAfterWrite(30, TimeUnit.SECONDS)
+            .build();
 
     /**
      * Checks if a challenge can be completed.
@@ -113,47 +121,52 @@ public class ChallengesHandler {
                         ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
                     }
                 } else if (plugin.getConfig().getString(difficulty + "." + challengeName + ".Type").equals("onIsland")) {
-                    player.closeInventory();
-                    if (!repeat) {
-                        List<String> needed = getNeeded(challengeName, difficulty);
-                        List<Integer> neededamount = getNeededAmounts(challengeName, difficulty);
-                        List<String> reward = getRewards(challengeName, difficulty, repeat);
-                        List<Integer> rewardamounts = getRewardAmounts(challengeName, difficulty, repeat);
-                        Integer radius = plugin.getConfig().getInt(difficulty + "." + challengeName + ".Radius");
-                        ConfigShorts.messagefromString("CheckingIslandForChallenge", player);
-                        getBlocks(player, radius, new Callback() {
-                            @Override
-                            public void onQueryDone(HashMap<Material, Integer> result) {
-                                int b = 0;
-                                for (int i = 0; i < needed.size(); i++) {
-                                    if (result.containsKey(Material.getMaterial(needed.get(i).toUpperCase()))) {
-                                        if (result.get(Material.getMaterial(needed.get(i).toUpperCase())) < (neededamount.get(i))) {
+                    if (!onIslandDelay.asMap().containsKey(player.getUniqueId())) {
+                        player.closeInventory();
+                        onIslandDelay.put(player.getUniqueId(), 1);
+                        if (!repeat) {
+                            List<String> needed = getNeeded(challengeName, difficulty);
+                            List<Integer> neededamount = getNeededAmounts(challengeName, difficulty);
+                            List<String> reward = getRewards(challengeName, difficulty, repeat);
+                            List<Integer> rewardamounts = getRewardAmounts(challengeName, difficulty, repeat);
+                            Integer radius = plugin.getConfig().getInt(difficulty + "." + challengeName + ".Radius");
+                            ConfigShorts.messagefromString("CheckingIslandForChallenge", player);
+                            getBlocks(player, radius, new Callback() {
+                                @Override
+                                public void onQueryDone(HashMap<Material, Integer> result) {
+                                    int b = 0;
+                                    for (int i = 0; i < needed.size(); i++) {
+                                        if (result.containsKey(Material.getMaterial(needed.get(i).toUpperCase()))) {
+                                            if (result.get(Material.getMaterial(needed.get(i).toUpperCase())) < (neededamount.get(i))) {
+                                                b = b + 1;
+                                            }
+                                        } else {
                                             b = b + 1;
                                         }
-                                    } else {
-                                        b = b + 1;
                                     }
-                                }
-                                if (b == 0) {
-                                    if (emptySlots.size() >= reward.size()) {
-                                        List<ItemStack> rewards = new ArrayList<>();
-                                        for (int i = 0; i < reward.size(); i++) {
-                                            ItemStack current = new ItemStack(Material.getMaterial(reward.get(i).toUpperCase()), rewardamounts.get(i));
-                                            rewards.add(current);
+                                    if (b == 0) {
+                                        if (emptySlots.size() >= reward.size()) {
+                                            List<ItemStack> rewards = new ArrayList<>();
+                                            for (int i = 0; i < reward.size(); i++) {
+                                                ItemStack current = new ItemStack(Material.getMaterial(reward.get(i).toUpperCase()), rewardamounts.get(i));
+                                                rewards.add(current);
+                                            }
+                                            giveRewards(player.getInventory(), rewards);
+                                            ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challengeName);
+                                            databaseWriter.updateChallengeCount(player.getUniqueId(), "VSkyblock_Challenges_" + difficulty, challenge, 1);
+                                        } else {
+                                            ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
                                         }
-                                        giveRewards(player.getInventory(), rewards);
-                                        ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challengeName);
-                                        databaseWriter.updateChallengeCount(player.getUniqueId(), "VSkyblock_Challenges_" + difficulty, challenge, 1);
                                     } else {
-                                        ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
+                                        ConfigShorts.messagefromString("IslandDoesNotMatchRequirements", player);
                                     }
-                                } else {
-                                    ConfigShorts.messagefromString("IslandDoesNotMatchRequirements", player);
                                 }
-                            }
-                        });
+                            });
+                        } else {
+                            ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
+                        }
                     } else {
-                        ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
+                        ConfigShorts.messagefromString("AlreadyCheckedIsland", player);
                     }
                 }
             }
