@@ -1,6 +1,5 @@
 package com.github.Viduality.VSkyblock.Commands;
 
-import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
@@ -18,7 +17,6 @@ import java.util.List;
 public class IslandInvite implements SubCommand {
 
     private VSkyblock plugin = VSkyblock.getInstance();
-    private SQLConnector getDatabase = new SQLConnector();
     private DatabaseReader databaseReader = new DatabaseReader();
 
 
@@ -38,7 +36,7 @@ public class IslandInvite implements SubCommand {
                                     Player onlinetarget = (Player) target;
                                     if (onlinetarget != player) {
                                         List<String> members = new ArrayList<>();
-                                        Connection connection = getDatabase.getConnection();
+                                        Connection connection = plugin.getdb().getConnection();
                                         try {
                                             PreparedStatement preparedStatement;
                                             preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
@@ -50,7 +48,7 @@ public class IslandInvite implements SubCommand {
                                         } catch (SQLException e) {
                                             e.printStackTrace();
                                         } finally {
-                                            getDatabase.closeConnection(connection);
+                                            plugin.getdb().closeConnection(connection);
                                         }
                                         if (!members.contains(onlinetarget.getUniqueId().toString())) {
                                             if (!Island.isjoincooldown.asMap().containsKey(onlinetarget.getUniqueId())) {

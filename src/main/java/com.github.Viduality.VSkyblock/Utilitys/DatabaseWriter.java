@@ -18,7 +18,6 @@ import java.util.UUID;
 
 public class DatabaseWriter {
 
-    private SQLConnector getDatabase = new SQLConnector();
     private VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseReader databaseReader = new DatabaseReader();
     private WorldManager wm = new WorldManager();
@@ -32,7 +31,7 @@ public class DatabaseWriter {
      */
     public void addPlayer(UUID uuid, String name) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Connection connection = getDatabase.getConnection();
+            Connection connection = plugin.getdb().getConnection();
             try {
                 PreparedStatement preparedStatement;
 
@@ -59,7 +58,7 @@ public class DatabaseWriter {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                getDatabase.closeConnection(connection);
+                plugin.getdb().closeConnection(connection);
             }
         });
     }
@@ -74,7 +73,7 @@ public class DatabaseWriter {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                Connection connection = getDatabase.getConnection();
+                Connection connection = plugin.getdb().getConnection();
                 try {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("INSERT INTO VSkyblock_Island(island, difficulty) VALUES(?, ?)");
@@ -105,7 +104,7 @@ public class DatabaseWriter {
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 } finally {
-                                    getDatabase.closeConnection(connection);
+                                    plugin.getdb().closeConnection(connection);
                                 }
                             }
                         });
@@ -124,7 +123,7 @@ public class DatabaseWriter {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                Connection connection = getDatabase.getConnection();
+                Connection connection = plugin.getdb().getConnection();
                 try {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandid = NULL, owneruuid = NULL, kicked = 1 WHERE uuid = ?");
@@ -134,7 +133,7 @@ public class DatabaseWriter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } finally {
-                    getDatabase.closeConnection(connection);
+                    plugin.getdb().closeConnection(connection);
                 }
             }
         });
@@ -147,7 +146,7 @@ public class DatabaseWriter {
      */
     public void removeKicked(UUID uuid) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Connection connection = getDatabase.getConnection();
+            Connection connection = plugin.getdb().getConnection();
             try {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET kicked = 0 WHERE uuid = ?");
@@ -157,7 +156,7 @@ public class DatabaseWriter {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                getDatabase.closeConnection(connection);
+                plugin.getdb().closeConnection(connection);
             }
         });
     }
@@ -172,7 +171,7 @@ public class DatabaseWriter {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                Connection connection = getDatabase.getConnection();
+                Connection connection = plugin.getdb().getConnection();
                 try {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandowner = 0 WHERE uuid = ?");
@@ -187,7 +186,7 @@ public class DatabaseWriter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } finally {
-                    getDatabase.closeConnection(connection);
+                    plugin.getdb().closeConnection(connection);
                 }
             }
         });
@@ -202,7 +201,7 @@ public class DatabaseWriter {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                Connection connection = getDatabase.getConnection();
+                Connection connection = plugin.getdb().getConnection();
                 try {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandid = NULL, owneruuid = NULL, islandowner = 0 WHERE uuid = ?");
@@ -212,7 +211,7 @@ public class DatabaseWriter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } finally {
-                    getDatabase.closeConnection(connection);
+                    plugin.getdb().closeConnection(connection);
                 }
             }
         });
@@ -227,13 +226,13 @@ public class DatabaseWriter {
      */
     public void updatePlayersIsland(UUID uuid, int islandid, boolean islandowner) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Connection connection = getDatabase.getConnection();
             Integer islandownerInt;
             if (islandowner) {
                 islandownerInt = 1;
             } else {
                 islandownerInt = 0;
             }
+            Connection connection = plugin.getdb().getConnection();
             try {
                 PreparedStatement preparedStatement;
 
@@ -246,7 +245,7 @@ public class DatabaseWriter {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                getDatabase.closeConnection(connection);
+                plugin.getdb().closeConnection(connection);
             }
         });
     }
@@ -258,7 +257,7 @@ public class DatabaseWriter {
      */
     public void deleteIsland(String islandname) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Connection connection = getDatabase.getConnection();
+            Connection connection = plugin.getdb().getConnection();
             try {
                 PreparedStatement deleteIsland;
                 deleteIsland = connection.prepareStatement("DELETE FROM VSkyblock_Island WHERE island = ?");
@@ -268,7 +267,7 @@ public class DatabaseWriter {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                getDatabase.closeConnection(connection);
+                plugin.getdb().closeConnection(connection);
             }
         });
     }
@@ -284,7 +283,7 @@ public class DatabaseWriter {
     public void updateChallengeCount(UUID uuid, String challengeTable, Integer challenge, int count) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             String c = "c" + challenge;
-            Connection connection = getDatabase.getConnection();
+            Connection connection = plugin.getdb().getConnection();
             try {
                 PreparedStatement updateChallengeCount;
                 updateChallengeCount = connection.prepareStatement("UPDATE " + challengeTable + " SET " + c + "  = ? WHERE uuid = ?");
@@ -295,7 +294,7 @@ public class DatabaseWriter {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                getDatabase.closeConnection(connection);
+                plugin.getdb().closeConnection(connection);
             }
         });
     }
@@ -311,7 +310,7 @@ public class DatabaseWriter {
             @Override
             public void onQueryDone(List<String> result) {
                 plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-                    Connection connection = getDatabase.getConnection();
+                    Connection connection = plugin.getdb().getConnection();
                     try {
                         PreparedStatement updateChallengeCount;
                         updateChallengeCount = connection.prepareStatement("UPDATE VSkyblock_Island SET islandlevel = ?, totalblocks = ? WHERE islandid = ?");
@@ -331,7 +330,7 @@ public class DatabaseWriter {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     } finally {
-                        getDatabase.closeConnection(connection);
+                        plugin.getdb().closeConnection(connection);
                     }
                 });
             }
@@ -347,7 +346,7 @@ public class DatabaseWriter {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                Connection connection = getDatabase.getConnection();
+                Connection connection = plugin.getdb().getConnection();
                 try {
                     PreparedStatement resetEasyChallenges;
                     resetEasyChallenges = connection.prepareStatement("UPDATE VSkyblock_Challenges_Easy SET c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, c6 = 0, c7 = 0, c8 = 0, c9 = 0, c10 = 0, c11 = 0, c12 = 0, c13 = 0, c14 = 0, c15 = 0, c16 = 0, c17 = 0, c18 = 0 WHERE uuid = ?");
@@ -369,7 +368,7 @@ public class DatabaseWriter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } finally {
-                    getDatabase.closeConnection(connection);
+                    plugin.getdb().closeConnection(connection);
                 }
             }
         });
@@ -386,7 +385,7 @@ public class DatabaseWriter {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                Connection connection = getDatabase.getConnection();
+                Connection connection = plugin.getdb().getConnection();
                 try {
                     int islandid = 0;
                     String islandname = null;
@@ -428,7 +427,7 @@ public class DatabaseWriter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } finally {
-                    getDatabase.closeConnection(connection);
+                    plugin.getdb().closeConnection(connection);
                 }
             }
         });
@@ -442,7 +441,7 @@ public class DatabaseWriter {
      */
     public void updateCobblestoneGeneratorLevel(String islandname, Integer level) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Connection connection = getDatabase.getConnection();
+            Connection connection = plugin.getdb().getConnection();
             try {
                 PreparedStatement updateGeneratorLevel;
                 updateGeneratorLevel = connection.prepareStatement("UPDATE VSkyblock_Island SET cobblestonelevel = ? WHERE island = ?");
@@ -453,7 +452,7 @@ public class DatabaseWriter {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                getDatabase.closeConnection(connection);
+                plugin.getdb().closeConnection(connection);
             }
         });
     }
@@ -465,7 +464,7 @@ public class DatabaseWriter {
      */
     public void updateDeathCount(UUID uuid, int count) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Connection connection = getDatabase.getConnection();
+            Connection connection = plugin.getdb().getConnection();
             try {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET deaths = ? WHERE uuid = ?");
@@ -476,7 +475,7 @@ public class DatabaseWriter {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                getDatabase.closeConnection(connection);
+                plugin.getdb().closeConnection(connection);
             }
         });
     }
@@ -489,7 +488,7 @@ public class DatabaseWriter {
      */
     public void updatePlayerName(UUID uuid, String name) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Connection connection = getDatabase.getConnection();
+            Connection connection = plugin.getdb().getConnection();
             try {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET playername = ? WHERE uuid = ?");
@@ -500,7 +499,7 @@ public class DatabaseWriter {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                getDatabase.closeConnection(connection);
+                plugin.getdb().closeConnection(connection);
             }
         });
     }
@@ -521,7 +520,7 @@ public class DatabaseWriter {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                Connection connection = getDatabase.getConnection();
+                Connection connection = plugin.getdb().getConnection();
                 try {
                     PreparedStatement savelastLoc;
                     savelastLoc = connection.prepareStatement("UPDATE VSkyblock_Player SET lastX = ?, lastY = ?, lastZ = ?, lastPitch = ?, lastYaw = ?, lastWorld = ? WHERE uuid = ?");
@@ -537,7 +536,7 @@ public class DatabaseWriter {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } finally {
-                    getDatabase.closeConnection(connection);
+                    plugin.getdb().closeConnection(connection);
                 }
             }
         });
@@ -606,7 +605,7 @@ public class DatabaseWriter {
         }
         loc.setYaw((float) rotation);
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            Connection connection = getDatabase.getConnection();
+            Connection connection = plugin.getdb().getConnection();
             try {
                 PreparedStatement savelastLoc;
                 savelastLoc = connection.prepareStatement("UPDATE VSkyblock_IslandLocations SET netherX = ?, netherY = ?, netherZ = ?, netherYaw = ?, netherWorld = ? WHERE islandid = ?");
@@ -621,7 +620,7 @@ public class DatabaseWriter {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                getDatabase.closeConnection(connection);
+                plugin.getdb().closeConnection(connection);
             }
         });
     }
@@ -633,7 +632,7 @@ public class DatabaseWriter {
      */
     public void addIslandintoLocationsTable(int islandid) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            Connection connection = getDatabase.getConnection();
+            Connection connection = plugin.getdb().getConnection();
             try {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("INSERT IGNORE INTO VSkyblock_IslandLocations(islandid) VALUES (?)");
@@ -643,7 +642,7 @@ public class DatabaseWriter {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                getDatabase.closeConnection(connection);
+                plugin.getdb().closeConnection(connection);
             }
         });
     }

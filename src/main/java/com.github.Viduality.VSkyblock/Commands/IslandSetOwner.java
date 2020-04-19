@@ -18,7 +18,6 @@ import java.util.List;
 public class IslandSetOwner implements SubCommand{
 
     private VSkyblock plugin = VSkyblock.getInstance();
-    private SQLConnector getDatabase = new SQLConnector();
     private DatabaseWriter databaseWriter = new DatabaseWriter();
 
 
@@ -32,7 +31,7 @@ public class IslandSetOwner implements SubCommand{
                     OfflinePlayer target = plugin.getServer().getOfflinePlayer(databaseCache.getArg());
 
                     List<String> members = new ArrayList<>();
-                    Connection connection = getDatabase.getConnection();
+                    Connection connection = plugin.getdb().getConnection();
                     try {
                         PreparedStatement preparedStatement;
                         preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
@@ -44,7 +43,7 @@ public class IslandSetOwner implements SubCommand{
                     } catch (SQLException e) {
                         e.printStackTrace();
                     } finally {
-                        getDatabase.closeConnection(connection);
+                        plugin.getdb().closeConnection(connection);
                     }
                     if (members.contains(target.getUniqueId().toString())) {
                         databaseWriter.updateOwner(player.getUniqueId(), target.getUniqueId());

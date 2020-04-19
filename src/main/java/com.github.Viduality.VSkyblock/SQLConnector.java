@@ -1,12 +1,16 @@
 package com.github.Viduality.VSkyblock;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SQLConnector {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private static final VSkyblock plugin = VSkyblock.getInstance();
+    public static final HikariConfig config = new HikariConfig();
+    public static HikariDataSource ds;
 
 
     /**
@@ -58,6 +62,18 @@ public class SQLConnector {
         }
     }
 
+    {
+        config.setJdbcUrl("jdbc:mysql://"
+                + getDbUrl() + "/"
+                + getDatabase());
+        config.setUsername(getDbUser());
+        config.setPassword(getDbPassword());
+        config.addDataSourceProperty("cachePrepStmts", "true");
+        config.addDataSourceProperty("prepStmtCacheSize", "250");
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        ds = new HikariDataSource(config);
+    }
+
     /**
      * Returns the connection to the database.
      * Used to access the database.
@@ -65,11 +81,7 @@ public class SQLConnector {
      */
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://"
-                            + getDbUrl() + "/"
-                            + getDatabase(),
-                    getDbUser(),
-                    getDbPassword());
+            return ds.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,9 +93,9 @@ public class SQLConnector {
      * Initiate tables
      * Initiates tables and creates them if they don't exist
      */
-    protected void initTables() {
-        Connection connection = getConnection();
+    public void initTables() {
         try {
+            Connection connection = getConnection();
             connection.createStatement().execute(
                     "CREATE DATABASE IF NOT EXISTS " + getDatabase());
             connection.createStatement().execute(
@@ -207,8 +219,6 @@ public class SQLConnector {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            closeConnection(connection);
         }
     }
 
@@ -232,6 +242,6 @@ public class SQLConnector {
      * Should never be used since it does nothing special ;)
      */
     public void close(){
-
+        ds.close();
     }
 }

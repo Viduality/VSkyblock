@@ -11,13 +11,9 @@ import com.github.Viduality.VSkyblock.Utilitys.DeleteOldIslands;
 import com.github.Viduality.VSkyblock.Utilitys.Scoreboardmanager;
 import com.github.Viduality.VSkyblock.Utilitys.WorldLoader;
 import com.github.Viduality.VSkyblock.WorldGenerator.VoidGenerator;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.*;
@@ -34,7 +30,9 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
 
     private static VSkyblock instance;
+
     private SQLConnector sqlConnector;
+
     public Scoreboardmanager scoreboardmanager;
 
     private Island islandExecutor;
@@ -55,6 +53,8 @@ public class VSkyblock extends JavaPlugin implements Listener {
         }
 
         DefaultFiles.init();
+
+        sqlConnector = new SQLConnector();
 
 
         {
@@ -123,9 +123,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
         }
          */
 
-
-        sqlConnector = new SQLConnector();
-        sqlConnector.initConnection();
+        sqlConnector.initTables();
 
         new WorldLoader().run();
 
@@ -162,6 +160,11 @@ public class VSkyblock extends JavaPlugin implements Listener {
      */
     public static VSkyblock getInstance() {
         return instance;
+    }
+
+
+    public SQLConnector getdb() {
+        return sqlConnector;
     }
 
 

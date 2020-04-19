@@ -20,7 +20,6 @@ import java.util.UUID;
 public class IslandKick implements SubCommand{
 
     private VSkyblock plugin = VSkyblock.getInstance();
-    private SQLConnector getDatabase = new SQLConnector();
     private DatabaseWriter databaseWriter = new DatabaseWriter();
     private WorldManager wm = new WorldManager();
 
@@ -36,7 +35,7 @@ public class IslandKick implements SubCommand{
                     if (target != player) {
                         UUID targetuuid = target.getUniqueId();
                         Set<UUID> members = new LinkedHashSet<>();
-                        Connection connection = getDatabase.getConnection();
+                        Connection connection = plugin.getdb().getConnection();
                         try {
                             PreparedStatement preparedStatement;
                             preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
@@ -48,7 +47,7 @@ public class IslandKick implements SubCommand{
                         } catch (SQLException e) {
                             e.printStackTrace();
                         } finally {
-                            getDatabase.closeConnection(connection);
+                            plugin.getdb().closeConnection(connection);
                         }
                         if (members.contains(targetuuid)) {
                             if (databaseCache.isIslandowner()) {

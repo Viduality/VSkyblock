@@ -16,7 +16,6 @@ import java.util.UUID;
 public class ResetChallenges implements AdminSubCommand {
 
     private VSkyblock plugin = VSkyblock.getInstance();
-    private SQLConnector getDatabase = new SQLConnector();
 
 
     @Override
@@ -26,10 +25,9 @@ public class ResetChallenges implements AdminSubCommand {
             public void run() {
                 if (sender.hasPermission("VSkyblock.ResetChallenges")) {
                     DatabaseCache databaseCache = new DatabaseCache();
-                    Connection connection = getDatabase.getConnection();
-
-                    PreparedStatement preparedStatement;
+                    Connection connection = plugin.getdb().getConnection();
                     try {
+                        PreparedStatement preparedStatement;
                         preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE playername = ?");
                         preparedStatement.setString(1, args);
                         ResultSet r = preparedStatement.executeQuery();
@@ -67,7 +65,7 @@ public class ResetChallenges implements AdminSubCommand {
                         } catch (SQLException e) {
                             e.printStackTrace();
                         } finally {
-                            getDatabase.closeConnection(connection);
+                            plugin.getdb().closeConnection(connection);
                         }
                         ConfigShorts.custommessagefromString("ResettedChallenges", sender, args);
                     } else {
