@@ -70,6 +70,8 @@ NewIslandOwner: §6You are now the new island owner!
 NoIsland: §cYou don't have a island! Create one with §b/island§c!
 NoLoadedWorldFound: §cCould not find any loaded world named §6%replacement%§c.
 NoPendingInvite: §cThere is no pending island invite for you!
+NoPendingNetherSethome: §cYou have no pending request to set your nether home!
+NoPendingNetherTeleport: §cYou can't teleport to your nether home right now!
 NoWorldFound: §cCould not find any world named §6%replacement% §cin the config!
 NotAPlayer: §cYou have to be a Player to use this command!
 NotAtPlayersIsland: §cYou have to be on your Island to perform this command!
@@ -85,6 +87,7 @@ OptionChanged: §aSuccessfully changed world option. It is now active.
 
 PermissionLack: §cYou don't have permission to perform this command!
 PlayerDoesNotExist: §cPlayer does not exist!
+PlayerHasNoIsland: §cPlayer has no island!
 PlayerLimitReached: §cYou can't invite any more players to your island because you reached the player limit!
 PlayerNotIslandMember: §cThis player is no member of your island!
 PlayerNotOnline: §c%SecondPlayer% is not Online!
@@ -100,13 +103,17 @@ ReloadedBlockValues: §bBlock-Values have been reloaded.
 
 SetAutoLoad: §bAutoLoad has been set to §6%replacement% §bfor your current world!
 SethomeSuccess: §aSuccessfully set new homepoint for your island!
+SetNetherhomeSuccess: §aSuccessfully set a new homepoint for the nether!
 SetNewIslandOwner: §cYou gave another player the title of the island owner!
 SetNewNether: §bSuccessfully set a new Nether!
+SetNewNetherHome: §6Use §b/is setnetherhome §6 in the next 20 seconds to set the used netherportal as your new nether home.
 SetNewSpawnpoint: §bSuccessfully set a new spawnpoint for the world §6%replacement%§b!
 SetNewSpawnWorld: §bSuccessfully set a new Spawn World!
 Site: §8Site %replacement%/%replacement2%
 
 TeleportedToWorld: §bTeleported to world §6%replacement% §b.
+TeleportedToNetherHome: §aTeleporting to your nether home...
+TeleportToNetherHome: §6If you want to return to your netherportal, use §b/is nether§6.
 
 UpdatedIslandOptions: §bUpdated island options! They are live now!
 UpgradedYourCobblestoneGenerator: §2Your Cobblestone-Generator has been upgraded!
@@ -128,4 +135,5 @@ WorldFailedToUnload: §cFailed to unload world §6%replacement%§c!
 WorldIsNoWorld: §bGiven "world" is not a world!
 WorldListHeader: '§bVSkyblock worlds:'
 WorldLoaded: §bWorld loaded successfully!
+WorldNotFound: §cWorld §6%replacement% §cnot found!
 WorldUnloaded: §bWorld unloaded successfully!

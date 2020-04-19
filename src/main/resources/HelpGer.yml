@@ -14,6 +14,8 @@ IslandMembers: "Zeigt eine Übersicht aller Insel-Mitglieder."
 IslandOptions: "Öffnet das Optionen-Menü für deine Insel."
 IslandTop: "Zeigt die 5 Inseln mit dem höchsten Level."
 IslandVisit: "Befehl um eine andere Insel zu besuchen ohne deine eigene zu verlieren."
+IslandSetnetherhome: "Setzt den Homepunkt der Insel für den Nether in dein zuletz benutztes Portal."
+IslandNether: "Teleportiert dich zu deinem Homepunkt im Nether."
 Challenges: "Öffnet das Challenges-Menü. Per Klick kannst du dort Challenges abschließen!"
 
 IntroTextAdmin: "Übersicht über alle VSkyblock Admin-Befehle:"

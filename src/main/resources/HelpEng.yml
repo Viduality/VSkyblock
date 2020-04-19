@@ -14,6 +14,8 @@ IslandMembers: "Gives a list of all members on the island."
 IslandOptions: "Opens the options menu for your island."
 IslandTop: "Shows the top 5 islands per level."
 IslandVisit: "Lets you visit another island without losing your own."
+IslandSetnetherhome: "Sets the islands homepoint for the nether to the last used nether portal."
+IslandNether: "Teleports to your islands nether homepoint."
 Challenges: "Opens the challenges menu. You can complete challenges per klick on it."
 
 IntroTextAdmin: "List of all VSkyblock admin commands:"

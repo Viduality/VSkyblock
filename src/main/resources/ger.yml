@@ -70,6 +70,8 @@ NewIslandOwner: §6Du bist jetzt der neue Besitzer der Insel!
 NoIsland: §cDu besitzt keine Insel! Erstelle eine mit §b/island§c!
 NoLoadedWorldFound: §cEs konnte keine geladene Welt mit dem Namen §6%replacement% §cgefunden werden.
 NoPendingInvite: §cDu hast keine ausstehenden Einladung!
+NoPendingNetherSethome: §cDu kannst gerade kein neues Netherhome setzen, da du dafür keine aktive Anfrage hast!
+NoPendingNetherTeleport: §cDu kannst dich aktuell nicht zu deinem Netherhome teleportieren, da du dafür keine aktive Anfrage hast!
 NoWorldFound: §cEs kann keine Welt mit dem Namen §6%replacement% §cgefunden werden!
 NotAPlayer: §cDu musst ein Spieler sein um diesen Befehl ausführen zu können!
 NotAtPlayersIsland: §cDu musst dich auf deiner Insel befinden um diesen Befehl ausführen zu können!
@@ -101,13 +103,17 @@ ReloadedBlockValues: §bBlock-Values wurden neu geladen.
 
 SetAutoLoad: §bAutoLoad wurde für deine jetzige Welt auf §6%replacement% §bgesetzt!
 SethomeSuccess: §aErfolgreich neuen Spawnpunkt deiner Insel gesetzt!
+SetNetherhomeSuccess: §aErfolgreich neuen Homepunkt für den Nether gesetzt!
 SetNewIslandOwner: §cDu hast den Owner-Titel der Insel einem anderen Mitglied deiner Insel übergeben!
 SetNewNether: §bErfolgreich einen neuen Nether ausgewählt!
+SetNewNetherHome: §6Möchtest du das benutzte Portal als neuen Nether-Spawnpunkt setzen? Mit §b/is setnetherhome §6kannst du das Portal in den nächsten 20 Sekunden als neuen Punkt bestätigen.
 SetNewSpawnpoint: §bErfolgreich einen neuen Spawnpunkt für die Welt §6%replacement% §bgesetzt!
 SetNewSpawnWorld: §bErfolgreich eine neue Spawn-Welt ausgewählt!
 Site: §8Seite %replacement%/%replacement2%
 
 TeleportedToWorld: §bTeleportiere zu Welt §6%replacement%§b.
+TeleportedToNetherHome: §aTeleportiere zum Nether-Home...
+TeleportToNetherHome: §6Wenn du zu deinem Netherportal zurückkehren möchtest, dann bestätige jetzt mit §b/is nether§6.
 
 UpdatedIslandOptions: §bInsel Optionen wurden übernommen und sind jetzt aktiv!
 UpgradedYourCobblestoneGenerator: §2Dein Cobblestone-Generator wurde geupgradet. Infos zum Generator erhältst du im Menü der Insel-Optionen.

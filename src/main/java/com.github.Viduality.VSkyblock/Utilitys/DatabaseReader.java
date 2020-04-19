@@ -993,6 +993,68 @@ public class DatabaseReader {
         return true;
     }
 
+    /**
+     * Returns the nether home of a player.
+     *
+     * @param uuid      The unique id of a player
+     * @param callback  Returns the nether home
+     */
+    public void getNetherHome(final UUID uuid, final CallbackLocation callback) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Location location = null;
+            double x = 0;
+            double y = 0;
+            double z = 0;
+            double yaw = 0;
+            String world = null;
+            int islandid = 0;
+            Connection connection = getDatabase.getConnection();
+            try {
+                PreparedStatement getislandid;
+                getislandid = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
+                getislandid.setString(1, uuid.toString());
+                ResultSet r = getislandid.executeQuery();
+                while (r.next()) {
+                    islandid = r.getInt("islandid");
+                }
+                getislandid.close();
+
+                if (islandid != 0) {
+                    PreparedStatement preparedStatement1;
+                    preparedStatement1 = connection.prepareStatement("SELECT * FROM VSkyblock_IslandLocations WHERE islandid = ?");
+                    preparedStatement1.setInt(1, islandid);
+                    ResultSet getLoc = preparedStatement1.executeQuery();
+                    while (getLoc.next()) {
+                        x = getLoc.getDouble("netherX");
+                        y = getLoc.getDouble("netherY");
+                        z = getLoc.getDouble("netherZ");
+                        yaw = getLoc.getFloat("netherYaw");
+                        world = getLoc.getString("netherWorld");
+                    }
+                    preparedStatement1.close();
+
+                    if (world != null) {
+                        if (wm.getLoadedWorlds().contains(world)) {
+                            World w = plugin.getServer().getWorld(world);
+                            location = new Location(w, x, y, z, (float) yaw, 0);
+                        }
+                    }
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            finally {
+                getDatabase.closeConnection(connection);
+            }
+
+            Location finalLocation = location;
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                callback.onQueryDone(finalLocation);
+            });
+        });
+    }
 
 
 

@@ -27,7 +27,7 @@ commands:
     usage: /island sethome
     aliases: [is sethome]
     permission: VSkyblock.Island
-    permission-message: You don't have permission
+    permission-message: You don't have permission!
 
   Island Restart:
     description: Restarts your island.
@@ -79,11 +79,11 @@ commands:
     permission-message: You don't have permission!
 
   Island Leave Confirm:
-      description: Confirm the command /island leave.
-      usage: /island leave confirm
-      aliases: [is leave confirm]
-      permission: VSkyblock.Island
-      permission-message: You don't have permission!
+    description: Confirm the command /island leave.
+    usage: /island leave confirm
+    aliases: [is leave confirm]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
 
   Island Members:
     description: Gives a list of all members on the island.
@@ -111,7 +111,21 @@ commands:
     usage: /island options
     aliases: [island option, is options, is option, is settings, is setting, island settings, island setting]
     permission: VSkyblock.Island
-    permission-message: You don't have permission
+    permission-message: You don't have permission!
+
+  Island Setnetherhome:
+    description: Sets a new nether home for the island.
+    usage: /island setnetherhome
+    aliases: [is setnetherhome, island setnether, is setnether]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
+  Island nether:
+    description: Teleports to the nether home.
+    usage: /island nether
+    aliases: [is nether]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
 
   Island Help:
     description: Gives a list of all /island commands.

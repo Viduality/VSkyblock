@@ -33,6 +33,8 @@ public class IslandHelp implements SubCommand {
                 String options = plugin.getConfig().getString("IslandOptions");
                 String top = plugin.getConfig().getString("IslandTop");
                 String visit = plugin.getConfig().getString("IslandVisit");
+                String setnetherhome = plugin.getConfig().getString("IslandSetnetherhome");
+                String nether = plugin.getConfig().getString("IslandNether");
                 String challenges = plugin.getConfig().getString("Challenges");
                 ConfigShorts.loaddefConfig();
                 String message = ChatColor.AQUA + intro + "\n" +
@@ -48,8 +50,11 @@ public class IslandHelp implements SubCommand {
                         ChatColor.GOLD + ChatColor.BOLD + "/island leave confirm" + "\n" + ChatColor.RESET + " - " + leaveconfirm + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/island level" + "\n" + ChatColor.RESET + " - " + level + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/island members" + "\n" + ChatColor.RESET + " - " + members + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/island options" + "\n" + ChatColor.RESET + " - " + options + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/island top" + "\n" + ChatColor.RESET + " - " + top + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/island visit" + "\n" + ChatColor.RESET + " - " + visit + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/island setnetherhome" + "\n" + ChatColor.RESET + " - " + setnetherhome + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/island nether" + "\n" + ChatColor.RESET + " - " + nether + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/challenges" + "\n" + ChatColor.RESET + " - " + challenges;
                 databaseCache.getPlayer().sendMessage(message);
             }

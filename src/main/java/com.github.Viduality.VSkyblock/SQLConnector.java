@@ -114,6 +114,15 @@ public class SQLConnector {
                             + "totalblocks BIGINT DEFAULT 140,"
                             + "PRIMARY KEY (islandid))");
             connection.createStatement().execute(
+                    "CREATE TABLE IF NOT EXISTS VSkyblock_IslandLocations("
+                            + "islandid BIGINT NOT NULL,"
+                            + "netherX DOUBLE,"
+                            + "netherY DOUBLE,"
+                            + "netherZ DOUBLE,"
+                            + "netherYaw FLOAT,"
+                            + "netherWorld CHAR(128),"
+                            + "PRIMARY KEY (islandid));");
+            connection.createStatement().execute(
                         "CREATE TABLE IF NOT EXISTS VSkyblock_Challenges_Easy("
                             + "uuid CHAR(64) UNIQUE NOT NULL,"
                             + "c1 BIGINT DEFAULT 0,"

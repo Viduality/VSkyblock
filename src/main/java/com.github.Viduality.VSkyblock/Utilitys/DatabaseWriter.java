@@ -4,6 +4,9 @@ import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -536,6 +539,111 @@ public class DatabaseWriter {
                 } finally {
                     getDatabase.closeConnection(connection);
                 }
+            }
+        });
+    }
+
+    /**
+     * Saves the given location as the nether home of the given island.
+     * Rotates the location to the cardinal direction he is facing.
+     *
+     * @param islandid  The id of the island
+     * @param loc       The location of the home point.
+     */
+    public void saveNetherHome(int islandid, Location loc) {
+        double x = loc.getX();
+        double y = loc.getY();
+        double z = loc.getZ();
+        float yaw = loc.getYaw();
+        if (yaw < 0) {
+            yaw += 360;
+        }
+        boolean northsouth = false;
+
+        if (yaw > 135 && yaw <= 225) {
+            loc.setYaw(180);
+            northsouth = true;
+        } else if (yaw > 315 && yaw <= 360) {
+            loc.setYaw(0);
+            northsouth = true;
+        } else if (yaw > 0 && yaw <= 45) {
+            loc.setYaw(0);
+            northsouth = true;
+        } else if (yaw > 45 && yaw <= 135) {
+            loc.setYaw(90);
+        } else {
+            loc.setYaw(270);
+        }
+        World world = loc.getWorld();
+        boolean facingPortal = false;
+
+        if (northsouth) {
+            for (int i = -3; i < 4; i++) {
+                if (i != 0) {
+                    double currentZ = z + i;
+                    Location l = new Location(world, x, y, currentZ);
+                    if (world.getBlockAt(l).getType().equals(Material.OBSIDIAN)) {
+                        facingPortal = true;
+                        break;
+                    }
+                }
+            }
+        } else {
+            for (int i = -3; i < 4; i++) {
+                if (i != 0) {
+                    double currentX = x + i;
+                    Location l = new Location(world, currentX, y, z);
+                    if (world.getBlockAt(l).getType().equals(Material.OBSIDIAN)) {
+                        facingPortal = true;
+                        break;
+                    }
+                }
+            }
+        }
+        double rotation = loc.getYaw();
+        if (facingPortal) {
+            rotation = rotation + 90;
+        }
+        loc.setYaw((float) rotation);
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Connection connection = getDatabase.getConnection();
+            try {
+                PreparedStatement savelastLoc;
+                savelastLoc = connection.prepareStatement("UPDATE VSkyblock_IslandLocations SET netherX = ?, netherY = ?, netherZ = ?, netherYaw = ?, netherWorld = ? WHERE islandid = ?");
+                savelastLoc.setDouble(1, x);
+                savelastLoc.setDouble(2, y);
+                savelastLoc.setDouble(3, z);
+                savelastLoc.setFloat(4, loc.getYaw());
+                savelastLoc.setString(5, world.getName());
+                savelastLoc.setString(6, String.valueOf(islandid));
+                savelastLoc.executeUpdate();
+                savelastLoc.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                getDatabase.closeConnection(connection);
+            }
+        });
+    }
+
+    /**
+     * Adds the island into the Locations table.
+     *
+     * @param islandid The id of the island.
+     */
+    public void addIslandintoLocationsTable(int islandid) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Connection connection = getDatabase.getConnection();
+            try {
+                PreparedStatement preparedStatement;
+                preparedStatement = connection.prepareStatement("INSERT IGNORE INTO VSkyblock_IslandLocations(islandid) VALUES (?)");
+                preparedStatement.setInt(1, islandid);
+                preparedStatement.executeUpdate();
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                getDatabase.closeConnection(connection);
             }
         });
     }

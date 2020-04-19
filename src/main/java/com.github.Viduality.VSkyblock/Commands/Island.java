@@ -177,6 +177,21 @@ public class Island implements CommandExecutor {
                                                 subCommand = new IslandOptions();
                                             }
 
+                                            /*
+                                             * Sets the nether portal home point.
+                                             */
+                                            else if (args[0].equalsIgnoreCase("setnetherhome") ||
+                                            args[0].equalsIgnoreCase("setnether")) {
+                                                subCommand = new IslandSetNetherhome();
+                                            }
+
+                                            /*
+                                             * Teleports to the nether portal home point.
+                                             */
+                                            else if (args[0].equalsIgnoreCase("nether")) {
+                                                subCommand = new IslandNether();
+                                            }
+
 
                                             else if (args[0].equalsIgnoreCase("invite")) {
                                                 player.sendMessage(ChatColor.AQUA + "/is invite <Player>");
