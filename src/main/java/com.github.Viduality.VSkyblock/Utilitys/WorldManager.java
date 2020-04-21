@@ -81,13 +81,16 @@ public class WorldManager {
     public boolean unloadWorld(String world) {
         if (plugin.getServer().getWorlds().contains(plugin.getServer().getWorld(world))) {
             if (!ConfigShorts.getDefConfig().getString("SpawnWorld").equals(world)) {
-                if (plugin.getServer().getWorld(world).getPlayers() != null) {
+                if (plugin.getServer().getWorld(world) != null) {
+                    World spawnWorld = plugin.getServer().getWorld(ConfigShorts.getDefConfig().getString("SpawnWorld"));
+                    if (spawnWorld == null) {
+                        spawnWorld = plugin.getServer().getWorlds().get(0);
+                    }
                     for (Player player : plugin.getServer().getWorld(world).getPlayers()) {
-                        player.teleport(plugin.getServer().getWorld(ConfigShorts.getDefConfig().getString("SpawnWorld")).getSpawnLocation());
+                        player.teleportAsync(spawnWorld.getSpawnLocation());
                     }
                 }
-                boolean unloaded = plugin.getServer().unloadWorld(world, true);
-                return unloaded;
+                return plugin.getServer().unloadWorld(world, true);
             } else {
                 return false;
             }

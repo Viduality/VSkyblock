@@ -72,9 +72,10 @@ public class PlayerJoinListener implements Listener {
                             loadWorld(result);
                         }
                     } else {
-                        player.teleport(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
-                        player.removePotionEffect(PotionEffectType.BLINDNESS);
-                        player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                        player.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld"))).whenComplete((b, e) -> {
+                            player.removePotionEffect(PotionEffectType.BLINDNESS);
+                            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                        });
                         if (result.isKicked()) {
                             ConfigShorts.messagefromString("KickedFromIslandOffline", player);
                             player.setTotalExperience(0);
@@ -92,12 +93,9 @@ public class PlayerJoinListener implements Listener {
 
         if (plugin.getServer().getWorld("VSkyblockMasterIsland") == null && !wm.getUnloadedWorlds().contains("VSkyblockMasterIsland")) {
             ConfigShorts.broadcastfromString("MasterIsland");
-            WorldGenerator.CreateNewMasterIsland(new WorldGenerator.Callback() {
-                @Override
-                public void onQueryDone(String result) {
-                    wm.unloadWorld(result);
-                    ConfigShorts.broadcastfromString("MasterIslandReady");
-                }
+            WorldGenerator.CreateNewMasterIsland(result -> {
+                wm.unloadWorld(result);
+                ConfigShorts.broadcastfromString("MasterIslandReady");
             });
         }
     }
@@ -114,13 +112,16 @@ public class PlayerJoinListener implements Listener {
         databaseReader.getlastLocation(result.getUuid(), loc -> {
             Player player = result.getPlayer();
             if (player != null) {
-                if (loc != null) {
-                    player.teleport(loc);
-                } else {
-                    player.teleport(wm.getSpawnLocation(result.getIslandname()));
+                if (loc == null) {
+                    loc = wm.getSpawnLocation(result.getIslandname());
                 }
-                player.removePotionEffect(PotionEffectType.BLINDNESS);
-                player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                player.teleportAsync(loc).whenComplete((b, e) -> {
+                    player.removePotionEffect(PotionEffectType.BLINDNESS);
+                    player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                    if (e != null) {
+                        e.printStackTrace();
+                    }
+                });
             } else {
                 Island.emptyloadedislands.put(result.getIslandname(), plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                     wm.unloadWorld(result.getIslandname());

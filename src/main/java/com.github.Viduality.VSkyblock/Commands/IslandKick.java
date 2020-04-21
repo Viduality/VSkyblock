@@ -26,75 +26,67 @@ public class IslandKick implements SubCommand{
 
     @Override
     public void execute(DatabaseCache databaseCache) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-            @Override
-            public void run() {
-                Player player = databaseCache.getPlayer();
-                OfflinePlayer target = plugin.getServer().getOfflinePlayer(databaseCache.getArg());
-                if (target != null) {
-                    if (target != player) {
-                        UUID targetuuid = target.getUniqueId();
-                        Set<UUID> members = new LinkedHashSet<>();
-                        Connection connection = plugin.getdb().getConnection();
-                        try {
-                            PreparedStatement preparedStatement;
-                            preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
-                            preparedStatement.setInt(1, databaseCache.getIslandId());
-                            ResultSet resultSet = preparedStatement.executeQuery();
-                            while (resultSet.next()) {
-                                members.add(UUID.fromString(resultSet.getString("uuid")));
-                            }
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        } finally {
-                            plugin.getdb().closeConnection(connection);
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            Player player = databaseCache.getPlayer();
+            OfflinePlayer target = plugin.getServer().getOfflinePlayer(databaseCache.getArg());
+            if (target != null) {
+                if (target != player) {
+                    UUID targetuuid = target.getUniqueId();
+                    Set<UUID> members = new LinkedHashSet<>();
+                    Connection connection = plugin.getdb().getConnection();
+                    try {
+                        PreparedStatement preparedStatement;
+                        preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
+                        preparedStatement.setInt(1, databaseCache.getIslandId());
+                        ResultSet resultSet = preparedStatement.executeQuery();
+                        while (resultSet.next()) {
+                            members.add(UUID.fromString(resultSet.getString("uuid")));
                         }
-                        if (members.contains(targetuuid)) {
-                            if (databaseCache.isIslandowner()) {
-                                databaseWriter.kickPlayerfromIsland(targetuuid);
-                                databaseWriter.resetChallenges(targetuuid);
-                                ConfigShorts.custommessagefromString("KickedMember", player, player.getName(), target.getName());
-                                if (target.isOnline()) {
-                                    Player onlinetarget = (Player) target;
-                                    ConfigShorts.messagefromString("KickedFromIsland", onlinetarget);
-                                    onlinetarget.getInventory().clear();
-                                    onlinetarget.getEnderChest().clear();
-                                    onlinetarget.setExp(0);
-                                    onlinetarget.setTotalExperience(0);
-                                    databaseWriter.removeKicked(targetuuid);
-                                    Island.playerislands.remove(targetuuid);
-                                }
-                            } else {
-                                ConfigShorts.messagefromString("NotIslandOwner", player);
-                            }
-                        } else {
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } finally {
+                        plugin.getdb().closeConnection(connection);
+                    }
+                    if (members.contains(targetuuid)) {
+                        if (databaseCache.isIslandowner()) {
+                            databaseWriter.kickPlayerfromIsland(targetuuid);
+                            databaseWriter.resetChallenges(targetuuid);
+                            ConfigShorts.custommessagefromString("KickedMember", player, player.getName(), target.getName());
                             if (target.isOnline()) {
                                 Player onlinetarget = (Player) target;
-                                if (!onlinetarget.hasPermission("VSkyblock.IgnoreKick")) {
-                                    if (onlinetarget.getWorld().getName().equals(databaseCache.getIslandname())) {
-                                        plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                onlinetarget.teleport(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
-                                                ConfigShorts.messagefromString("KickVisitingPlayer", onlinetarget);
-                                            }
-                                        });
-                                    } else {
-                                        ConfigShorts.messagefromString("PlayerNotIslandMember", player);
-                                    }
+                                ConfigShorts.messagefromString("KickedFromIsland", onlinetarget);
+                                onlinetarget.getInventory().clear();
+                                onlinetarget.getEnderChest().clear();
+                                onlinetarget.setExp(0);
+                                onlinetarget.setTotalExperience(0);
+                                databaseWriter.removeKicked(targetuuid);
+                                Island.playerislands.remove(targetuuid);
+                            }
+                        } else {
+                            ConfigShorts.messagefromString("NotIslandOwner", player);
+                        }
+                    } else {
+                        if (target.isOnline()) {
+                            Player onlinetarget = (Player) target;
+                            if (!onlinetarget.hasPermission("VSkyblock.IgnoreKick")) {
+                                if (onlinetarget.getWorld().getName().equals(databaseCache.getIslandname())) {
+                                    onlinetarget.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
+                                    ConfigShorts.messagefromString("KickVisitingPlayer", onlinetarget);
                                 } else {
                                     ConfigShorts.messagefromString("PlayerNotIslandMember", player);
                                 }
                             } else {
                                 ConfigShorts.messagefromString("PlayerNotIslandMember", player);
                             }
+                        } else {
+                            ConfigShorts.messagefromString("PlayerNotIslandMember", player);
                         }
-                    } else {
-                        ConfigShorts.messagefromString("CantKickYourself", player);
                     }
                 } else {
-                    ConfigShorts.messagefromString("PlayerDoesNotExist", player);
+                    ConfigShorts.messagefromString("CantKickYourself", player);
                 }
+            } else {
+                ConfigShorts.messagefromString("PlayerDoesNotExist", player);
             }
         });
     }

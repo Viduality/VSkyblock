@@ -40,6 +40,9 @@ public class ConfigShorts {
      * @param sender
      */
     public static void messagefromString(String string, CommandSender sender) {
+        if (sender == null) {
+            return;
+        }
 
         String prefix = messagesConfig.getString("Prefix");
         String message = prefix + " " + messagesConfig.getString(string);

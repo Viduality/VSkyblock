@@ -16,11 +16,16 @@ public class WorldTeleportation implements AdminSubCommand {
             Player player = (Player) sender;
             if (player.hasPermission("VSkyblock.Teleportation")) {
                 if (wm.getLoadedWorlds().contains(args)) {
-                    if (player.teleport(wm.getSpawnLocation(args))) {
-                        ConfigShorts.custommessagefromString("TeleportedToWorld", player, args);
-                    } else {
-                        ConfigShorts.custommessagefromString("CouldNotTeleportToWorld", player, args);
-                    }
+                    player.teleportAsync(wm.getSpawnLocation(args)).whenComplete((b, e) -> {
+                        if (b) {
+                            ConfigShorts.custommessagefromString("TeleportedToWorld", player, args);
+                        } else {
+                            ConfigShorts.custommessagefromString("CouldNotTeleportToWorld", player, args);
+                        }
+                        if (e != null) {
+                            e.printStackTrace();
+                        }
+                    });
                 } else {
                     ConfigShorts.custommessagefromString("NoLoadedWorldFound", player, args);
                 }
