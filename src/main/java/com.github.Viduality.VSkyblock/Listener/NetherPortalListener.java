@@ -40,19 +40,24 @@ public class NetherPortalListener implements Listener {
         if (playerPortalEvent.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL)) {
             databaseReader.getPlayerData(player.getUniqueId().toString(), (result) -> {
                 if (player.getWorld().getName().equals(result.getIslandname())) {
-                    player.teleport(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("NetherWorld")));
-                    ConfigShorts.messagefromString("NetherJoin1", player);
-                    ConfigShorts.messagefromString("NetherJoin2", player);
-                    databaseWriter.addIslandintoLocationsTable(result.getIslandId());
-                    databaseReader.getNetherHome(result.getUuid(), (netherhome) -> {
-                        if (netherhome != null) {
-                            teleportToNetherHome.put(result.getUuid(), netherhome);
-                            ConfigShorts.messagefromString("TeleportToNetherHome", player);
+                    player.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("NetherWorld"))).whenComplete((b, e) -> {
+                        ConfigShorts.messagefromString("NetherJoin1", player);
+                        ConfigShorts.messagefromString("NetherJoin2", player);
+                        databaseWriter.addIslandintoLocationsTable(result.getIslandId());
+                        databaseReader.getNetherHome(result.getUuid(), (netherhome) -> {
+                            if (netherhome != null) {
+                                teleportToNetherHome.put(result.getUuid(), netherhome);
+                                ConfigShorts.messagefromString("TeleportToNetherHome", player);
+                            }
+                        });
+                        if (e != null) {
+                            e.printStackTrace();
                         }
                     });
+
                 } else if (player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
                     if (result.getIslandname() != null) {
-                        player.teleport(wm.getSpawnLocation(result.getIslandname()));
+                        player.teleportAsync(wm.getSpawnLocation(result.getIslandname()));
                         databaseReader.getNetherHome(result.getUuid(), (netherhome) -> {
                             if (netherhome != null) {
                                 if (result.isIslandowner()) {
@@ -66,7 +71,7 @@ public class NetherPortalListener implements Listener {
                             }
                         });
                     } else {
-                        player.teleport(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
+                        player.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
                     }
                 }
             });

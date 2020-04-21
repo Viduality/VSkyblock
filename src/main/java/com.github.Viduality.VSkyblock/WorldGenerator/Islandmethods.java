@@ -6,6 +6,7 @@ import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -37,73 +38,80 @@ public class Islandmethods {
      * @param oldIsland
      */
     public void createNewIsland(UUID uuid, String oldIsland) {
-        Player player = plugin.getServer().getPlayer(uuid);
         String worldsizeString = ConfigShorts.getDefConfig().getString("WorldSize");
         String difficulty = ConfigShorts.getDefConfig().getString("Difficulty");
-        databaseReader.getLatestIsland(new DatabaseReader.CallbackStrings() {
-            @Override
-            public void onQueryDone(String result, boolean a) {
-                if (a) {
-                    wm.createIsland(result);
+        databaseReader.getLatestIsland((worldName, a) -> {
+            if (a) {
+                if (!wm.createIsland(worldName)) {
+                    plugin.getLogger().severe("Failed to create new island for " + uuid + " with id " + worldName);
+                    return;
+                }
 
 
-                    /*
-                     * World Size
-                     */
+                /*
+                 * World Size
+                 */
 
-                    plugin.getServer().getWorld(result).getWorldBorder().setCenter(0, 0);
+                World world = plugin.getServer().getWorld(worldName);
+                if (world == null) {
+                    plugin.getLogger().severe("Could not create new island for " + uuid + " properly as we don't know the world?");
+                    return;
+                }
+                world.getWorldBorder().setCenter(0, 0);
 
-                    if (worldsizeString != null) {
-                        if (isInt(worldsizeString)) {
-                            Integer worldsize = Integer.valueOf(worldsizeString);
-                            if (worldsize <= 2000) {
-                                plugin.getServer().getWorld(result).getWorldBorder().setSize(worldsize);
-                            }
+                if (worldsizeString != null) {
+                    if (isInt(worldsizeString)) {
+                        Integer worldsize = Integer.valueOf(worldsizeString);
+                        if (worldsize <= 2000) {
+                            world.getWorldBorder().setSize(worldsize);
                         }
-                    } else {
-                        plugin.getServer().getWorld(result).getWorldBorder().setSize(500);
                     }
+                } else {
+                    world.getWorldBorder().setSize(500);
+                }
 
 
-                    /*
-                     * Difficulty
-                     */
+                /*
+                 * Difficulty
+                 */
 
-                    String finaldifficutly = difficulty;
+                String finaldifficutly = difficulty;
 
-                    if (difficulty != null) {
-                        if (difficulty.equalsIgnoreCase("EASY")) {
-                            plugin.getServer().getWorld(result).setDifficulty(Difficulty.EASY);
-                        } else if (difficulty.equalsIgnoreCase("HARD")) {
-                            plugin.getServer().getWorld(result).setDifficulty(Difficulty.HARD);
-                        } else if (difficulty.equalsIgnoreCase("PEACEFUL")) {
-                            plugin.getServer().getWorld(result).setDifficulty(Difficulty.PEACEFUL);
-                        } else {
-                            plugin.getServer().getWorld(result).setDifficulty(Difficulty.NORMAL);
-                            finaldifficutly = "NORMAL";
-                        }
+                if (difficulty != null) {
+                    if (difficulty.equalsIgnoreCase("EASY")) {
+                        world.setDifficulty(Difficulty.EASY);
+                    } else if (difficulty.equalsIgnoreCase("HARD")) {
+                        world.setDifficulty(Difficulty.HARD);
+                    } else if (difficulty.equalsIgnoreCase("PEACEFUL")) {
+                        world.setDifficulty(Difficulty.PEACEFUL);
                     } else {
-                        plugin.getServer().getWorld(result).setDifficulty(Difficulty.NORMAL);
+                        world.setDifficulty(Difficulty.NORMAL);
                         finaldifficutly = "NORMAL";
                     }
-
-                    plugin.getServer().getWorld(result).setGameRule(GameRule.DO_INSOMNIA, false);
-
-
-                    Island.restartmap.asMap().remove(player.getUniqueId());
-                    Island.playerislands.put(uuid, result);
-                    CobblestoneGenerator.islandGenLevel.put(result, 0);
-                    CobblestoneGenerator.islandlevels.put(result, 0);
-                    plugin.getServer().getPlayer(player.getUniqueId()).teleport(plugin.getServer().getWorld(result).getSpawnLocation());
-                    if (oldIsland != null) {
-                        wm.unloadWorld(oldIsland);
-                    }
-                    databaseWriter.addIsland(result, uuid, finaldifficutly.toUpperCase());
-                    databaseWriter.updateDeathCount(uuid, 0);
-                    plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", 0);
                 } else {
-                    ConfigShorts.messagefromString("FailedToCreateIsland", player);
+                    world.setDifficulty(Difficulty.NORMAL);
+                    finaldifficutly = "NORMAL";
                 }
+
+                world.setGameRule(GameRule.DO_INSOMNIA, false);
+
+
+                Island.restartmap.asMap().remove(uuid);
+                Island.playerislands.put(uuid, worldName);
+                CobblestoneGenerator.islandGenLevel.put(worldName, 0);
+                CobblestoneGenerator.islandlevels.put(worldName, 0);
+                Player player = plugin.getServer().getPlayer(uuid);
+                if (player != null) {
+                    player.teleportAsync(world.getSpawnLocation());
+                }
+                if (oldIsland != null) {
+                    wm.unloadWorld(oldIsland);
+                }
+                databaseWriter.addIsland(worldName, uuid, finaldifficutly.toUpperCase());
+                databaseWriter.updateDeathCount(uuid, 0);
+                plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", 0);
+            } else {
+                ConfigShorts.messagefromString("FailedToCreateIsland", plugin.getServer().getPlayer(uuid));
             }
         });
     }

@@ -14,9 +14,13 @@ public class IslandNether implements SubCommand {
         if (NetherPortalListener.teleportToNetherHome.asMap().containsKey(databaseCache.getUuid())) {
             PotionEffect potionEffect = new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20 * 20, 10);
             databaseCache.getPlayer().addPotionEffect(potionEffect);
-            databaseCache.getPlayer().teleport(NetherPortalListener.teleportToNetherHome.asMap().get(databaseCache.getUuid()));
-            NetherPortalListener.teleportToNetherHome.asMap().remove(databaseCache.getUuid());
-            ConfigShorts.messagefromString("TeleportedToNetherHome", databaseCache.getPlayer());
+            databaseCache.getPlayer().teleportAsync(NetherPortalListener.teleportToNetherHome.asMap().get(databaseCache.getUuid())).whenComplete((b, e) -> {
+                NetherPortalListener.teleportToNetherHome.asMap().remove(databaseCache.getUuid());
+                ConfigShorts.messagefromString("TeleportedToNetherHome", databaseCache.getPlayer());
+                if (e != null) {
+                    e.printStackTrace();
+                }
+            });
         } else {
             ConfigShorts.messagefromString("NoPendingNetherTeleport", databaseCache.getPlayer());
         }

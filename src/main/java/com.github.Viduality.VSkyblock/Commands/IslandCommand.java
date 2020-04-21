@@ -24,7 +24,7 @@ public class IslandCommand implements SubCommand {
             if (wm.getSpawnLocation(databaseCache.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
                 wm.getSpawnLocation(databaseCache.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
             }
-            player.teleport(wm.getSpawnLocation(databaseCache.getIslandname()));
+            player.teleportAsync(wm.getSpawnLocation(databaseCache.getIslandname()));
         } else {
             if (!Island.isgencooldown.asMap().containsValue(player.getUniqueId())) {
                 ConfigShorts.messagefromString("GenerateNewIsland", player);

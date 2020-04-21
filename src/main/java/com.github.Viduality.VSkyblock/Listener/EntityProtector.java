@@ -68,7 +68,7 @@ public class EntityProtector implements Listener {
                 entityDamageEvent.setCancelled(true);
                 if (entityDamageEvent.getCause() == EntityDamageEvent.DamageCause.VOID || player.getLocation().getY() < 0) {
                     player.setFallDistance(0);
-                    player.teleport(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
+                    player.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
                 }
             }
         }
