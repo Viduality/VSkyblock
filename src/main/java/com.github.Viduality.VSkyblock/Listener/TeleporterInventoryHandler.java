@@ -9,6 +9,7 @@ public class TeleporterInventoryHandler implements Listener {
 
     // TODO implement portals
     // NOT IN USE YET
+    /*
     @EventHandler
     public void onInventoryKlick(InventoryClickEvent inventoryClickEvent) {
         if (inventoryClickEvent.getView().getTitle().equals(ChatColor.DARK_PURPLE + "Teleporter")) {
@@ -18,4 +19,5 @@ public class TeleporterInventoryHandler implements Listener {
             }
         }
     }
+     */
 }

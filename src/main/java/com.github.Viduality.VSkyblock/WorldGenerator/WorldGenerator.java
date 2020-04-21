@@ -33,8 +33,6 @@ public class WorldGenerator {
                 wc.generateStructures(false);
                 wc.createWorld();
 
-                ConfigShorts.loaddefConfig();
-
 
                 for (int x = -1; x < 5; x++) {
                     for (int y = 64; y < 66; y++) {

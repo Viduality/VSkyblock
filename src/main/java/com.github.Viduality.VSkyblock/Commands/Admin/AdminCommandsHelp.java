@@ -5,7 +5,6 @@ import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class AdminCommandsHelp implements AdminSubCommand {
 
@@ -16,26 +15,24 @@ public class AdminCommandsHelp implements AdminSubCommand {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                ConfigShorts.loadHelpConfig();
-                String intro = plugin.getConfig().getString("IntroTextAdmin");
-                String deletePlayer = plugin.getConfig().getString("VSkyblockDeletePlayer");
-                String resetChallenges = plugin.getConfig().getString("VSkyblockResetChallenges");
-                String setNether = plugin.getConfig().getString("VSkyblockSetNether");
-                String setSpawnWorld = plugin.getConfig().getString("VSkyblockSetSpawnWorld");
-                String setSpawnPoint = plugin.getConfig().getString("VSkyblockSetSpawnPoint");
-                String setAutoLoad = plugin.getConfig().getString("VSkyblockSetAutoLoad");
-                String teleport = plugin.getConfig().getString("VSkyblockTeleport");
-                String load = plugin.getConfig().getString("VSkyblockLoad");
-                String unload = plugin.getConfig().getString("VSkyblockUnload");
-                String deleteWorld = plugin.getConfig().getString("VSkyblockDeleteWorld");
-                String createWorld = plugin.getConfig().getString("VSkyblockCreateWorld");
-                String list = plugin.getConfig().getString("VSkyblockList");
-                String importWorld = plugin.getConfig().getString("VSkyblockImport");
-                String recreateLanguageFiles = plugin.getConfig().getString("VSkyblockRecreateLanguageFiles");
-                String recreateHelpFiles = plugin.getConfig().getString("VSkyblockRecreateHelpFiles");
-                String recreateChallengeFiles = plugin.getConfig().getString("VSkyblockRecreateChallengeFiles");
-                String reloadBlockValues = plugin.getConfig().getString("VSkyblockReloadBlockValues");
-                ConfigShorts.loaddefConfig();
+                String intro = ConfigShorts.getHelpConfig().getString("IntroTextAdmin");
+                String deletePlayer = ConfigShorts.getHelpConfig().getString("VSkyblockDeletePlayer");
+                String resetChallenges = ConfigShorts.getHelpConfig().getString("VSkyblockResetChallenges");
+                String setNether = ConfigShorts.getHelpConfig().getString("VSkyblockSetNether");
+                String setSpawnWorld = ConfigShorts.getHelpConfig().getString("VSkyblockSetSpawnWorld");
+                String setSpawnPoint = ConfigShorts.getHelpConfig().getString("VSkyblockSetSpawnPoint");
+                String setAutoLoad = ConfigShorts.getHelpConfig().getString("VSkyblockSetAutoLoad");
+                String teleport = ConfigShorts.getHelpConfig().getString("VSkyblockTeleport");
+                String load = ConfigShorts.getHelpConfig().getString("VSkyblockLoad");
+                String unload = ConfigShorts.getHelpConfig().getString("VSkyblockUnload");
+                String deleteWorld = ConfigShorts.getHelpConfig().getString("VSkyblockDeleteWorld");
+                String createWorld = ConfigShorts.getHelpConfig().getString("VSkyblockCreateWorld");
+                String list = ConfigShorts.getHelpConfig().getString("VSkyblockList");
+                String importWorld = ConfigShorts.getHelpConfig().getString("VSkyblockImport");
+                String recreateLanguageFiles = ConfigShorts.getHelpConfig().getString("VSkyblockRecreateLanguageFiles");
+                String recreateHelpFiles = ConfigShorts.getHelpConfig().getString("VSkyblockRecreateHelpFiles");
+                String recreateChallengeFiles = ConfigShorts.getHelpConfig().getString("VSkyblockRecreateChallengeFiles");
+                String reloadBlockValues = ConfigShorts.getHelpConfig().getString("VSkyblockReloadBlockValues");
                 String message = ChatColor.AQUA + intro + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock delete player <Player>" + "\n" + ChatColor.RESET + " - " + deletePlayer + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/VSkyblock reset challenges <Player>" + "\n" + ChatColor.RESET + " - " + resetChallenges + "\n" +

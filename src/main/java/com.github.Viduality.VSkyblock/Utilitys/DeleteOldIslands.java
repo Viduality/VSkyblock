@@ -51,7 +51,7 @@ public class DeleteOldIslands implements Runnable {
      * @return Integer hour.
      */
     private Integer getCleanUpTime() {
-        String cleanUpTimeString = plugin.getConfig().getString("CleanUpTime");
+        String cleanUpTimeString = ConfigShorts.getDefConfig().getString("CleanUpTime");
         Integer cleanUpTime = 3;
         if (!(cleanUpTimeString == null)) {
             if (isInt(cleanUpTimeString)) {

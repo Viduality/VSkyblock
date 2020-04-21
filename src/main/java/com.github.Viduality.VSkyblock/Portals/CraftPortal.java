@@ -16,6 +16,7 @@ public class CraftPortal {
 
     // TODO implement portals
     // NOT IN USE YET
+    /*
     public void createPortalRecipe() {
         ItemStack portalFrame = new ItemStack(Material.END_PORTAL_FRAME);
         ItemMeta portalFramemeta = portalFrame.getItemMeta();
@@ -33,4 +34,6 @@ public class CraftPortal {
         portal.setIngredient('s', Material.END_STONE);
         plugin.getServer().addRecipe(portal);
     }
+     */
+
 }

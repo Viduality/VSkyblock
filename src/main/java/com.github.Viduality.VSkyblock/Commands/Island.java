@@ -302,18 +302,16 @@ public class Island implements CommandExecutor {
     }
 
     public static int getisgencooldown() {
-        ConfigShorts.loaddefConfig();
-        if (isInt(plugin.getConfig().getString("IslandGenerateCooldown"))) {
-            return plugin.getConfig().getInt("IslandGenerateCooldown");
+        if (isInt(ConfigShorts.getDefConfig().getString("IslandGenerateCooldown"))) {
+            return ConfigShorts.getDefConfig().getInt("IslandGenerateCooldown");
         } else {
             return 5;
         }
     }
 
     public static int getisjoincooldown() {
-        ConfigShorts.loaddefConfig();
-        if (isInt(plugin.getConfig().getString("IslandJoinCooldown"))) {
-            return plugin.getConfig().getInt("IslandJoinCooldown");
+        if (isInt(ConfigShorts.getDefConfig().getString("IslandJoinCooldown"))) {
+            return ConfigShorts.getDefConfig().getInt("IslandJoinCooldown");
         } else {
             return 10;
         }

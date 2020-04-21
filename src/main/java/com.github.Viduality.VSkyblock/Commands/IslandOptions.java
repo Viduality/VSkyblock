@@ -40,16 +40,15 @@ public class IslandOptions implements SubCommand {
     private void createOptionsInventory(IslandOptionsCache cache, Player player, boolean islandOwner) {
         String difficulty = cache.getDifficulty();
         boolean visit = cache.getVisit();
-        ConfigShorts.loadOptionsConfig();
         Inventory isOptions = Bukkit.createInventory(null, 18, getInvName());
 
         //VISIT
 
         Material visitBlock;
         if (visit) {
-            visitBlock = getMaterial(plugin.getConfig().getString("Visit.AllowedItem"));
+            visitBlock = getMaterial(ConfigShorts.getOptionsConfig().getString("Visit.AllowedItem"));
         } else {
-            visitBlock = getMaterial(plugin.getConfig().getString("Visit.NotAllowedItem"));
+            visitBlock = getMaterial(ConfigShorts.getOptionsConfig().getString("Visit.NotAllowedItem"));
         }
         ItemStack visitSlot = new ItemStack(visitBlock, 1);
         ItemMeta visitSlotItemMeta = visitSlot.getItemMeta();
@@ -72,13 +71,13 @@ public class IslandOptions implements SubCommand {
         Material difficultyBlock;
         switch (difficulty) {
             case "EASY":
-                difficultyBlock = getMaterial(plugin.getConfig().getString("Difficulty.EasyItem"));
+                difficultyBlock = getMaterial(ConfigShorts.getOptionsConfig().getString("Difficulty.EasyItem"));
                 break;
             case "HARD":
-                difficultyBlock = getMaterial(plugin.getConfig().getString("Difficulty.HardItem"));
+                difficultyBlock = getMaterial(ConfigShorts.getOptionsConfig().getString("Difficulty.HardItem"));
                 break;
             default:
-                difficultyBlock = getMaterial(plugin.getConfig().getString("Difficulty.NormalItem"));
+                difficultyBlock = getMaterial(ConfigShorts.getOptionsConfig().getString("Difficulty.NormalItem"));
                 break;
         }
         ItemStack difficultySlot = new ItemStack(difficultyBlock, 1);
@@ -134,7 +133,6 @@ public class IslandOptions implements SubCommand {
             isOptions.setItem(17, acceptBlockSlot);
         }
         player.openInventory(isOptions);
-        ConfigShorts.loaddefConfig();
     }
 
     /**
@@ -157,8 +155,8 @@ public class IslandOptions implements SubCommand {
      * @return String
      */
     private String getInvName() {
-        if (plugin.getConfig().getString("InventoryName") != null) {
-            return plugin.getConfig().getString("InventoryName");
+        if (ConfigShorts.getOptionsConfig().getString("InventoryName") != null) {
+            return ConfigShorts.getOptionsConfig().getString("InventoryName");
         } else {
             return "Island options";
         }
@@ -171,7 +169,7 @@ public class IslandOptions implements SubCommand {
      * @return String
      */
     private String getDisplayNameDifficulty(String difficulty) {
-        String displayname = plugin.getConfig().getString("Difficulty." + difficulty);
+        String displayname = ConfigShorts.getOptionsConfig().getString("Difficulty." + difficulty);
         if (displayname != null) {
             return displayname;
         } else {
@@ -186,7 +184,7 @@ public class IslandOptions implements SubCommand {
      * @return String
      */
     private String getDisplayNameVisit(String allowed) {
-        String displayname = plugin.getConfig().getString("Visit." + allowed);
+        String displayname = ConfigShorts.getOptionsConfig().getString("Visit." + allowed);
         if (displayname != null) {
             return displayname;
         } else {
@@ -200,7 +198,7 @@ public class IslandOptions implements SubCommand {
      * @return String
      */
     private String getDisplayNameGenerator() {
-        String displayname = plugin.getConfig().getString("CobblestoneGenerator.DisplayName");
+        String displayname = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.DisplayName");
         if (displayname != null) {
             return displayname;
         } else {
@@ -214,7 +212,7 @@ public class IslandOptions implements SubCommand {
      * @return String
      */
     private String getAccept() {
-        String accept = plugin.getConfig().getString("Accept");
+        String accept = ConfigShorts.getOptionsConfig().getString("Accept");
         if (accept != null) {
             return accept;
         } else {

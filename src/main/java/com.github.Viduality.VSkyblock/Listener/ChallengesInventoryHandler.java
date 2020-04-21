@@ -21,10 +21,9 @@ public class ChallengesInventoryHandler implements Listener {
 
     @EventHandler
     public void cinvHandler(InventoryClickEvent inventoryClickEvent) {
-        ConfigShorts.loadChallengesConfig();
-        if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Easy")) ||
-                inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Medium")) ||
-                inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Hard"))) {
+        if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Easy")) ||
+                inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Medium")) ||
+                inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Hard"))) {
             inventoryClickEvent.setCancelled(true);
             if (inventoryClickEvent.getCurrentItem() != null) {
                 if (inventoryClickEvent.getRawSlot() < 27) {
@@ -38,11 +37,11 @@ public class ChallengesInventoryHandler implements Listener {
                         if (!inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR)) {
                             int challenge = inventoryClickEvent.getSlot() + 1;
                             String challengewithColors = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName();
-                            if (inventoryClickEvent.getView().getTitle().equals("Challenges " + plugin.getConfig().getString("Difficulty.Easy"))) {
+                            if (inventoryClickEvent.getView().getTitle().equals("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Easy"))) {
                                 cH.checkChallenge(challenge, getChallenge(challengewithColors), "Easy", (Player) inventoryClickEvent.getWhoClicked());
-                            } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Medium"))) {
+                            } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Medium"))) {
                                 cH.checkChallenge(challenge, getChallenge(challengewithColors), "Medium", (Player) inventoryClickEvent.getWhoClicked());
-                            } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Hard"))) {
+                            } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Hard"))) {
                                 cH.checkChallenge(challenge, getChallenge(challengewithColors), "Hard", (Player) inventoryClickEvent.getWhoClicked());
                             }
                         }
@@ -50,7 +49,6 @@ public class ChallengesInventoryHandler implements Listener {
                 }
             }
         }
-        ConfigShorts.loaddefConfig();
     }
 
     /**
@@ -73,13 +71,11 @@ public class ChallengesInventoryHandler implements Listener {
 
     @EventHandler
     public void cinvHandler2(InventoryDragEvent inventoryDragEvent) {
-        ConfigShorts.loadChallengesConfig();
-        if (inventoryDragEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Easy")) ||
-                inventoryDragEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Medium")) ||
-                inventoryDragEvent.getView().getTitle().equalsIgnoreCase("Challenges " + plugin.getConfig().getString("Difficulty.Hard"))) {
+        if (inventoryDragEvent.getView().getTitle().equalsIgnoreCase("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Easy")) ||
+                inventoryDragEvent.getView().getTitle().equalsIgnoreCase("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Medium")) ||
+                inventoryDragEvent.getView().getTitle().equalsIgnoreCase("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Hard"))) {
             inventoryDragEvent.setCancelled(true);
         }
-        ConfigShorts.loaddefConfig();
     }
 
     /**
@@ -88,7 +84,7 @@ public class ChallengesInventoryHandler implements Listener {
      * @param player
      */
     private void getnextChallengeinv(String currentInv, Player player) {
-        if (currentInv.equals("Challenges " + plugin.getConfig().getString("Difficulty.Easy"))) {
+        if (currentInv.equals("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Easy"))) {
             cc.createChallenges(player, "Medium");
         } else {
             cc.createChallenges(player, "Hard");
@@ -101,7 +97,7 @@ public class ChallengesInventoryHandler implements Listener {
      * @param player
      */
     private void getpreviousChallengeinv(String currentInv, Player player) {
-        if (currentInv.equals("Challenges " + plugin.getConfig().getString("Difficulty.Hard"))) {
+        if (currentInv.equals("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Hard"))) {
             cc.createChallenges(player, "Medium");
         } else {
             cc.createChallenges(player, "Easy");

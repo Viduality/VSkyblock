@@ -1,7 +1,6 @@
 package com.github.Viduality.VSkyblock.Commands.Admin;
 
 import com.github.Viduality.VSkyblock.Commands.WorldCommands.AdminSubCommand;
-import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.VSkyblock;

@@ -75,7 +75,7 @@ public class IslandKick implements SubCommand{
                                         plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
                                             @Override
                                             public void run() {
-                                                onlinetarget.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
+                                                onlinetarget.teleport(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
                                                 ConfigShorts.messagefromString("KickVisitingPlayer", onlinetarget);
                                             }
                                         });

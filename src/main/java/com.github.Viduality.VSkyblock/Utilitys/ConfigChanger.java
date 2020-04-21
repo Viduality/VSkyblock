@@ -16,7 +16,6 @@ public class ConfigChanger {
      */
     public void setConfig(String string, String newString) {
 
-        ConfigShorts.loaddefConfig();
         String inputStr = null;
 
 
@@ -37,7 +36,7 @@ public class ConfigChanger {
                 /// Whoever reads the following lines... Please, don't blame me for it, i know this is absolut botched xD
 
             if (inputStr.contains(string)) {
-                    String OldString = plugin.getConfig().getString(string);
+                    String OldString = ConfigShorts.getDefConfig().getString(string);
                     String replace1 = string + ":";
                     String with1 = string + ": " + newString;
                     String OldLine = string + ": " + OldString;

@@ -80,10 +80,10 @@ public class WorldManager {
      */
     public boolean unloadWorld(String world) {
         if (plugin.getServer().getWorlds().contains(plugin.getServer().getWorld(world))) {
-            if (!plugin.getConfig().getString("SpawnWorld").equals(world)) {
+            if (!ConfigShorts.getDefConfig().getString("SpawnWorld").equals(world)) {
                 if (plugin.getServer().getWorld(world).getPlayers() != null) {
                     for (Player player : plugin.getServer().getWorld(world).getPlayers()) {
-                        player.teleport(plugin.getServer().getWorld(plugin.getConfig().getString("SpawnWorld")).getSpawnLocation());
+                        player.teleport(plugin.getServer().getWorld(ConfigShorts.getDefConfig().getString("SpawnWorld")).getSpawnLocation());
                     }
                 }
                 boolean unloaded = plugin.getServer().unloadWorld(world, true);
@@ -136,9 +136,7 @@ public class WorldManager {
      * @return String
      */
     private String getGenerator(String world) {
-        ConfigShorts.loadWorldConfig();
-        String option = plugin.getConfig().getString("Worlds." + world + ".generator");
-        ConfigShorts.loaddefConfig();
+        String option = ConfigShorts.getWorldConfig().getString("Worlds." + world + ".generator");
         if (option != null) {
             if (option.equals("default")) {
                 return null;
@@ -159,9 +157,7 @@ public class WorldManager {
      * @return World.Environment
      */
     private World.Environment getEnvironment(String world) {
-        ConfigShorts.loadWorldConfig();
-        String option = plugin.getConfig().getString("Worlds." + world + ".environment");
-        ConfigShorts.loaddefConfig();
+        String option = ConfigShorts.getWorldConfig().getString("Worlds." + world + ".environment");
         if (option != null) {
             String env = option.toUpperCase();
             switch (env) {
@@ -223,19 +219,17 @@ public class WorldManager {
      * @return Location
      */
     public Location getSpawnLocation(String world) {
-        ConfigShorts.loadWorldConfig();
         List<String> worlds = getAllWorlds();
         if (worlds.contains(world)) {
             if (getUnloadedWorlds().contains(world)) {
                 loadWorld(world);
             }
             World world1 = plugin.getServer().getWorld(world);
-            double x = plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.x");
-            double y = plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.y");
-            double z = plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.z");
-            float yaw = (float) plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.yaw");
-            float pitch = (float) plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.pitch");
-            ConfigShorts.loaddefConfig();
+            double x = ConfigShorts.getWorldConfig().getDouble("Worlds." + world + ".spawnLocation.x");
+            double y = ConfigShorts.getWorldConfig().getDouble("Worlds." + world + ".spawnLocation.y");
+            double z = ConfigShorts.getWorldConfig().getDouble("Worlds." + world + ".spawnLocation.z");
+            float yaw = (float) ConfigShorts.getWorldConfig().getDouble("Worlds." + world + ".spawnLocation.yaw");
+            float pitch = (float) ConfigShorts.getWorldConfig().getDouble("Worlds." + world + ".spawnLocation.pitch");
             return new Location(world1, x, y, z, yaw, pitch);
         } else {
             System.out.println(ANSI_RED + "Could not find a spawn location for world " + world + "!" + ANSI_RESET);
@@ -250,16 +244,14 @@ public class WorldManager {
      * @return Location
      */
     public Location getSpawnLocationFromConfig(String world) {
-        ConfigShorts.loadWorldConfig();
         List<String> worlds = getAllWorlds();
         if (worlds.contains(world)) {
             World world1 = plugin.getServer().getWorld(world);
-            double x = plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.x");
-            double y = plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.y");
-            double z = plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.z");
-            float yaw = (float) plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.yaw");
-            float pitch = (float) plugin.getConfig().getDouble("Worlds." + world + ".spawnLocation.pitch");
-            ConfigShorts.loaddefConfig();
+            double x = ConfigShorts.getWorldConfig().getDouble("Worlds." + world + ".spawnLocation.x");
+            double y = ConfigShorts.getWorldConfig().getDouble("Worlds." + world + ".spawnLocation.y");
+            double z = ConfigShorts.getWorldConfig().getDouble("Worlds." + world + ".spawnLocation.z");
+            float yaw = (float) ConfigShorts.getWorldConfig().getDouble("Worlds." + world + ".spawnLocation.yaw");
+            float pitch = (float) ConfigShorts.getWorldConfig().getDouble("Worlds." + world + ".spawnLocation.pitch");
             return new Location(world1, x, y, z, yaw, pitch);
         } else {
             System.out.println(ANSI_RED + "Could not find a spawn location for world " + world + "!" + ANSI_RESET);
@@ -306,13 +298,10 @@ public class WorldManager {
      * @return List
      */
     public List<String> getAllWorlds() {
-        ConfigShorts.loadWorldConfig();
-        if (plugin.getConfig().get("Worlds") != null) {
-            Set<String> allworlds = plugin.getConfig().getConfigurationSection("Worlds").getKeys(false);
-            ConfigShorts.loaddefConfig();
+        if (ConfigShorts.getWorldConfig().get("Worlds") != null) {
+            Set<String> allworlds = ConfigShorts.getWorldConfig().getConfigurationSection("Worlds").getKeys(false);
             return new ArrayList<>(allworlds);
         } else {
-            ConfigShorts.loaddefConfig();
             return  new ArrayList<>();
         }
     }
@@ -359,6 +348,7 @@ public class WorldManager {
             FileOutputStream fileOut = new FileOutputStream(plugin.getDataFolder() + "/Worlds.yml");
             fileOut.write(worldsFile.getBytes());
             fileOut.close();
+            ConfigShorts.reloadWorldConfig1();
             return true;
 
         } catch (Exception e) {
@@ -374,7 +364,6 @@ public class WorldManager {
      */
     public void deleteWorldfromConfig(String world) {
 
-        ConfigShorts.loadWorldConfig();
 
         String inputStr = null;
         String worldinfoString = null;
@@ -387,7 +376,7 @@ public class WorldManager {
             StringBuffer worldinfo = new StringBuffer();
             int i = 0;
 
-            Object[] test = plugin.getConfig().getConfigurationSection("Worlds." + world).getKeys(true).toArray();
+            Object[] test = ConfigShorts.getWorldConfig().getConfigurationSection("Worlds." + world).getKeys(true).toArray();
             String lastPart = null;
             for (Object out : test) {
                 lastPart = out.toString();
@@ -417,8 +406,8 @@ public class WorldManager {
             FileOutputStream fileOut = new FileOutputStream(plugin.getDataFolder() + "/Worlds.yml");
             fileOut.write(inputStr.getBytes());
             fileOut.close();
+            ConfigShorts.reloadWorldConfig1();
 
-            ConfigShorts.loaddefConfig();
 
         } catch (Exception e) {
             System.out.println(ANSI_RED + "Problem reading file." + ANSI_RESET);
@@ -434,7 +423,6 @@ public class WorldManager {
      */
     public void setOption(String world, String string, String option) {
 
-        ConfigShorts.loadWorldConfig();
 
         String inputStr = null;
         String worldinfoString = null;
@@ -467,7 +455,7 @@ public class WorldManager {
             file.close();
 
             if (newWorldInfo.contains(string)) {
-                String oldString = plugin.getConfig().getString("Worlds." + world + "." + string);
+                String oldString = ConfigShorts.getWorldConfig().getString("Worlds." + world + "." + string);
                 String replace1 = string + ":";
                 String with1 = string + ": " + option;
                 String OldLine = string + ": " + oldString;
@@ -488,8 +476,8 @@ public class WorldManager {
             FileOutputStream fileOut = new FileOutputStream(plugin.getDataFolder() + "/Worlds.yml");
             fileOut.write(inputStr.getBytes());
             fileOut.close();
+            ConfigShorts.reloadWorldConfig1();
 
-            ConfigShorts.loaddefConfig();
 
         } catch (Exception e) {
             System.out.println(ANSI_RED + "Problem reading file." + ANSI_RESET);
@@ -503,7 +491,6 @@ public class WorldManager {
      */
     public boolean setSpawnLocation(Location loc) {
 
-        ConfigShorts.loadWorldConfig();
         List<String> worlds = getAllWorlds();
 
         if (worlds.contains(loc.getWorld().getName())) {
@@ -553,7 +540,7 @@ public class WorldManager {
                 for (int a = 0; a < locInfo.size(); a++) {
                     String currentData = locInfo.get(a);
                     if (newWorldInfo.contains(currentData)) {
-                        String oldString = plugin.getConfig().getString("Worlds." + world + ".spawnLocation" + "." + currentData);
+                        String oldString = ConfigShorts.getWorldConfig().getString("Worlds." + world + ".spawnLocation" + "." + currentData);
                         String replace1 = currentData + ":";
                         String with1 = currentData + ": " + locValues.get(a);
                         String OldLine = currentData + ": " + oldString;
@@ -575,8 +562,8 @@ public class WorldManager {
                 FileOutputStream fileOut = new FileOutputStream(plugin.getDataFolder() + "/Worlds.yml");
                 fileOut.write(inputStr.getBytes());
                 fileOut.close();
+                ConfigShorts.reloadWorldConfig1();
 
-                ConfigShorts.loaddefConfig();
             } catch (Exception e) {
                 System.out.println(ANSI_RED + "Problem reading file." + ANSI_RESET);
                 e.printStackTrace();
@@ -594,12 +581,10 @@ public class WorldManager {
      * @return boolean
      */
     public boolean getAutoLoad(String world) {
-        ConfigShorts.loadWorldConfig();
         boolean autoLoad = false;
-        if (plugin.getConfig().getString("Worlds." + world + ".autoLoad").equals("true")) {
-            autoLoad = plugin.getConfig().getBoolean("Worlds." + world + ".autoLoad");
+        if (ConfigShorts.getWorldConfig().getString("Worlds." + world + ".autoLoad").equals("true")) {
+            autoLoad = ConfigShorts.getWorldConfig().getBoolean("Worlds." + world + ".autoLoad");
         }
-        ConfigShorts.loaddefConfig();
         return autoLoad;
     }
 
@@ -610,10 +595,8 @@ public class WorldManager {
      * @return String
      */
     public Difficulty getDifficulty(String world) {
-        ConfigShorts.loadWorldConfig();
-        if (plugin.getConfig().get("Worlds") != null) {
-            String difficultyConfig = plugin.getConfig().getString("Worlds." + world + ".difficulty");
-            ConfigShorts.loaddefConfig();
+        if (ConfigShorts.getWorldConfig().get("Worlds") != null) {
+            String difficultyConfig = ConfigShorts.getWorldConfig().getString("Worlds." + world + ".difficulty");
             if (difficultyConfig != null) {
                 switch (difficultyConfig.toUpperCase()) {
                     case "EASY":
@@ -637,10 +620,8 @@ public class WorldManager {
      * @return boolean
      */
     public boolean keepSpawnInMemory(String world) {
-        ConfigShorts.loadWorldConfig();
-        if (plugin.getConfig().get("Worlds") != null) {
-            String keepSpawnInMemoryStr = plugin.getConfig().getString("Worlds." + world + ".keepSpawnInMemory");
-            ConfigShorts.loaddefConfig();
+        if (ConfigShorts.getWorldConfig().get("Worlds") != null) {
+            String keepSpawnInMemoryStr = ConfigShorts.getWorldConfig().getString("Worlds." + world + ".keepSpawnInMemory");
             if (keepSpawnInMemoryStr != null) {
                 if (keepSpawnInMemoryStr.equalsIgnoreCase("true")) {
                     return true;
@@ -662,10 +643,8 @@ public class WorldManager {
      * @return boolean
      */
     public boolean generateStructures(String world) {
-        ConfigShorts.loadWorldConfig();
-        if (plugin.getConfig().get("Worlds") != null) {
-            String generateStructuresStr = plugin.getConfig().getString("Worlds." + world + ".generateStructures");
-            ConfigShorts.loaddefConfig();
+        if (ConfigShorts.getWorldConfig().get("Worlds") != null) {
+            String generateStructuresStr = ConfigShorts.getWorldConfig().getString("Worlds." + world + ".generateStructures");
             if (generateStructuresStr != null) {
                 if (generateStructuresStr.equalsIgnoreCase("true")) {
                     return true;

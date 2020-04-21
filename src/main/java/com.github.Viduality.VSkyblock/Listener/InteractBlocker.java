@@ -26,7 +26,7 @@ public class InteractBlocker implements Listener {
     public void interactEvent(PlayerInteractEvent playerInteractEvent) {
         Player player = playerInteractEvent.getPlayer();
         if (player.getWorld().getEnvironment() != World.Environment.NETHER
-                && !player.getWorld().getName().equals(plugin.getConfig().getString("SpawnWorld"))
+                && !player.getWorld().getName().equals(ConfigShorts.getDefConfig().getString("SpawnWorld"))
                 && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId()))
                 && !player.hasPermission("VSkyblock.IgnoreProtected")) {
             if (playerInteractEvent.getClickedBlock() != null

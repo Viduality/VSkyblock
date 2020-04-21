@@ -44,7 +44,7 @@ public class ChallengesHandler {
                     repeat = false;
                 }
                 List<Integer> emptySlots = getEmptySlots(player.getInventory());
-                if (plugin.getConfig().getString(difficulty + "." + challengeName + ".Type").equals("onPlayer")) {
+                if (ConfigShorts.getChallengesConfig().getString(difficulty + "." + challengeName + ".Type").equals("onPlayer")) {
                     List<String> needed = getNeeded(challengeName, difficulty);
                     List<Integer> neededamount = getNeededAmounts(challengeName, difficulty);
                     List<String> reward = getRewards(challengeName, difficulty, repeat);
@@ -89,10 +89,10 @@ public class ChallengesHandler {
                         ConfigShorts.messagefromString("NotEnoughItems", player);
                         player.closeInventory();
                     }
-                } else if (plugin.getConfig().getString(difficulty + "." + challengeName + ".Type").equals("islandlevel")) {
+                } else if (ConfigShorts.getChallengesConfig().getString(difficulty + "." + challengeName + ".Type").equals("islandlevel")) {
                     player.closeInventory();
                     if (!repeat) {
-                        Integer neededlevel = plugin.getConfig().getInt(difficulty + "." + challengeName + ".Needed");
+                        Integer neededlevel = ConfigShorts.getChallengesConfig().getInt(difficulty + "." + challengeName + ".Needed");
                         databaseReader.getislandlevelfromuuid(player.getUniqueId(), new DatabaseReader.CallbackINT() {
                             @Override
                             public void onQueryDone(int result) {
@@ -120,7 +120,7 @@ public class ChallengesHandler {
                     } else {
                         ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
                     }
-                } else if (plugin.getConfig().getString(difficulty + "." + challengeName + ".Type").equals("onIsland")) {
+                } else if (ConfigShorts.getChallengesConfig().getString(difficulty + "." + challengeName + ".Type").equals("onIsland")) {
                     if (!onIslandDelay.asMap().containsKey(player.getUniqueId())) {
                         player.closeInventory();
                         onIslandDelay.put(player.getUniqueId(), 1);
@@ -129,7 +129,7 @@ public class ChallengesHandler {
                             List<Integer> neededamount = getNeededAmounts(challengeName, difficulty);
                             List<String> reward = getRewards(challengeName, difficulty, repeat);
                             List<Integer> rewardamounts = getRewardAmounts(challengeName, difficulty, repeat);
-                            Integer radius = plugin.getConfig().getInt(difficulty + "." + challengeName + ".Radius");
+                            Integer radius = ConfigShorts.getChallengesConfig().getInt(difficulty + "." + challengeName + ".Radius");
                             ConfigShorts.messagefromString("CheckingIslandForChallenge", player);
                             HashMap<Material, Integer> result = getBlocks(player, radius);
                             int b = 0;
@@ -177,7 +177,7 @@ public class ChallengesHandler {
      * @return List of needed items for the challenge.
      */
     private List<String> getNeeded(String challenge, String difficulty) {
-        List<String> itemsneeded = plugin.getConfig().getStringList( difficulty + "." + challenge + ".Needed");
+        List<String> itemsneeded = ConfigShorts.getChallengesConfig().getStringList( difficulty + "." + challenge + ".Needed");
         List<String> needed = new ArrayList<>();
         for (String current : itemsneeded) {
             if (current.contains(";")) {
@@ -198,7 +198,7 @@ public class ChallengesHandler {
      * @return List of amounts for the List of needed items for the challenge.
      */
     private List<Integer> getNeededAmounts(String challenge, String difficulty) {
-        List<String> itemsneeded = plugin.getConfig().getStringList( difficulty + "." + challenge + ".Needed");
+        List<String> itemsneeded = ConfigShorts.getChallengesConfig().getStringList( difficulty + "." + challenge + ".Needed");
         List<Integer> neededAmounts = new ArrayList<>();
         for (String current : itemsneeded) {
             if (current.contains(";")) {
@@ -223,9 +223,9 @@ public class ChallengesHandler {
         List<String> rewardsfromconfig = new ArrayList<>();
         List<String> rewards = new ArrayList<>();
         if (repeat) {
-            rewardsfromconfig = plugin.getConfig().getStringList(difficulty + "." + challenge + ".RepeatReward");
+            rewardsfromconfig = ConfigShorts.getChallengesConfig().getStringList(difficulty + "." + challenge + ".RepeatReward");
         } else {
-            rewardsfromconfig = plugin.getConfig().getStringList(difficulty + "." + challenge + ".Reward");
+            rewardsfromconfig = ConfigShorts.getChallengesConfig().getStringList(difficulty + "." + challenge + ".Reward");
         }
 
         for (String current : rewardsfromconfig) {
@@ -251,9 +251,9 @@ public class ChallengesHandler {
         List<String> rewardamountsfromconfig = new ArrayList<>();
         List<Integer> rewardamounts = new ArrayList<>();
         if (repeat) {
-            rewardamountsfromconfig = plugin.getConfig().getStringList(difficulty + "." + challenge + ".RepeatReward");
+            rewardamountsfromconfig = ConfigShorts.getChallengesConfig().getStringList(difficulty + "." + challenge + ".RepeatReward");
         } else {
-            rewardamountsfromconfig = plugin.getConfig().getStringList(difficulty + "." + challenge + ".Reward");
+            rewardamountsfromconfig = ConfigShorts.getChallengesConfig().getStringList(difficulty + "." + challenge + ".Reward");
         }
 
         for (String current : rewardamountsfromconfig) {

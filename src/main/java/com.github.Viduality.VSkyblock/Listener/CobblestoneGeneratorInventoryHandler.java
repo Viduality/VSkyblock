@@ -21,9 +21,7 @@ public class CobblestoneGeneratorInventoryHandler implements Listener {
         if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase(getInvName())) {
             inventoryClickEvent.setCancelled(true);
             if (inventoryClickEvent.getRawSlot() == 16) {
-                ConfigShorts.loadOptionsConfig();
-                if (inventoryClickEvent.getCurrentItem() != null && inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(plugin.getConfig().getString("CobblestoneGenerator.Upgrade.DisplayName"))) {
-                    ConfigShorts.loaddefConfig();
+                if (inventoryClickEvent.getCurrentItem() != null && inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.DisplayName"))) {
                     cobblestoneGeneratorUpgrade.checkForGeneratorUpgrade(Island.playerislands.get(inventoryClickEvent.getWhoClicked().getUniqueId()), (Player) inventoryClickEvent.getWhoClicked());
                 }
             }
@@ -43,9 +41,7 @@ public class CobblestoneGeneratorInventoryHandler implements Listener {
      * @return String
      */
     private String getInvName() {
-        ConfigShorts.loadOptionsConfig();
-        String displayname = plugin.getConfig().getString("CobblestoneGenerator.DisplayName");
-        ConfigShorts.loaddefConfig();
+        String displayname = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.DisplayName");
         if (displayname != null) {
             return displayname;
         } else {

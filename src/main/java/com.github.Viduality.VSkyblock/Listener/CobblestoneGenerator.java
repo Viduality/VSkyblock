@@ -1,5 +1,6 @@
 package com.github.Viduality.VSkyblock.Listener;
 
+import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -69,8 +70,8 @@ public class CobblestoneGenerator implements Listener {
     @EventHandler
     public void cobblestoneGeneratorDrops(BlockBreakEvent blockBreakEvent) {
         if (blockBreakEvent.getBlock().getType().equals(Material.COBBLESTONE)) {
-            if (plugin.getConfig().getString("CobblestoneGenerator.Cobblestone.MultipleDrops") != null) {
-                if (plugin.getConfig().getString("CobblestoneGenerator.Cobblestone.MultipleDrops").equalsIgnoreCase("true")) {
+            if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.Cobblestone.MultipleDrops") != null) {
+                if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.Cobblestone.MultipleDrops").equalsIgnoreCase("true")) {
                     if (blockBreakEvent.getBlock().getRelative(BlockFace.NORTH).getType().equals(Material.LAVA)
                             || blockBreakEvent.getBlock().getRelative(BlockFace.EAST).getType().equals(Material.LAVA)
                             || blockBreakEvent.getBlock().getRelative(BlockFace.SOUTH).getType().equals(Material.LAVA)

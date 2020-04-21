@@ -43,15 +43,15 @@ public class RecalculateIslandLevel implements AdminSubCommand {
                                             int z1 = x1;
                                             int z2 = x2;
                                             double value = 0;
-                                            if (isInt(plugin.getConfig().getString("IslandValueonStart"))) {
-                                                value = plugin.getConfig().getInt("IslandValueonStart");
+                                            if (isInt(ConfigShorts.getDefConfig().getString("IslandValueonStart"))) {
+                                                value = ConfigShorts.getDefConfig().getInt("IslandValueonStart");
                                             } else {
                                                 value = 150;
                                             }
                                             value = value + challengePoints;
                                             int valueperlevel;
-                                            if (isInt(plugin.getConfig().getString("IslandValue"))) {
-                                                valueperlevel = plugin.getConfig().getInt("IslandValue");
+                                            if (isInt(ConfigShorts.getDefConfig().getString("IslandValue"))) {
+                                                valueperlevel = ConfigShorts.getDefConfig().getInt("IslandValue");
                                             } else {
                                                 valueperlevel = 300;
                                             }
@@ -138,7 +138,7 @@ public class RecalculateIslandLevel implements AdminSubCommand {
     }
 
     private int getValueRiseLevel() {
-        String s = VSkyblock.getInstance().getConfig().getString("IslandValueRiseLevel");
+        String s = ConfigShorts.getDefConfig().getString("IslandValueRiseLevel");
         if (s != null) {
             if (isInt(s)) {
                 return Integer.parseInt(s);
@@ -151,7 +151,7 @@ public class RecalculateIslandLevel implements AdminSubCommand {
     }
 
     private int getValueIncrease() {
-        String s = VSkyblock.getInstance().getConfig().getString("IslandValueIncreasePerLevel");
+        String s = ConfigShorts.getDefConfig().getString("IslandValueIncreasePerLevel");
         if (s != null) {
             if (isInt(s)) {
                 return Integer.parseInt(s);

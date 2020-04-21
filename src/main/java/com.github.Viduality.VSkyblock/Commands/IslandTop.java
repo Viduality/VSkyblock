@@ -9,7 +9,6 @@ import java.util.List;
 
 public class IslandTop implements SubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseReader databaseReader = new DatabaseReader();
 
 

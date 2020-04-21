@@ -1,6 +1,7 @@
 package com.github.Viduality.VSkyblock.Listener;
 
 import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.Cache;
@@ -35,8 +36,8 @@ public class EntityProtector implements Listener {
     public void onPVP(EntityDamageByEntityEvent entityDamageByEntityEvent) {
         Entity player = entityDamageByEntityEvent.getDamager();
         Entity damagedplayer = entityDamageByEntityEvent.getEntity();
-        boolean pvpisland = plugin.getConfig().getBoolean("PvPIslands");
-        boolean pvpnether = plugin.getConfig().getBoolean("PvPNether");
+        boolean pvpisland = ConfigShorts.getDefConfig().getBoolean("PvPIslands");
+        boolean pvpnether = ConfigShorts.getDefConfig().getBoolean("PvPNether");
         if (player.getType().equals(EntityType.PLAYER) && damagedplayer.getType().equals(EntityType.PLAYER)) {
             if (Island.playerislands.get(player.getUniqueId()) != null) {
                 if (player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
@@ -67,7 +68,7 @@ public class EntityProtector implements Listener {
                 entityDamageEvent.setCancelled(true);
                 if (entityDamageEvent.getCause() == EntityDamageEvent.DamageCause.VOID || player.getLocation().getY() < 0) {
                     player.setFallDistance(0);
-                    player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
+                    player.teleport(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
                 }
             }
         }

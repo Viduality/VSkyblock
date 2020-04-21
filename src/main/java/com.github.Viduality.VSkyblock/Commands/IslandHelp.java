@@ -16,27 +16,25 @@ public class IslandHelp implements SubCommand {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                ConfigShorts.loadHelpConfig();
-                String intro = plugin.getConfig().getString("IntroText");
-                String island = plugin.getConfig().getString("Island");
-                String sethome = plugin.getConfig().getString("IslandSethome");
-                String restart = plugin.getConfig().getString("IslandRestart");
-                String restartconfirm = plugin.getConfig().getString("IslandRestartConfirm");
-                String invite = plugin.getConfig().getString("IslandInvite");
-                String accept = plugin.getConfig().getString("IslandAccept");
-                String kick = plugin.getConfig().getString("IslandKick");
-                String setowner = plugin.getConfig().getString("IslandSetowner");
-                String leave = plugin.getConfig().getString("IslandLeave");
-                String leaveconfirm = plugin.getConfig().getString("IslandLeaveConfirm");
-                String level = plugin.getConfig().getString("IslandLevel");
-                String members = plugin.getConfig().getString("IslandMembers");
-                String options = plugin.getConfig().getString("IslandOptions");
-                String top = plugin.getConfig().getString("IslandTop");
-                String visit = plugin.getConfig().getString("IslandVisit");
-                String setnetherhome = plugin.getConfig().getString("IslandSetnetherhome");
-                String nether = plugin.getConfig().getString("IslandNether");
-                String challenges = plugin.getConfig().getString("Challenges");
-                ConfigShorts.loaddefConfig();
+                String intro = ConfigShorts.getHelpConfig().getString("IntroText");
+                String island = ConfigShorts.getHelpConfig().getString("Island");
+                String sethome = ConfigShorts.getHelpConfig().getString("IslandSethome");
+                String restart = ConfigShorts.getHelpConfig().getString("IslandRestart");
+                String restartconfirm = ConfigShorts.getHelpConfig().getString("IslandRestartConfirm");
+                String invite = ConfigShorts.getHelpConfig().getString("IslandInvite");
+                String accept = ConfigShorts.getHelpConfig().getString("IslandAccept");
+                String kick = ConfigShorts.getHelpConfig().getString("IslandKick");
+                String setowner = ConfigShorts.getHelpConfig().getString("IslandSetowner");
+                String leave = ConfigShorts.getHelpConfig().getString("IslandLeave");
+                String leaveconfirm = ConfigShorts.getHelpConfig().getString("IslandLeaveConfirm");
+                String level = ConfigShorts.getHelpConfig().getString("IslandLevel");
+                String members = ConfigShorts.getHelpConfig().getString("IslandMembers");
+                String options = ConfigShorts.getHelpConfig().getString("IslandOptions");
+                String top = ConfigShorts.getHelpConfig().getString("IslandTop");
+                String visit = ConfigShorts.getHelpConfig().getString("IslandVisit");
+                String setnetherhome = ConfigShorts.getHelpConfig().getString("IslandSetnetherhome");
+                String nether = ConfigShorts.getHelpConfig().getString("IslandNether");
+                String challenges = ConfigShorts.getHelpConfig().getString("Challenges");
                 String message = ChatColor.AQUA + intro + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/island" + "\n" + ChatColor.RESET + " - " + island + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/island sethome" + "\n" + ChatColor.RESET + " - " + sethome + "\n" +

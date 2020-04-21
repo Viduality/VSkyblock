@@ -24,10 +24,9 @@ public class WorldLoader implements Runnable{
                         wm.setSpawnLocation(world.getSpawnLocation());
                     }
                 }
-                ConfigShorts.loadWorldConfig();
                 if (!worlds.isEmpty()) {
                     for (String world : worlds) {
-                        if (plugin.getConfig().getBoolean("Worlds." + world + ".autoLoad")) {
+                        if (ConfigShorts.getWorldConfig().getBoolean("Worlds." + world + ".autoLoad")) {
                             autoloadedislands.add(world);
                         }
                     }

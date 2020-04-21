@@ -6,8 +6,6 @@ import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 public class IslandLeave implements SubCommand{
 
     private VSkyblock plugin = VSkyblock.getInstance();

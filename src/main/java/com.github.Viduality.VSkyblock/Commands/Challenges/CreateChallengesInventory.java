@@ -38,47 +38,46 @@ public class CreateChallengesInventory {
         databaseReader.getPlayerChallenges(player.getUniqueId().toString(), "VSkyblock_Challenges_" + difficulty, new DatabaseReader.cCallback() {
             @Override
             public void onQueryDone(ChallengesCache cache) {
-                ConfigShorts.loadChallengesConfig();
-                Inventory cinv = Bukkit.createInventory(null, 27, "Challenges " + plugin.getConfig().getString("Difficulty." + difficulty));
-                Set<String> challenges = plugin.getConfig().getConfigurationSection(difficulty).getKeys(false);
-                String descriptioncolor = plugin.getConfig().getString("ItemOverlay.DescriptionColor");
-                String challengeNameColor = plugin.getConfig().getString("ItemOverlay.ChallengeNameColor");
+                Inventory cinv = Bukkit.createInventory(null, 27, "Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty." + difficulty));
+                Set<String> challenges = ConfigShorts.getChallengesConfig().getConfigurationSection(difficulty).getKeys(false);
+                String descriptioncolor = ConfigShorts.getChallengesConfig().getString("ItemOverlay.DescriptionColor");
+                String challengeNameColor = ConfigShorts.getChallengesConfig().getString("ItemOverlay.ChallengeNameColor");
                 List<Integer> usedSlots = new ArrayList<>();
                 int completedchallenges = 0;
                 int challengecount = 0;
                 for (String currentChallenge : challenges) {
                     challengecount = challengecount + 1;
-                    String shownItem = plugin.getConfig().getString(difficulty + "." + currentChallenge + ".ShownItem");
-                    String description = plugin.getConfig().getString(difficulty + "." + currentChallenge + ".Description");
+                    String shownItem = ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".ShownItem");
+                    String description = ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".Description");
                     List<String> rewards = new ArrayList<>();
                     List<String> itemRewards = new ArrayList<>();
                     List<Integer> itemRewardsamounts = new ArrayList<>();
                     Material item;
                     int slot = -1;
-                    if (isInt(plugin.getConfig().getString(difficulty + "." + currentChallenge + ".Slot"))) {
-                        slot = plugin.getConfig().getInt(difficulty + "." + currentChallenge + ".Slot");
+                    if (isInt(ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".Slot"))) {
+                        slot = ConfigShorts.getChallengesConfig().getInt(difficulty + "." + currentChallenge + ".Slot");
                     }
-                    String itemsneededText = plugin.getConfig().getString(difficulty + "." + currentChallenge + ".NeededText");
+                    String itemsneededText = ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".NeededText");
                     String itemsrewardText;
-                    if (plugin.getConfig().getString(difficulty + "." + currentChallenge + ".Type").equals("onPlayer")) {
+                    if (ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".Type").equals("onPlayer")) {
                         if (cache.getCurrentChallengeCount(challengecount) != 0) {
-                            itemsrewardText = plugin.getConfig().getString(difficulty + "." + currentChallenge + ".RepeatRewardText");
+                            itemsrewardText = ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".RepeatRewardText");
                             completedchallenges = completedchallenges + 1;
                         } else {
-                            itemsrewardText = plugin.getConfig().getString(difficulty + "." + currentChallenge + ".RewardText");
+                            itemsrewardText = ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".RewardText");
                         }
                     } else {
-                        itemsrewardText = plugin.getConfig().getString(difficulty + "." + currentChallenge + ".RewardText");
+                        itemsrewardText = ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".RewardText");
                     }
-                    if (plugin.getConfig().getString(difficulty + "." + currentChallenge + ".Type").equals("onPlayer")) {
-                        List<String> itemsneeded = plugin.getConfig().getStringList( difficulty + "." + currentChallenge + ".Needed");
+                    if (ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".Type").equals("onPlayer")) {
+                        List<String> itemsneeded = ConfigShorts.getChallengesConfig().getStringList( difficulty + "." + currentChallenge + ".Needed");
                         List<String> neededItems = new ArrayList<>();
                         List<Integer> neededItemsamounts = new ArrayList<>();
 
                         if (cache.getCurrentChallengeCount(challengecount) != 0) {
-                            rewards = plugin.getConfig().getStringList(difficulty + "." + currentChallenge + ".RepeatReward");
+                            rewards = ConfigShorts.getChallengesConfig().getStringList(difficulty + "." + currentChallenge + ".RepeatReward");
                         } else {
-                            rewards = plugin.getConfig().getStringList(difficulty + "." + currentChallenge + ".Reward");
+                            rewards = ConfigShorts.getChallengesConfig().getStringList(difficulty + "." + currentChallenge + ".Reward");
                         }
                         if (Material.matchMaterial(shownItem.toUpperCase()) != null) {
                             if (description != null) {
@@ -138,16 +137,16 @@ public class CreateChallengesInventory {
                                                     }
 
                                                     List<String> lore = new ArrayList<>();
-                                                    lore.add(plugin.getConfig().getString("ItemOverlay.Lore") + ":");
+                                                    lore.add(ConfigShorts.getChallengesConfig().getString("ItemOverlay.Lore") + ":");
                                                     lore.addAll(splitString(description, descriptioncolor));
-                                                    lore.add(plugin.getConfig().getString("ItemOverlay.Needed.onPlayer") + ":");
+                                                    lore.add(ConfigShorts.getChallengesConfig().getString("ItemOverlay.Needed.onPlayer") + ":");
                                                     lore.addAll(splitString(itemsneededText, descriptioncolor));
 
-                                                    lore.add(plugin.getConfig().getString("ItemOverlay.Reward") + ":");
+                                                    lore.add(ConfigShorts.getChallengesConfig().getString("ItemOverlay.Reward") + ":");
                                                     lore.addAll(splitString(itemsrewardText, descriptioncolor));
 
                                                     int count = cache.getCurrentChallengeCount(challengecount);
-                                                    String challengeCount = plugin.getConfig().getString("ItemOverlay.Completed").replace("%amount%", ChatColor.GREEN + Integer.toString(count) + ChatColor.DARK_PURPLE);
+                                                    String challengeCount = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Completed").replace("%amount%", ChatColor.GREEN + Integer.toString(count) + ChatColor.DARK_PURPLE);
 
                                                     lore.add("");
                                                     lore.add(challengeCount);
@@ -202,10 +201,10 @@ public class CreateChallengesInventory {
                         } else {
                             System.out.println(ANSI_RED + "Could not set challenge correctly! Use a valid MATERIAL for the shown item! Challenge: " + currentChallenge + ANSI_RESET);
                         }
-                    } else if (plugin.getConfig().getString(difficulty + "." + currentChallenge + ".Type").equals("islandlevel") || plugin.getConfig().getString(difficulty + "." + currentChallenge + ".Type").equals("onIsland")) {
+                    } else if (ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".Type").equals("islandlevel") || ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".Type").equals("onIsland")) {
 
-                        String levelneeded = plugin.getConfig().getString( difficulty + "." + currentChallenge + ".Needed");
-                        rewards = plugin.getConfig().getStringList(difficulty + "." + currentChallenge + ".Reward");
+                        String levelneeded = ConfigShorts.getChallengesConfig().getString( difficulty + "." + currentChallenge + ".Needed");
+                        rewards = ConfigShorts.getChallengesConfig().getStringList(difficulty + "." + currentChallenge + ".Reward");
 
                         if (Material.matchMaterial(shownItem.toUpperCase()) != null) {
                             if (description != null) {
@@ -215,7 +214,7 @@ public class CreateChallengesInventory {
                                             if (itemsrewardText != null) {
                                                 if (slot > 0 && slot < 18) {
                                                     item = Material.getMaterial(shownItem.toUpperCase());
-                                                    String neededText = plugin.getConfig().getString(difficulty + "." + currentChallenge + ".NeededText");
+                                                    String neededText = ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".NeededText");
 
                                                     for (String anrewards : rewards) {
                                                         if (anrewards.contains(";")) {
@@ -242,22 +241,22 @@ public class CreateChallengesInventory {
                                                     }
 
                                                     List<String> lore = new ArrayList<>();
-                                                    lore.add(plugin.getConfig().getString("ItemOverlay.Lore") + ":");
+                                                    lore.add(ConfigShorts.getChallengesConfig().getString("ItemOverlay.Lore") + ":");
                                                     lore.addAll(splitString(description, descriptioncolor));
-                                                    if (plugin.getConfig().getString(difficulty + "." + currentChallenge + ".Type").equals("islandlevel")) {
-                                                        lore.add(plugin.getConfig().getString("ItemOverlay.Needed.islandlevel") + ":");
+                                                    if (ConfigShorts.getChallengesConfig().getString(difficulty + "." + currentChallenge + ".Type").equals("islandlevel")) {
+                                                        lore.add(ConfigShorts.getChallengesConfig().getString("ItemOverlay.Needed.islandlevel") + ":");
                                                     } else {
-                                                        lore.add(plugin.getConfig().getString("ItemOverlay.Needed.onIsland") + ":");
+                                                        lore.add(ConfigShorts.getChallengesConfig().getString("ItemOverlay.Needed.onIsland") + ":");
                                                     }
 
                                                     lore.addAll(splitString(neededText, descriptioncolor));
-                                                    lore.add(plugin.getConfig().getString("ItemOverlay.Reward") + ":");
+                                                    lore.add(ConfigShorts.getChallengesConfig().getString("ItemOverlay.Reward") + ":");
                                                     lore.addAll(splitString(itemsrewardText, descriptioncolor));
 
                                                     if (cache.getCurrentChallengeCount(challengecount) != 0) {
                                                         completedchallenges = completedchallenges + 1;
                                                         lore.add("");
-                                                        lore.add(ChatColor.DARK_RED + plugin.getConfig().getString("ItemOverlay.NotRepeatable"));
+                                                        lore.add(ChatColor.DARK_RED + ConfigShorts.getChallengesConfig().getString("ItemOverlay.NotRepeatable"));
                                                     }
 
                                                     ItemStack challenge = new ItemStack(item, 1);
@@ -313,8 +312,8 @@ public class CreateChallengesInventory {
                         System.out.println(ANSI_RED + "Could not set challenge correctly! Use a valid TYPE! Challenge: " + currentChallenge + ANSI_RESET);
                     }
                 }
-                String mineasycomp = plugin.getConfig().getString("CompletedChallenges.MinEasyCompleted");
-                String minmediumcomp = plugin.getConfig().getString("CompletedChallenges.MinMediumCompleted");
+                String mineasycomp = ConfigShorts.getChallengesConfig().getString("CompletedChallenges.MinEasyCompleted");
+                String minmediumcomp = ConfigShorts.getChallengesConfig().getString("CompletedChallenges.MinMediumCompleted");
                 int mineasycompleted = 5;
                 int minmediumcompleted = 5;
                 if (isInt(mineasycomp)) {
@@ -329,17 +328,17 @@ public class CreateChallengesInventory {
 
                     if (difficulty.equals("Easy")) {
                         if (completedchallenges >= mineasycompleted) {
-                            nextSiteMeta.setDisplayName(ChatColor.GREEN + plugin.getConfig().getString("Difficulty.Medium"));
+                            nextSiteMeta.setDisplayName(ChatColor.GREEN + ConfigShorts.getChallengesConfig().getString("Difficulty.Medium"));
                         } else {
                             nextSite.setType(Material.BARRIER);
-                            nextSiteMeta.setDisplayName(ChatColor.RED + plugin.getConfig().getString("CompletedChallenges.MinEasyCompleted"));
+                            nextSiteMeta.setDisplayName(ChatColor.RED + ConfigShorts.getChallengesConfig().getString("CompletedChallenges.MinEasyCompleted"));
                         }
                     } else if (difficulty.equals("Medium")) {
                         if (completedchallenges >= minmediumcompleted) {
-                            nextSiteMeta.setDisplayName(ChatColor.GREEN + plugin.getConfig().getString("Difficulty.Hard"));
+                            nextSiteMeta.setDisplayName(ChatColor.GREEN + ConfigShorts.getChallengesConfig().getString("Difficulty.Hard"));
                         } else {
                             nextSite.setType(Material.BARRIER);
-                            nextSiteMeta.setDisplayName(ChatColor.RED + plugin.getConfig().getString("CompletedChallenges.MinMediumCompleted"));
+                            nextSiteMeta.setDisplayName(ChatColor.RED + ConfigShorts.getChallengesConfig().getString("CompletedChallenges.MinMediumCompleted"));
                         }
 
                     }
@@ -355,9 +354,9 @@ public class CreateChallengesInventory {
                     ItemStack previousSite = new ItemStack(Material.RED_WOOL, 1);
                     ItemMeta previousSiteMeta = previousSite.getItemMeta();
                     if (difficulty.equals("Medium")) {
-                        previousSiteMeta.setDisplayName(ChatColor.RED + plugin.getConfig().getString("Difficulty.Easy"));
+                        previousSiteMeta.setDisplayName(ChatColor.RED + ConfigShorts.getChallengesConfig().getString("Difficulty.Easy"));
                     } else if (difficulty.equals("Hard")) {
-                        previousSiteMeta.setDisplayName(ChatColor.RED + plugin.getConfig().getString("Difficulty.Medium"));
+                        previousSiteMeta.setDisplayName(ChatColor.RED + ConfigShorts.getChallengesConfig().getString("Difficulty.Medium"));
                     }
 
                     previousSiteMeta.addEnchant(Enchantment.WATER_WORKER, 1, true);
@@ -366,7 +365,6 @@ public class CreateChallengesInventory {
                     cinv.setItem(18, previousSite);
                 }
                 player.openInventory(cinv);
-                ConfigShorts.loaddefConfig();
             }
         });
     }

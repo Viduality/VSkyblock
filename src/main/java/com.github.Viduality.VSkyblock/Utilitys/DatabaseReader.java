@@ -915,8 +915,8 @@ public class DatabaseReader {
      * @return int
      */
     private int getChallengeValueFirstComplete() {
-        if (plugin.getConfig().getString("ChallengeValueFirstComplete") != null) {
-            String challengeValueFirstComplete = plugin.getConfig().getString("ChallengeValueFirstComplete");
+        if (ConfigShorts.getDefConfig().getString("ChallengeValueFirstComplete") != null) {
+            String challengeValueFirstComplete = ConfigShorts.getDefConfig().getString("ChallengeValueFirstComplete");
             if (challengeValueFirstComplete != null) {
                 if (isInt(challengeValueFirstComplete)) {
                     return Integer.parseInt(challengeValueFirstComplete);
@@ -939,8 +939,8 @@ public class DatabaseReader {
      * @return int
      */
     private int getChallengeValueAfterFirstComplete() {
-        if (plugin.getConfig().getString("ChallengeValueAfterFirstComplete") != null) {
-            String challengeValueAfterFirstComplete = plugin.getConfig().getString("ChallengeValueAfterFirstComplete");
+        if (ConfigShorts.getDefConfig().getString("ChallengeValueAfterFirstComplete") != null) {
+            String challengeValueAfterFirstComplete = ConfigShorts.getDefConfig().getString("ChallengeValueAfterFirstComplete");
             if (challengeValueAfterFirstComplete != null) {
                 if (isInt(challengeValueAfterFirstComplete)) {
                     return Integer.parseInt(challengeValueAfterFirstComplete);
@@ -962,8 +962,8 @@ public class DatabaseReader {
      * @return int
      */
     private int getChallengeValueRepeats() {
-        if (plugin.getConfig().getString("ChallengeValueRepeats") != null) {
-            String challengeValueRepeats = plugin.getConfig().getString("ChallengeValueRepeats");
+        if (ConfigShorts.getDefConfig().getString("ChallengeValueRepeats") != null) {
+            String challengeValueRepeats = ConfigShorts.getDefConfig().getString("ChallengeValueRepeats");
             if (challengeValueRepeats != null) {
                 if (isInt(challengeValueRepeats)) {
                     return Integer.parseInt(challengeValueRepeats);

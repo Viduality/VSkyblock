@@ -87,8 +87,7 @@ public class CobblestoneGeneratorUpgrade {
      * @return Material List
      */
     private List<Material> getneededItems(int nextLevel) {
-        ConfigShorts.loadOptionsConfig();
-        List<String> neededItemsStringwithAmount = plugin.getConfig().getStringList("CobblestoneGenerator.Upgrade.Level_" + nextLevel + ".Needed");
+        List<String> neededItemsStringwithAmount = ConfigShorts.getOptionsConfig().getStringList("CobblestoneGenerator.Upgrade.Level_" + nextLevel + ".Needed");
         List<String> neededItemsString = new ArrayList<>();
         for (String current : neededItemsStringwithAmount) {
             String[] String = current.split(";");
@@ -100,7 +99,6 @@ public class CobblestoneGeneratorUpgrade {
                 neededItems.add(Material.getMaterial(current.toUpperCase()));
             }
         }
-        ConfigShorts.loaddefConfig();
         return neededItems;
     }
 
@@ -111,14 +109,12 @@ public class CobblestoneGeneratorUpgrade {
      * @return Integer List
      */
     private List<Integer> getneededItemsAmount(int nextLevel) {
-        ConfigShorts.loadOptionsConfig();
-        List<String> neededAmountStringwithItems = plugin.getConfig().getStringList("CobblestoneGenerator.Upgrade.Level_" + nextLevel + ".Needed");
+        List<String> neededAmountStringwithItems = ConfigShorts.getOptionsConfig().getStringList("CobblestoneGenerator.Upgrade.Level_" + nextLevel + ".Needed");
         List<Integer> neededAmount = new ArrayList<>();
         for (String current : neededAmountStringwithItems) {
             String[] String = current.split(";");
             neededAmount.add(Integer.valueOf(String[1]));
         }
-        ConfigShorts.loaddefConfig();
         return neededAmount;
     }
 

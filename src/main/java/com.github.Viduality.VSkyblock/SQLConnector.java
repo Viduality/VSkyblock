@@ -1,5 +1,6 @@
 package com.github.Viduality.VSkyblock;
 
+import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -18,7 +19,7 @@ public class SQLConnector {
      * @return Database user username
      */
     public String getDbUser() {
-        return plugin.getConfig().getString("database.user");
+        return ConfigShorts.getDefConfig().getString("database.user");
     }
 
     /**
@@ -26,7 +27,7 @@ public class SQLConnector {
      * @return Database password
      */
     public String getDbPassword() {
-        return plugin.getConfig().getString("database.password");
+        return ConfigShorts.getDefConfig().getString("database.password");
     }
 
     /**
@@ -34,7 +35,7 @@ public class SQLConnector {
      * @return Database name
      */
     public String getDatabase() {
-        return plugin.getConfig().getString("database.database");
+        return ConfigShorts.getDefConfig().getString("database.database");
     }
 
     /**
@@ -42,7 +43,7 @@ public class SQLConnector {
      * @return Database URL
      */
     public String getDbUrl() {
-        return plugin.getConfig().getString("database.url");
+        return ConfigShorts.getDefConfig().getString("database.url");
     }
 
     /**
@@ -50,7 +51,7 @@ public class SQLConnector {
      * @return Database URL parameters
      */
     public String getDbUrlParameters() {
-        return plugin.getConfig().getString("database.url-parameters");
+        return ConfigShorts.getDefConfig().getString("database.url-parameters");
     }
 
     /**

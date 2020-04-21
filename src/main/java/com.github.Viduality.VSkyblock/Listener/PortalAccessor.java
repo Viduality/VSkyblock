@@ -22,6 +22,7 @@ public class PortalAccessor implements Listener {
 
     // TODO implement portals
     // NOT IN USE YET
+    /*
     @EventHandler
     public void portalAccessor(PlayerMoveEvent playerMoveEvent) {
         Player player = playerMoveEvent.getPlayer();
@@ -40,4 +41,6 @@ public class PortalAccessor implements Listener {
             player.openInventory(portals);
         }
     }
+     */
+
 }

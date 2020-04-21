@@ -83,9 +83,9 @@ public class IslandInvite implements SubCommand {
     }
 
     private Integer getislandplayerlimit() {
-        Integer islandplayerlimit = 4;
-        if (isInt(plugin.getConfig().getString("IslandPlayerLimit"))) {
-            islandplayerlimit = plugin.getConfig().getInt("IslandPlayerLimit");
+        int islandplayerlimit = 4;
+        if (isInt(ConfigShorts.getDefConfig().getString("IslandPlayerLimit"))) {
+            islandplayerlimit = ConfigShorts.getDefConfig().getInt("IslandPlayerLimit");
         }
         return islandplayerlimit;
     }

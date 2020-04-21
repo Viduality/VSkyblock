@@ -42,11 +42,10 @@ public class IslandOptionsInventoryHandler implements Listener {
             int difficultyslot = 6;
             int confirmslot = 17;
 
-            ConfigShorts.loadOptionsConfig();
-            String visitalloweditem = plugin.getConfig().getString("Visit.AllowedItem");
-            String difficultynormalitem = plugin.getConfig().getString("Difficulty.NormalItem");
-            String difficultyharditem = plugin.getConfig().getString("Difficulty.HardItem");
-            String difficultyeasyitem = plugin.getConfig().getString("Difficulty.EasyItem");
+            String visitalloweditem = ConfigShorts.getOptionsConfig().getString("Visit.AllowedItem");
+            String difficultynormalitem = ConfigShorts.getOptionsConfig().getString("Difficulty.NormalItem");
+            String difficultyharditem = ConfigShorts.getOptionsConfig().getString("Difficulty.HardItem");
+            String difficultyeasyitem = ConfigShorts.getOptionsConfig().getString("Difficulty.EasyItem");
 
             if (slot == visitslot) {
                 if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(visitalloweditem))) {
@@ -66,7 +65,6 @@ public class IslandOptionsInventoryHandler implements Listener {
                 if (inventoryClickEvent.getCurrentItem().getType().equals(Material.COBBLESTONE)) {
                     inventoryClickEvent.getWhoClicked().closeInventory();
                     inventoryClickEvent.getWhoClicked().openInventory(getGeneratorMenu(inventoryClickEvent.getWhoClicked().getUniqueId()));
-                    ConfigShorts.loaddefConfig();
                 }
 
 
@@ -85,7 +83,6 @@ public class IslandOptionsInventoryHandler implements Listener {
                 player.closeInventory();
                 ConfigShorts.messagefromString("UpdatedIslandOptions", player);
                 String finalDifficulty = difficulty;
-                ConfigShorts.loaddefConfig();
                 databaseWriter.updateIslandOptions(player, visit, difficulty, done ->
                         databaseReader.getislandnamefromplayer(player.getUniqueId(), result ->
                                 updateIsland(result, finalDifficulty)));
@@ -108,15 +105,14 @@ public class IslandOptionsInventoryHandler implements Listener {
      * @return ItemStack
      */
     private ItemStack getItemStack(String item, String option) {
-        ConfigShorts.loadOptionsConfig();
         Material mat;
         switch (item) {
             case "visit":
-                String visititem = plugin.getConfig().getString("Visit." + option + "Item");
+                String visititem = ConfigShorts.getOptionsConfig().getString("Visit." + option + "Item");
                 mat = getMaterial(visititem);
                 break;
             case "difficulty":
-                String difficultyitem = plugin.getConfig().getString("Difficulty." + option + "Item");
+                String difficultyitem = ConfigShorts.getOptionsConfig().getString("Difficulty." + option + "Item");
                 mat = getMaterial(difficultyitem);
                 break;
             default:
@@ -139,7 +135,6 @@ public class IslandOptionsInventoryHandler implements Listener {
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemMeta.addItemFlags(ItemFlag.values());
         itemStack.setItemMeta(itemMeta);
-        ConfigShorts.loaddefConfig();
         return itemStack;
     }
 
@@ -175,13 +170,10 @@ public class IslandOptionsInventoryHandler implements Listener {
      * @return String
      */
     private String getInvName() {
-        ConfigShorts.loadOptionsConfig();
-        if (plugin.getConfig().getString("InventoryName") != null) {
-            String invname = plugin.getConfig().getString("InventoryName");
-            ConfigShorts.loaddefConfig();
+        if (ConfigShorts.getOptionsConfig().getString("InventoryName") != null) {
+            String invname = ConfigShorts.getOptionsConfig().getString("InventoryName");
             return invname;
         } else {
-            ConfigShorts.loaddefConfig();
             return "Island options";
         }
     }
@@ -193,9 +185,7 @@ public class IslandOptionsInventoryHandler implements Listener {
      * @return String
      */
     private String getDisplayNameDifficulty(String difficulty) {
-        ConfigShorts.loadOptionsConfig();
-        String displayname = plugin.getConfig().getString("Difficulty." + difficulty);
-        ConfigShorts.loaddefConfig();
+        String displayname = ConfigShorts.getOptionsConfig().getString("Difficulty." + difficulty);
         if (displayname != null) {
             return displayname;
         } else {
@@ -210,9 +200,7 @@ public class IslandOptionsInventoryHandler implements Listener {
      * @return String
      */
     private String getDisplayNameVisit(String allowed) {
-        ConfigShorts.loadOptionsConfig();
-        String displayname = plugin.getConfig().getString("Visit." + allowed);
-        ConfigShorts.loaddefConfig();
+        String displayname = ConfigShorts.getOptionsConfig().getString("Visit." + allowed);
         if (displayname != null) {
             return displayname;
         } else {
@@ -268,15 +256,14 @@ public class IslandOptionsInventoryHandler implements Listener {
     }
 
     private ItemStack getUpgradeButton(UUID playerUUID) {
-        ConfigShorts.loadOptionsConfig();
         String island = Island.playerislands.get(playerUUID);
         Integer currentGeneratorLevel = CobblestoneGenerator.islandGenLevel.get(island);
         Integer nextGeneratorLevel = currentGeneratorLevel + 1;
         String upgradeButtonItem;
         if (nextGeneratorLevel > 7) {
-            upgradeButtonItem = plugin.getConfig().getString("CobblestoneGenerator.Upgrade.Max_Level.Item");
+            upgradeButtonItem = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Max_Level.Item");
         } else {
-            upgradeButtonItem = plugin.getConfig().getString("CobblestoneGenerator.Upgrade.Level_" + nextGeneratorLevel + ".Item");
+            upgradeButtonItem = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Level_" + nextGeneratorLevel + ".Item");
         }
         Material mat = getMaterial(upgradeButtonItem);
         ItemStack upgradeButton = new ItemStack(mat, 1);
@@ -284,8 +271,6 @@ public class IslandOptionsInventoryHandler implements Listener {
 
         upgradeButtonMeta.setDisplayName(getDisplayNameGeneratorUpgradeButton(nextGeneratorLevel));
         upgradeButtonMeta.setLore(getDescriptionGeneratorUpgradeButton(nextGeneratorLevel));
-
-        ConfigShorts.loaddefConfig();
 
         upgradeButtonMeta.addEnchant(Enchantment.DURABILITY, 1, true);
         upgradeButtonMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -296,7 +281,6 @@ public class IslandOptionsInventoryHandler implements Listener {
     }
 
     private ItemStack getCobbleDropChanceInfo(UUID playerUUID) {
-        ConfigShorts.loadOptionsConfig();
         String island = Island.playerislands.get(playerUUID);
         Integer currentIslandLevel = CobblestoneGenerator.islandlevels.get(island);
         Double levelIntervall = CobblestoneGenerator.generatorValues.get("CobblestoneLevelIntervall");
@@ -310,8 +294,6 @@ public class IslandOptionsInventoryHandler implements Listener {
         cobbleDropChanceInfoMeta.setDisplayName(getDisplayNameCobbleDropChance());
         cobbleDropChanceInfoMeta.setLore(getDescriptionCobblestoneDropChance(maxDrops));
 
-        ConfigShorts.loaddefConfig();
-
         cobbleDropChanceInfoMeta.addEnchant(Enchantment.DURABILITY, 1, true);
         cobbleDropChanceInfoMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         cobbleDropChanceInfoMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -321,11 +303,10 @@ public class IslandOptionsInventoryHandler implements Listener {
     }
 
     private ItemStack getChancesOverview(UUID playerUUID) {
-        ConfigShorts.loadOptionsConfig();
         String island = Island.playerislands.get(playerUUID);
         Integer currentgeneratorLevel = CobblestoneGenerator.islandGenLevel.get(island);
 
-        String chancesOverviewItem = plugin.getConfig().getString("CobblestoneGenerator.Chances.Level_" + currentgeneratorLevel + "_Item");
+        String chancesOverviewItem = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.Level_" + currentgeneratorLevel + "_Item");
         Material mat = getMaterial(chancesOverviewItem);
 
         ItemStack chancesOverview = new ItemStack(mat, 1);
@@ -333,7 +314,6 @@ public class IslandOptionsInventoryHandler implements Listener {
 
         chancesOverviewMeta.setDisplayName(getDisplayNameChancesOverview());
         chancesOverviewMeta.setLore(getDescriptionChancesOverview(currentgeneratorLevel));
-        ConfigShorts.loaddefConfig();
 
         chancesOverviewMeta.addEnchant(Enchantment.DURABILITY, 1, true);
         chancesOverviewMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -349,7 +329,7 @@ public class IslandOptionsInventoryHandler implements Listener {
      * @return String
      */
     private String getDisplayNameGenerator() {
-        String displayname = plugin.getConfig().getString("CobblestoneGenerator.DisplayName");
+        String displayname = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.DisplayName");
         if (displayname != null) {
             return displayname;
         } else {
@@ -365,9 +345,9 @@ public class IslandOptionsInventoryHandler implements Listener {
     private String getDisplayNameGeneratorUpgradeButton(Integer nextGeneratorLevel) {
         String displayname;
         if (nextGeneratorLevel > 7) {
-            displayname = plugin.getConfig().getString("CobblestoneGenerator.Upgrade.DisplayNameMaxLevel");
+            displayname = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.DisplayNameMaxLevel");
         } else {
-            displayname = plugin.getConfig().getString("CobblestoneGenerator.Upgrade.DisplayName");
+            displayname = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.DisplayName");
         }
         if (displayname != null) {
             return displayname;
@@ -377,7 +357,7 @@ public class IslandOptionsInventoryHandler implements Listener {
     }
 
     private String getDisplayNameCobbleDropChance() {
-        String displayname = plugin.getConfig().getString("CobblestoneGenerator.CobbleDropChance");
+        String displayname = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.CobbleDropChance");
         if (displayname != null) {
             return displayname;
         } else {
@@ -386,7 +366,7 @@ public class IslandOptionsInventoryHandler implements Listener {
     }
 
     private String getDisplayNameChancesOverview() {
-        String displayname = plugin.getConfig().getString("CobblestoneGenerator.Chances.Overview");
+        String displayname = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.Overview");
         if (displayname != null) {
             return displayname;
         } else {
@@ -397,11 +377,11 @@ public class IslandOptionsInventoryHandler implements Listener {
     private List<String> getDescriptionGeneratorUpgradeButton(Integer nextGeneratorLevel) {
         List<String> descriptionList = new ArrayList<>();
         if (nextGeneratorLevel > 7) {
-            String description = plugin.getConfig().getString("CobblestoneGenerator.Upgrade.Max_Level.Description");
+            String description = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Max_Level.Description");
             descriptionList.addAll(splitString(description));
         } else {
-            String overlay = plugin.getConfig().getString("CobblestoneGenerator.Upgrade.Adds");
-            String description = plugin.getConfig().getString("CobblestoneGenerator.Upgrade.Level_" + nextGeneratorLevel + ".AddsFeature");
+            String overlay = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Adds");
+            String description = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Level_" + nextGeneratorLevel + ".AddsFeature");
             if (overlay != null) {
                 descriptionList.addAll(splitString(overlay));
             }
@@ -409,14 +389,14 @@ public class IslandOptionsInventoryHandler implements Listener {
                 descriptionList.addAll(splitString(description));
             }
 
-            String neededItemsColorCode = plugin.getConfig().getString("CobblestoneGenerator.Upgrade.NeededColor");
+            String neededItemsColorCode = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.NeededColor");
 
-            String neededLevel = plugin.getConfig().getString("CobblestoneGenerator.Upgrade.NeededLevel");
+            String neededLevel = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.NeededLevel");
             String neededLevelNumber = neededItemsColorCode + getRequiredIslandLevel(nextGeneratorLevel);
             neededLevel = neededLevel.replace("%number%", neededLevelNumber);
 
-            String neededItemsStart = plugin.getConfig().getString("CobblestoneGenerator.Upgrade.Needed");
-            String neededItems = plugin.getConfig().getString("CobblestoneGenerator.Upgrade.Level_" + nextGeneratorLevel + ".NeededText");
+            String neededItemsStart = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Needed");
+            String neededItems = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Level_" + nextGeneratorLevel + ".NeededText");
             if (neededItemsColorCode != null) {
                 neededItems = neededItemsColorCode + neededItems;
             }
@@ -429,7 +409,7 @@ public class IslandOptionsInventoryHandler implements Listener {
     }
 
     private List<String> getDescriptionCobblestoneDropChance(Integer maxDrops) {
-        String maxDropsLine = plugin.getConfig().getString("CobblestoneGenerator.CobbleDropChanceMax");
+        String maxDropsLine = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.CobbleDropChanceMax");
         if (maxDropsLine != null) {
             if (maxDropsLine.contains("%number%")) {
                 maxDropsLine = maxDropsLine.replace("%number%", String.valueOf(maxDrops));
@@ -439,7 +419,7 @@ public class IslandOptionsInventoryHandler implements Listener {
         } else {
             maxDropsLine = "Max Drops: " + String.valueOf(maxDrops);
         }
-        String description = plugin.getConfig().getString("CobblestoneGenerator.CobbleDropChanceDescription");
+        String description = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.CobbleDropChanceDescription");
         List<String> descriptionList = new ArrayList<>();
         descriptionList.addAll(splitString(maxDropsLine));
         if (description != null) {
@@ -450,21 +430,21 @@ public class IslandOptionsInventoryHandler implements Listener {
 
     private List<String> getDescriptionChancesOverview(Integer currentGeneratorLevel) {
         if (currentGeneratorLevel == 0) {
-            if (plugin.getConfig().getString("CobblestoneGenerator.Chances.Level_0_Info") != null) {
-                return splitString(plugin.getConfig().getString("CobblestoneGenerator.Chances.Level_0_Info"));
+            if (ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.Level_0_Info") != null) {
+                return splitString(ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.Level_0_Info"));
             } else {
                 return splitString("No additional items, only cobblestone");
             }
         } else {
             boolean showPercentagePerItem = true;
-            if (plugin.getConfig().getString("CobblestoneGenerator.Chances.ShowPercentagePerItem").equalsIgnoreCase("false")) {
+            if (ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.ShowPercentagePerItem").equalsIgnoreCase("false")) {
                 showPercentagePerItem = false;
             }
             List<String> descriptionList = new ArrayList<>();
 
             for (int i = 1; i <= currentGeneratorLevel; i++) {
-                String chanceInfoText = plugin.getConfig().getString("CobblestoneGenerator.Chances.Level_" + i + "_Info");
-                String chanceInfo = plugin.getConfig().getString("CobblestoneGenerator.Chances.ChanceInfo");
+                String chanceInfoText = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.Level_" + i + "_Info");
+                String chanceInfo = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.ChanceInfo");
                 if (chanceInfo.contains("%number%")) {
                     switch (i) {
                         case 1:

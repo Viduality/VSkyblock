@@ -55,9 +55,8 @@ public class WorldList implements AdminSubCommand {
     private String getWorlds(int site) {
         List<String> worlds = wm.getAllWorlds();
         List<String> loadedWorlds = wm.getLoadedWorlds();
-        String prefix = ConfigShorts.getPrefix();
+        String prefix = ConfigShorts.getMessageConfig().getString("Prefix") + " ";
         StringBuilder str = new StringBuilder();
-        ConfigShorts.loadWorldConfig();
         for (int i = 0; i < 6; i++) {
             if (worlds.size() > (site*6)-6+i) {
                 String currentWorld = worlds.get((site*6)-6+i);
@@ -69,7 +68,7 @@ public class WorldList implements AdminSubCommand {
                 } else {
                     str.append(" - §8Unloaded");
                 }
-                String env = plugin.getConfig().getString("Worlds." + currentWorld + ".environment").toUpperCase();
+                String env = ConfigShorts.getWorldConfig().getString("Worlds." + currentWorld + ".environment").toUpperCase();
                 switch (env) {
                     case "THE_END":
                         str.append("§f - §5THE_END");
@@ -87,7 +86,6 @@ public class WorldList implements AdminSubCommand {
                 i = 7;
             }
         }
-        ConfigShorts.loaddefConfig();
         return str.toString();
     }
 }

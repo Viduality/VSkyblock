@@ -39,14 +39,12 @@ public class PlayerJoinListener implements Listener {
         location.setPitch(-90);
         player.teleport(location);
 
-        ConfigShorts.loaddefConfig();
 
-
-        if (wm.getUnloadedWorlds().contains(plugin.getConfig().getString("SpawnWorld"))) {
-            wm.loadWorld(plugin.getConfig().getString("SpawnWorld"));
+        if (wm.getUnloadedWorlds().contains(ConfigShorts.getDefConfig().getString("SpawnWorld"))) {
+            wm.loadWorld(ConfigShorts.getDefConfig().getString("SpawnWorld"));
         }
-        if (wm.getUnloadedWorlds().contains(plugin.getConfig().getString("NetherWorld"))) {
-            wm.loadWorld(plugin.getConfig().getString("NetherWorld"));
+        if (wm.getUnloadedWorlds().contains(ConfigShorts.getDefConfig().getString("NetherWorld"))) {
+            wm.loadWorld(ConfigShorts.getDefConfig().getString("NetherWorld"));
         }
 
 
@@ -74,7 +72,7 @@ public class PlayerJoinListener implements Listener {
                             loadWorld(result);
                         }
                     } else {
-                        player.teleport(wm.getSpawnLocation(plugin.getConfig().getString("SpawnWorld")));
+                        player.teleport(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
                         player.removePotionEffect(PotionEffectType.BLINDNESS);
                         player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                         if (result.isKicked()) {

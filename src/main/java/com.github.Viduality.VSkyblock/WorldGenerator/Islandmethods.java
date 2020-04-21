@@ -38,8 +38,8 @@ public class Islandmethods {
      */
     public void createNewIsland(UUID uuid, String oldIsland) {
         Player player = plugin.getServer().getPlayer(uuid);
-        String worldsizeString = plugin.getConfig().getString("WorldSize");
-        String difficulty = plugin.getConfig().getString("Difficulty");
+        String worldsizeString = ConfigShorts.getDefConfig().getString("WorldSize");
+        String difficulty = ConfigShorts.getDefConfig().getString("Difficulty");
         databaseReader.getLatestIsland(new DatabaseReader.CallbackStrings() {
             @Override
             public void onQueryDone(String result, boolean a) {

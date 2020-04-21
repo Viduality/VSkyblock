@@ -3,13 +3,35 @@ package com.github.Viduality.VSkyblock.Utilitys;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ConfigShorts {
 
     private static VSkyblock plugin = VSkyblock.getInstance();
+
+    private static File configFile;
+    private static FileConfiguration config;
+
+    private static File messagesFile;
+    private static FileConfiguration messagesConfig;
+
+    private static File challengesFile;
+    private static FileConfiguration challengesConfig;
+
+    private static File helpFile;
+    private static FileConfiguration helpConfig;
+
+    private static File worldsFile;
+    private static FileConfiguration worldsConfig;
+
+    private static File optionsFile;
+    private static FileConfiguration optionsConfig;
+
 
     /**
      * Sends a message from the config.yml file to a player.
@@ -18,30 +40,11 @@ public class ConfigShorts {
      * @param sender
      */
     public static void messagefromString(String string, CommandSender sender) {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
 
-        String actualLanguage = plugin.getConfig().getString("Language");
-        String prefix;
-        String message;
-        if (actualLanguage.equalsIgnoreCase("ger")) {
-            loadGERConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
-        else {
-            loadENGConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
+        String prefix = messagesConfig.getString("Prefix");
+        String message = prefix + " " + messagesConfig.getString(string);
 
         sender.sendMessage(message);
-        loaddefConfig();
     }
 
     /**
@@ -50,30 +53,11 @@ public class ConfigShorts {
      * @param string
      */
     public static void broadcastfromString(String string) {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
 
-        String actualLanguage = plugin.getConfig().getString("Language");
-        String prefix;
-        String message;
-        if (actualLanguage.equalsIgnoreCase("ger")) {
-            loadGERConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
-        else {
-            loadENGConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
+        String prefix = messagesConfig.getString("Prefix");
+        String message = prefix + " " + messagesConfig.getString(string);
 
         plugin.getServer().broadcastMessage(message);
-        loaddefConfig();
     }
 
     /**
@@ -84,27 +68,9 @@ public class ConfigShorts {
      * @param challenge
      */
     public static void broadcastChallengeCompleted(String string, String playername, String challenge) {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
 
-        String actualLanguage = plugin.getConfig().getString("Language");
-        String prefix;
-        String message;
-        if (actualLanguage.equalsIgnoreCase("ger")) {
-            loadGERConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
-        else {
-            loadENGConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
+        String prefix = messagesConfig.getString("Prefix");
+        String message = prefix + " " + messagesConfig.getString(string);
 
         if (message.contains("%Player")) {
             message = message.replace("%Player%", playername);
@@ -118,7 +84,6 @@ public class ConfigShorts {
         }
 
         plugin.getServer().broadcastMessage(message);
-        loaddefConfig();
     }
 
     /**
@@ -130,27 +95,9 @@ public class ConfigShorts {
      * @param targetname
      */
     public static void custommessagefromString(String string, Player player, String playername, String targetname) {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
 
-        String actualLanguage = plugin.getConfig().getString("Language");
-        String prefix;
-        String message;
-        if (actualLanguage.equalsIgnoreCase("ger")) {
-            loadGERConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
-        else {
-            loadENGConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
+        String prefix = messagesConfig.getString("Prefix");
+        String message = prefix + " " + messagesConfig.getString(string);
 
         if (message.contains("%Player")) {
             message = message.replace("%Player%", playername);
@@ -163,7 +110,6 @@ public class ConfigShorts {
 
         }
         player.sendMessage(message);
-        loaddefConfig();
     }
 
     /**
@@ -174,34 +120,15 @@ public class ConfigShorts {
      * @param replacement
      */
     public static void custommessagefromString(String string, CommandSender sender, String replacement) {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
 
-        String actualLanguage = plugin.getConfig().getString("Language");
-        String prefix;
-        String message;
-        if (actualLanguage.equalsIgnoreCase("ger")) {
-            loadGERConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
-        else {
-            loadENGConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
+        String prefix = messagesConfig.getString("Prefix");
+        String message = prefix + " " + messagesConfig.getString(string);
 
         if (message.contains("%replacement%")) {
             message = message.replace("%replacement%", replacement);
         }
 
         sender.sendMessage(message);
-        loaddefConfig();
     }
 
     /**
@@ -212,27 +139,9 @@ public class ConfigShorts {
      * @return custom String
      */
     public static String getCustomString(String string, String replacement, String replacement2) {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
 
-        String actualLanguage = plugin.getConfig().getString("Language");
-        String prefix;
-        String message;
-        if (actualLanguage.equalsIgnoreCase("ger")) {
-            loadGERConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
-        else {
-            loadENGConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
+        String prefix = messagesConfig.getString("Prefix");
+        String message = prefix + " " + messagesConfig.getString(string);
 
         if (message.contains("%replacement%")) {
             message = message.replace("%replacement%", replacement);
@@ -241,7 +150,6 @@ public class ConfigShorts {
         if (message.contains("%replacement2%")) {
             message = message.replace("%replacement2%", replacement2);
         }
-        loaddefConfig();
         return message;
     }
 
@@ -251,229 +159,122 @@ public class ConfigShorts {
      * @return String
      */
     public static String getCustomString(String string) {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
 
-        String actualLanguage = plugin.getConfig().getString("Language");
-        String prefix;
-        String message;
-        if (actualLanguage.equalsIgnoreCase("ger")) {
-            loadGERConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
-        else {
-            loadENGConfig();
-            prefix = plugin.getConfig().getString("Prefix");
-            message = prefix + " " + plugin.getConfig().getString(string);
-        }
-        loaddefConfig();
+        String prefix = messagesConfig.getString("Prefix");
+        String message = prefix + " " + messagesConfig.getString(string);
+
         return message;
     }
 
-    /**
-     * Returns the prefix for chat messages from the config.
-     * @return String
-     */
-    public static String getPrefix() {
+    private static String getLanguage() {
         try {
             plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
+        } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
 
         String actualLanguage = plugin.getConfig().getString("Language");
-        String prefix;
-        if (actualLanguage.equalsIgnoreCase("ger")) {
-            loadGERConfig();
-            prefix = plugin.getConfig().getString("Prefix") + " ";
+        if (actualLanguage != null) {
+            if (actualLanguage.equalsIgnoreCase("ger")) {
+                return "ger";
+            }
         }
-        else {
-            loadENGConfig();
-            prefix = plugin.getConfig().getString("Prefix") + " ";
-
-        }
-        return prefix;
+        return "eng";
     }
 
-    /**
-     * Loads the help config.
-     * Language depends on the given language in the config.yml file.
-     */
-    public static void loadHelpConfig() {
-        loaddefConfig();
-        String actualLanguage = plugin.getConfig().getString("Language");
-        if (actualLanguage.equalsIgnoreCase("ger")) {
-            loadGERHelp();
+    public static void loadMessagesConfig() throws IOException, InvalidConfigurationException {
+
+        if (getLanguage().equals("ger")) {
+            messagesFile = new File(plugin.getDataFolder() + "/Languages", "ger.yml");
         } else {
-            loadENGHelp();
+            messagesFile = new File(plugin.getDataFolder() + "/Languages", "eng.yml");
         }
+        messagesConfig = new YamlConfiguration();
+        messagesConfig.load(messagesFile);
     }
 
-    /**
-     * Loads the german config file.
-     */
-    private static void loadGERConfig() {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/Languages/ger.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
+    public static void loadChallengesConfig1() throws IOException, InvalidConfigurationException {
+
+        if (getLanguage().equals("ger")) {
+            challengesFile = new File(plugin.getDataFolder() + "/Challenges", "ChallengesGer.yml");
+        } else {
+            challengesFile = new File(plugin.getDataFolder() + "/Challenges", "ChallengesEng.yml");
         }
+        challengesConfig = new YamlConfiguration();
+        challengesConfig.load(challengesFile);
     }
 
-    /**
-     * Loads the english config file.
-     */
-    private static void loadENGConfig() {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/Languages/eng.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
+    public static void loadHelpConfig1() throws IOException, InvalidConfigurationException {
+
+        if (getLanguage().equals("ger")) {
+            helpFile = new File(plugin.getDataFolder() + "/Help", "HelpGer.yml");
+        } else {
+            helpFile = new File(plugin.getDataFolder() + "/Help", "HelpEng.yml");
         }
+        helpConfig = new YamlConfiguration();
+        helpConfig.load(helpFile);
     }
 
-    /**
-     * Loads the german help file.
-     */
-    private static void loadGERHelp() {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/Help/HelpGer.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
+    public static void loadOptionsConfig1() throws IOException, InvalidConfigurationException {
+
+        if (getLanguage().equals("ger")) {
+            optionsFile = new File(plugin.getDataFolder() + "/Options", "OptionsGer.yml");
+        } else {
+            optionsFile = new File(plugin.getDataFolder() + "/Options", "OptionsEng.yml");
         }
+        optionsConfig = new YamlConfiguration();
+        optionsConfig.load(optionsFile);
     }
 
-    /**
-     * Loads the english help file.
-     */
-    private static void loadENGHelp() {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/Help/HelpEng.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
+    public static void loadConfig() throws IOException, InvalidConfigurationException {
+
+        configFile = new File(plugin.getDataFolder() + "/config.yml");
+        config = new YamlConfiguration();
+        config.load(configFile);
     }
 
-    /**
-     * Loads the default config file. (config.yml)
-     */
-    public static void loaddefConfig() {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
+    public static void reloadWorldConfig1() throws IOException, InvalidConfigurationException {
+
+        worldsFile = new File(plugin.getDataFolder() + "/Worlds.yml");
+        worldsConfig = new YamlConfiguration();
+        worldsConfig.load(worldsFile);
     }
 
-    /**
-     * Loads the challenges config.
-     * Language depends on the given language in the config.yml file.
-     */
-    public static void loadChallengesConfig() {
+    public static void reloadAllConfigs() {
         try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
+            loadMessagesConfig();
+            loadChallengesConfig1();
+            loadHelpConfig1();
+            loadOptionsConfig1();
+            loadConfig();
+            reloadWorldConfig1();
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
-
-        String actualLanguage = plugin.getConfig().getString("Language");
-        if (actualLanguage.equalsIgnoreCase("ger")) {
-            try {
-                plugin.getConfig().load(plugin.getDataFolder() + "/Challenges/ChallengesGer.yml");
-            } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            try {
-                plugin.getConfig().load(plugin.getDataFolder() + "/Challenges/ChallengesEng.yml");
-            } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
-    /**
-     * Loads the teleporter config.
-     * Language depends on the given language in the config.yml file.
-     */
-    public static void loadTeleporterConfig() {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
-        } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
-
-        String actualLanguage = plugin.getConfig().getString("Language");
-        if (actualLanguage.equalsIgnoreCase("ger")) {
-            try {
-                plugin.getConfig().load(plugin.getDataFolder() + "/Teleporter/TeleporterGer.yml");
-            } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            try {
-                plugin.getConfig().load(plugin.getDataFolder() + "/Teleporter/TeleporterEng.yml");
-            } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
-            }
-        }
+    public static FileConfiguration getWorldConfig() {
+        return worldsConfig;
     }
 
-    /**
-     * Loads the "Worlds.yml" file.
-     */
-    public static void loadWorldConfig() {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/Worlds.yml");
-        } catch (InvalidConfigurationException | IOException e) {
-            e.printStackTrace();
-        }
+    public static FileConfiguration getDefConfig() {
+        return config;
     }
 
-    /**
-     * Loads the island options depending on the language.
-     */
-    public static void loadOptionsConfig() {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
-        } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
+    public static FileConfiguration getMessageConfig() {
+        return messagesConfig;
+    }
 
-        String actualLanguage = plugin.getConfig().getString("Language");
-        if (actualLanguage.equalsIgnoreCase("ger")) {
-            try {
-                plugin.getConfig().load(plugin.getDataFolder() + "/Options/OptionsGer.yml");
-            } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            try {
-                plugin.getConfig().load(plugin.getDataFolder() + "/Options/OptionsEng.yml");
-            } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
-            }
-        }
+    public static FileConfiguration getOptionsConfig() {
+        return optionsConfig;
+    }
+
+    public static FileConfiguration getHelpConfig() {
+        return helpConfig;
+    }
+
+    public static FileConfiguration getChallengesConfig() {
+        return challengesConfig;
     }
 
 }
