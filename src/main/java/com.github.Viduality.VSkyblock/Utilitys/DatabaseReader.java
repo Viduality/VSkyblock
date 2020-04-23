@@ -459,6 +459,22 @@ public class DatabaseReader {
                             islandlevel = resultSet3.getInt("islandlevel");
                         }
                         preparedStatementGetIslandLevel.close();
+
+
+                        if (islandname != null) {
+                            World w = plugin.getServer().getWorld(islandname);
+                            PreparedStatement getIslandhome;
+                            getIslandhome = connection.prepareStatement("SELECT * FROM VSkyblock_IslandLocations WHERE islandid = ?");
+                            getIslandhome.setInt(1, islandid);
+                            ResultSet r = getIslandhome.executeQuery();
+                            Location loc = null;
+                            while (r.next()) {
+                                loc = new Location(w, r.getDouble("spawnX"), r.getDouble("spawnY"), r.getDouble("spawnZ"), r.getFloat("spawnYaw"), r.getFloat("spawnPitch"));
+                            }
+                            if (loc != null) {
+                                Island.islandhomes.put(islandname, loc);
+                            }
+                        }
                     }
                     if (islandname != null && !islandname.equals("NULL")) {
                         Island.playerislands.put(player.getUniqueId(), islandname);
@@ -1036,6 +1052,67 @@ public class DatabaseReader {
                         if (wm.getLoadedWorlds().contains(world)) {
                             World w = plugin.getServer().getWorld(world);
                             location = new Location(w, x, y, z, (float) yaw, 0);
+                        }
+                    }
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            finally {
+                plugin.getdb().closeConnection(connection);
+            }
+
+            Location finalLocation = location;
+            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(finalLocation));
+        });
+    }
+
+    /**
+     * Returns the island home location.
+     *
+     * @param world     The name of the world.
+     * @param callback  Returns the location.
+     */
+    public void getIslandSpawn(final String world, final CallbackLocation callback) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Location location = null;
+            double x = 0;
+            double y = 0;
+            double z = 0;
+            float yaw = 0;
+            float pitch = 0;
+            int islandid = 0;
+            Connection connection = plugin.getdb().getConnection();
+            try {
+                PreparedStatement getislandid;
+                getislandid = connection.prepareStatement("SELECT islandid FROM VSkyblock_Island WHERE island = ?");
+                getislandid.setString(1, world);
+                ResultSet r = getislandid.executeQuery();
+                while (r.next()) {
+                    islandid = r.getInt("islandid");
+                }
+                getislandid.close();
+
+                if (islandid != 0) {
+                    PreparedStatement preparedStatement1;
+                    preparedStatement1 = connection.prepareStatement("SELECT * FROM VSkyblock_IslandLocations WHERE islandid = ?");
+                    preparedStatement1.setInt(1, islandid);
+                    ResultSet getLoc = preparedStatement1.executeQuery();
+                    while (getLoc.next()) {
+                        x = getLoc.getDouble("spawnX");
+                        y = getLoc.getDouble("spawnY");
+                        z = getLoc.getDouble("spawnZ");
+                        yaw = getLoc.getFloat("spawnYaw");
+                        pitch = getLoc.getFloat("spawnPitch");
+                    }
+                    preparedStatement1.close();
+
+                    if (world != null) {
+                        if (wm.getLoadedWorlds().contains(world)) {
+                            World w = plugin.getServer().getWorld(world);
+                            location = new Location(w, x, y, z, yaw, pitch);
                         }
                     }
                 }

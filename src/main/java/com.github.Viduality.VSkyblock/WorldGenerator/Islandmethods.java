@@ -98,6 +98,7 @@ public class Islandmethods {
 
                 Island.restartmap.asMap().remove(uuid);
                 Island.playerislands.put(uuid, worldName);
+                Island.islandhomes.put(worldName, world.getSpawnLocation());
                 CobblestoneGenerator.islandGenLevel.put(worldName, 0);
                 CobblestoneGenerator.islandlevels.put(worldName, 0);
                 Player player = plugin.getServer().getPlayer(uuid);

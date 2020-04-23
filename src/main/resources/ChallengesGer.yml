@@ -281,11 +281,12 @@ Medium:
     Reward:
     - Redstone;16
     - Iron_Ore;5
-    - Wolf_Spawn_Egg
-    RepeatRewardText: "2 Redstone, 1 Eisenerz"
+    - Wolf_Spawn_Egg;1
+    RepeatRewardText: "2 Redstone, 1 Eisenerz, 1 Wolfspawnei"
     RepeatReward:
     - Redstone;2
     - Iron_Ore;1
+    - Wolf_Spawn_Egg;1
 
   Keksmonster:
     Slot: 5

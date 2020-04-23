@@ -8,6 +8,9 @@ import com.github.Viduality.VSkyblock.Commands.Admin.AdminCommands;
 import com.github.Viduality.VSkyblock.Listener.*;
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.WorldGenerator.VoidGenerator;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
@@ -15,6 +18,10 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.*;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,6 +147,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
             databaseReader.refreshIslands(getOnlinePlayers());
             databaseReader.refreshDeathCounts(getOnlinePlayers());
         }
+        updateNewTables();
     }
 
 
@@ -319,5 +327,53 @@ public class VSkyblock extends JavaPlugin implements Listener {
             return false;
         }
         return true;
+    }
+
+    private void updateNewTables() {
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            Connection connection = getdb().getConnection();
+            try {
+                PreparedStatement preparedStatement;
+                preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island");
+                ResultSet resultSet = preparedStatement.executeQuery();
+                List<Integer> islandids = new ArrayList<>();
+                List<String> islandnames = new ArrayList<>();
+                while (resultSet.next()) {
+                    islandids.add(resultSet.getInt("islandid"));
+                    islandnames.add(resultSet.getString("island"));
+                }
+                PreparedStatement prep = null;
+                PreparedStatement insert = null;
+                for (int i = 0; i < islandids.size(); i++) {
+                    insert = connection.prepareStatement("INSERT IGNORE INTO VSkyblock_IslandLocations(islandid) VALUES (?)");
+                    insert.setInt(1, islandids.get(i));
+                    insert.executeUpdate();
+
+
+                    String currentis = islandnames.get(i);
+                    double x = ConfigShorts.getWorldConfig().getDouble("Worlds." + currentis + ".spawnLocation.x");
+                    double y = ConfigShorts.getWorldConfig().getDouble("Worlds." + currentis + ".spawnLocation.y");
+                    double z = ConfigShorts.getWorldConfig().getDouble("Worlds." + currentis + ".spawnLocation.z");
+                    float yaw = (float) ConfigShorts.getWorldConfig().getDouble("Worlds." + currentis + ".spawnLocation.yaw");
+                    float pitch = (float) ConfigShorts.getWorldConfig().getDouble("Worlds." + currentis + ".spawnLocation.pitch");
+                    prep = connection.prepareStatement("UPDATE IGNORE VSkyblock_IslandLocations SET spawnX = ?, spawnY = ?, spawnZ = ?, spawnYaw = ?, spawnPitch = ? WHERE islandid = ?");
+                    prep.setDouble(1, x);
+                    prep.setDouble(2, y);
+                    prep.setDouble(3, z);
+                    prep.setDouble(4, yaw);
+                    prep.setDouble(5, pitch);
+                    prep.setInt(6, islandids.get(i));
+                    prep.executeUpdate();
+                }
+                if (prep != null) {
+                    prep.close();
+                    insert.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } finally {
+                getdb().closeConnection(connection);
+            }
+        });
     }
 }

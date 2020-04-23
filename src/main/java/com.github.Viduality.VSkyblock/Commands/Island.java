@@ -8,6 +8,7 @@ import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.*;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -47,6 +48,8 @@ public class Island implements CommandExecutor {
             .build();
 
     public static Map<String, BukkitTask> emptyloadedislands = new HashMap<>();
+
+    public static Map<String, Location> islandhomes = new HashMap<>();
 
 
     private VSkyblock island;

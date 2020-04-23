@@ -2,6 +2,7 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
@@ -13,6 +14,7 @@ public class IslandSethome implements SubCommand {
 
     private VSkyblock plugin = VSkyblock.getInstance();
     private WorldManager wm = new WorldManager();
+    private DatabaseWriter databaseWriter = new DatabaseWriter();
 
 
     @Override
@@ -28,6 +30,8 @@ public class IslandSethome implements SubCommand {
                                 && !(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.VOID_AIR))
                                 && !(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.CAVE_AIR))) {
                             wm.setSpawnLocation(player.getLocation());
+                            databaseWriter.setIslandSpawn(databaseCache.getIslandId(), player.getLocation());
+                            Island.islandhomes.put(databaseCache.getIslandname(), player.getLocation());
                             ConfigShorts.messagefromString("SethomeSuccess", player);
                         } else {
                             ConfigShorts.messagefromString("MidAir", player);

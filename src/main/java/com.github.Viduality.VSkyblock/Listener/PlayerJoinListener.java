@@ -106,32 +106,38 @@ public class PlayerJoinListener implements Listener {
         }
         Island.playerislands.put(result.getUuid(), result.getIslandname());
         wm.loadWorld(result.getIslandname());
-        if (wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
-            wm.getSpawnLocation(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
-        }
-        databaseReader.getlastLocation(result.getUuid(), loc -> {
-            Player player = result.getPlayer();
-            if (player != null) {
-                if (loc == null) {
-                    loc = wm.getSpawnLocation(result.getIslandname());
-                }
-                player.teleportAsync(loc).whenComplete((b, e) -> {
-                    player.removePotionEffect(PotionEffectType.BLINDNESS);
-                    player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                    if (e != null) {
-                        e.printStackTrace();
+        databaseReader.getIslandSpawn(result.getIslandname(), islandspawn -> {
+            if (!Island.islandhomes.containsKey(result.getIslandname())) {
+                Island.islandhomes.put(result.getIslandname(), islandspawn);
+            }
+            if (Island.islandhomes.get(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
+                Island.islandhomes.get(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
+            }
+            databaseReader.getlastLocation(result.getUuid(), loc -> {
+                Player player = result.getPlayer();
+                if (player != null) {
+                    if (loc == null) {
+                        loc = islandspawn;
                     }
-                });
-            } else {
-                Island.emptyloadedislands.put(result.getIslandname(), plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                    wm.unloadWorld(result.getIslandname());
-                }, 20 * 60));
-            }
-            toLoad.remove(result);
-            DatabaseCache nextResult = toLoad.peekFirst();
-            if (nextResult != null) {
-                loadWorld(nextResult);
-            }
+                    player.teleportAsync(loc).whenComplete((b, e) -> {
+                        player.removePotionEffect(PotionEffectType.BLINDNESS);
+                        player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                        if (e != null) {
+                            e.printStackTrace();
+                        }
+                    });
+                } else {
+                    Island.emptyloadedislands.put(result.getIslandname(), plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                        wm.unloadWorld(result.getIslandname());
+                        Island.islandhomes.remove(result.getIslandname());
+                    }, 20 * 60));
+                }
+                toLoad.remove(result);
+                DatabaseCache nextResult = toLoad.peekFirst();
+                if (nextResult != null) {
+                    loadWorld(nextResult);
+                }
+            });
         });
     }
 }

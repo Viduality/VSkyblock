@@ -2,6 +2,7 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.WorldGenerator.Islandmethods;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import org.bukkit.Material;
@@ -13,6 +14,7 @@ public class IslandCommand implements SubCommand {
 
     private Islandmethods im = new Islandmethods();
     private WorldManager wm = new WorldManager();
+    private DatabaseReader databaseReader = new DatabaseReader();
 
     @Override
     public void execute(DatabaseCache databaseCache) {
@@ -21,10 +23,10 @@ public class IslandCommand implements SubCommand {
             if (!wm.getLoadedWorlds().contains(databaseCache.getIslandname())) {
                 wm.loadWorld(databaseCache.getIslandname());
             }
-            if (wm.getSpawnLocation(databaseCache.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
-                wm.getSpawnLocation(databaseCache.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
+            if (Island.islandhomes.get(databaseCache.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
+                Island.islandhomes.get(databaseCache.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
             }
-            player.teleportAsync(wm.getSpawnLocation(databaseCache.getIslandname()));
+            player.teleportAsync(Island.islandhomes.get(databaseCache.getIslandname()));
         } else {
             if (!Island.isgencooldown.asMap().containsValue(player.getUniqueId())) {
                 ConfigShorts.messagefromString("GenerateNewIsland", player);

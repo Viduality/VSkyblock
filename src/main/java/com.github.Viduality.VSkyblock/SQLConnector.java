@@ -129,6 +129,11 @@ public class SQLConnector {
             connection.createStatement().execute(
                     "CREATE TABLE IF NOT EXISTS VSkyblock_IslandLocations("
                             + "islandid BIGINT NOT NULL,"
+                            + "spawnX DOUBLE NOT NULL DEFAULT 0,"
+                            + "spawnY DOUBLE NOT NULL DEFAULT 67,"
+                            + "spawnZ DOUBLE NOT NULL DEFAULT 0,"
+                            + "spawnYaw FLOAT NOT NULL DEFAULT 0,"
+                            + "spawnPitch FLOAT NOT NULL DEFAULT 0,"
                             + "netherX DOUBLE,"
                             + "netherY DOUBLE,"
                             + "netherZ DOUBLE,"
@@ -216,6 +221,14 @@ public class SQLConnector {
             connection.createStatement().execute(
                     "ALTER TABLE VSkyblock_Island ADD COLUMN IF NOT EXISTS("
                     + "totalblocks BIGINT DEFAULT 140);"
+            );
+            connection.createStatement().execute(
+                    "ALTER TABLE VSkyblock_IslandLocations ADD COLUMN IF NOT EXISTS("
+                    + "spawnX DOUBLE,"
+                    + "spawnY DOUBLE,"
+                    + "spawnZ DOUBLE,"
+                    + "spawnYaw FLOAT,"
+                    + "spawnPitch FLOAT);"
             );
             connection.close();
         } catch (SQLException e) {

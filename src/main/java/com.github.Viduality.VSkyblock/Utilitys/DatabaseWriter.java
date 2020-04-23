@@ -1,5 +1,6 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
+import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -99,6 +100,12 @@ public class DatabaseWriter {
                                     preparedStatement.setString(2, uuid.toString());
                                     preparedStatement.executeUpdate();
                                     preparedStatement.close();
+
+                                    PreparedStatement preparedStatement1;
+                                    preparedStatement1 = connection.prepareStatement("INSERT INTO VSkyblock_IslandLocations(islandid) VALUES (?)");
+                                    preparedStatement1.setInt(1, islandid);
+                                    preparedStatement1.executeUpdate();
+                                    preparedStatement1.close();
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 } finally {
@@ -251,17 +258,35 @@ public class DatabaseWriter {
     /**
      * Deletes an island (database action).
      *
-     * @param islandname
+     * @param island
      */
-    public void deleteIsland(String islandname) {
+    public void deleteIsland(String island) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             Connection connection = plugin.getdb().getConnection();
             try {
+                int islandid = 0;
+                PreparedStatement getid;
+                getid = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE island = ?");
+                getid.setString(1, island);
+                ResultSet r = getid.executeQuery();
+                while (r.next()) {
+                    islandid = r.getInt("islandid");
+                }
+                getid.close();
+
                 PreparedStatement deleteIsland;
                 deleteIsland = connection.prepareStatement("DELETE FROM VSkyblock_Island WHERE island = ?");
-                deleteIsland.setString(1, islandname);
+                deleteIsland.setString(1, island);
                 deleteIsland.executeUpdate();
                 deleteIsland.close();
+
+                if (islandid != 0) {
+                    PreparedStatement deletefromLocations;
+                    deletefromLocations = connection.prepareStatement("DELETE FROM VSkyblock_IslandLocations WHERE islandid = ?");
+                    deletefromLocations.setInt(1, islandid);
+                    deletefromLocations.executeUpdate();
+                    deleteIsland.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
@@ -637,6 +662,39 @@ public class DatabaseWriter {
                 preparedStatement.setInt(1, islandid);
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                plugin.getdb().closeConnection(connection);
+            }
+        });
+    }
+
+    /**
+     * Saves the given location as the islands home point.
+     *
+     * @param islandid  The id of the island.
+     * @param loc       The location of the home point.
+     */
+    public void setIslandSpawn(int islandid, Location loc) {
+        double x = loc.getX();
+        double y = loc.getY();
+        double z = loc.getZ();
+        float yaw = loc.getYaw();
+        float pitch = loc.getPitch();
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Connection connection = plugin.getdb().getConnection();
+            try {
+                PreparedStatement savelastLoc;
+                savelastLoc = connection.prepareStatement("UPDATE VSkyblock_IslandLocations SET spawnX = ?, spawnY = ?, spawnZ = ?, spawnYaw = ?, spawnPitch = ? WHERE islandid = ?");
+                savelastLoc.setDouble(1, x);
+                savelastLoc.setDouble(2, y);
+                savelastLoc.setDouble(3, z);
+                savelastLoc.setFloat(4, yaw);
+                savelastLoc.setFloat(5, pitch);
+                savelastLoc.setString(6, String.valueOf(islandid));
+                savelastLoc.executeUpdate();
+                savelastLoc.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {

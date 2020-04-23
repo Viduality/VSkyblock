@@ -22,7 +22,7 @@ public class PlayerRespawnListener implements Listener {
         UUID uuid = player.getUniqueId();
         if (Island.playerislands.containsKey(uuid)) {
             if (player.getBedSpawnLocation() == null) {
-                playerRespawnEvent.setRespawnLocation(wm.getSpawnLocation(plugin.getServer().getWorld(Island.playerislands.get(uuid)).getName()));
+                playerRespawnEvent.setRespawnLocation(Island.islandhomes.get(Island.playerislands.get(uuid)));
                 player.setCanCollide(true);
             }
         }

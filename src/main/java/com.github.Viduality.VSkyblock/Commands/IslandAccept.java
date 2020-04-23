@@ -30,7 +30,7 @@ public class IslandAccept implements SubCommand {
 
                                 player.getInventory().clear();
                                 player.getEnderChest().clear();
-                                player.teleportAsync(wm.getSpawnLocation(newisland)).whenComplete((b, e) -> {
+                                player.teleportAsync(Island.islandhomes.get(databaseCache.getIslandname())).whenComplete((b, e) -> {
                                     wm.unloadWorld(databaseCache.getIslandname());
                                 });
 
@@ -54,7 +54,7 @@ public class IslandAccept implements SubCommand {
                         Island.invitemap.asMap().remove(player.getUniqueId());
                         Island.playerislands.put(player.getUniqueId(), newisland);
                         Island.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
-                        player.teleportAsync(wm.getSpawnLocation(newisland)).whenComplete((b, e) -> {
+                        player.teleportAsync(Island.islandhomes.get(newisland)).whenComplete((b, e) -> {
                             if (databaseCache.getIslandname() != null) {
                                 if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
                                     wm.unloadWorld(databaseCache.getIslandname());

@@ -1,5 +1,6 @@
 package com.github.Viduality.VSkyblock.Listener;
 
+import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.Cache;
@@ -43,7 +44,6 @@ public class NetherPortalListener implements Listener {
                     player.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("NetherWorld"))).whenComplete((b, e) -> {
                         ConfigShorts.messagefromString("NetherJoin1", player);
                         ConfigShorts.messagefromString("NetherJoin2", player);
-                        databaseWriter.addIslandintoLocationsTable(result.getIslandId());
                         databaseReader.getNetherHome(result.getUuid(), (netherhome) -> {
                             if (netherhome != null) {
                                 teleportToNetherHome.put(result.getUuid(), netherhome);
@@ -57,7 +57,7 @@ public class NetherPortalListener implements Listener {
 
                 } else if (player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
                     if (result.getIslandname() != null) {
-                        player.teleportAsync(wm.getSpawnLocation(result.getIslandname()));
+                        player.teleportAsync(Island.islandhomes.get(result.getIslandname()));
                         databaseReader.getNetherHome(result.getUuid(), (netherhome) -> {
                             if (netherhome != null) {
                                 if (result.isIslandowner()) {

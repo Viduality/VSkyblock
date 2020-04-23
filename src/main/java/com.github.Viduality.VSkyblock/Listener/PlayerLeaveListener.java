@@ -28,6 +28,7 @@ public class PlayerLeaveListener implements Listener {
                 if (!wm.getAutoLoad(island)) {
                     Island.emptyloadedislands.put(island, plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                         wm.unloadWorld(island);
+                        Island.islandhomes.remove(island);
                     }, 20 * 60));
                 }
             }

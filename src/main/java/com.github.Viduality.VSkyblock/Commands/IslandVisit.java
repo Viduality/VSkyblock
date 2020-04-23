@@ -29,7 +29,7 @@ public class IslandVisit implements SubCommand {
                             if (isVisitable) {
                                 databaseReader.getislandnamefromplayer(uuid, islandName -> {
                                     if (wm.getLoadedWorlds().contains(islandName)) {
-                                        player.teleportAsync(wm.getSpawnLocation(islandName));
+                                        player.teleportAsync(Island.islandhomes.get(islandName));
                                         player.setCanCollide(false);
                                         for (String memberName : islandMembers) {
                                             Player onlinePlayer = plugin.getServer().getPlayer(memberName);
