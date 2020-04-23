@@ -41,8 +41,10 @@ public class Islandmethods {
         String worldsizeString = ConfigShorts.getDefConfig().getString("WorldSize");
         String difficulty = ConfigShorts.getDefConfig().getString("Difficulty");
         databaseReader.getLatestIsland((worldName, a) -> {
+            Player player = plugin.getServer().getPlayer(uuid);
             if (a) {
                 if (!wm.createIsland(worldName)) {
+                    ConfigShorts.messagefromString("FailedToCreateIsland", player);
                     plugin.getLogger().severe("Failed to create new island for " + uuid + " with id " + worldName);
                     return;
                 }
@@ -54,6 +56,7 @@ public class Islandmethods {
 
                 World world = plugin.getServer().getWorld(worldName);
                 if (world == null) {
+                    ConfigShorts.messagefromString("FailedToCreateIsland", player);
                     plugin.getLogger().severe("Could not create new island for " + uuid + " properly as we don't know the world?");
                     return;
                 }
@@ -101,7 +104,6 @@ public class Islandmethods {
                 Island.islandhomes.put(worldName, world.getSpawnLocation());
                 CobblestoneGenerator.islandGenLevel.put(worldName, 0);
                 CobblestoneGenerator.islandlevels.put(worldName, 0);
-                Player player = plugin.getServer().getPlayer(uuid);
                 if (player != null) {
                     player.teleportAsync(world.getSpawnLocation());
                 }
