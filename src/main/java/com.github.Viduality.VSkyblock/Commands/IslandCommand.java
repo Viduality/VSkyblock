@@ -14,19 +14,33 @@ public class IslandCommand implements SubCommand {
 
     private Islandmethods im = new Islandmethods();
     private WorldManager wm = new WorldManager();
-    private DatabaseReader databaseReader = new DatabaseReader();
 
     @Override
     public void execute(DatabaseCache databaseCache) {
         Player player = databaseCache.getPlayer();
         if (databaseCache.getIslandId() != 0) {
-            if (!wm.getLoadedWorlds().contains(databaseCache.getIslandname())) {
-                wm.loadWorld(databaseCache.getIslandname());
+            boolean teleport = true;
+            if (!ConfigShorts.getDefConfig().getBoolean("SaveWithIslandCommand")) {
+                if (player.getFallDistance() > 2) {
+                    teleport = false;
+                    ConfigShorts.messagefromString("PlayerFalling", player);
+                }
             }
-            if (Island.islandhomes.get(databaseCache.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
-                Island.islandhomes.get(databaseCache.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
+            if (!ConfigShorts.getDefConfig().getBoolean("SaveWithIslandCommandLava")) {
+                if (player.getLocation().getBlock().getType().equals(Material.LAVA)) {
+                    teleport = false;
+                    ConfigShorts.messagefromString("PlayerInLava", player);
+                }
             }
-            player.teleportAsync(Island.islandhomes.get(databaseCache.getIslandname()));
+            if (teleport) {
+                if (!wm.getLoadedWorlds().contains(databaseCache.getIslandname())) {
+                    wm.loadWorld(databaseCache.getIslandname());
+                }
+                if (Island.islandhomes.get(databaseCache.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
+                    Island.islandhomes.get(databaseCache.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
+                }
+                player.teleportAsync(Island.islandhomes.get(databaseCache.getIslandname()));
+            }
         } else {
             if (!Island.isgencooldown.asMap().containsValue(player.getUniqueId())) {
                 ConfigShorts.messagefromString("GenerateNewIsland", player);

@@ -87,7 +87,9 @@ OptionChanged: §aErfolgreich die Option geändert. Sie ist ab jetzt aktiv
 
 PermissionLack: §cDu hast keine Berechtigung um diesen Befehl ausführen zu können!
 PlayerDoesNotExist: §cDer Spieler existiert nicht!
+PlayerFalling: §cDu kannst diesen Befehl nicht im freien Fall benutzen!
 PlayerHasNoIsland: §cDer Spieler hat keine Insel!
+PlayerInLava: §cDu kannst diesen Befehl nicht in Lava benutzen!
 PlayerLimitReached: §cDu kannst keinen Spieler mehr auf deine Insel einladen da du das Spieler-Limit erreicht hast!
 PlayerNotIslandMember: §cDieser Spieler ist kein Spieler auf deiner Insel!
 PlayerNotOnline: §c%SecondPlayer% ist nicht Online!

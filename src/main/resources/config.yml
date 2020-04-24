@@ -25,6 +25,12 @@ WorldSize: 500
 # Default is normal.
 Difficulty: normal
 
+# If this is set to false, you can only use the /island command while standing on a block. Default is false.
+SaveWithIslandCommand: true
+
+# If this is set to false, you can't use the /island command while in lava. Default is false.
+SaveWithIslandCommandLava: true
+
 # Time for CleanUp. Deletes uninhabited islands and deletes it from the database. Must be between 0 and 23. Default is 3 (am).
 CleanUpTime: 3
 

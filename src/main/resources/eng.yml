@@ -87,7 +87,9 @@ OptionChanged: §aSuccessfully changed world option. It is now active.
 
 PermissionLack: §cYou don't have permission to perform this command!
 PlayerDoesNotExist: §cPlayer does not exist!
+PlayerFalling: §cYou can't use this command while falling!
 PlayerHasNoIsland: §cPlayer has no island!
+PlayerInLava: §cYou can't use this command while in lava!
 PlayerLimitReached: §cYou can't invite any more players to your island because you reached the player limit!
 PlayerNotIslandMember: §cThis player is no member of your island!
 PlayerNotOnline: §c%SecondPlayer% is not Online!
