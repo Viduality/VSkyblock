@@ -236,7 +236,7 @@ public class ConfigShorts {
         config.load(configFile);
     }
 
-    public static void reloadWorldConfig1() throws IOException, InvalidConfigurationException {
+    public static void reloadWorldConfig() throws IOException, InvalidConfigurationException {
 
         worldsFile = new File(plugin.getDataFolder() + "/Worlds.yml");
         worldsConfig = new YamlConfiguration();
@@ -250,7 +250,7 @@ public class ConfigShorts {
             loadHelpConfig1();
             loadOptionsConfig1();
             loadConfig();
-            reloadWorldConfig1();
+            reloadWorldConfig();
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }

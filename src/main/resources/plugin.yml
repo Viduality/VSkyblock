@@ -277,6 +277,13 @@ commands:
     permission: VSkyblock.ReloadBlockValues
     permission-message: You don't have permission!
 
+  VSkyblock reload config:
+    description: Reloads all config files.
+    usage: /VSkyblock reload config
+    aliases: [vsky reload config]
+    permission: VSkyblock.ReloadConfig
+    permission-message: You don't have permission!
+
   VSkyblock recalculate islandlevel:
     description: Recalculates the island level of a player.
     usage: /VSkyblock recalculate islandlevel <Player>
@@ -323,6 +330,7 @@ permissions:
       VSkyblock.RecreateHelpFiles: true
       VSkyblock.RecreateChallengeFiles: true
       VSkyblock.ReloadBlockValues: true
+      VSkyblock.ReloadConfig: true
       VSkyblock.RecalculateIslandLevel: true
 
   VSkyblock.Mod:
@@ -375,6 +383,9 @@ permissions:
     default: op
   VSkyblock.ReloadBlockValues:
     description: Allows the sender to reload the block values.
+    default: op
+  VSkyblock.ReloadConfig:
+    description: Allows the sender to reload all config files.
     default: op
   VSkyblock.SetNether:
     description: Allows the player to set a new nether.

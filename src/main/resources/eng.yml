@@ -102,6 +102,7 @@ RecreatedLanguageFiles: §bAll language files have been recreated.
 RecreatedHelpFiles: §bAll help files have been recreated.
 RecreatedChallengeFiles: §bAll challenge files have been recreated.
 ReloadedBlockValues: §bBlock-Values have been reloaded.
+ReloadedConfig: §bAll configs have been reloaded.
 
 SetAutoLoad: §bAutoLoad has been set to §6%replacement% §bfor your current world!
 SethomeSuccess: §aSuccessfully set new homepoint for your island!

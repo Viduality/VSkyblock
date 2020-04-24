@@ -350,7 +350,7 @@ public class WorldManager {
             FileOutputStream fileOut = new FileOutputStream(plugin.getDataFolder() + "/Worlds.yml");
             fileOut.write(worldsFile.getBytes());
             fileOut.close();
-            ConfigShorts.reloadWorldConfig1();
+            ConfigShorts.reloadWorldConfig();
             return true;
 
         } catch (Exception e) {
@@ -408,7 +408,7 @@ public class WorldManager {
             FileOutputStream fileOut = new FileOutputStream(plugin.getDataFolder() + "/Worlds.yml");
             fileOut.write(inputStr.getBytes());
             fileOut.close();
-            ConfigShorts.reloadWorldConfig1();
+            ConfigShorts.reloadWorldConfig();
 
 
         } catch (Exception e) {
@@ -478,7 +478,7 @@ public class WorldManager {
             FileOutputStream fileOut = new FileOutputStream(plugin.getDataFolder() + "/Worlds.yml");
             fileOut.write(inputStr.getBytes());
             fileOut.close();
-            ConfigShorts.reloadWorldConfig1();
+            ConfigShorts.reloadWorldConfig();
 
 
         } catch (Exception e) {
@@ -564,7 +564,7 @@ public class WorldManager {
                 FileOutputStream fileOut = new FileOutputStream(plugin.getDataFolder() + "/Worlds.yml");
                 fileOut.write(inputStr.getBytes());
                 fileOut.close();
-                ConfigShorts.reloadWorldConfig1();
+                ConfigShorts.reloadWorldConfig();
 
             } catch (Exception e) {
                 System.out.println(ANSI_RED + "Problem reading file." + ANSI_RESET);

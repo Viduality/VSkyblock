@@ -104,6 +104,10 @@ public class AdminCommands implements CommandExecutor {
                     adminSubCommand = new ReloadBlockValues();
                 }
 
+                if (args[0].equalsIgnoreCase("reload") && args[1].equalsIgnoreCase("config")) {
+                    adminSubCommand = new ReloadConfig();
+                }
+
             }
 
             if (args.length == 3) {
