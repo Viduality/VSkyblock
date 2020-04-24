@@ -119,13 +119,14 @@ public class WorldManager {
                     loadedworld.setKeepSpawnInMemory(keepSpawnInMemory(world));
                     return true;
                 } else {
+                    System.out.println(ANSI_RED + "VSkyblock failed to load world " + world + ANSI_RESET);
                     return false;
                 }
             } else {
                 return getLoadedWorlds().contains(world);
             }
         } else {
-            System.out.println(ANSI_RED + "VSkyblock does not know about this world!" + ANSI_RESET);
+            System.out.println(ANSI_RED + "VSkyblock does not know about the world " + world + ANSI_RESET);
             return false;
         }
     }

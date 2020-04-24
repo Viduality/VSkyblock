@@ -6,6 +6,7 @@ import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.WorldGenerator.WorldGenerator;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -104,14 +105,14 @@ public class PlayerJoinListener implements Listener {
         if (!Island.playerislands.containsValue(result.getIslandname())) {
             databaseReader.addToCobbleStoneGenerators(result.getIslandname());
         }
+        if (!wm.loadWorld(result.getIslandname())) {
+            ConfigShorts.custommessagefromString("WorldFailedToLoad", result.getPlayer(), result.getIslandname());
+            return;
+        }
         Island.playerislands.put(result.getUuid(), result.getIslandname());
-        wm.loadWorld(result.getIslandname());
         databaseReader.getIslandSpawn(result.getIslandname(), islandspawn -> {
             if (!Island.islandhomes.containsKey(result.getIslandname())) {
                 Island.islandhomes.put(result.getIslandname(), islandspawn);
-            }
-            if (Island.islandhomes.get(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
-                Island.islandhomes.get(result.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
             }
             databaseReader.getlastLocation(result.getUuid(), loc -> {
                 Player player = result.getPlayer();
@@ -119,11 +120,21 @@ public class PlayerJoinListener implements Listener {
                     if (loc == null) {
                         loc = islandspawn;
                     }
-                    player.teleportAsync(loc).whenComplete((b, e) -> {
-                        player.removePotionEffect(PotionEffectType.BLINDNESS);
-                        player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                    Location finalLoc = loc;
+                    loc.getWorld().getChunkAtAsync(loc).whenComplete((c, e) -> {
                         if (e != null) {
                             e.printStackTrace();
+                        }
+                        player.removePotionEffect(PotionEffectType.BLINDNESS);
+                        player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                        if (c != null) {
+                            Block below = finalLoc.getBlock().getRelative(BlockFace.DOWN);
+                            if (below.getType() == Material.AIR) {
+                                below.setType(Material.INFESTED_COBBLESTONE);
+                            }
+                            player.teleport(finalLoc);
+                        } else {
+                            ConfigShorts.custommessagefromString("WorldFailedToLoad", player, result.getIslandname());
                         }
                     });
                 } else {

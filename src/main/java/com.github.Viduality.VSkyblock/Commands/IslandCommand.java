@@ -2,10 +2,11 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.WorldGenerator.Islandmethods;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
@@ -34,12 +35,28 @@ public class IslandCommand implements SubCommand {
             }
             if (teleport) {
                 if (!wm.getLoadedWorlds().contains(databaseCache.getIslandname())) {
-                    wm.loadWorld(databaseCache.getIslandname());
+                    if (!wm.loadWorld(databaseCache.getIslandname())) {
+                        ConfigShorts.custommessagefromString("WorldFailedToLoad", player, databaseCache.getIslandname());
+                        return;
+                    }
                 }
-                if (Island.islandhomes.get(databaseCache.getIslandname()).getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR)) {
-                    Island.islandhomes.get(databaseCache.getIslandname()).getBlock().getRelative(BlockFace.DOWN).setType(Material.INFESTED_COBBLESTONE);
+                Location islandHome = Island.islandhomes.get(databaseCache.getIslandname());
+                if (islandHome != null) {
+                    islandHome.getWorld().getChunkAtAsync(islandHome).whenComplete((c, e) -> {
+                       if (e != null) {
+                           e.printStackTrace();
+                       }
+                       if (c != null) {
+                           Block below = islandHome.getBlock().getRelative(BlockFace.DOWN);
+                           if (below.getType() == Material.AIR) {
+                               below.setType(Material.INFESTED_COBBLESTONE);
+                           }
+                           player.teleport(islandHome);
+                       } else {
+                           ConfigShorts.custommessagefromString("WorldFailedToLoad", player, databaseCache.getIslandname());
+                       }
+                    });
                 }
-                player.teleportAsync(Island.islandhomes.get(databaseCache.getIslandname()));
             }
         } else {
             if (!Island.isgencooldown.asMap().containsValue(player.getUniqueId())) {
