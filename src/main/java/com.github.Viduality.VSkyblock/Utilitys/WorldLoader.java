@@ -20,7 +20,6 @@ public class WorldLoader implements Runnable{
                 List<String> autoloadedislands = new ArrayList<>();
                 for (World world : plugin.getServer().getWorlds()) {
                     if (!wm.getAllWorlds().contains(world.getName())) {
-                        System.out.println("test");
                         wm.addWorld(world.getName(), String.valueOf(world.getGenerator()), world.getEnvironment().name());
                         wm.setSpawnLocation(world.getSpawnLocation());
                     }

@@ -114,14 +114,13 @@ public class WorldManager {
                 wc.type(WorldType.FLAT);
                 wc.generateStructures(generateStructures(world));
                 World loadedworld = wc.createWorld();
-                loadedworld.setDifficulty(getDifficulty(loadedworld.getName()));
-                if (keepSpawnInMemory(world)) {
-                    loadedworld.setKeepSpawnInMemory(true);
+                if (loadedworld != null) {
+                    loadedworld.setDifficulty(getDifficulty(loadedworld.getName()));
+                    loadedworld.setKeepSpawnInMemory(keepSpawnInMemory(world));
+                    return true;
                 } else {
-                    loadedworld.setKeepSpawnInMemory(false);
+                    return false;
                 }
-                plugin.getServer().getWorlds().add(loadedworld);
-                return true;
             } else {
                 return getLoadedWorlds().contains(world);
             }
