@@ -1,388 +1,45 @@
 package com.github.Viduality.VSkyblock;
 
 import org.bukkit.Material;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.EnumMap;
+import java.util.Map;
 
 public class DefaultFiles {
 
 
     private static VSkyblock plugin = VSkyblock.getInstance();
 
-    private static File configFile;
-    private static FileConfiguration config;
-
-
-    private static File engFile;
-    private static FileConfiguration eng;
-
-
-    private static File gerFile;
-    private static FileConfiguration ger;
-
-
-    private static File gerChallenges;
-    private static FileConfiguration gerC;
-
-    private static File engChallenges;
-    private static FileConfiguration engC;
-
-    private static File gerTeleporter;
-    private static FileConfiguration gerT;
-
-    private static File engTeleporter;
-    private static FileConfiguration engT;
-
-    private static File gerHelp;
-    private static FileConfiguration gerH;
-
-    private static File engHelp;
-    private static FileConfiguration engH;
-
-    private static File blockValues;
-    private static FileConfiguration blockValuesConfig;
-
-    private static File worlds;
-    private static FileConfiguration worldsConfig;
-
-    private static File engOptions;
-    private static FileConfiguration engOptionsConfig;
-
-    private static File gerOptions;
-    private static FileConfiguration gerOptionsConfig;
-
-    public static HashMap<Enum, Double> blockvalues = new HashMap<>();
+    public static Map<Material, Double> blockvalues = new EnumMap<>(Material.class);
 
     /**
      * Check default Files
      * Checks resources for an existing file and creates them if they do not exist.
      */
     public static void init() {
-        {
-            configFile = new File(plugin.getDataFolder(), "config.yml");
-            try {
-                firstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        saveDefaultConfig("Worlds.yml");
+        saveDefaultConfig("BlockValues.yml");
 
-            config = new YamlConfiguration();
-
-        }
-
-
-        {
-            engFile = new File(plugin.getDataFolder() + "/Languages", "eng.yml");
-            try {
-                engfirstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            eng = new YamlConfiguration();
-
-        }
-
-
-
-
-        {
-            gerFile = new File(plugin.getDataFolder() + "/Languages", "ger.yml");
-            try {
-                gerfirstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            ger = new YamlConfiguration();
-        }
-
-
-
-        {
-            gerChallenges = new File(plugin.getDataFolder() + "/Challenges", "ChallengesGer.yml");
-            try {
-                gerChallengesfirstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            gerC = new YamlConfiguration();
-        }
-
-
-        {
-            engChallenges = new File(plugin.getDataFolder() + "/Challenges", "ChallengesEng.yml");
-            try {
-                engChallengesfirstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            engC = new YamlConfiguration();
-        }
-
-
-        {
-            gerHelp = new File(plugin.getDataFolder() + "/Help", "HelpGer.yml");
-            try {
-                gerHelpfirstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            gerH = new YamlConfiguration();
-        }
-
-
-        {
-            engHelp = new File(plugin.getDataFolder() + "/Help", "HelpEng.yml");
-            try {
-                engHelpfirstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            engH = new YamlConfiguration();
-        }
-
-
-        {
-            gerTeleporter = new File(plugin.getDataFolder() + "/Teleporter", "TeleporterGer.yml");
-            try {
-                gerTeleporterFirstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            gerT = new YamlConfiguration();
-        }
-
-
-        {
-            engTeleporter = new File(plugin.getDataFolder() + "/Teleporter", "TeleporterEng.yml");
-            try {
-                engTeleporterFirstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            engT = new YamlConfiguration();
-        }
-
-
-        {
-            blockValues = new File(plugin.getDataFolder(), "BlockValues.yml");
-            try {
-                blockValuesfirstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            blockValuesConfig = new YamlConfiguration();
-        }
-
-
-        {
-            worlds = new File(plugin.getDataFolder(), "Worlds.yml");
-            try {
-                worldsfirstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            worldsConfig = new YamlConfiguration();
-        }
-
-        {
-            engOptions = new File(plugin.getDataFolder() + "/Options", "OptionsEng.yml");
-            try {
-                engOptionsfirstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            engOptionsConfig = new YamlConfiguration();
-        }
-
-        {
-            gerOptions = new File(plugin.getDataFolder() + "/Options", "OptionsGer.yml");
-            try {
-                gerOptionsfirstRun();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            gerOptionsConfig = new YamlConfiguration();
-        }
-
-
-        loadYamls();
-
-        reloadValues();
+        reloadBlockValues();
 
 
     }
 
-    /**
-     * Checks if config.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void firstRun() throws Exception {
-        if (!configFile.exists()) {
-            configFile.getParentFile().mkdirs();
-            copy(plugin.getResource("config.yml"), configFile);
-        }
-    }
-
-    /**
-     * Checks if eng.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void engfirstRun() throws Exception {
-        if (!engFile.exists()) {
-            engFile.getParentFile().mkdirs();
-            copy(plugin.getResource("eng.yml"), engFile);
-        }
-    }
-
-    /**
-     * Checks if ger.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void gerfirstRun() throws Exception {
-        if (!gerFile.exists()) {
-            gerFile.getParentFile().mkdirs();
-            copy(plugin.getResource("ger.yml"), gerFile);
-        }
-    }
-
-    /**
-     * Checks if ChallengesGer.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void gerChallengesfirstRun() throws Exception {
-        if (!gerChallenges.exists()) {
-            gerChallenges.getParentFile().mkdirs();
-            copy(plugin.getResource("ChallengesGer.yml"), gerChallenges);
-        }
-    }
-
-    /**
-     * Checks if ChallengesEng.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void engChallengesfirstRun() throws Exception {
-        if (!engChallenges.exists()) {
-            engChallenges.getParentFile().mkdirs();
-            copy(plugin.getResource("ChallengesEng.yml"), engChallenges);
-        }
-    }
-
-    /**
-     * Checks if HelpGer.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void gerHelpfirstRun() throws Exception {
-        if (!gerHelp.exists()) {
-            gerHelp.getParentFile().mkdirs();
-            copy(plugin.getResource("HelpGer.yml"), gerHelp);
-        }
-    }
-
-    /**
-     * Checks if HelpEng.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void engHelpfirstRun() throws Exception {
-        if (!engHelp.exists()) {
-            engHelp.getParentFile().mkdirs();
-            copy(plugin.getResource("HelpEng.yml"), engHelp);
-        }
-    }
-
-    /**
-     * Checks if TeleporterGer.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void gerTeleporterFirstRun() throws Exception {
-        if (!gerTeleporter.exists()) {
-            gerTeleporter.getParentFile().mkdirs();
-            copy(plugin.getResource("TeleporterGer.yml"), gerTeleporter);
-        }
-    }
-
-    /**
-     * Checks if TeleporterEng.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void engTeleporterFirstRun() throws Exception {
-        if (!engTeleporter.exists()) {
-            engTeleporter.getParentFile().mkdirs();
-            copy(plugin.getResource("TeleporterEng.yml"), engTeleporter);
-        }
-    }
-
-    /**
-     * Checks if BlockValues.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void blockValuesfirstRun() throws Exception {
-        if (!blockValues.exists()) {
-            blockValues.getParentFile().mkdirs();
-            copy(plugin.getResource("BlockValues.yml"), blockValues);
-        }
-    }
-
-    /**
-     * Checks if Worlds.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void worldsfirstRun() throws Exception {
-        if (!worlds.exists()) {
-            worlds.getParentFile().mkdirs();
-            copy(plugin.getResource("Worlds.yml"), worlds);
-        }
-    }
-
-    /**
-     * Checks if OptionsEng.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void engOptionsfirstRun() throws Exception {
-        if (!engOptions.exists()) {
-            engOptions.getParentFile().mkdirs();
-            copy(plugin.getResource("OptionsEng.yml"), engOptions);
-        }
-    }
-
-    /**
-     * Checks if OptionsGer.yml exists and creates it if not.
-     *
-     * @throws Exception
-     */
-    private static void gerOptionsfirstRun() throws Exception {
-        if (!gerOptions.exists()) {
-            gerOptions.getParentFile().mkdirs();
-            copy(plugin.getResource("OptionsGer.yml"), gerOptions);
+    private static void saveDefaultConfig(String configName) {
+        File configFile = new File(plugin.getDataFolder(), configName);
+        try {
+            if (!configFile.exists()) {
+                plugin.getDataFolder().mkdirs();
+                copy(plugin.getResource(configName), configFile);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -409,95 +66,40 @@ public class DefaultFiles {
     }
 
     /**
-     * Tries to load all YAMLs once.
-     *
-     * @throws Exception
-     */
-    private static void loadYamls() {
-        try {
-            config.load(configFile);
-            eng.load(engFile);
-            ger.load(gerFile);
-            gerC.load(gerChallenges);
-            engC.load(engChallenges);
-            blockValuesConfig.load(blockValues);
-            gerT.load(gerTeleporter);
-            engT.load(engTeleporter);
-            gerH.load(gerHelp);
-            engH.load(engHelp);
-            worldsConfig.load(worlds);
-            engOptionsConfig.load(engOptions);
-            gerOptionsConfig.load(gerOptions);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Loads the BlockValues.yml file
      */
-    public static void reloadValues() {
+    public static void reloadBlockValues() {
+        File configFile = new File(plugin.getDataFolder(), "BlockValues.yml");
+        if (!configFile.exists()) {
+            System.out.println("BlockValues.yml does not exist!");
+            return;
+        }
         if (!blockvalues.isEmpty()) {
             blockvalues.clear();
         }
+        FileConfiguration blockValuesConfig = new YamlConfiguration();
         try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/BlockValues.yml");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
+            blockValuesConfig.load(configFile);
 
-
-        try {
-            BufferedReader file = new BufferedReader(new FileReader(plugin.getDataFolder() + "/BlockValues.yml"));
-            String line;
-            Integer linenumber = 0;
-
-
-            while ((line = file.readLine()) != null) {
-                linenumber++;
-                if (line.contains(":")) {
-                    List<String> pseudomaterial = Arrays.asList(line.split(":"));
-                    String configString = pseudomaterial.get(0);
-                    String material = pseudomaterial.get(0).toUpperCase();
-                    if (Material.getMaterial(material) != null) {
-                        if (isDouble(plugin.getConfig().getString(configString))) {
-                            Double value = plugin.getConfig().getDouble(configString);
-                            blockvalues.put(Material.getMaterial(material), value);
-                        }
-                        else {
-                            System.out.println("Line: " + linenumber + ", Material: " + material + " has an invalid value!");
-                        }
+            for (String configString : blockValuesConfig.getKeys(false)) {
+                String material = configString.toUpperCase();
+                if (Material.getMaterial(material) != null) {
+                    double value = blockValuesConfig.getDouble(configString, -1);
+                    if (value > -1) {
+                        blockvalues.put(Material.getMaterial(material), value);
                     }
                     else {
-                        System.out.println("Line: " + linenumber + ", Material: " + material + " is not a valid material!");
+                        System.out.println("Material: " + material + " has an invalid block value (" + blockValuesConfig.get(configString) + ")");
                     }
+                }
+                else {
+                    System.out.println("Material string " + configString + " is not a valid material!");
                 }
             }
 
-            file.close();
-
-
         } catch (Exception e) {
-            System.out.println("Problem reading file.");
+            System.out.println("Problem reading block values file.");
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Checks if a String is from type Double
-     *
-     * @param String
-     * @return boolean
-     */
-    private static boolean isDouble(String String) {
-        try {
-            Double.parseDouble(String);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
     }
 }

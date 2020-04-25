@@ -41,7 +41,7 @@ public class WorldCreate implements AdminSubCommand {
                         World loadedworld = wc.createWorld();
                         if (loadedworld != null) {
                             if (wm.addWorld(args, generator, environment.toUpperCase())) {
-                                Location spawnlocation = plugin.getServer().getWorld(args).getSpawnLocation();
+                                Location spawnlocation = loadedworld.getSpawnLocation();
                                 if (wm.setSpawnLocation(spawnlocation)) {
                                     ConfigShorts.messagefromString("WorldCreated", player);
                                     player.teleportAsync(wm.getSpawnLocation(args));

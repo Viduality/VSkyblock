@@ -6,7 +6,9 @@ import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class WorldList implements AdminSubCommand {
 
@@ -21,7 +23,7 @@ public class WorldList implements AdminSubCommand {
             @Override
             public void run() {
                 if (sender.hasPermission("VSkyblock.List")) {
-                    List<String> worlds = wm.getAllWorlds();
+                    Set<String> worlds = wm.getAllWorlds();
                     int sites = Math.round((worlds.size()/7)+1);
                     int site = 1;
                     if (isInt(args)) {
@@ -33,7 +35,7 @@ public class WorldList implements AdminSubCommand {
                     }
                     String header = ConfigShorts.getCustomString("WorldListHeader");
                     String sitesString = ConfigShorts.getCustomString("Site", String.valueOf(site), String.valueOf(sites));
-                    String worldsString = getWorlds(site);
+                    String worldsString = getWorlds(new ArrayList<>(worlds), site);
                     String message = header + '\n' + worldsString + '\n' + sitesString;
                     sender.sendMessage(message);
                 }
@@ -52,8 +54,7 @@ public class WorldList implements AdminSubCommand {
         return true;
     }
 
-    private String getWorlds(int site) {
-        List<String> worlds = wm.getAllWorlds();
+    private String getWorlds(List<String> worlds, int site) {
         List<String> loadedWorlds = wm.getLoadedWorlds();
         String prefix = ConfigShorts.getMessageConfig().getString("Prefix") + " ";
         StringBuilder str = new StringBuilder();

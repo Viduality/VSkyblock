@@ -9,7 +9,7 @@ public class ReloadBlockValues implements AdminSubCommand {
     @Override
     public void execute(CommandSender sender, String args, String option1, String option2) {
         if (sender.hasPermission("VSkyblock.ReloadBlockValues")) {
-            DefaultFiles.reloadValues();
+            DefaultFiles.reloadBlockValues();
             ConfigShorts.messagefromString("ReloadedBlockValues", sender);
         } else {
             ConfigShorts.messagefromString("PermissionLack", sender);

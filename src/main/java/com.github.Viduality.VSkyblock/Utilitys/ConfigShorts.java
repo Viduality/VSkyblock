@@ -1,6 +1,7 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -9,28 +10,22 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class ConfigShorts {
 
     private static VSkyblock plugin = VSkyblock.getInstance();
 
-    private static File configFile;
-    private static FileConfiguration config;
+    private static StoredConfiguration messagesConfig;
 
-    private static File messagesFile;
-    private static FileConfiguration messagesConfig;
+    private static StoredConfiguration challengesConfig;
 
-    private static File challengesFile;
-    private static FileConfiguration challengesConfig;
+    private static StoredConfiguration helpConfig;
 
-    private static File helpFile;
-    private static FileConfiguration helpConfig;
+    private static StoredConfiguration worldsConfig;
 
-    private static File worldsFile;
-    private static FileConfiguration worldsConfig;
-
-    private static File optionsFile;
-    private static FileConfiguration optionsConfig;
+    private static StoredConfiguration optionsConfig;
 
 
     /**
@@ -170,98 +165,82 @@ public class ConfigShorts {
     }
 
     private static String getLanguage() {
-        try {
-            plugin.getConfig().load(plugin.getDataFolder() + "/config.yml");
+        return plugin.getConfig().getString("Language", "eng").toLowerCase();
+    }
+
+    private static void loadConfig() {
+        plugin.saveDefaultConfig();
+        plugin.reloadConfig();
+    }
+
+    static void reloadWorldConfig() throws IOException, InvalidConfigurationException {
+        File worldsFile = new File(plugin.getDataFolder(), "Worlds.yml");
+        worldsConfig = new StoredConfiguration(worldsFile);
+        worldsConfig.load(worldsFile);
+    }
+
+    private static StoredConfiguration loadConfig(String name) {
+        return loadConfig(name, name);
+    }
+
+    private static StoredConfiguration loadConfig(String folderName, String configName) {
+        File folder = new File(plugin.getDataFolder(), folderName);
+        File file = new File(folder, (configName.isEmpty() ? getLanguage() : configName + WordUtils.capitalize(getLanguage())) + ".yml");
+
+        FileConfiguration defaultConfig = new YamlConfiguration();
+
+        try (InputStream stream = plugin.getResource(file.getName())) {
+            if (stream != null) {
+                defaultConfig.load(new InputStreamReader(stream));
+                if (!file.exists()) {
+                    defaultConfig.save(file);
+                }
+            } else {
+                System.out.println("Default config " + file.getName() + " does not exist in the plugin");
+            }
         } catch (IOException | InvalidConfigurationException e) {
+            System.out.println("Error while ssving default config " + file.getName());
             e.printStackTrace();
         }
 
-        String actualLanguage = plugin.getConfig().getString("Language");
-        if (actualLanguage != null) {
-            if (actualLanguage.equalsIgnoreCase("ger")) {
-                return "ger";
+        if (!file.exists()) {
+            file = new File(folder, (configName.isEmpty() ? "eng" : configName + "Eng.yml"));
+        }
+
+        StoredConfiguration config = new StoredConfiguration(file);
+        if (file.exists()) {
+            try {
+                config.load(file);
+            } catch (IOException | InvalidConfigurationException e) {
+                System.out.println("Encountered an error while loading " + folderName + " config from " + file.getPath());
+                e.printStackTrace();
             }
-        }
-        return "eng";
-    }
-
-    public static void loadMessagesConfig() throws IOException, InvalidConfigurationException {
-
-        if (getLanguage().equals("ger")) {
-            messagesFile = new File(plugin.getDataFolder() + "/Languages", "ger.yml");
         } else {
-            messagesFile = new File(plugin.getDataFolder() + "/Languages", "eng.yml");
+            System.out.println("No possible file for the " + folderName + " config exists? Checked for " + getLanguage() + " and eng versions.");
         }
-        messagesConfig = new YamlConfiguration();
-        messagesConfig.load(messagesFile);
-    }
-
-    public static void loadChallengesConfig1() throws IOException, InvalidConfigurationException {
-
-        if (getLanguage().equals("ger")) {
-            challengesFile = new File(plugin.getDataFolder() + "/Challenges", "ChallengesGer.yml");
-        } else {
-            challengesFile = new File(plugin.getDataFolder() + "/Challenges", "ChallengesEng.yml");
-        }
-        challengesConfig = new YamlConfiguration();
-        challengesConfig.load(challengesFile);
-    }
-
-    public static void loadHelpConfig1() throws IOException, InvalidConfigurationException {
-
-        if (getLanguage().equals("ger")) {
-            helpFile = new File(plugin.getDataFolder() + "/Help", "HelpGer.yml");
-        } else {
-            helpFile = new File(plugin.getDataFolder() + "/Help", "HelpEng.yml");
-        }
-        helpConfig = new YamlConfiguration();
-        helpConfig.load(helpFile);
-    }
-
-    public static void loadOptionsConfig1() throws IOException, InvalidConfigurationException {
-
-        if (getLanguage().equals("ger")) {
-            optionsFile = new File(plugin.getDataFolder() + "/Options", "OptionsGer.yml");
-        } else {
-            optionsFile = new File(plugin.getDataFolder() + "/Options", "OptionsEng.yml");
-        }
-        optionsConfig = new YamlConfiguration();
-        optionsConfig.load(optionsFile);
-    }
-
-    public static void loadConfig() throws IOException, InvalidConfigurationException {
-
-        configFile = new File(plugin.getDataFolder() + "/config.yml");
-        config = new YamlConfiguration();
-        config.load(configFile);
-    }
-
-    public static void reloadWorldConfig() throws IOException, InvalidConfigurationException {
-
-        worldsFile = new File(plugin.getDataFolder() + "/Worlds.yml");
-        worldsConfig = new YamlConfiguration();
-        worldsConfig.load(worldsFile);
+        config.setDefaults(defaultConfig);
+        return config;
     }
 
     public static void reloadAllConfigs() {
         try {
-            loadMessagesConfig();
-            loadChallengesConfig1();
-            loadHelpConfig1();
-            loadOptionsConfig1();
             loadConfig();
+            messagesConfig = loadConfig("Languages", "");
+            challengesConfig = loadConfig("Challenges");
+            helpConfig = loadConfig("Help");
+            optionsConfig = loadConfig("Options");
             reloadWorldConfig();
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
     }
 
-    public static FileConfiguration getWorldConfig() {
+    public static StoredConfiguration getWorldConfig() {
         return worldsConfig;
     }
 
     public static FileConfiguration getDefConfig() {
-        return config;
+        return plugin.getConfig();
     }
 
     public static FileConfiguration getMessageConfig() {

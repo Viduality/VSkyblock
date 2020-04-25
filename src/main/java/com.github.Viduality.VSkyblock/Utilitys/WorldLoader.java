@@ -5,6 +5,7 @@ import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class WorldLoader implements Runnable{
 
@@ -16,7 +17,7 @@ public class WorldLoader implements Runnable{
         plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
             @Override
             public void run() {
-                List<String> worlds = wm.getAllWorlds();
+                Set<String> worlds = wm.getAllWorlds();
                 List<String> autoloadedislands = new ArrayList<>();
                 for (World world : plugin.getServer().getWorlds()) {
                     if (!wm.getAllWorlds().contains(world.getName())) {
