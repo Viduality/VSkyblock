@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -123,6 +141,7 @@ public class SQLConnector {
                             + "islandlevel VARCHAR(100) DEFAULT 0,"
                             + "difficulty VARCHAR(100) NOT NULL DEFAULT 'NORMAL',"
                             + "visit BOOLEAN NOT NULL DEFAULT TRUE,"
+                            + "visitneedsrequest BOOLEAN NOT NULL DEFAULT FALSE,"
                             + "cobblestonelevel BIGINT DEFAULT 0,"
                             + "totalblocks BIGINT DEFAULT 140,"
                             + "PRIMARY KEY (islandid))");
@@ -220,6 +239,7 @@ public class SQLConnector {
             );
             connection.createStatement().execute(
                     "ALTER TABLE VSkyblock_Island ADD COLUMN IF NOT EXISTS("
+                    + "visitneedsrequest BOOLEAN NOT NULL DEFAULT FALSE,"
                     + "totalblocks BIGINT DEFAULT 140);"
             );
             connection.createStatement().execute(

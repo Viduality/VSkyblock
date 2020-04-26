@@ -1,8 +1,25 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
-import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -594,8 +611,8 @@ public class DatabaseReader {
     /**
      * Checks if an island is visitable.
      *
-     * @param islandid  The id of the island
-     * @param callback  Returns if the island is visitable (boolean).
+     * @param islandid  The id of the island.
+     * @param callback  Returns true if the island is visitable (boolean).
      */
     public void isislandvisitable(int islandid, CallbackBoolean callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
@@ -623,6 +640,37 @@ public class DatabaseReader {
     }
 
     /**
+     * Checks if players need to request to visit the island.
+     *
+     * @param islandid  The id of the island.
+     * @param callback  Returns true if players need to request.
+     */
+    public void islandneedsrequestforvisit(int islandid, CallbackBoolean callback) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            boolean needsrequest = false;
+            Connection connection = plugin.getdb().getConnection();
+            try {
+                PreparedStatement preparedStatement;
+                preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE islandid = ?");
+                preparedStatement.setInt(1, islandid);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    needsrequest = resultSet.getBoolean("visitneedsrequest");
+                }
+
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                plugin.getdb().closeConnection(connection);
+            }
+            final boolean finalneedsrequest = needsrequest;
+            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(finalneedsrequest));
+        });
+    }
+
+    /**
      * Returns all options for an island.
      *
      * @param islandid  The id of the island
@@ -640,6 +688,7 @@ public class DatabaseReader {
                 while (r.next()) {
                     islandOptionsCache.setVisit(r.getBoolean("visit"));
                     islandOptionsCache.setDifficulty(r.getString("difficulty"));
+                    islandOptionsCache.setNeedRequest(r.getBoolean("visitneedsrequest"));
                 }
                 preparedStatement.close();
 

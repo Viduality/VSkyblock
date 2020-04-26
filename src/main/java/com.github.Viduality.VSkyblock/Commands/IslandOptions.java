@@ -1,10 +1,27 @@
 package com.github.Viduality.VSkyblock.Commands;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.Utilitys.IslandOptionsCache;
-import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -16,7 +33,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class IslandOptions implements SubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseReader databaseReader = new DatabaseReader();
 
 
@@ -40,13 +56,18 @@ public class IslandOptions implements SubCommand {
     private void createOptionsInventory(IslandOptionsCache cache, Player player, boolean islandOwner) {
         String difficulty = cache.getDifficulty();
         boolean visit = cache.getVisit();
+        boolean needRequest = cache.getNeedRequest();
         Inventory isOptions = Bukkit.createInventory(null, 18, getInvName());
 
         //VISIT
 
         Material visitBlock;
         if (visit) {
-            visitBlock = getMaterial(ConfigShorts.getOptionsConfig().getString("Visit.AllowedItem"));
+            if (needRequest) {
+                visitBlock = getMaterial(ConfigShorts.getOptionsConfig().getString("Visit.NeedsRequestItem"));
+            } else {
+                visitBlock = getMaterial(ConfigShorts.getOptionsConfig().getString("Visit.AllowedItem"));
+            }
         } else {
             visitBlock = getMaterial(ConfigShorts.getOptionsConfig().getString("Visit.NotAllowedItem"));
         }
@@ -54,9 +75,13 @@ public class IslandOptions implements SubCommand {
         ItemMeta visitSlotItemMeta = visitSlot.getItemMeta();
         if (visitSlotItemMeta != null) {
             if (visit) {
-                visitSlotItemMeta.setDisplayName("§2" + getDisplayNameVisit("Allowed"));
+                if (needRequest) {
+                    visitSlotItemMeta.setDisplayName(getDisplayNameVisit("NeedsRequest"));
+                } else {
+                    visitSlotItemMeta.setDisplayName(getDisplayNameVisit("Allowed"));
+                }
             } else {
-                visitSlotItemMeta.setDisplayName("§c" + getDisplayNameVisit("NotAllowed"));
+                visitSlotItemMeta.setDisplayName(getDisplayNameVisit("NotAllowed"));
             }
             visitSlotItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             visitSlotItemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

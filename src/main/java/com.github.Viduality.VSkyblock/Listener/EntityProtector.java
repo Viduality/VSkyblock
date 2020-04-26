@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock.Listener;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
@@ -144,30 +162,6 @@ public class EntityProtector implements Listener {
             player.setCanCollide(true);
         }
     }
-
-    /*
-    @EventHandler
-    public void playermove(PlayerMoveEvent playerMoveEvent) {
-        Player player = playerMoveEvent.getPlayer();
-        if (!player.getNearbyEntities(2,2,2).isEmpty()) {
-            for (Entity e : player.getNearbyEntities(2, 2, 2)) {
-                if (e instanceof LivingEntity) {
-                    LivingEntity entity = (LivingEntity) e;
-                    System.out.println(entity.isCollidable());
-                    player.setCanCollide(false);
-                    entity.setCanCollide(false);
-                    System.out.println("PlayerCollidable = " + player.isCollidable());
-                    nocollideentities.put(player, plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                        player.setCanCollide(true);
-                    }, 20 * 5));
-                    nocollideentities.put(entity, plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                        entity.setCanCollide(true);
-                    }, 20 * 5));
-                }
-            }
-        }
-    }
-     */
 
 
 

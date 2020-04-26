@@ -62,6 +62,7 @@ MasterIsland: §cMaster island is generating! This may cause some lags!
 MasterIslandReady: §aFinished creating master island!
 MidAir: §cYou can't do this airborne!
 MissingValue: §cYou need to define a Value for that Command!
+MultipleRequests: §cYou have multiple requests! Use §b/is confirm <Player> §cto select a player!
 
 NetherJoin1: §fWelcome in the §4nether§f!
 NetherJoin2: "§fCaution: 50 blocks spawnprotection in each direction!"
@@ -80,6 +81,8 @@ NotEnoughInventorySpace: §cThere are not enough free inventory slots to claim y
 NotEnoughItems: §cYou don't have enough items for this challenge!
 NotEnoughItemsGenerator: §cYou don't have enough items to upgrade your generator!
 NotIslandOwner: §cYou have to be the Owner of your Island to perform this command!
+NoVisitRequest: §cYou don't have any requests!
+NoVisitRequestFromPlayer: §cYou don't have a request from §6%replacement%§c!
 
 OnlyMember: §aYou are alone on this island.
 OnlyTrueOrFalse: §cPlease use "true" or "false" for this option!
@@ -95,6 +98,7 @@ PlayerNotIslandMember: §cThis player is no member of your island!
 PlayerNotOnline: §c%SecondPlayer% is not Online!
 PlayersIslandLevel: §6%SecondPlayer%'s island level is %Player%.
 PlayerVisitingYourIsland: §6%replacement% §bis visiting your island right now.
+PlayerWantsToVisitYourIsland: §6%replacement% wants to visit your island. You can confirm the request with §b/is confirm §6in the next 30 seconds.
 
 ResettedChallenges: §bSuccessfully resetted challenges for player §6%replacement%§b!
 RestartFirst: §cUse §b/is restart §cfirst, then confirm it with §b/is restart confirm§c!
@@ -104,6 +108,7 @@ RecreatedChallengeFiles: §bAll challenge files have been recreated.
 ReloadedBlockValues: §bBlock-Values have been reloaded.
 ReloadedConfig: §bAll configs have been reloaded.
 
+SendVisitRequest: "§bThis island can't be visited without permission. A request has been sent to all island members and can be accepted in the next 30 seconds! \n §cCaution: You will get teleported the moment they accept the request!"
 SetAutoLoad: §bAutoLoad has been set to §6%replacement% §bfor your current world!
 SethomeSuccess: §aSuccessfully set new homepoint for your island!
 SetNetherhomeSuccess: §aSuccessfully set a new homepoint for the nether!

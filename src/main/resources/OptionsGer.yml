@@ -3,6 +3,8 @@ Accept: Übernehmen
 Visit:
   Allowed: §2§lBesucher erlaubt
   AllowedItem: PLAYER_HEAD
+  NeedsRequest: §6§lBesucher nur auf Anfrage
+  NeedsRequestItem: ZOMBIE_HEAD
   NotAllowed: §c§lBesucher nicht erlaubt
   NotAllowedItem: SKELETON_SKULL
 Difficulty:

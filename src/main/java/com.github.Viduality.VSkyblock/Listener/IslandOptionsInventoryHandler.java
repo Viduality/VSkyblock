@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock.Listener;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
@@ -43,15 +61,19 @@ public class IslandOptionsInventoryHandler implements Listener {
             int confirmslot = 17;
 
             String visitalloweditem = ConfigShorts.getOptionsConfig().getString("Visit.AllowedItem");
+            String visitnotalloweditem = ConfigShorts.getOptionsConfig().getString("Visit.NotAllowedItem");
+            String visitneedrequestitem = ConfigShorts.getOptionsConfig().getString("Visit.NeedsRequestItem");
             String difficultynormalitem = ConfigShorts.getOptionsConfig().getString("Difficulty.NormalItem");
             String difficultyharditem = ConfigShorts.getOptionsConfig().getString("Difficulty.HardItem");
             String difficultyeasyitem = ConfigShorts.getOptionsConfig().getString("Difficulty.EasyItem");
 
             if (slot == visitslot) {
-                if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(visitalloweditem))) {
-                    inventoryClickEvent.getInventory().setItem(visitslot, getItemStack("visit", "NotAllowed"));
-                } else {
+                if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(visitnotalloweditem))) {
                     inventoryClickEvent.getInventory().setItem(visitslot, getItemStack("visit", "Allowed"));
+                } else if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(visitalloweditem))) {
+                    inventoryClickEvent.getInventory().setItem(visitslot, getItemStack("visit", "NeedsRequest"));
+                } else {
+                    inventoryClickEvent.getInventory().setItem(visitslot, getItemStack("visit", "NotAllowed"));
                 }
             } else if (slot == difficultyslot) {
                 if (inventoryClickEvent.getCurrentItem().getType().equals(getMaterial(difficultynormalitem))) {
@@ -71,9 +93,12 @@ public class IslandOptionsInventoryHandler implements Listener {
 
             } else if (slot == confirmslot && inventoryClickEvent.getCurrentItem().getType().equals(Material.LIME_WOOL)) {
                 boolean visit = true;
+                boolean needRequest = false;
                 String difficulty = "NORMAL";
-                if (!inventoryClickEvent.getInventory().getItem(visitslot).getType().equals(getMaterial(visitalloweditem))) {
+                if (inventoryClickEvent.getInventory().getItem(visitslot).getType().equals(getMaterial(visitnotalloweditem))) {
                     visit = false;
+                } else if (inventoryClickEvent.getInventory().getItem(visitslot).getType().equals(getMaterial(visitneedrequestitem))) {
+                    needRequest = true;
                 }
                 if (inventoryClickEvent.getInventory().getItem(difficultyslot).getType().equals(getMaterial(difficultyharditem))) {
                     difficulty = "HARD";
@@ -83,7 +108,7 @@ public class IslandOptionsInventoryHandler implements Listener {
                 player.closeInventory();
                 ConfigShorts.messagefromString("UpdatedIslandOptions", player);
                 String finalDifficulty = difficulty;
-                databaseWriter.updateIslandOptions(player, visit, difficulty, done ->
+                databaseWriter.updateIslandOptions(player, visit, needRequest, difficulty, done ->
                         databaseReader.getislandnamefromplayer(player.getUniqueId(), result ->
                                 updateIsland(result, finalDifficulty)));
             }
