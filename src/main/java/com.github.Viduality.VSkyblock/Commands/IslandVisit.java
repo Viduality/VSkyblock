@@ -5,6 +5,7 @@ import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -30,13 +31,25 @@ public class IslandVisit implements SubCommand {
                             if (isVisitable) {
                                 databaseReader.getislandnamefromplayer(uuid, islandName -> {
                                     if (wm.getLoadedWorlds().contains(islandName)) {
-                                        player.teleportAsync(Island.islandhomes.get(islandName));
-                                        player.setCanCollide(false);
-                                        for (String memberName : islandMembers) {
-                                            Player onlinePlayer = plugin.getServer().getPlayer(memberName);
-                                            if (onlinePlayer != null) {
-                                                ConfigShorts.custommessagefromString("PlayerVisitingYourIsland", onlinePlayer, player.getName());
-                                            }
+                                        Location islandHome = Island.islandhomes.get(islandName);
+                                        if (islandHome != null) {
+                                            islandHome.getWorld().getChunkAtAsync(islandHome).whenComplete((c, e) -> {
+                                                if (e != null) {
+                                                    e.printStackTrace();
+                                                }
+                                                if (c != null) {
+                                                    player.teleport(islandHome);
+                                                    player.setCanCollide(false);
+                                                    for (String memberName : islandMembers) {
+                                                        Player onlinePlayer = plugin.getServer().getPlayer(memberName);
+                                                        if (onlinePlayer != null) {
+                                                            ConfigShorts.custommessagefromString("PlayerVisitingYourIsland", onlinePlayer, player.getName());
+                                                        }
+                                                    }
+                                                } else {
+                                                    ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
+                                                }
+                                            });
                                         }
                                     } else {
                                         ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
