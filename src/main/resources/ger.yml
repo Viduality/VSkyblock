@@ -62,6 +62,7 @@ MasterIsland: §cVSkyblock Masterisland wird generiert! In der Zeit können Lags
 MasterIslandReady: §aVSkyblock Masterisland fertig generiert!
 MidAir: §cDu kannst das nicht in der Luft machen!
 MissingValue: §cDu brauchst einen Wert für diesen Command!
+MultipleRequests: §cDu hast von mehreren Spielern Anfragen! Bitte benutze §b/is confirm <Spieler> §cum den richtigen Spieler auszuwählen!
 
 NetherJoin1: §fWillkommen im §4§lNether§r§f!
 NetherJoin2: "§fAchtung: Der Spawn ist §l50§r§f Blöcke in alle Richtungen gesichert!"
@@ -80,6 +81,8 @@ NotEnoughInventorySpace: §cDu hast nicht genügend Platz in deinem Inventar fü
 NotEnoughItems: §cDu hast nicht genügend Items für diese Challenge!
 NotEnoughItemsGenerator: §cDu hast nicht genügend Items um den Generator zu upgraden!
 NotIslandOwner: §cDu musst der Owner der Insel sein um diesen Befehl ausführen zu können!
+NoVisitRequest: §cDu hast keine Anfragen!
+NoVisitRequestFromPlayer: §cDu hast keine Anfrage von §6%replacement%§c!
 
 OnlyMember: §aDu bist alleine auf deiner Insel!
 OnlyTrueOrFalse: §cBenutze "true" oder "false" für diese Option!
@@ -95,6 +98,7 @@ PlayerNotIslandMember: §cDieser Spieler ist kein Spieler auf deiner Insel!
 PlayerNotOnline: §c%SecondPlayer% ist nicht Online!
 PlayersIslandLevel: §6%SecondPlayer%'s Insel-Level beträgt %Player%.
 PlayerVisitingYourIsland: §6%replacement% §bbesucht gerade deine Insel.
+PlayerWantsToVisitYourIsland: §6%replacement% möchte deine Insel besuchen. Du kannst die Anfrage mit §b/is confirm §6in den nächsten 30 Sekunden bestätigen.
 
 ResettedChallenges: §bErfolgreich Challenges von §6%replacement% §bresettet!
 RestartFirst: §cBenutze erst §b/is restart §cund bestätige danach mit §b/is restart confirm§c!
@@ -104,6 +108,7 @@ RecreatedChallengeFiles: §bAlle Challenge-Files wurden neu erstellt.
 ReloadedBlockValues: §bBlock-Values wurden neu geladen.
 ReloadedConfig: §bAlle Configs wurden neu geladen.
 
+SendVisitRequest: "§bDie Insel kann nur auf Anfrage besucht werden. Eine Anfrage wurde an alle Inselmitglieder gesendet und kann in den nächsten 30 Sekunden von ihnen bestätigt werden! \n §cAchtung: Du wirst teleportiert sobald die Anfrage bestätigt wird!"
 SetAutoLoad: §bAutoLoad wurde für deine jetzige Welt auf §6%replacement% §bgesetzt!
 SethomeSuccess: §aErfolgreich neuen Spawnpunkt deiner Insel gesetzt!
 SetNetherhomeSuccess: §aErfolgreich neuen Homepunkt für den Nether gesetzt!

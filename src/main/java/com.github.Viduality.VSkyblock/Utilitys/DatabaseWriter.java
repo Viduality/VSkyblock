@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
@@ -401,10 +419,11 @@ public class DatabaseWriter {
      * Writes the given options for the island of the given player into the database.
      * @param player
      * @param visit
+     * @param needsRequest
      * @param difficulty
      * @param callback
      */
-    public void updateIslandOptions(Player player, boolean visit, String difficulty, final Callback callback) {
+    public void updateIslandOptions(Player player, boolean visit, boolean needsRequest, String difficulty, final Callback callback) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
@@ -423,10 +442,11 @@ public class DatabaseWriter {
 
 
                     PreparedStatement preparedStatement;
-                    preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Island SET visit = ?, difficulty = ? WHERE islandid = ?");
+                    preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Island SET visit = ?, visitneedsrequest = ?, difficulty = ? WHERE islandid = ?");
                     preparedStatement.setBoolean(1, visit);
-                    preparedStatement.setString(2, difficulty);
-                    preparedStatement.setInt(3, islandid);
+                    preparedStatement.setBoolean(2, needsRequest);
+                    preparedStatement.setString(3, difficulty);
+                    preparedStatement.setInt(4, islandid);
                     preparedStatement.executeUpdate();
                     preparedStatement.close();
 

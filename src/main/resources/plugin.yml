@@ -57,6 +57,13 @@ commands:
     permission: VSkyblock.Island
     permission-message: You don't have permission!
 
+  Island Confirm:
+    description: Accepts the request of another player to visit your island.
+    usage: /island confirm
+    aliases: [is confirm]
+    permission: VSkyblock.Island
+    permission-message: You don't have permission!
+
   Island Kick:
     description: Kicks an player from your island.
     usage: /island kick <Player>

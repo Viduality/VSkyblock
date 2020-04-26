@@ -1,9 +1,11 @@
 InventoryName: Island options
 Accept: Accept
 Visit:
-  Allowed: Visitors allowed
+  Allowed: §2§lVisitors allowed
   AllowedItem: PLAYER_HEAD
-  NotAllowed: No Visitors allowed
+  NeedsRequest: §6§lVisitors need to request
+  NeedsRequestItem: ZOMBIE_HEAD
+  NotAllowed: §c§lNo Visitors allowed
   NotAllowedItem: SKELETON_SKULL
 Difficulty:
   Easy: Easy

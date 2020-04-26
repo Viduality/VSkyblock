@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock.Commands;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.VSkyblock;
@@ -23,6 +41,7 @@ public class IslandHelp implements SubCommand {
                 String restartconfirm = ConfigShorts.getHelpConfig().getString("IslandRestartConfirm");
                 String invite = ConfigShorts.getHelpConfig().getString("IslandInvite");
                 String accept = ConfigShorts.getHelpConfig().getString("IslandAccept");
+                String confirm = ConfigShorts.getHelpConfig().getString("IslandConfirm");
                 String kick = ConfigShorts.getHelpConfig().getString("IslandKick");
                 String setowner = ConfigShorts.getHelpConfig().getString("IslandSetowner");
                 String leave = ConfigShorts.getHelpConfig().getString("IslandLeave");
@@ -42,6 +61,7 @@ public class IslandHelp implements SubCommand {
                         ChatColor.GOLD + ChatColor.BOLD + "/island restart confirm" + "\n" + ChatColor.RESET + " - " + restartconfirm + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/island invite" + "\n" + ChatColor.RESET + " - " + invite + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/island accept" + "\n" + ChatColor.RESET + " - " + accept + "\n" +
+                        ChatColor.GOLD + ChatColor.BOLD + "/island confirm" + "\n" + ChatColor.RESET + " - " + confirm + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/island kick" + "\n" + ChatColor.RESET + " - " + kick + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/island setowner" + "\n" + ChatColor.RESET + " - " + setowner + "\n" +
                         ChatColor.GOLD + ChatColor.BOLD + "/island leave" + "\n" + ChatColor.RESET + " - " + leave + "\n" +
