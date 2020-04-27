@@ -1,147 +1,147 @@
 
-Prefix: §7[§9VSky§7]
+Prefix: "§7[§9VSky§7]"
 
 
-AcceptLeave: §cDu verlässt deine derzeitige Insel und verlierst deinen ganzen Fortschritt! Bestätige dies in den nächsten 20 Sekunden mit §b/is leave confirm§c!
-AlreadyCheckedIsland: §cDu hast gerade bereits die Insel nach den Anforderungen durchsucht! Warte kurz bis du es erneut versuchst
-AlreadyIslandMember: §cDieser Spieler ist bereits Mitglied deiner Insel!
-AlreadyUsedIslandLevel: §cDu hast diesen Befehl vor Kurzem erst benutzt. Warte ein wenig bevor du es erneut versuchst!
+AcceptLeave: "§cWillst du die Insel wirklich verlassen? Dein Fortschritt wird verloren gehen. Bestätige dies in den nächsten 20 Sekunden mit §b/is leave confirm§c!"
+AlreadyCheckedIsland: "§cDeine Insel wurde eben erst auf nötige Anforderungen durchsucht, warte einen Moment bis du es erneut versuchst!"
+AlreadyIslandMember: "§cDieser Spieler ist bereits Mitglied deiner Insel!"
+AlreadyUsedIslandLevel: "§cDu hast diesen Befehl erst genutzt, warte einen Moment bevor du es erneut versuchst!"
 
-BlockBreak: §cDu darfst hier nichts abbauen!
-BlockPlace: §cDu darfst hier nichts platzieren!
+BlockBreak: "§cDu darfst hier nichts abbauen!"
+BlockPlace: "§cDu darfst hier nichts platzieren!"
 
-CalculatingNewIslandLevel: §aBerechne das Level deiner Insel. Bitte warte kurz, da es seine Zeit benötigt!
-CannotVisitIsland: §cDu kannst diese Insel nicht besuchen, da der Owner der Insel keine anderen Spieler auf der Insel haben möchte.
-CantKickYourself: §cDu kannst dich nicht selbst von deiner Insel kicken!
-ChallengeComplete: §6%Player% §ahat §6%Challenge%§a abgeschlossen!
-ChallengeNotRepeatable: §cDu kannst diese Challenge nur einmal abschließen!
-ChangeEnvironmentMidGame: §cDu solltest das Environment nicht im nachhinein ändern. Command wird abgebrochen.
-ChangeGeneratorMidGame: §cDu solltest den Generator nicht im nachhinein ändern. Command wird abgebrochen.
-CheckingIslandForChallenge: §6Durchsuche Insel nach den Anforderungen der Challenge. Warte einen Moment!
-CleaningUpOldIslands: §cSäubere verlassene Welten, dies könnte kurz laggen!
-CleaningUpOldIslandsDone: §2Säuberung verlassener Welten abgeschlossen!
-ConfirmRestart: §cDeine Insel wird gelöscht und eine Neue generiert! Bestätige dies in den nächsten 20 Sekunden mit §b/is restart confirm§c!
-CouldNotTeleportToWorld: §cKonnte nicht in die Welt §6%replacement% §cteleportieren!
-CurrentIslandLevel: §6Aktuelles Insel-Level beträgt %replacement%.
+CalculatingNewIslandLevel: "§aDas Level deiner Insel wird neu berechnet, das dauert einen Augenblick..."
+CannotVisitIsland: "§cDu kannst diese Insel nicht besuchen, da der Besitzer der Insel keine Besucher haben möchte."
+CantKickYourself: "§cDu kannst dich nicht selbst von deiner Insel kicken!"
+ChallengeComplete: "§6%Player% §ahat §6%Challenge%§a abgeschlossen!"
+ChallengeNotRepeatable: "§cDu kannst diese Challenge nur einmal abschließen!"
+ChangeEnvironmentMidGame: "§cDu kannst das Environment nicht im nachhinein ändern!"
+ChangeGeneratorMidGame: "§cDu kannst den Generator nicht im nachhinein ändern!"
+CheckingIslandForChallenge: "§6Deine Insel wird nach Challenge Anforderugnen durchsucht, das kann einen Augenblick dauern..."
+CleaningUpOldIslands: "§cVerlassene Welten werden vernichtet! Es kann zu Lags kommen..."
+CleaningUpOldIslandsDone: "§2Vernichtung verlassener Welten abgeschlossen!"
+ConfirmRestart: "§cDeine Insel wird gelöscht und eine Neue generiert! Bestätige dies in den nächsten 20 Sekunden mit §b/is restart confirm§c!"
+CouldNotTeleportToWorld: "§cKonnte nicht in die Welt §6%replacement% §cteleportieren!"
+CurrentIslandLevel: "§6Aktuelles Insel-Level beträgt %replacement%."
 
-DeletedPlayer: §bErfolgreich alle Infos von §6%replacement% §bgelöscht!
-DropItem: §cDu kannst hier nichts droppen! Wirf deinen Abfall bei dir weg!
+DeletedPlayer: "§bErfolgreich alle Daten von §6%replacement% §bgelöscht!"
+DropItem: "§cDu kannst hier nichts droppen! Wirf deinen Dreck bei dir weg!"
 
-FailedToCreateIsland: §cEs konnte keine Insel generiert werden! Bitte versuch es nochmal oder informiere einen Server-Admin!
-FailedToDeleteWorld: §cKonnte Welt nicht richtig löschen. Da ist wohl etwas schief gelaufen...
-FalseInput: §cFalsche Eingabe! Benutze §b/island help §c für weitere Infos.
-FalseInputAdmin: §cFalsche Eingabe! Benutze §b/VSkyblock help §c für weitere Infos.
+FailedToCreateIsland: "§cEs konnte keine Insel generiert werden! Bitte versuch es nochmal oder informiere einen Server-Admin!"
+FailedToDeleteWorld: "§cWelt konnte nicht richtig gelöscht werden, da ist wohl etwas schief gelaufen..."
+FalseInput: "§cFalsche Eingabe! Benutze §b/island help §cfür weitere Infos."
+FalseInputAdmin: "§cFalsche Eingabe! Benutze §b/VSkyblock help §cfür weitere Infos."
 
-GenerateCooldown: §cWarte ein paar Minuten bevor du eine neue Insel erstellst! Die Zeit zwischen dem Generieren von zwei Inseln beträgt %replacement% Minuten.
-GenerateNewIsland: §aDeine Insel wird generiert. Warte einen Moment!
-GetInviteToIsland: §6%Player% hat dich auf seine Insel eingeladen!
+GenerateCooldown: "§cWarte ein paar Minuten bevor du eine neue Insel erstellst! Die Zeit zwischen dem Generieren von zwei Inseln beträgt %replacement% Minuten."
+GenerateNewIsland: "§aDeine Insel wird generiert. Warte einen Moment!"
+GetInviteToIsland: "§6%Player% hat dich auf seine Insel eingeladen!"
 
-HasIslandMembers: §cAuf deiner Insel befinden sich noch andere Spieler! Kicke Alle mit §b/is kick <Spieler> §coder übertrage den Owner der Insel mit §b/is setowner §cauf einen anderen Spieler deiner Insel!
-HowToAcceptInvite: §cDu verlierst den ganzen Fortschritt auf der Insel! Wenn du dennoch der Insel beitreten möchtest, bestätige dies in den nächsten 20 Sekunden mit §b/is accept§c!
+HasIslandMembers: "§cAuf deiner Insel befinden sich noch andere Spieler! Kicke Alle mit §b/is kick <Spieler> §coder übertrage den Owner der Insel mit §b/is setowner §cauf einen anderen Spieler deiner Insel!"
+HowToAcceptInvite: "§cDu verlierst den ganzen Fortschritt auf der Insel! Wenn du dennoch der Insel beitreten möchtest, bestätige dies in den nächsten 20 Sekunden mit §b/is accept§c!"
 
-ImportingWorld: §bVersuche Welt zu importieren. Dies könnte Laggs verursachen!
-ImportNotSuccessfull: §cKonnte Welt nicht richtig importieren!
-ImportSuccessfull: §bWelt erfolgreich importiert!
-InteractBlocker: §cDu kannst das hier nicht benutzen!
-InviteToIsland: §6Du hast %SecondPlayer% auf deine Insel eingeladen!
-InviteYourself: §cDu kannst dich nicht selbst einladen!
-IslandDoesNotMatchRequirements: §cDeine Insel entspricht den Anforderungen für diese Challenge nicht!
-IslandJoinCooldown: §cDieser Spieler kann in den nächsten %replacement% Minuten keiner Insel beitreten, da er erst vor kurzem einer anderen Insel beigetreten ist.
-IslandLevelNotHighEnough: §cDas Level deiner Insel ist nicht hoch genug! Baue mehr um das Level deiner Insel zu erhöhen!
-IslandSpawnNotSafe: §cInsel-Spawn ist nicht sicher. Teleportation abgebrochen.
+ImportingWorld: "§bVersuche Welt zu importieren. Es kann zu Lags kommen..."
+ImportNotSuccessfull: "§cKonnte Welt nicht richtig importieren!"
+ImportSuccessfull: "§bWelt erfolgreich importiert!"
+InteractBlocker: "§cDu kannst das hier nicht benutzen!"
+InviteToIsland: "§6Du hast %SecondPlayer% auf deine Insel eingeladen!"
+InviteYourself: "§cDu kannst dich nicht selbst einladen!"
+IslandDoesNotMatchRequirements: "§cDeine Insel erfüllt nicht die Anforderungen für diese Challenge nicht!"
+IslandJoinCooldown: "§cDieser Spieler kann in den nächsten %replacement% Minuten keiner Insel beitreten, da er erst vor kurzem einer anderen Insel beigetreten ist."
+IslandLevelNotHighEnough: "§cDas Level deiner Insel ist nicht hoch genug! Baue mehr um das Level deiner Insel zu erhöhen!"
+IslandSpawnNotSafe: "§cInsel-Spawn ist nicht sicher. Teleportation abgebrochen."
 
-KickedFromIsland: §cDu wurdest von deiner jetzigen Insel gekickt! Du kannst einer Anderen beitreten oder deine eigene Insel mit §b/is §cerstellen!
-KickedFromIslandOffline: §cDu wurdest von deiner Insel gekickt während du Offline warst! Du kannst einer Anderen beitreten oder deine eigene Insel mit §b/is §cerstellen!
-KickedMember: §cDu hast §b%SecondPlayer%§c von deiner Insel gekickt!
-KickVisitingPlayer: §6Zeit zu gehen! Du sollst die Insel die du gerade besuchst verlassen!
+KickedFromIsland: "§cDu wurdest von deiner jetzigen Insel gekickt! Du kannst einer Anderen beitreten oder deine eigene Insel mit §b/is §cerstellen!"
+KickedFromIslandOffline: "§cDu wurdest von deiner Insel gekickt während du Offline warst! Du kannst einer Anderen beitreten oder deine eigene Insel mit §b/is §cerstellen!"
+KickedMember: "§cDu hast §b%SecondPlayer%§c von deiner Insel gekickt!"
+KickVisitingPlayer: "§6Zeit zu gehen! Du sollst die Insel die du gerade besuchst verlassen!"
 
-LeaveFirst: §cBenutze erst §b/is leave §cund bestätige danach mit §b/is leave confirm§c!
-LeftIsland: §6Du hast deine derzeitige Insel verlassen!
+LeaveFirst: "§cBenutze erst §b/is leave §cund bestätige danach mit §b/is leave confirm§c!"
+LeftIsland: "§6Du hast deine derzeitige Insel verlassen!"
 
-MasterIsland: §cVSkyblock Masterisland wird generiert! In der Zeit können Lags auftreten!
-MasterIslandReady: §aVSkyblock Masterisland fertig generiert!
-MidAir: §cDu kannst das nicht in der Luft machen!
-MissingValue: §cDu brauchst einen Wert für diesen Command!
-MultipleRequests: §cDu hast von mehreren Spielern Anfragen! Bitte benutze §b/is confirm <Spieler> §cum den richtigen Spieler auszuwählen!
+MasterIsland: "§cVSkyblock Masterisland wird generiert! Es kann zu Lags kommen..."
+MasterIslandReady: "§aVSkyblock Masterisland fertig generiert!"
+MidAir: "§cDu kannst das nicht in der Luft machen!"
+MissingValue: "§cDieser Befehl erwartet weitere Argumente!"
+MultipleRequests: "§cDu hast von mehreren Spielern Anfragen! Bitte benutze §b/is confirm <Spieler> §cum den richtigen Spieler auszuwählen!"
 
-NetherJoin1: §fWillkommen im §4§lNether§r§f!
+NetherJoin1: "§fWillkommen im §4§lNether§r§f!"
 NetherJoin2: "§fAchtung: Der Spawn ist §l50§r§f Blöcke in alle Richtungen gesichert!"
-NewIslandLevel: §6Neues Insel-Level beträgt %replacement%.
-NewIslandOwner: §6Du bist jetzt der neue Besitzer der Insel!
-NoIsland: §cDu besitzt keine Insel! Erstelle eine mit §b/island§c!
-NoLoadedWorldFound: §cEs konnte keine geladene Welt mit dem Namen §6%replacement% §cgefunden werden.
-NoPendingInvite: §cDu hast keine ausstehenden Einladung!
-NoPendingNetherSethome: §cDu kannst gerade kein neues Netherhome setzen, da du dafür keine aktive Anfrage hast!
-NoPendingNetherTeleport: §cDu kannst dich aktuell nicht zu deinem Netherhome teleportieren, da du dafür keine aktive Anfrage hast!
-NoWorldFound: §cEs kann keine Welt mit dem Namen §6%replacement% §cgefunden werden!
-NotAPlayer: §cDu musst ein Spieler sein um diesen Befehl ausführen zu können!
-NotAtPlayersIsland: §cDu musst dich auf deiner Insel befinden um diesen Befehl ausführen zu können!
-NotAValidOption: §cÜberprüfe deine Eingabe! Die Option existiert nicht!
-NotEnoughInventorySpace: §cDu hast nicht genügend Platz in deinem Inventar für die Belohnung der Challenge!
-NotEnoughItems: §cDu hast nicht genügend Items für diese Challenge!
-NotEnoughItemsGenerator: §cDu hast nicht genügend Items um den Generator zu upgraden!
-NotIslandOwner: §cDu musst der Owner der Insel sein um diesen Befehl ausführen zu können!
-NoVisitRequest: §cDu hast keine Anfragen!
-NoVisitRequestFromPlayer: §cDu hast keine Anfrage von §6%replacement%§c!
+NewIslandLevel: "§6Das Neue Level der Insel beträgt %replacement%."
+NewIslandOwner: "§6Du bist jetzt der neue Besitzer der Insel!"
+NoIsland: "§cDu besitzt keine Insel! Erstelle eine mit §b/is§c!"
+NoLoadedWorldFound: "§cEs konnte keine geladene Welt mit dem Namen §6%replacement% §cgefunden werden."
+NoPendingInvite: "§cDu hast keine ausstehenden Einladung!"
+NoPendingNetherSethome: "§cDu kannst kein neues Netherhome setzen, da du gerade nicht aus dem Nether kommst!"
+NoPendingNetherTeleport: "§cDu kannst dich derzeit nicht zu deinem Netherhome teleportieren!"
+NoWorldFound: "§cEs konnte keine Welt mit dem Namen §6%replacement% §cgefunden werden!"
+NotAPlayer: "§cDu musst ein Spieler sein um diesen Befehl ausführen zu können!"
+NotAtPlayersIsland: "§cDu musst dich auf deiner Insel befinden um diesen Befehl ausführen zu können!"
+NotAValidOption: "§cÜberprüfe deine Eingabe! Die Option existiert nicht!"
+NotEnoughInventorySpace: "§cDu hast nicht genügend Platz in deinem Inventar für die Belohnung der Challenge!"
+NotEnoughItems: "§cDu hast nicht genügend Items für diese Challenge!"
+NotEnoughItemsGenerator: "§cDu hast nicht genügend Items um den Generator aufzuwerten!"
+NotIslandOwner: "§cDu musst der Besitzer der Insel sein um diesen Befehl ausführen zu können!"
+NoVisitRequest: "§cDu hast keine Besuchs Anfragen!"
+NoVisitRequestFromPlayer: "§cDu hast keine Anfrage von §6%replacement%§c!"
 
-OnlyMember: §aDu bist alleine auf deiner Insel!
-OnlyTrueOrFalse: §cBenutze "true" oder "false" für diese Option!
-OptionChanged: §aErfolgreich die Option geändert. Sie ist ab jetzt aktiv
+OnlyMember: "§aDu bist alleine auf deiner Insel!"
+OnlyTrueOrFalse: "§cBenutze \"true\" oder \"false\" für diese Option!"
+OptionChanged: "§aOption wurde erfolgreich geändert und aktiviert."
 
-PermissionLack: §cDu hast keine Berechtigung um diesen Befehl ausführen zu können!
-PlayerDoesNotExist: §cDer Spieler existiert nicht!
-PlayerFalling: §cDu kannst diesen Befehl nicht im freien Fall benutzen!
-PlayerHasNoIsland: §cDer Spieler hat keine Insel!
-PlayerInLava: §cDu kannst diesen Befehl nicht in Lava benutzen!
-PlayerLimitReached: §cDu kannst keinen Spieler mehr auf deine Insel einladen da du das Spieler-Limit erreicht hast!
-PlayerNotIslandMember: §cDieser Spieler ist kein Spieler auf deiner Insel!
-PlayerNotOnline: §c%SecondPlayer% ist nicht Online!
-PlayersIslandLevel: §6%SecondPlayer%'s Insel-Level beträgt %Player%.
-PlayerVisitingYourIsland: §6%replacement% §bbesucht gerade deine Insel.
-PlayerWantsToVisitYourIsland: §6%replacement% möchte deine Insel besuchen. Du kannst die Anfrage mit §b/is confirm §6in den nächsten 30 Sekunden bestätigen.
+PermissionLack: "§cDu hast keine Berechtigung um diesen Befehl ausführen zu können!"
+PlayerDoesNotExist: "§cDer Spieler existiert nicht!"
+PlayerFalling: "§cDu kannst diesen Befehl nicht im freien Fall benutzen!"
+PlayerHasNoIsland: "§cDer Spieler hat keine Insel!"
+PlayerInLava: "§cThe Floor is Lava! (Du kannst diesen Befehl nicht in Lava nutzen)"
+PlayerLimitReached: "§cDu kannst keinen Spieler mehr auf deine Insel einladen da du das Spieler-Limit erreicht hast!"
+PlayerNotIslandMember: "§cDieser Spieler ist kein Spieler deiner Insel!"
+PlayerNotOnline: "§c%SecondPlayer% ist nicht Online!"
+PlayersIslandLevel: "§6Das Insel-Level von %SecondPlayer% beträgt %Player%."
+PlayerVisitingYourIsland: "§6%replacement% §bbesucht gerade deine Insel."
+PlayerWantsToVisitYourIsland: "§6%replacement% möchte deine Insel besuchen. Du kannst die Anfrage mit §b/is confirm §6in den nächsten 30 Sekunden bestätigen."
 
-ResettedChallenges: §bErfolgreich Challenges von §6%replacement% §bresettet!
-RestartFirst: §cBenutze erst §b/is restart §cund bestätige danach mit §b/is restart confirm§c!
-RecreatedLanguageFiles: §bAlle Language-Files wurden neu erstellt.
-RecreatedHelpFiles: §bAlle Help-Files wurden neu erstellt.
-RecreatedChallengeFiles: §bAlle Challenge-Files wurden neu erstellt.
-ReloadedBlockValues: §bBlock-Values wurden neu geladen.
-ReloadedConfig: §bAlle Configs wurden neu geladen.
+ResettedChallenges: "§bErfolgreich Challenges von §6%replacement% §bresettet!"
+RestartFirst: "§cBenutze erst §b/is restart §cund bestätige danach mit §b/is restart confirm§c!"
+RecreatedLanguageFiles: "§bAlle Sprachdateien wurden neu erstellt."
+RecreatedHelpFiles: "§bAlle Hilfssprachdateien wurden neu erstellt."
+RecreatedChallengeFiles: "§bAlle Challengedateien wurden neu erstellt."
+ReloadedBlockValues: "§bBlock-Values wurden neu geladen."
+ReloadedConfig: "§bAlle Configs wurden neu geladen."
 
-SendVisitRequest: "§bDie Insel kann nur auf Anfrage besucht werden. Eine Anfrage wurde an alle Inselmitglieder gesendet und kann in den nächsten 30 Sekunden von ihnen bestätigt werden! \n §cAchtung: Du wirst teleportiert sobald die Anfrage bestätigt wird!"
-SetAutoLoad: §bAutoLoad wurde für deine jetzige Welt auf §6%replacement% §bgesetzt!
-SethomeSuccess: §aErfolgreich neuen Spawnpunkt deiner Insel gesetzt!
-SetNetherhomeSuccess: §aErfolgreich neuen Homepunkt für den Nether gesetzt!
-SetNewIslandOwner: §cDu hast den Owner-Titel der Insel einem anderen Mitglied deiner Insel übergeben!
-SetNewNether: §bErfolgreich einen neuen Nether ausgewählt!
-SetNewNetherHome: §6Möchtest du das benutzte Portal als neuen Nether-Spawnpunkt setzen? Mit §b/is setnetherhome §6kannst du das Portal in den nächsten 20 Sekunden als neuen Punkt bestätigen.
-SetNewSpawnpoint: §bErfolgreich einen neuen Spawnpunkt für die Welt §6%replacement% §bgesetzt!
-SetNewSpawnWorld: §bErfolgreich eine neue Spawn-Welt ausgewählt!
-Site: §8Seite %replacement%/%replacement2%
+SendVisitRequest: "§bDie Insel kann nur auf Anfrage besucht werden. Eine Anfrage wurde an alle Inselmitglieder gesendet und kann in den nächsten 30 Sekunden von ihnen bestätigt werden!\n§cAchtung: Du wirst teleportiert sobald die Anfrage bestätigt wird!"
+SetAutoLoad: "§bAutoLoad wurde für deine jetzige Welt auf §6%replacement% §bgesetzt!"
+SethomeSuccess: "§aErfolgreich neuen Spawnpunkt deiner Insel gesetzt!"
+SetNetherhomeSuccess: "§aNeues Netherhome erfolgreich gesetzt!"
+SetNewIslandOwner: "§cDu hast den Owner-Titel der Insel einem anderen Mitglied deiner Insel übergeben!"
+SetNewNether: "§bErfolgreich einen neuen Nether ausgewählt!"
+SetNewNetherHome: "§6Möchtest du das benutzte Portal als neuen Netherhome setzen? Mit §b/is setnetherhome §6kannst du das Portal in den nächsten 20 Sekunden als neues Netherhome bestätigen."
+SetNewSpawnpoint: "§bErfolgreich einen neuen Spawnpunkt für die Welt §6%replacement% §bgesetzt!"
+SetNewSpawnWorld: "§bErfolgreich eine neue Spawn-Welt ausgewählt!"
+Site: "§8Seite %replacement%/%replacement2%"
 
-TeleportedToWorld: §bTeleportiere zu Welt §6%replacement%§b.
-TeleportedToNetherHome: §aTeleportiere zum Nether-Home...
-TeleportToNetherHome: §6Wenn du zu deinem Netherportal zurückkehren möchtest, dann bestätige jetzt mit §b/is nether§6.
+TeleportedToWorld: "§bTeleportiere zu Welt §6%replacement%§b."
+TeleportedToNetherHome: "§aTeleportiere zum Netherhome..."
+TeleportToNetherHome: "§6Wenn du zu deinem Netherportal zurückkehren möchtest, dann bestätige jetzt mit §b/is nether§6"
 
-UpdatedIslandOptions: §bInsel Optionen wurden übernommen und sind jetzt aktiv!
-UpgradedYourCobblestoneGenerator: §2Dein Cobblestone-Generator wurde geupgradet. Infos zum Generator erhältst du im Menü der Insel-Optionen.
-UseCommandSetSpawnPoint: §cBenutze den Befehl §b/vsky set spawnpoint §cum diese "Option" zu ändern!
-UseInNetherWorld: §cDu kannst diesen Befehl nur im NETHER benutzen!
+UpdatedIslandOptions: "§bInsel Optionen wurden übernommen und aktiviert!"
+UpgradedYourCobblestoneGenerator: "§2Dein Cobblestone-Generator wurde verbessert. Infos zum Generator erhältst du im Menü der Insel-Optionen."
+UseCommandSetSpawnPoint: "§cBenutze den Befehl §b/vsky set spawnpoint §cum diese \"Option\" zu ändern!"
+UseInNetherWorld: "§cDu kannst diesen Befehl nur im §lNether§r§c benutzen!"
 
-VisitYourself: §cDu kannst dich nicht selbst besuchen!
+VisitYourself: "§cDu kannst dich nicht selbst besuchen!"
 
-WorldAlreadyExisting: §cWelt existiert bereits! Du kannst sie mit §6/VSkyblock load <Welt> §claden!
-WorldAlreadyLoaded: §cWelt ist bereits geladen!
-WorldCreate: §bWelt wird generiert...
-WorldCreated: §bWelt erfolgreich generiert!
-WorldCreationFailed: §cWelt konnte nicht generiert werden!
-WorldDeleted: §bWelt erfolgreich gelöscht!
-WorldDifficultyNotFound: §Schwierigkeit §6%replacement% §cist keine Schwieriegkeit!
-WorldEnvironmentNotFound: §cEnvironment §6%replacement% §cfür die Welt wurde nicht gefunden!
-WorldFailedToLoad: §cWelt §6%replacement% §ckonnte nicht geladen werden!
-WorldFailedToUnload: §cWelt §6%replacement% §ckonnte nicht entladen werden!
-WorldIsNoWorld: §bDie angegebenen "Welt" ist keine Welt!
-WorldListHeader: '§bVSkyblock Welten:'
-WorldLoaded: §bWelt erfolgreich geladen!
-WorldNotFound: §cWelt §6%replacement% §cwurde nicht gefunden!
-WorldUnloaded: §bWelt erfolgreich entladen!
+WorldAlreadyExisting: "§cWelt existiert bereits! Du kannst sie mit §6/VSkyblock load <Welt> §claden!"
+WorldAlreadyLoaded: "§cWelt ist bereits geladen!"
+WorldCreate: "§bWelt wird generiert..."
+WorldCreated: "§bWelt erfolgreich generiert!"
+WorldCreationFailed: "§cWelt konnte nicht generiert werden!"
+WorldDeleted: "§bWelt erfolgreich gelöscht!"
+WorldDifficultyNotFound: "§6%replacement% §cist kein gültiger Schwierigkeitsgrad!"
+WorldEnvironmentNotFound: "§cEnvironment §6%replacement% §cfür die Welt wurde nicht gefunden!"
+WorldFailedToLoad: "§cWelt §6%replacement% §ckonnte nicht geladen werden!"
+WorldFailedToUnload: "§cWelt §6%replacement% §ckonnte nicht entladen werden!"
+WorldIsNoWorld: "§bDie angegebenen \"Welt\" ist keine Welt!"
+WorldListHeader: "§bVSkyblock Welten:"
+WorldLoaded: "§bWelt erfolgreich geladen!"
+WorldNotFound: "§cWelt §6%replacement% §cwurde nicht gefunden!"
+WorldUnloaded: "§bWelt erfolgreich entladen!"
