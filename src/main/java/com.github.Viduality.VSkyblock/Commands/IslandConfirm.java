@@ -23,7 +23,6 @@ import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -40,57 +39,55 @@ public class IslandConfirm implements SubCommand {
 
     @Override
     public void execute(DatabaseCache databaseCache) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            if (Island.requestvisit.asMap().containsValue(databaseCache.getIslandId())) {
-                int i = 0;
-                List<UUID> players = new ArrayList<>();
-                for (UUID currentrequest : Island.requestvisit.asMap().keySet()) {
-                    if (Island.requestvisit.asMap().get(currentrequest).equals(databaseCache.getIslandId())) {
-                        i++;
-                        players.add(currentrequest);
-                    }
+        if (Island.requestvisit.asMap().containsValue(databaseCache.getIslandId())) {
+            int i = 0;
+            List<UUID> players = new ArrayList<>();
+            for (UUID currentrequest : Island.requestvisit.asMap().keySet()) {
+                if (Island.requestvisit.asMap().get(currentrequest).equals(databaseCache.getIslandId())) {
+                    i++;
+                    players.add(currentrequest);
                 }
-                if (i > 1) {
-                    if (databaseCache.getTargetPlayer() != null) {
-                        if (databaseCache.getTargetPlayer().isOnline()) {
-                            Player visitingplayer = (Player) databaseCache.getTargetPlayer();
-                            if (players.contains(visitingplayer.getUniqueId())) {
-                                teleportPlayer(visitingplayer, databaseCache.getIslandname(), databaseCache.getIslandId());
-                            } else {
-                                ConfigShorts.custommessagefromString("NoVisitRequestFromPlayer", databaseCache.getPlayer(), visitingplayer.getName());
-                            }
-                        } else {
-                            ConfigShorts.custommessagefromString("PlayerNotOnline", databaseCache.getPlayer(), databaseCache.getName(), databaseCache.getArg());
-                        }
-                    } else {
-                        ConfigShorts.messagefromString("MultipleRequests", databaseCache.getPlayer());
-                    }
-                } else {
-                    if (databaseCache.getTargetPlayer() != null) {
-                        if (databaseCache.getTargetPlayer().isOnline()) {
-                            Player visitingplayer = (Player) databaseCache.getTargetPlayer();
-                            if (players.contains(visitingplayer.getUniqueId())) {
-                                teleportPlayer(visitingplayer, databaseCache.getIslandname(), databaseCache.getIslandId());
-                            } else {
-                                ConfigShorts.custommessagefromString("NoVisitRequestFromPlayer", databaseCache.getPlayer(), visitingplayer.getName());
-                            }
-                        } else {
-                            ConfigShorts.custommessagefromString("PlayerNotOnline", databaseCache.getPlayer(), databaseCache.getName(), databaseCache.getArg());
-                        }
-                    } else {
-                        OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(players.get(0));
-                        if (offlinePlayer.isOnline()) {
-                            Player visitingplayer = plugin.getServer().getPlayer(players.get(0));
+            }
+            if (i > 1) {
+                if (databaseCache.getTargetPlayer() != null) {
+                    if (databaseCache.getTargetPlayer().isOnline()) {
+                        Player visitingplayer = (Player) databaseCache.getTargetPlayer();
+                        if (players.contains(visitingplayer.getUniqueId())) {
                             teleportPlayer(visitingplayer, databaseCache.getIslandname(), databaseCache.getIslandId());
                         } else {
-                            ConfigShorts.custommessagefromString("PlayerNotOnline", databaseCache.getPlayer(), databaseCache.getName(), databaseCache.getArg());
+                            ConfigShorts.custommessagefromString("NoVisitRequestFromPlayer", databaseCache.getPlayer(), visitingplayer.getName());
                         }
+                    } else {
+                        ConfigShorts.custommessagefromString("PlayerNotOnline", databaseCache.getPlayer(), databaseCache.getName(), databaseCache.getArg());
                     }
+                } else {
+                    ConfigShorts.messagefromString("MultipleRequests", databaseCache.getPlayer());
                 }
             } else {
-                ConfigShorts.messagefromString("NoVisitRequest", databaseCache.getPlayer());
+                if (databaseCache.getTargetPlayer() != null) {
+                    if (databaseCache.getTargetPlayer().isOnline()) {
+                        Player visitingplayer = (Player) databaseCache.getTargetPlayer();
+                        if (players.contains(visitingplayer.getUniqueId())) {
+                            teleportPlayer(visitingplayer, databaseCache.getIslandname(), databaseCache.getIslandId());
+                        } else {
+                            ConfigShorts.custommessagefromString("NoVisitRequestFromPlayer", databaseCache.getPlayer(), visitingplayer.getName());
+                        }
+                    } else {
+                        ConfigShorts.custommessagefromString("PlayerNotOnline", databaseCache.getPlayer(), databaseCache.getName(), databaseCache.getArg());
+                    }
+                } else {
+                    OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(players.get(0));
+                    if (offlinePlayer.isOnline()) {
+                        Player visitingplayer = plugin.getServer().getPlayer(players.get(0));
+                        teleportPlayer(visitingplayer, databaseCache.getIslandname(), databaseCache.getIslandId());
+                    } else {
+                        ConfigShorts.custommessagefromString("PlayerNotOnline", databaseCache.getPlayer(), databaseCache.getName(), databaseCache.getArg());
+                    }
+                }
             }
-        });
+        } else {
+            ConfigShorts.messagefromString("NoVisitRequest", databaseCache.getPlayer());
+        }
     }
 
 
