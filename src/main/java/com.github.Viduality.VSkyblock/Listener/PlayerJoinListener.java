@@ -107,6 +107,11 @@ public class PlayerJoinListener implements Listener {
         }
         if (!wm.loadWorld(result.getIslandname())) {
             ConfigShorts.custommessagefromString("WorldFailedToLoad", result.getPlayer(), result.getIslandname());
+            toLoad.remove(result);
+            DatabaseCache nextResult = toLoad.peekFirst();
+            if (nextResult != null) {
+                loadWorld(nextResult);
+            }
             return;
         }
         Island.playerislands.put(result.getUuid(), result.getIslandname());
