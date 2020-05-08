@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock.Commands;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.DefaultFiles;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
@@ -43,94 +61,88 @@ public class IslandLevel implements SubCommand {
                 uuid = databaseCache.getUuid();
             }
             Player player = databaseCache.getPlayer();
-            databaseReader.getislandlevelfromuuid(uuid, new DatabaseReader.CallbackINT() {
-                @Override
-                public void onQueryDone(int result) {
-                    if (databaseCache.getArg() != null) {
-                        ConfigShorts.custommessagefromString("PlayersIslandLevel", player, String.valueOf(result), databaseCache.getArg());
-                    } else {
-                        ConfigShorts.custommessagefromString("CurrentIslandLevel", player, String.valueOf(result));
-                        if (timebetweenreuse.getIfPresent(player.getUniqueId()) == null) {
-                            timebetweenreuse.put(player.getUniqueId(), true);
-                            ConfigShorts.messagefromString("CalculatingNewIslandLevel", player);
-                            World world = plugin.getServer().getWorld(databaseCache.getIslandname());
-                            if (world == null) {
-                                plugin.getLogger().log(Level.SEVERE, "World " + databaseCache.getIslandname() + " not found?");
-                                return;
+            databaseReader.getislandlevelfromuuid(uuid, (islandlevel) -> {
+                if (databaseCache.getArg() != null) {
+                    ConfigShorts.custommessagefromString("PlayersIslandLevel", player, String.valueOf(islandlevel), databaseCache.getArg());
+                } else {
+                    ConfigShorts.custommessagefromString("CurrentIslandLevel", player, String.valueOf(islandlevel));
+                    if (timebetweenreuse.getIfPresent(player.getUniqueId()) == null) {
+                        timebetweenreuse.put(player.getUniqueId(), true);
+                        ConfigShorts.messagefromString("CalculatingNewIslandLevel", player);
+                        World world = plugin.getServer().getWorld(databaseCache.getIslandname());
+                        if (world == null) {
+                            plugin.getLogger().log(Level.SEVERE, "World " + databaseCache.getIslandname() + " not found?");
+                            return;
+                        }
+                        databaseReader.getIslandsChallengePoints(databaseCache.getIslandId(), (challengePoints) -> {
+                            int valueriselevel = getValueRiseLevel();
+                            int valueincrease = getValueIncrease();
+                            double worldsize = world.getWorldBorder().getSize();
+                            int x1 = ((int) (-1 * worldsize / 2)) >> 4;
+                            int x2 = ((int) worldsize / 2) >> 4;
+                            int z1 = x1;
+                            int z2 = x2;
+                            double value = 0;
+                            if (isInt(ConfigShorts.getDefConfig().getString("IslandValueonStart"))) {
+                                value = ConfigShorts.getDefConfig().getInt("IslandValueonStart");
+                            } else {
+                                value = 150;
                             }
-                            databaseReader.getChallengePoints(databaseCache.getIslandId(), new DatabaseReader.CallbackINT() {
-                                @Override
-                                public void onQueryDone(int result) {
-                                    int valueriselevel = getValueRiseLevel();
-                                    int valueincrease = getValueIncrease();
-                                    double worldsize = world.getWorldBorder().getSize();
-                                    int x1 = ((int) (-1 * worldsize / 2)) >> 4;
-                                    int x2 = ((int) worldsize / 2) >> 4;
-                                    int z1 = x1;
-                                    int z2 = x2;
-                                    double value = 0;
-                                    if (isInt(ConfigShorts.getDefConfig().getString("IslandValueonStart"))) {
-                                        value = ConfigShorts.getDefConfig().getInt("IslandValueonStart");
+                            value = value + challengePoints;
+                            int valueperlevel;
+                            if (isInt(ConfigShorts.getDefConfig().getString("IslandValue"))) {
+                                valueperlevel = ConfigShorts.getDefConfig().getInt("IslandValue");
+                            } else {
+                                valueperlevel = 300;
+                            }
+
+                            IslandCounter counter = new IslandCounter(value, 0, (c) -> {
+
+                                double currentvalue = c.value;
+
+                                int level = 0;
+                                int increasedvaluefornextlevel = valueperlevel + valueincrease;
+                                for (int i = 0; i < valueriselevel; i++) {
+                                    if (currentvalue - valueperlevel >= 0) {
+                                        level = level + 1;
+                                        currentvalue = currentvalue - valueperlevel;
                                     } else {
-                                        value = 150;
+                                        currentvalue = 0;
+                                        break;
                                     }
-                                    value = value + result;
-                                    int valueperlevel;
-                                    if (isInt(ConfigShorts.getDefConfig().getString("IslandValue"))) {
-                                        valueperlevel = ConfigShorts.getDefConfig().getInt("IslandValue");
-                                    } else {
-                                        valueperlevel = 300;
-                                    }
-
-                                    IslandCounter counter = new IslandCounter(value, 0, (c) -> {
-
-                                        double currentvalue = c.value;
-
-                                        int level = 0;
-                                        int increasedvaluefornextlevel = valueperlevel + valueincrease;
-                                        for (int i = 0; i < valueriselevel; i++) {
-                                            if (currentvalue - valueperlevel >= 0) {
-                                                level = level + 1;
-                                                currentvalue = currentvalue - valueperlevel;
-                                            } else {
-                                                currentvalue = 0;
-                                                break;
-                                            }
-                                        }
+                                }
+                                if (currentvalue - increasedvaluefornextlevel >= 0) {
+                                    while (currentvalue >= 0) {
                                         if (currentvalue - increasedvaluefornextlevel >= 0) {
-                                            while (currentvalue >= 0) {
-                                                if (currentvalue - increasedvaluefornextlevel >= 0) {
-                                                    level++;
-                                                    currentvalue = currentvalue - increasedvaluefornextlevel;
-                                                    increasedvaluefornextlevel = increasedvaluefornextlevel + valueincrease;
-                                                } else {
-                                                    currentvalue = 0;
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                        int roundlevel = (int) Math.floor(level);
-                                        databaseWriter.updateIslandLevel(databaseCache.getIslandId(), roundlevel, c.blocks, player.getUniqueId());
-                                        ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
-                                        CobblestoneGenerator.islandlevels.put(databaseCache.getIslandname(), roundlevel);
-                                    });
-
-                                    // Two loops are necessary as getChunkAtAsync might return instantly if chunk is loaded
-                                    for (int x = x1; x <= x2; x++) {
-                                        for (int z = z1; z <= z2; z++) {
-                                            counter.toCount();
-                                        }
-                                    }
-
-                                    for (int x = x1; x <= x2; x++) {
-                                        for (int z = z1; z <= z2; z++) {
-                                            world.getChunkAtAsync(x, z, false).whenComplete((c, ex) -> counter.count(c));
+                                            level++;
+                                            currentvalue = currentvalue - increasedvaluefornextlevel;
+                                            increasedvaluefornextlevel = increasedvaluefornextlevel + valueincrease;
+                                        } else {
+                                            currentvalue = 0;
+                                            break;
                                         }
                                     }
                                 }
+
+                                int roundlevel = (int) Math.floor(level);
+                                databaseWriter.updateIslandLevel(databaseCache.getIslandId(), roundlevel, c.blocks, player.getUniqueId());
+                                ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
+                                CobblestoneGenerator.islandlevels.put(databaseCache.getIslandname(), roundlevel);
                             });
-                        }
+
+                            // Two loops are necessary as getChunkAtAsync might return instantly if chunk is loaded
+                            for (int x = x1; x <= x2; x++) {
+                                for (int z = z1; z <= z2; z++) {
+                                    counter.toCount();
+                                }
+                            }
+
+                            for (int x = x1; x <= x2; x++) {
+                                for (int z = z1; z <= z2; z++) {
+                                    world.getChunkAtAsync(x, z, false).whenComplete((c, ex) -> counter.count(c));
+                                }
+                            }
+                        });
                     }
                 }
             });

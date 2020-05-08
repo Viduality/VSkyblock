@@ -15,6 +15,10 @@ ItemOverlay:
   ChallengeNameColor: §8§l§n
   NotRepeatable: "Nicht wiederholbar!"
 
+Sites:
+  CurrentSite: "Seite: "
+  NextSite: "Nächste Seite"
+  PreviousSite: "Vorherige Seite"
 
 CompletedChallenges:
   MinEasy: 5
@@ -29,7 +33,8 @@ Difficulty:
   Hard: "Schwer"
 
 Easy:
-  Cobblestone-Generator:
+  CobblestoneGenerator:
+    Name: Cobblestone-Generator
     Slot: 1
     ShownItem: Cobblestone
     Type: onPlayer
@@ -44,7 +49,8 @@ Easy:
     RepeatReward:
     - Leather;1
 
-  Apfelsammler:
+  Applecollector:
+    Name: Apfelsammler
     Slot: 2
     ShownItem: Apple
     Type: onPlayer
@@ -69,7 +75,8 @@ Easy:
     - Acacia_Sapling;1
     - Dark_Oak_Sapling;1
 
-  Weizenfarmer:
+  Wheatfarmer:
+    Name: Weizenfarmer
     Slot: 3
     ShownItem: Wheat
     Type: onPlayer
@@ -84,7 +91,8 @@ Easy:
     RepeatReward:
     - Dirt;1
 
-  Kaktusfarmer:
+  Cactusfarmer:
+    Name: Kaktusfarmer
     Slot: 4
     ShownItem: Cactus
     Type: onPlayer
@@ -99,7 +107,8 @@ Easy:
     RepeatReward:
     - Sand;5
 
-  Zuckerfarmer:
+  Sugarfarmer:
+    Name: Zuckerfarmer
     Slot: 5
     ShownItem: Sugar_Cane
     Type: onPlayer
@@ -116,7 +125,8 @@ Easy:
     - Clay;2
     - Bamboo;1
 
-  Melonenfarmer:
+  Melonfarmer:
+    Name: Melonenfarmer
     Slot: 6
     ShownItem: Melon_Slice
     Type: onPlayer
@@ -127,11 +137,12 @@ Easy:
     RewardText: "5 Erdblöcke"
     Reward:
     - Dirt;5
-    RepeatRewardText: "2 Erdblöcke"
+    RepeatRewardText: "1 Erdblock"
     RepeatReward:
-    - Dirt;2
+    - Dirt;1
 
-  Kürbisfarmer:
+  Pumpkinfarmer:
+    Name: Kürbisfarmer
     Slot: 7
     ShownItem: Pumpkin
     Type: onPlayer
@@ -142,11 +153,12 @@ Easy:
     RewardText: "5 Erdblöcke"
     Reward:
     - Dirt;5
-    RepeatRewardText: "2 Erdblöcke"
+    RepeatRewardText: "1 Erdblock"
     RepeatReward:
-    - Dirt;2
+    - Dirt;1
 
-  Pilzsammler:
+  Mushroomcollector:
+    Name: Pilzsammler
     Slot: 8
     ShownItem: Red_Mushroom
     Type: onPlayer
@@ -162,7 +174,8 @@ Easy:
     RepeatReward:
     - Mycelium;1
 
-  Umweltschützer:
+  Environmentalist:
+    Name: Umweltschützer
     Slot: 9
     ShownItem: Composter
     Type: onIsland
@@ -176,11 +189,12 @@ Easy:
       - Composter;2
       - Bone_Block;5
 
-  Bauazubi:
+  BuildingTrainee:
+    Name: Bauazubi
     Slot: 10
     ShownItem: Iron_Pickaxe
     Type: islandlevel
-    Description: "Erreiche Level 20 mit deiner Insel.(Dein aktuelles Level siehst du mit: /island level)."
+    Description: "Erreiche Level 20 mit deiner Insel. (Dein aktuelles Level siehst du mit: /island level)."
     NeededText: "Island Level 20"
     Needed: 20
     RewardText: "1 Eisenspitzhacke und 5 Erdblöcke"
@@ -188,8 +202,90 @@ Easy:
     - Iron_Pickaxe;1
     - Dirt;5
 
+  HobbyGardener:
+    Name: Hobbygärtner
+    Slot: 11
+    ShownItem: Poppy
+    Type: onPlayer
+    Description: "Erhalte verschiedene Blumen."
+    NeededText: "5 Mohnblumen, 5 Löwenzahn, 5 Margeriten und 5 Kornblumen"
+    Needed:
+      - Poppy;5
+      - Dandelion;5
+      - Oxeye_Daisy;5
+      - Cornflower;5
+    RewardText: "Verschiedene hohe Blumen für Gartenprofis! (Je 2 Stück)"
+    Reward:
+      - Sunflower;2
+      - Lilac;2
+      - Rose_Bush;2
+      - Peony;2
+    RepeatRewardText: "Verschiedene hohe Blumen für Gartenprofis! (Je 1 Stück)"
+    RepeatReward:
+      - Sunflower;1
+      - Lilac;1
+      - Rose_Bush;1
+      - Peony;1
+
+  Leafblower:
+    Name: Laubbläser
+    Slot: 12
+    ShownItem: Oak_Leaves
+    Type: onPlayer
+    Description: "Sammle je ein Stack Laub von allen Baumarten."
+    NeededText: "64 Eichen-, 64 Birken-, 64 Tropenbaum-, 64 Akazien-, 64 Schwarzeichenlaub"
+    Needed:
+      - Oak_Leaves;64
+      - Birch_Leaves;64
+      - Jungle_Leaves;64
+      - Acacia_Leaves;64
+      - Dark_Oak_Leaves;64
+    RewardText: "2 Scheren, 5 Erdblöcke"
+    Reward:
+      - Shears;2
+      - Dirt;5
+    RepeatRewardText: "1 Schere, 2 Erdblöcke"
+    RepeatReward:
+      - Shears;1
+      - Dirt;2
+
+  Desert:
+    Name: Wüste
+    Slot: 13
+    ShownItem: Red_Sand
+    Type: onPlayer
+    Description: "Sammle 32 Sand."
+    NeededText: "32 Sand"
+    Needed:
+      - Sand;32
+    RewardText: "32 roter Sand"
+    Reward:
+      - Red_Sand;32
+    RepeatRewardText: "32 roter Sand"
+    RepeatReward:
+      - Red_Sand;32
+
+  SmokeyBear:
+    Name: Smokey der Bär
+    Slot: 14
+    ShownItem: Charcoal
+    Type: onPlayer
+    Description: "Erzeuge 64 Holzkohle."
+    NeededText: "64 Holzkohle"
+    Needed:
+      - Charcoal;64
+    RewardText: "5 Lagerfeuer, 3 Erde"
+    Reward:
+      - Campfire;5
+      - Dirt;3
+    RepeatRewardText: "2 Lagerfeuer, 1 Erde"
+    RepeatReward:
+      - Campfire;2
+      - Dirt;1
+
 Medium:
-  Monsterschlächter:
+  Monsterhunter:
+    Name: Monsterjäger
     Slot: 1
     ShownItem: Bone
     Type: onPlayer
@@ -213,7 +309,8 @@ Medium:
     - Flint;1
     - Iron_Ore;1
 
-  Farmexperte:
+  Farmexpert:
+    Name: Farmexperte
     Slot: 2
     ShownItem: Diamond_Hoe
     Type: onPlayer
@@ -243,7 +340,8 @@ Medium:
     - Pig_Spawn_Egg;1
     - Rabbit_Spawn_Egg;1
 
-  Fischersmann:
+  Fisher:
+    Name: Fishersmann
     Slot: 3
     ShownItem: Salmon
     Type: onPlayer
@@ -264,7 +362,8 @@ Medium:
     - Iron_Ore;1
     - Kelp;1
 
-  Holzfäller:
+  Woodworker:
+    Name: Holzfäller
     Slot: 4
     ShownItem: Oak_Log
     Type: onPlayer
@@ -288,7 +387,8 @@ Medium:
     - Iron_Ore;1
     - Wolf_Spawn_Egg;1
 
-  Keksmonster:
+  Cookiemonster:
+    Name: Keksmonster
     Slot: 5
     ShownItem: Cookie
     Type: onPlayer
@@ -306,12 +406,13 @@ Medium:
     - Redstone;2
     - Iron_Ore;1
 
-  Hausbesitzer:
+  Landlord:
+    Name: Hausbesitzer
     Slot: 6
     ShownItem: White_Bed
     Type: onIsland
-    Description: "Baue ein Haus mit mindestens einem weißen Bett, einem Bücherregal, einer Minebench, einem Ofen, einem Fenster und einer Fackel."
-    Radius: 7
+    Description: "Baue ein Haus mit mindestens einem weißen Bett, einem Bücherregal, einer Minebench (Werkbank), einem Ofen, einem Fenster und einer Fackel."
+    Radius: 10
     NeededText: "Ein Haus auf deiner Insel"
     Needed:
     - White_Bed;1
@@ -326,7 +427,8 @@ Medium:
     - Lapis_Block;15
     - Parrot_Spawn_Egg;1
 
-  Bauarbeiter:
+  Architect:
+    Name: Bauarbeiter
     Slot: 7
     ShownItem: Blue_Concrete
     Type: onPlayer
@@ -360,7 +462,8 @@ Medium:
     - Emerald;3
     - Gold_Ingot;3
 
-  Bambusfarmer:
+  Bamboofarmer:
+    Name: Bambusfarmer
     Slot: 8
     ShownItem: Bamboo
     Type: onPlayer
@@ -375,7 +478,8 @@ Medium:
     RepeatReward:
     - Sweet_Berries;1
 
-  Baufirma:
+  Constructor:
+    Name: Baufirma
     Slot: 9
     ShownItem: Scaffolding
     Type: onIsland
@@ -389,7 +493,8 @@ Medium:
     - Bell;1
     - Iron_Ingot;5
 
-  Schildkrötenliebhaber:
+  TurtleLover:
+    Name: Schildkrötenliebhaber
     Slot: 10
     ShownItem: Scute
     Type: onPlayer
@@ -411,7 +516,8 @@ Medium:
     - Prismarine_Bricks;16
     - Dark_Prismarine;8
 
-  Imker:
+  Apiarist:
+    Name: Imker
     Slot: 11
     ShownItem: Beehive
     Type: onPlayer
@@ -427,7 +533,8 @@ Medium:
     RepeatReward:
       - Bee_Spawn_Egg;1
 
-  Baumeister:
+  Builder:
+    Name: Baumeister
     Slot: 12
     ShownItem: Golden_Pickaxe
     Type: islandlevel
@@ -438,8 +545,93 @@ Medium:
     Reward:
     - Obsidian;10
 
+  Exterminator:
+    Name: Kammerjäger
+    Slot: 13
+    ShownItem: Cobweb
+    Type: onPlayer
+    Description: "Erhalte 64 Fäden und 5 Spinnenaugen."
+    NeededText: "64 Fäden, 5 Spinnenaugen"
+    Needed:
+      - String;64
+      - Spider_Eye;5
+    RewardText: "8 Spinnennetze"
+    Reward:
+      - Cobweb;8
+    RepeatRewardText: "4 Spinnennetze"
+    RepeatReward:
+      - Cobweb;4
+
+  BouncyCastle:
+    Name: Hüpfburg
+    Slot: 14
+    ShownItem: Slime_Block
+    Type: onIsland
+    Description: "Baue eine Hüpfburg mit mindestens 40 Schleimblöcken."
+    Radius: 15
+    NeededText: "Eine Hüpfburg auf deiner Insel"
+    Needed:
+      - Slime_Block;40
+    RewardText: "3 Diamanten, 5 Honigblöcke"
+    Reward:
+      - Diamond;3
+      - Honey_Block;5
+
+  Mineworker:
+    Name: Minenarbeiter
+    Slot: 15
+    ShownItem: Andesite
+    Type: onPlayer
+    Description: "Erhalte 64 Granit, 64 Diorit und 64 Andesit."
+    NeededText: "64 Granit, 64 Diorit, 64 Andesit"
+    Needed:
+      - Granite;64
+      - Diorite;64
+      - Andesite;64
+    RewardText: "4 Schwämme"
+    Reward:
+      - Sponge;4
+    RepeatRewardText: "2 Schwämme"
+    RepeatReward:
+      - Sponge;2
+
+  FlyingNightmare:
+    Name: Fliegender Albtraum
+    Slot: 16
+    ShownItem: Phantom_Membrane
+    Type: onPlayer
+    Description: "Töte Phantome und erhalte 10 Phantomhäute."
+    NeededText: "10 Phantomhäute"
+    Needed:
+      - Phantom_Membrane;10
+    RewardText: "5 Eisenerze, 5 Smaragde"
+    Reward:
+      - Iron_Ore;5
+      - Emerald;5
+    RepeatRewardText: "2 Eisenerze, 2 Smaragde"
+    RepeatReward:
+      - Iron_Ore;2
+      - Emerald;2
+
+  IceSkater:
+    Name: Eisläufer
+    Slot: 17
+    ShownItem: Packed_Ice
+    Type: onPlayer
+    Description: "Erhalte 5 Packeis"
+    NeededText: "5 Packeis"
+    Needed:
+      - Packed_Ice;5
+    RewardText: "2 Schneeblöcke"
+    Reward:
+      - Snow_Block;2
+    RepeatRewardText: "2 Schneeblöcke"
+    RepeatReward:
+      - Snow_Block;2
+
 Hard:
   Netherportal:
+    Name: Netherportal
     Slot: 1
     ShownItem: Obsidian
     Type: onIsland
@@ -452,7 +644,8 @@ Hard:
     Reward:
     - Diamond_Sword;1
 
-  Perlensammler:
+  Pearlcollector:
+    Name: Perlensammler
     Slot: 2
     ShownItem: Ender_Pearl
     Type: onPlayer
@@ -469,7 +662,8 @@ Hard:
     - Gold_Ingot;1
     - Blaze_Rod;1
 
-  Schleimer:
+  Toady:
+    Name: Schleimer
     Slot: 3
     ShownItem: Slime_Ball
     Type: onPlayer
@@ -485,7 +679,8 @@ Hard:
     RepeatReward:
     - Redstone;8
 
-  Bäcker:
+  Baker:
+    Name: Bäcker
     Slot: 4
     ShownItem: Cake
     Type: onPlayer
@@ -502,7 +697,8 @@ Hard:
     RepeatReward:
     - Iron_Ore;1
 
-  Forscher:
+  Explorer:
+    Name: Forscher
     Slot: 5
     ShownItem: Compass
     Type: onPlayer
@@ -526,7 +722,8 @@ Hard:
     - Iron_Ore;5
     - Ocelot_Spawn_Egg;1
 
-  Bauexperte:
+  Masterbuilder:
+    Name: Bauexperte
     Slot: 6
     ShownItem: Diamond_Pickaxe
     Type: islandlevel
@@ -539,7 +736,8 @@ Hard:
     - Dirt;20
     - Sand;20
 
-  Wollesammler:
+  Shepherd:
+    Name: Schäfer
     Slot: 7
     ShownItem: White_Wool
     Type: onPlayer
@@ -576,13 +774,14 @@ Hard:
     - Sheep_Spawn_Egg;1
 
   DJ:
+    Name: DJ
     Slot: 8
     ShownItem: Music_Disc_Strad
     Type: onPlayer
-    Description: "Crafte eine Jukebox"
-    NeededText: "1 Jukebox"
+    Description: "Crafte zwei Jukeboxen"
+    NeededText: "2 Jukeboxen"
     Needed:
-    - Jukebox;1
+    - Jukebox;2
     RewardText: "3 Diamanten, 10 Smaragde"
     Reward:
     - Diamond;3
@@ -591,7 +790,8 @@ Hard:
     RepeatReward:
     - Gold_Ingot;5
 
-  Dorfbewohner:
+  Villager:
+    Name: Dorfbewohner
     Slot: 9
     ShownItem: Emerald
     Type: onPlayer
@@ -606,7 +806,8 @@ Hard:
     RepeatReward:
     - Diamond;1
 
-  Chefkoch:
+  HeadChef:
+    Name: Chefkoch
     Slot: 10
     ShownItem: Golden_Apple
     Type: onPlayer
@@ -643,7 +844,8 @@ Hard:
     - Mooshroom_Spawn_Egg;1
     - Emerald;1
 
-  Herscher der Meere:
+  Poseidon:
+    Name: Herrscher der Meere
     Slot: 11
     ShownItem: Trident
     Type: onPlayer
@@ -660,7 +862,8 @@ Hard:
     - Diamond;5
     - Iron_Block;2
 
-  Wassertempel:
+  WaterTemple:
+    Name: Wassertempel
     Slot: 12
     ShownItem: Conduit
     Type: onIsland
@@ -674,7 +877,8 @@ Hard:
     - Dolphin_Spawn_Egg;1
     - Sea_Lantern;16
 
-  Des Schäfers Feind:
+  ShepherdsEnemy:
+    Name: Des Schäfers Feind
     Slot: 13
     ShownItem: Hay_Block
     Type: onPlayer
@@ -690,3 +894,61 @@ Hard:
     RepeatRewardText: "1 Fuchs-Spawnegg"
     RepeatReward:
     - Fox_Spawn_Egg;1
+
+  Monsterhunter_2:
+    Name: Monsterjäger 2
+    Slot: 1
+    ShownItem: Magma_Cream
+    Type: onPlayer
+    Description: "Töte Monster im Nether und sammle 16 Magmacreme, 32 Lohenruten und 5 Ghasttränen."
+    NeededText: "16 Magmacreme, 32 Lohenruten, 5 Ghasttränen"
+    Needed:
+      - Magma_Cream;16
+      - Blaze_Rod;32
+      - Ghast_Tear;5
+    RewardText: "3 Diamanten, 128 Netherziegel, 128 rote Netherziegel"
+    Reward:
+      - Diamond;3
+      - Nether_Bricks;128
+      - Red_Nether_Bricks;128
+    RepeatRewardText: "128 Netherziegel, 128 rote Netherziegel"
+    RepeatReward:
+      - Nether_Bricks;128
+      - Red_Nether_Bricks;128
+
+  NetherConqueror:
+    Name: Nether-Bezwinger
+    Slot: 14
+    ShownItem: Beacon
+    Type: onIsland
+    Description: "Stelle auf deiner Insel einen Beacon auf."
+    Radius: 5
+    NeededText: "1 Beacon auf deiner Insel"
+    Needed:
+      - Beacon;1
+    RewardText: "3 Diamant-Blöcke, 1 Witherskelett-Kopf"
+    Reward:
+      - Diamond_Block;3
+      - Wither_Skeleton_Skull;1
+
+  WanderingTrader:
+    Name: Fahrender Händler
+    Slot: 15
+    ShownItem: Brain_Coral_Block
+    Type: onPlayer
+    Description: "Handle mit fahrenden Händlern und erhalte Korallenblöcke."
+    NeededText: "Von jedem (lebenden) Korallenblock 10 Stück"
+    Needed:
+      - Tube_Coral_Block;10
+      - Brain_Coral_Block;10
+      - Bubble_Coral_Block;10
+      - Fire_Coral_Block;10
+      - Horn_Coral_Block;10
+    RewardText: "5 Smaragd-Blöcke, 1 Diamant-Block"
+    Reward:
+      - Emerald_Block;5
+      - Diamond_Block;1
+    RepeatRewardText: "3 Smaragd-Blöcke, 3 Diamanten"
+    RepeatReward:
+      - Emerald_Block;3
+      - Diamond;3

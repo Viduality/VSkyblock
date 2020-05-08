@@ -18,7 +18,6 @@ package com.github.Viduality.VSkyblock.Utilitys;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -103,35 +102,39 @@ public class DatabaseWriter {
                 }
 
                 final int[] newislandidarray = {0};
-                databaseReader.getislandid(island, new DatabaseReader.CallbackINT() {
-                    @Override
-                    public void onQueryDone(int result) {
-                        newislandidarray[0] = result;
-                        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-                            @Override
-                            public void run() {
-                                int islandid = newislandidarray[0];
-                                try {
-                                    PreparedStatement preparedStatement;
-                                    preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandid = ?, islandowner = true WHERE uuid = ?");
-                                    preparedStatement.setInt(1, islandid);
-                                    preparedStatement.setString(2, uuid.toString());
-                                    preparedStatement.executeUpdate();
-                                    preparedStatement.close();
+                databaseReader.getislandid(island, result -> {
+                    newislandidarray[0] = result;
+                    plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            int islandid = newislandidarray[0];
+                            try {
+                                PreparedStatement preparedStatement;
+                                preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandid = ?, islandowner = true WHERE uuid = ?");
+                                preparedStatement.setInt(1, islandid);
+                                preparedStatement.setString(2, uuid.toString());
+                                preparedStatement.executeUpdate();
+                                preparedStatement.close();
 
-                                    PreparedStatement preparedStatement1;
-                                    preparedStatement1 = connection.prepareStatement("INSERT INTO VSkyblock_IslandLocations(islandid) VALUES (?)");
-                                    preparedStatement1.setInt(1, islandid);
-                                    preparedStatement1.executeUpdate();
-                                    preparedStatement1.close();
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                } finally {
-                                    plugin.getdb().closeConnection(connection);
-                                }
+                                PreparedStatement preparedStatement1;
+                                preparedStatement1 = connection.prepareStatement("INSERT INTO VSkyblock_IslandLocations(islandid) VALUES (?)");
+                                preparedStatement1.setInt(1, islandid);
+                                preparedStatement1.executeUpdate();
+                                preparedStatement1.close();
+
+                                PreparedStatement preparedStatement2;
+                                preparedStatement2 = connection.prepareStatement("INSERT IGNORE INTO VSkyblock_Challenges(islandid) VALUES (?)");
+                                preparedStatement2.setInt(1, islandid);
+                                preparedStatement2.executeUpdate();
+                                preparedStatement2.close();
+
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            } finally {
+                                plugin.getdb().closeConnection(connection);
                             }
-                        });
-                    }
+                        }
+                    });
                 });
             }
         });
@@ -299,11 +302,17 @@ public class DatabaseWriter {
                 deleteIsland.close();
 
                 if (islandid != 0) {
-                    PreparedStatement deletefromLocations;
-                    deletefromLocations = connection.prepareStatement("DELETE FROM VSkyblock_IslandLocations WHERE islandid = ?");
-                    deletefromLocations.setInt(1, islandid);
-                    deletefromLocations.executeUpdate();
+                    PreparedStatement deleteFromLocations;
+                    deleteFromLocations = connection.prepareStatement("DELETE FROM VSkyblock_IslandLocations WHERE islandid = ?");
+                    deleteFromLocations.setInt(1, islandid);
+                    deleteFromLocations.executeUpdate();
                     deleteIsland.close();
+
+                    PreparedStatement deleteFromChallenges;
+                    deleteFromChallenges = connection.prepareStatement("DELETE FROM VSkyblock_Challenges WHERE islandid = ?");
+                    deleteFromChallenges.setInt(1, islandid);
+                    deleteFromChallenges.executeUpdate();
+                    deleteFromChallenges.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -332,6 +341,32 @@ public class DatabaseWriter {
                 updateChallengeCount.setString(2, uuid.toString());
                 updateChallengeCount.executeUpdate();
                 updateChallengeCount.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                plugin.getdb().closeConnection(connection);
+            }
+        });
+    }
+
+    /**
+     * Updates the count of an challenge (island).
+     *
+     * @param islandid  The id of an island.
+     * @param mySQLKey  The mySQL column name.
+     * @param count     The new challenge count.
+     */
+    public void updateChallengeCount(int islandid, String mySQLKey, int count) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            Connection connection = plugin.getdb().getConnection();
+            try {
+                String statement = "UPDATE VSkyblock_Challenges SET " + mySQLKey + " = ? WHERE islandid = ?";
+                PreparedStatement updateCount;
+                updateCount = connection.prepareStatement(statement);
+                updateCount.setInt(1, count);
+                updateCount.setInt(2, islandid);
+                updateCount.executeUpdate();
+                updateCount.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {

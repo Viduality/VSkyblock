@@ -1,5 +1,25 @@
 package com.github.Viduality.VSkyblock;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import com.github.Viduality.VSkyblock.Commands.Challenges.Challenge;
+import com.github.Viduality.VSkyblock.Commands.Challenges.CreateChallengesInventory;
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -17,284 +37,157 @@ import java.util.concurrent.TimeUnit;
 
 public class ChallengesHandler {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseReader databaseReader = new DatabaseReader();
-    private DatabaseWriter databaseWriter = new DatabaseWriter();
+    private final DatabaseReader databaseReader = new DatabaseReader();
+    private final DatabaseWriter databaseWriter = new DatabaseWriter();
+    private final CreateChallengesInventory cc = new CreateChallengesInventory();
 
     public static Cache<UUID, Integer> onIslandDelay = CacheBuilder.newBuilder()
             .expireAfterWrite(30, TimeUnit.SECONDS)
             .build();
 
+    public static Cache<UUID, Integer> islandLevelDelay = CacheBuilder.newBuilder()
+            .expireAfterWrite(5, TimeUnit.SECONDS)
+            .build();
+
     /**
      * Checks if a challenge can be completed.
      * Checks if a player or island does match the requirements for the challenge and executes all needed updates.
-     * @param challenge
-     * @param challengeName
-     * @param difficulty
-     * @param player
+     * @param challenge    The Challenge.
+     * @param player       The player who wants to complete the challenge.
      */
-    public void checkChallenge(int challenge, String challengeName, String difficulty, Player player) {
-        databaseReader.getPlayerChallenges(player.getUniqueId().toString(), "VSkyblock_Challenges_" + difficulty, new DatabaseReader.cCallback() {
-            @Override
-            public void onQueryDone(ChallengesCache cache) {
-                boolean repeat;
-                if (cache.getCurrentChallengeCount(challenge) != 0) {
-                    repeat = true;
+    public void checkChallenge(Challenge challenge, Player player, Inventory inv, int challengeSlot) {
+        databaseReader.getislandidfromplayer(player.getUniqueId(), (islandid) -> databaseReader.getIslandChallenges(islandid, (islandChallenges) -> {
+            boolean repeat = false;
+            if (islandChallenges.getChallengeCount(challenge.getMySQLKey()) != 0) {
+                repeat = true;
+            }
+
+            if (challenge.getChallengeType().equals(Challenge.ChallengeType.onPlayer)) {
+                List<ItemStack> rewards;
+                if (repeat) {
+                    rewards = challenge.getRepeatRewards();
                 } else {
-                    repeat = false;
+                    rewards = challenge.getRewards();
                 }
-                List<Integer> emptySlots = getEmptySlots(player.getInventory());
-                if (ConfigShorts.getChallengesConfig().getString(difficulty + "." + challengeName + ".Type").equals("onPlayer")) {
-                    List<String> needed = getNeeded(challengeName, difficulty);
-                    List<Integer> neededamount = getNeededAmounts(challengeName, difficulty);
-                    List<String> reward = getRewards(challengeName, difficulty, repeat);
-                    List<Integer> rewardamounts = getRewardAmounts(challengeName, difficulty, repeat);
-
-                    int enoughItems = 0;
-                    List<ItemStack> rewards = new ArrayList<>();
-
-                    for (int i = 0; i < reward.size(); i++) {
-                        ItemStack current = new ItemStack(Material.getMaterial(reward.get(i).toUpperCase()), rewardamounts.get(i));
-                        rewards.add(current);
-                    }
-
-                    for (int i = 0; i < needed.size(); i++) {
-                        int currentneededamount = neededamount.get(i);
-                        int currentamount = 0;
-                        for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
-                            if (player.getInventory().getItem(slot) != null) {
-                                if (player.getInventory().getItem(slot).getType().equals(Material.getMaterial(needed.get(i).toUpperCase()))) {
-                                    currentamount = currentamount + player.getInventory().getItem(slot).getAmount();
-                                }
+                boolean enoughItems = true;
+                for (ItemStack i : challenge.getNeededItems()) {
+                    int neededamount = i.getAmount();
+                    for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
+                        if (player.getInventory().getItem(slot) != null) {
+                            if (player.getInventory().getItem(slot).getType().equals(i.getType())) {
+                                neededamount = neededamount - player.getInventory().getItem(slot).getAmount();
                             }
                         }
-                        if (currentamount < currentneededamount) {
-                            enoughItems = 1;
-                        }
                     }
-
-                    if (enoughItems == 0) {
-                        if (emptySlots.size() >= rewards.size()) {
-                            clearItems(player.getInventory(), needed, neededamount);
-                            giveRewards(player.getInventory(), rewards);
-                            databaseWriter.updateChallengeCount(player.getUniqueId(), "VSkyblock_Challenges_" + difficulty, challenge, cache.getCurrentChallengeCount(challenge) + 1);
-                            if (!repeat) {
-                                ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challengeName);
-                            }
-                        } else {
-                            ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
-                            player.closeInventory();
-                        }
-                    } else {
-                        ConfigShorts.messagefromString("NotEnoughItems", player);
-                        player.closeInventory();
+                    if (neededamount > 0) {
+                        enoughItems = false;
                     }
-                } else if (ConfigShorts.getChallengesConfig().getString(difficulty + "." + challengeName + ".Type").equals("islandlevel")) {
-                    player.closeInventory();
-                    if (!repeat) {
-                        Integer neededlevel = ConfigShorts.getChallengesConfig().getInt(difficulty + "." + challengeName + ".Needed");
-                        databaseReader.getislandlevelfromuuid(player.getUniqueId(), new DatabaseReader.CallbackINT() {
-                            @Override
-                            public void onQueryDone(int result) {
-                                if (result >= neededlevel) {
-                                    List<String> reward = getRewards(challengeName, difficulty, repeat);
-                                    List<Integer> rewardamounts = getRewardAmounts(challengeName, difficulty, repeat);
-                                    if (emptySlots.size() >= reward.size()) {
-                                        List<ItemStack> rewards = new ArrayList<>();
-
-                                        for (int i = 0; i < reward.size(); i++) {
-                                            ItemStack current = new ItemStack(Material.getMaterial(reward.get(i).toUpperCase()), rewardamounts.get(i));
-                                            rewards.add(current);
-                                        }
-                                        giveRewards(player.getInventory(), rewards);
-                                        ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challengeName);
-                                        databaseWriter.updateChallengeCount(player.getUniqueId(), "VSkyblock_Challenges_" + difficulty, challenge, 1);
-                                    } else {
-                                        ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
-                                    }
-                                } else {
-                                    ConfigShorts.messagefromString("IslandLevelNotHighEnough", player);
-                                }
-                            }
-                        });
-                    } else {
-                        ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
-                    }
-                } else if (ConfigShorts.getChallengesConfig().getString(difficulty + "." + challengeName + ".Type").equals("onIsland")) {
-                    if (!onIslandDelay.asMap().containsKey(player.getUniqueId())) {
-                        player.closeInventory();
-                        onIslandDelay.put(player.getUniqueId(), 1);
+                }
+                if (enoughItems) {
+                    List<Integer> emptySlots = getEmptySlots(player.getInventory());
+                    if (emptySlots.size() >= rewards.size()) {
+                        clearItems(player.getInventory(), challenge.getNeededItems());
+                        giveRewards(player.getInventory(), rewards);
+                        databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
+                        inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
                         if (!repeat) {
-                            List<String> needed = getNeeded(challengeName, difficulty);
-                            List<Integer> neededamount = getNeededAmounts(challengeName, difficulty);
-                            List<String> reward = getRewards(challengeName, difficulty, repeat);
-                            List<Integer> rewardamounts = getRewardAmounts(challengeName, difficulty, repeat);
-                            Integer radius = ConfigShorts.getChallengesConfig().getInt(difficulty + "." + challengeName + ".Radius");
-                            ConfigShorts.messagefromString("CheckingIslandForChallenge", player);
-                            HashMap<Material, Integer> result = getBlocks(player, radius);
-                            int b = 0;
-                            for (int i = 0; i < needed.size(); i++) {
-                                if (result.containsKey(Material.getMaterial(needed.get(i).toUpperCase()))) {
-                                    if (result.get(Material.getMaterial(needed.get(i).toUpperCase())) < (neededamount.get(i))) {
-                                        b = b + 1;
-                                    }
-                                } else {
-                                    b = b + 1;
-                                }
-                            }
-                            if (b == 0) {
-                                if (emptySlots.size() >= reward.size()) {
-                                    List<ItemStack> rewards = new ArrayList<>();
-                                    for (int i = 0; i < reward.size(); i++) {
-                                        ItemStack current = new ItemStack(Material.getMaterial(reward.get(i).toUpperCase()), rewardamounts.get(i));
-                                        rewards.add(current);
-                                    }
-                                    giveRewards(player.getInventory(), rewards);
-                                    ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challengeName);
-                                    databaseWriter.updateChallengeCount(player.getUniqueId(), "VSkyblock_Challenges_" + difficulty, challenge, 1);
+                            ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge.getChallengeName());
+                        }
+                    } else {
+                        ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
+                        player.closeInventory();
+                    }
+                } else {
+                    ConfigShorts.messagefromString("NotEnoughItems", player);
+                    player.closeInventory();
+                }
+            } else if (challenge.getChallengeType().equals(Challenge.ChallengeType.islandLevel)) {
+                if (!repeat) {
+                    if (!islandLevelDelay.asMap().containsKey(player.getUniqueId())) {
+                        islandLevelDelay.put(player.getUniqueId(), 1);
+                        databaseReader.getislandlevelfromuuid(player.getUniqueId(), (islandLevel) -> {
+                            if (islandLevel >= challenge.getNeededLevel()) {
+                                if (getEmptySlots(player.getInventory()).size() >= challenge.getRewards().size()) {
+                                    giveRewards(player.getInventory(), challenge.getRewards());
+                                    ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge.getChallengeName());
+                                    databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
+                                    inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
                                 } else {
                                     ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
                                 }
                             } else {
-                                ConfigShorts.messagefromString("IslandDoesNotMatchRequirements", player);
+                                ConfigShorts.messagefromString("IslandLevelNotHighEnough", player);
+                            }
+                        });
+                    } else {
+                        ConfigShorts.messagefromString("AlreadyCheckedIsland", player);
+                    }
+                } else {
+                    ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
+                    inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
+                }
+            } else if (challenge.getChallengeType().equals(Challenge.ChallengeType.onIsland)) {
+                if (!repeat) {
+                    if (!onIslandDelay.asMap().containsKey(player.getUniqueId())) {
+                        onIslandDelay.put(player.getUniqueId(), 1);
+
+                        ConfigShorts.messagefromString("CheckingIslandForChallenge", player);
+                        HashMap<Material, Integer> result = getBlocks(player, challenge.getRadius());
+
+                        boolean enoughItems = true;
+                        for (ItemStack i : challenge.getNeededItems()) {
+                            if (result.containsKey(i.getType())) {
+                                if (result.get(i.getType()) < i.getAmount()) {
+                                    enoughItems = false;
+                                }
+                            } else {
+                                enoughItems = false;
+                            }
+                        }
+                        if (enoughItems) {
+                            if (getEmptySlots(player.getInventory()).size() >= challenge.getRewards().size()) {
+                                giveRewards(player.getInventory(), challenge.getRewards());
+                                ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge.getChallengeName());
+                                databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
+                                inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
+                            } else {
+                                ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
                             }
                         } else {
-                            ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
+                            ConfigShorts.messagefromString("IslandDoesNotMatchRequirements", player);
                         }
                     } else {
                         ConfigShorts.messagefromString("AlreadyCheckedIsland", player);
                     }
+                } else {
+                    ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
+                    inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
                 }
             }
-        });
+        }));
     }
 
     /**
-     * Get needed items for the challenge.
-     *
-     * @param challenge
-     * @param difficulty
-     * @return List of needed items for the challenge.
+     * Removes a given list of item stacks from the given inventory.
+     * @param inv    The inventory.
+     * @param items  The list of items to be removed
      */
-    private List<String> getNeeded(String challenge, String difficulty) {
-        List<String> itemsneeded = ConfigShorts.getChallengesConfig().getStringList( difficulty + "." + challenge + ".Needed");
-        List<String> needed = new ArrayList<>();
-        for (String current : itemsneeded) {
-            if (current.contains(";")) {
-                String[] split = current.split(";");
-                needed.add(split[0]);
-            } else {
-                needed.add(current);
-            }
-        }
-        return needed;
-    }
-
-    /**
-     * Get needed item amounts for the challenge.
-     *
-     * @param challenge
-     * @param difficulty
-     * @return List of amounts for the List of needed items for the challenge.
-     */
-    private List<Integer> getNeededAmounts(String challenge, String difficulty) {
-        List<String> itemsneeded = ConfigShorts.getChallengesConfig().getStringList( difficulty + "." + challenge + ".Needed");
-        List<Integer> neededAmounts = new ArrayList<>();
-        for (String current : itemsneeded) {
-            if (current.contains(";")) {
-                String[] split = current.split(";");
-                neededAmounts.add(Integer.valueOf(split[1]));
-            } else {
-                neededAmounts.add(1);
-            }
-        }
-        return neededAmounts;
-    }
-
-    /**
-     * Get rewards for the challenge.
-     *
-     * @param challenge
-     * @param difficulty
-     * @param repeat
-     * @return List of rewards for the challenge.
-     */
-    private List<String> getRewards(String challenge, String difficulty, boolean repeat) {
-        List<String> rewardsfromconfig = new ArrayList<>();
-        List<String> rewards = new ArrayList<>();
-        if (repeat) {
-            rewardsfromconfig = ConfigShorts.getChallengesConfig().getStringList(difficulty + "." + challenge + ".RepeatReward");
-        } else {
-            rewardsfromconfig = ConfigShorts.getChallengesConfig().getStringList(difficulty + "." + challenge + ".Reward");
-        }
-
-        for (String current : rewardsfromconfig) {
-            if (current.contains(";")) {
-                String[] split = current.split(";");
-                rewards.add(split[0]);
-            } else {
-                rewards.add(current);
-            }
-        }
-        return rewards;
-    }
-
-    /**
-     * Get rewarded item amounts for the challenge.
-     *
-     * @param challenge
-     * @param difficulty
-     * @param repeat
-     * @return List of amounts for the list of rewards for the challenge.
-     */
-    private List<Integer> getRewardAmounts(String challenge, String difficulty, boolean repeat) {
-        List<String> rewardamountsfromconfig = new ArrayList<>();
-        List<Integer> rewardamounts = new ArrayList<>();
-        if (repeat) {
-            rewardamountsfromconfig = ConfigShorts.getChallengesConfig().getStringList(difficulty + "." + challenge + ".RepeatReward");
-        } else {
-            rewardamountsfromconfig = ConfigShorts.getChallengesConfig().getStringList(difficulty + "." + challenge + ".Reward");
-        }
-
-        for (String current : rewardamountsfromconfig) {
-            if (current.contains(";")) {
-                String[] split = current.split(";");
-                rewardamounts.add(Integer.valueOf(split[1]));
-            } else {
-                rewardamounts.add(1);
-            }
-        }
-        return rewardamounts;
-    }
-
-    /**
-     * Clears the needed items from the players inventory.
-     * Loops through the inventory of the player and removes all needed items.
-     * @param inv
-     * @param items
-     * @param amounts
-     */
-    private void clearItems(Inventory inv, List<String> items, List<Integer> amounts) {
-        for (int i = 0; i < items.size(); i++) {
-            int amount = amounts.get(i);
-            Material current = Material.getMaterial(items.get(i).toUpperCase());
-            int x = 0;
-            while (x < amount) {
-                for (int slot = 0; slot < inv.getSize(); slot++) {
-                    ItemStack is = inv.getItem(slot);
-                    if (is != null) {
-                        if (is.getType().equals(current)) {
-                            int newAmount = is.getAmount() - amount;
-                            if (newAmount > 0) {
-                                is.setAmount(newAmount);
-                                x = amount;
+    private void clearItems(Inventory inv, List<ItemStack> items) {
+        for (ItemStack i : items) {
+            int amount = i.getAmount();
+            for (int slot = 0; slot < inv.getSize(); slot++) {
+                ItemStack is = inv.getItem(slot);
+                if (is != null) {
+                    if (is.getType().equals(i.getType())) {
+                        int newAmount = is.getAmount() - amount;
+                        if (newAmount > 0) {
+                            is.setAmount(newAmount);
+                            break;
+                        } else {
+                            inv.clear(slot);
+                            amount = amount - is.getAmount();
+                            if (amount == 0) {
                                 break;
-                            } else {
-                                inv.clear(slot);
-                                amount = amount - is.getAmount();
-                                if (amount == 0) {
-                                    break;
-                                }
                             }
                         }
                     }

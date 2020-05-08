@@ -1,8 +1,27 @@
 package com.github.Viduality.VSkyblock;
 
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Commands.Admin.*;
 import com.github.Viduality.VSkyblock.Commands.Challenges.Challenges;
+import com.github.Viduality.VSkyblock.Commands.Challenges.ChallengesCreator;
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Commands.Admin.AdminCommands;
 import com.github.Viduality.VSkyblock.Listener.*;
@@ -16,10 +35,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,6 +162,12 @@ public class VSkyblock extends JavaPlugin implements Listener {
             databaseReader.refreshDeathCounts(getOnlinePlayers());
         }
         updateNewTables();
+        ChallengesCreator cc = new ChallengesCreator();
+        if (cc.createAllChallenges()) {
+            if (!useNewTables()) {
+                new ChallengesConverter().convertAllChallenges();
+            }
+        }
     }
 
 
@@ -373,5 +395,20 @@ public class VSkyblock extends JavaPlugin implements Listener {
                 getdb().closeConnection(connection);
             }
         });
+    }
+
+    private boolean useNewTables() {
+        Connection con = getdb().getConnection();
+        try {
+            ResultSet r = con.getMetaData().getTables(null, null, "VSkyblock_Challenges_Easy", null);
+            if (r.next()) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
     }
 }

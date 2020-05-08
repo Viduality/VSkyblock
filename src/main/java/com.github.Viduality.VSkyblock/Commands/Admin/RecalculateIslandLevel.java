@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock.Commands.Admin;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Commands.IslandLevel;
 import com.github.Viduality.VSkyblock.Commands.WorldCommands.AdminSubCommand;
@@ -33,7 +51,7 @@ public class RecalculateIslandLevel implements AdminSubCommand {
                                 ConfigShorts.custommessagefromString("CurrentIslandLevel", sender, String.valueOf(oldislandlevel));
                                 databaseReader.getislandnamefromplayer(playerdata.getUuid(), (islandname -> {
                                     if (wm.loadWorld(islandname)) {
-                                        databaseReader.getChallengePoints(islandid, (challengePoints -> {
+                                        databaseReader.getIslandsChallengePoints(islandid, (challengePoints -> {
                                             World world = plugin.getServer().getWorld(islandname);
                                             int valueriselevel = getValueRiseLevel();
                                             int valueincrease = getValueIncrease();

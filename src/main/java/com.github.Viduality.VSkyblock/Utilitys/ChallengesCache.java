@@ -1,6 +1,26 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import java.util.HashMap;
+
 public class ChallengesCache {
 
 
@@ -23,6 +43,19 @@ public class ChallengesCache {
     private int c17 = 0;
     private int c18 = 0;
 
+    private HashMap<String, Integer> challengeCounts = new HashMap<>();
+
+    public void setChallengeCount(String challenge, int count) {
+        challengeCounts.put(challenge, count);
+    }
+
+    public int getChallengeCount (String challenge) {
+        return challengeCounts.get(challenge);
+    }
+
+    public HashMap<String, Integer> getAllChallengeCounts() {
+        return challengeCounts;
+    }
 
     public int getc1() {
         return c1;
