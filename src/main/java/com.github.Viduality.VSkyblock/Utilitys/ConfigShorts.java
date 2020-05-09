@@ -1,6 +1,28 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import com.github.Viduality.VSkyblock.Commands.Challenges.Challenge;
+import com.github.Viduality.VSkyblock.Commands.Challenges.CreateChallengesInventory;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import de.themoep.minedown.MineDown;
+import net.md_5.bungee.api.chat.*;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -12,6 +34,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ConfigShorts {
 
@@ -65,23 +90,88 @@ public class ConfigShorts {
      * @param playername
      * @param challenge
      */
-    public static void broadcastChallengeCompleted(String string, String playername, String challenge) {
+    public static void broadcastChallengeCompleted(String string, String playername, Challenge challenge) {
 
         String prefix = messagesConfig.getString("Prefix");
         String message = prefix + " " + messagesConfig.getString(string);
+        String hover = createHover(challenge);
+        String hoverableChallenge = "[&6" + challenge.getChallengeName() + "]" + "(hover=" + hover + ")";
 
-        if (message.contains("%Player")) {
-            message = message.replace("%Player%", playername);
-            if (message.contains("%Challenge%")) {
-                message = message.replace("%Challenge%", challenge);
+        BaseComponent[] message1 = MineDown.parse(message, "Player", playername, "Challenge", hoverableChallenge);
+
+        plugin.getServer().broadcast(new MineDown(MineDown.stringify(message1)).toComponent());
+    }
+
+    private static String createHover(Challenge challenge) {
+        List<String> lore = new ArrayList<>();
+        lore.add(CreateChallengesInventory.loreString);
+        lore.addAll(splitString(challenge.getDescription(), CreateChallengesInventory.descriptioncolor));
+        switch (challenge.getChallengeType()) {
+            case onPlayer:
+                lore.add(CreateChallengesInventory.neededonPlayer);
+                break;
+            case onIsland:
+                lore.add(CreateChallengesInventory.neededonIsland);
+                break;
+            case islandLevel:
+                lore.add(CreateChallengesInventory.neededislandlevel);
+                break;
+        }
+        lore.addAll(splitString(challenge.getNeededText(), CreateChallengesInventory.descriptioncolor));
+
+        StringBuilder hover = new StringBuilder();
+        for (String loreLine : lore) {
+            hover.append(loreLine);
+            if (!loreLine.equals(lore.get(lore.size() - 1))) {
+                hover.append("\n");
             }
         }
-        if (message.contains("%Challenge%")) {
-            message = message.replace("%Challenge%", challenge);
+        return String.valueOf(hover);
+    }
 
+    /**
+     * Splits an string.
+     *
+     * @param string
+     * @param colorCode
+     * @return List of String
+     */
+    private static List<String> splitString(String string, String colorCode) {
+        List<String> wordbyword = new ArrayList<>();
+        if (string.length() < 30) {
+            wordbyword.add(string);
+        } else {
+            wordbyword = Arrays.asList(string.split(" "));
         }
 
-        plugin.getServer().broadcastMessage(message);
+        List<String> splittedString = new ArrayList<>();
+        int i = 0;
+        String currentLine = null;
+        for (String word : wordbyword) {
+            i = i + word.length();
+            if (i > 30) {
+                if (word.length() >= 30) {
+                    splittedString.add(currentLine);
+                    splittedString.add(word);
+                    i = 0;
+                    currentLine = null;
+                } else {
+                    splittedString.add(colorCode + currentLine);
+                    currentLine = word;
+                    i = word.length();
+                }
+            } else {
+                if (currentLine == null) {
+                    currentLine = word;
+                } else {
+                    currentLine = currentLine + " " + word;
+                }
+            }
+            if (wordbyword.get(wordbyword.size() - 1).equals(word)) {
+                splittedString.add(colorCode + currentLine);
+            }
+        }
+        return splittedString;
     }
 
     /**

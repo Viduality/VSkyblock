@@ -91,7 +91,7 @@ public class ChallengesHandler {
                         databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
                         inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
                         if (!repeat) {
-                            ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge.getChallengeName());
+                            ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge);
                         }
                     } else {
                         ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
@@ -109,7 +109,7 @@ public class ChallengesHandler {
                             if (islandLevel >= challenge.getNeededLevel()) {
                                 if (getEmptySlots(player.getInventory()).size() >= challenge.getRewards().size()) {
                                     giveRewards(player.getInventory(), challenge.getRewards());
-                                    ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge.getChallengeName());
+                                    ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge);
                                     databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
                                     inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
                                 } else {
@@ -147,7 +147,7 @@ public class ChallengesHandler {
                         if (enoughItems) {
                             if (getEmptySlots(player.getInventory()).size() >= challenge.getRewards().size()) {
                                 giveRewards(player.getInventory(), challenge.getRewards());
-                                ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge.getChallengeName());
+                                ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge);
                                 databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
                                 inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
                             } else {

@@ -36,14 +36,14 @@ public class CreateChallengesInventory {
 
     private DatabaseReader databaseReader = new DatabaseReader();
 
-    private final String descriptioncolor = ConfigShorts.getChallengesConfig().getString("ItemOverlay.DescriptionColor");
+    public static final String descriptioncolor = ConfigShorts.getChallengesConfig().getString("ItemOverlay.DescriptionColor");
     private final String challengeNameColor = ConfigShorts.getChallengesConfig().getString("ItemOverlay.ChallengeNameColor");
     private final String notRepeatable = ConfigShorts.getChallengesConfig().getString("ItemOverlay.NotRepeatable");
     private final String completed = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Completed");
-    private final String loreString = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Lore");
-    private final String neededonPlayer = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Needed.onPlayer");
-    private final String neededonIsland = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Needed.onIsland");
-    private final String neededislandlevel = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Needed.islandlevel");
+    public static final String loreString = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Lore");
+    public static final String neededonPlayer = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Needed.onPlayer");
+    public static final String neededonIsland = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Needed.onIsland");
+    public static final String neededislandlevel = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Needed.islandlevel");
     private final String reward = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Reward");
 
     private final String mineasycomp = ConfigShorts.getChallengesConfig().getString("CompletedChallenges.MinEasyCompleted");
