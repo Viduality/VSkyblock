@@ -40,15 +40,14 @@ public class IslandAccept implements SubCommand {
             if (Island.invitemap.asMap().containsKey(databaseCache.getUuid())) {
                 UUID newmemberuuid = databaseCache.getUuid();
                 UUID islandowneruuid = Island.invitemap.asMap().get(databaseCache.getUuid());
-                databaseReader.getislandidfromplayer(islandowneruuid, islandid -> {
-                    String newisland = "VSkyblockIsland_" + islandid;
+                databaseReader.getislandidfromplayer(islandowneruuid, (islandid) -> databaseReader.getislandnamefromplayer(islandowneruuid, (newisland) -> {
                     if (databaseCache.isIslandowner()) {
                         databaseReader.hasislandmembers(databaseCache.getIslandId(), result1 -> {
                             if (!result1) {
 
                                 player.getInventory().clear();
                                 player.getEnderChest().clear();
-                                player.teleportAsync(Island.islandhomes.get(databaseCache.getIslandname())).whenComplete((b, e) -> {
+                                player.teleportAsync(Island.islandhomes.get(newisland)).whenComplete((b, e) -> {
                                     wm.unloadWorld(databaseCache.getIslandname());
                                 });
 
@@ -81,7 +80,7 @@ public class IslandAccept implements SubCommand {
                             }
                         });
                     }
-                });
+                }));
             } else {
                 ConfigShorts.messagefromString("NoPendingInvite", player);
             }
