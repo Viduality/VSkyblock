@@ -30,6 +30,7 @@ import org.bukkit.scoreboard.Objective;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -442,11 +443,8 @@ public class DatabaseReader {
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Challenges WHERE islandid = ?");
                 preparedStatement.setInt(1, islandid);
                 ResultSet r = preparedStatement.executeQuery();
-                ResultSetMetaData rm = r.getMetaData();
                 while (r.next()) {
-                    for (int i = 2; i <= rm.getColumnCount(); i++) {
-                        cache.setChallengeCount(rm.getColumnName(i), r.getInt(i));
-                    }
+                    cache.setChallengeCount(r.getString("challenge"), r.getInt("count"));
                 }
                 preparedStatement.close();
 
@@ -863,43 +861,21 @@ public class DatabaseReader {
      * @param callback  Returns the points the island will get for all finished challenges.
      */
     public void getIslandsChallengePoints(int islandid, CallbackINT callback) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        getIslandChallenges(islandid, (cache) -> {
             int challengeValueFirstComplete = getChallengeValueFirstComplete();
             int challengeValueAfterFirstComplete = getChallengeValueAfterFirstComplete();
             int challengeValueRepeats = getChallengeValueRepeats();
             int totalChallengePoints = 0;
-            Connection connection = plugin.getdb().getConnection();
-            try {
-                ChallengesCache cache = new ChallengesCache();
-                PreparedStatement getChallengeCountEasy;
-                getChallengeCountEasy = connection.prepareStatement("SELECT * FROM VSkyblock_Challenges WHERE islandid = ?");
-                getChallengeCountEasy.setInt(1, islandid);
-                ResultSet r = getChallengeCountEasy.executeQuery();
-                ResultSetMetaData rm = r.getMetaData();
-                while (r.next()) {
-                    for (int i = 1; rm.getColumnCount() <= i; i++) {
-                        cache.setChallengeCount(rm.getColumnName(i), r.getInt(i));
-                    }
+            for (int currentc : cache.getAllChallengeCounts().values()) {
+                if (currentc > challengeValueRepeats) {
+                    currentc = challengeValueRepeats;
                 }
-                r.close();
-                for (String c : cache.getAllChallengeCounts().keySet()) {
-                    int currentc = cache.getChallengeCount(c);
-                    if (currentc > challengeValueRepeats) {
-                        currentc = challengeValueRepeats;
-                    }
-                    if (currentc > 0) {
-                        int repeatedPoints = (currentc - 1) * challengeValueAfterFirstComplete;
-                        totalChallengePoints = totalChallengePoints + challengeValueFirstComplete + repeatedPoints;
-                    }
+                if (currentc > 0) {
+                    int repeatedPoints = (currentc - 1) * challengeValueAfterFirstComplete;
+                    totalChallengePoints = totalChallengePoints + challengeValueFirstComplete + repeatedPoints;
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-            finally {
-                plugin.getdb().closeConnection(connection);
-            }
-            final int finalchallengepoints = totalChallengePoints;
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(finalchallengepoints));
+            callback.onQueryDone(totalChallengePoints);
         });
     }
 

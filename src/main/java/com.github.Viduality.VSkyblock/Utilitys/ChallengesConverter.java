@@ -18,6 +18,7 @@ package com.github.Viduality.VSkyblock.Utilitys;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import com.github.Viduality.VSkyblock.Commands.Challenges.Challenge;
 import com.github.Viduality.VSkyblock.Commands.Challenges.Challenges;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
@@ -49,11 +50,7 @@ public class ChallengesConverter {
                 preparedStatement.close();
                 if (!islands.isEmpty()) {
                     for (int currentisland : islands) {
-                        PreparedStatement addToChallenges = connection.prepareStatement("INSERT IGNORE INTO VSkyblock_Challenges(islandid) VALUES (?)");
-                        addToChallenges.setInt(1, currentisland);
-                        addToChallenges.executeUpdate();
-                        addToChallenges.close();
-
+                        System.out.println("Converting Challenges of Island " + currentisland + "...");
                         List<String> uuids = new ArrayList<>();
                         PreparedStatement getMembers = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
                         getMembers.setInt(1, currentisland);
@@ -61,21 +58,8 @@ public class ChallengesConverter {
                         while (membersResult.next()) {
                             uuids.add(membersResult.getString("uuid"));
                         }
-                        getMembers.close();
-                        if (!uuids.isEmpty()) {
-                            ChallengesCache challenges = new ChallengesCache();
-                            PreparedStatement getIslandChallenges;
-                            getIslandChallenges = connection.prepareStatement("SELECT * FROM VSkyblock_Challenges WHERE islandid = ?");
-                            getIslandChallenges.setInt(1, currentisland);
-                            ResultSet r = getIslandChallenges.executeQuery();
-                            ResultSetMetaData rm = r.getMetaData();
-                            while (r.next()) {
-                                for (int i = 2; i <= rm.getColumnCount(); i++) {
-                                    challenges.setChallengeCount(rm.getColumnName(i), r.getInt(i));
-                                }
-                            }
-                            r.close();
 
+                        if (!uuids.isEmpty()) {
 
                             ChallengesCache currentIslandChallengesEasy = new ChallengesCache();
                             ChallengesCache currentIslandChallengesMedium = new ChallengesCache();
@@ -161,53 +145,11 @@ public class ChallengesConverter {
                                     e.printStackTrace();
                                 }
                             }
-                            for (int i = 0; i < 18; i++) {
-                                if (currentIslandChallengesEasy.getCurrentChallengeCount(i + 1) != 0) {
-                                    if (Challenges.sortedChallengesEasy.size() > i) {
-                                        if (Challenges.sortedChallengesEasy.get(i).getMySQLKey() != null) {
-                                            if (challenges.getAllChallengeCounts().containsKey(Challenges.sortedChallengesEasy.get(i).getMySQLKey())) {
-                                                int count = 0;
-                                                count = challenges.getChallengeCount(Challenges.sortedChallengesEasy.get(i).getMySQLKey());
-                                                if (count == 0) {
-                                                    databaseWriter.updateChallengeCount(currentisland, Challenges.sortedChallengesEasy.get(i).getMySQLKey(), currentIslandChallengesEasy.getCurrentChallengeCount(i + 1));
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            for (int i = 0; i < 18; i++) {
-                                if (currentIslandChallengesMedium.getCurrentChallengeCount(i + 1) != 0) {
-                                    if (Challenges.sortedChallengesMedium.size() > i) {
-                                        if (Challenges.sortedChallengesMedium.get(i).getMySQLKey() != null) {
-                                            if (challenges.getAllChallengeCounts().containsKey(Challenges.sortedChallengesMedium.get(i).getMySQLKey())) {
-                                                int count = 0;
-                                                count = challenges.getChallengeCount(Challenges.sortedChallengesMedium.get(i).getMySQLKey());
-                                                if (count == 0) {
-                                                    databaseWriter.updateChallengeCount(currentisland, Challenges.sortedChallengesMedium.get(i).getMySQLKey(), currentIslandChallengesMedium.getCurrentChallengeCount(i + 1));
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            for (int i = 0; i < 18; i++) {
-                                if (currentIslandChallengesHard.getCurrentChallengeCount(i + 1) != 0) {
-                                    if (Challenges.sortedChallengesHard.size() > i) {
-                                        if (Challenges.sortedChallengesHard.get(i).getMySQLKey() != null) {
-                                            if (challenges.getAllChallengeCounts().containsKey(Challenges.sortedChallengesHard.get(i).getMySQLKey())) {
-                                                int count = 0;
-                                                count = challenges.getChallengeCount(Challenges.sortedChallengesHard.get(i).getMySQLKey());
-                                                if (count == 0) {
-                                                    databaseWriter.updateChallengeCount(currentisland, Challenges.sortedChallengesHard.get(i).getMySQLKey(), currentIslandChallengesHard.getCurrentChallengeCount(i + 1));
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            PreparedStatement updateStatement = connection.prepareStatement("INSERT IGNORE INTO VSkyblock_Challenges(islandid, count, challenge) VALUES (?, ?, ?)");
+                            convertChallenges(currentisland, currentIslandChallengesEasy, Challenges.sortedChallengesEasy, updateStatement);
+                            convertChallenges(currentisland, currentIslandChallengesMedium, Challenges.sortedChallengesMedium, updateStatement);
+                            convertChallenges(currentisland, currentIslandChallengesHard, Challenges.sortedChallengesHard, updateStatement);
+                            updateStatement.executeBatch();
                         }
                     }
                 }
@@ -229,5 +171,21 @@ public class ChallengesConverter {
                 plugin.getdb().closeConnection(connection);
             }
         });
+    }
+
+    private void convertChallenges(int islandId, ChallengesCache challengesCache, List<Challenge> challengeList, PreparedStatement updateStatement) throws SQLException {
+        for (int i = 0; i < 18; i++) {
+            if (challengesCache.getCurrentChallengeCount(i + 1) != 0) {
+                if (challengeList.size() > i) {
+                    String mysqlKey = challengeList.get(i).getMySQLKey();
+                    if (mysqlKey != null) {
+                        updateStatement.setInt(1, islandId);
+                        updateStatement.setInt(2, challengesCache.getCurrentChallengeCount(i + 1));
+                        updateStatement.setString(3, mysqlKey);
+                        updateStatement.addBatch();
+                    }
+                }
+            }
+        }
     }
 }

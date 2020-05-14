@@ -57,20 +57,6 @@ public class DatabaseWriter {
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
 
-
-                PreparedStatement preparedStatement1;
-
-                preparedStatement1 = connection.prepareStatement("INSERT INTO VSkyblock_Challenges_Easy(uuid) VALUES (?)");
-                preparedStatement1.setString(1, uuid.toString());
-                preparedStatement1.executeUpdate();
-                preparedStatement1 = connection.prepareStatement("INSERT INTO VSkyblock_Challenges_Medium(uuid) VALUES (?)");
-                preparedStatement1.setString(1, uuid.toString());
-                preparedStatement1.executeUpdate();
-                preparedStatement1 = connection.prepareStatement("INSERT INTO VSkyblock_Challenges_Hard(uuid) VALUES (?)");
-                preparedStatement1.setString(1, uuid.toString());
-                preparedStatement1.executeUpdate();
-                preparedStatement1.close();
-
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
@@ -121,12 +107,6 @@ public class DatabaseWriter {
                                 preparedStatement1.setInt(1, islandid);
                                 preparedStatement1.executeUpdate();
                                 preparedStatement1.close();
-
-                                PreparedStatement preparedStatement2;
-                                preparedStatement2 = connection.prepareStatement("INSERT IGNORE INTO VSkyblock_Challenges(islandid) VALUES (?)");
-                                preparedStatement2.setInt(1, islandid);
-                                preparedStatement2.executeUpdate();
-                                preparedStatement2.close();
 
                             } catch (SQLException e) {
                                 e.printStackTrace();
@@ -360,9 +340,8 @@ public class DatabaseWriter {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             Connection connection = plugin.getdb().getConnection();
             try {
-                String statement = "UPDATE VSkyblock_Challenges SET " + mySQLKey + " = ? WHERE islandid = ?";
-                PreparedStatement updateCount;
-                updateCount = connection.prepareStatement(statement);
+                String statement = "INSERT INTO VSkyblock_Challenges(islandid, count, challenge) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE count = count + VALUES(count)";
+                PreparedStatement updateCount = connection.prepareStatement(statement);
                 updateCount.setInt(1, count);
                 updateCount.setInt(2, islandid);
                 updateCount.executeUpdate();

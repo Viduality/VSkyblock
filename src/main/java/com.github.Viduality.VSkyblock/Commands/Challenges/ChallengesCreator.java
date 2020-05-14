@@ -102,7 +102,6 @@ public class ChallengesCreator {
                                 }
                             }
                             Challenges.challengesEasy.put(challengeName, challenge);
-                            addChallengeToDatabase(currentChallenge);
                             slotsEasy.put(challenge.getSlot(), challenge);
                             if (challenge.getSlot() > highestSlot) {
                                 highestSlot = challenge.getSlot();
@@ -115,7 +114,6 @@ public class ChallengesCreator {
                                 }
                             }
                             Challenges.challengesMedium.put(challengeName, challenge);
-                            addChallengeToDatabase(currentChallenge);
                             slotsMedium.put(challenge.getSlot(), challenge);
                             if (challenge.getSlot() > highestSlot) {
                                 highestSlot = challenge.getSlot();
@@ -128,7 +126,6 @@ public class ChallengesCreator {
                                 }
                             }
                             Challenges.challengesHard.put(challengeName, challenge);
-                            addChallengeToDatabase(currentChallenge);
                             slotsHard.put(challenge.getSlot(), challenge);
                             if (challenge.getSlot() > highestSlot) {
                                 highestSlot = challenge.getSlot();
@@ -275,18 +272,5 @@ public class ChallengesCreator {
             }
         }
         return false;
-    }
-
-    public void addChallengeToDatabase(String challenge) {
-        Connection connection = plugin.getdb().getConnection();
-        try {
-            String statement = "ALTER TABLE VSkyblock_Challenges ADD COLUMN IF NOT EXISTS (" + challenge + " BIGINT DEFAULT 0)";
-            PreparedStatement preparedStatement = connection.prepareStatement(statement);
-            preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } finally {
-            plugin.getdb().closeConnection(connection);
-        }
     }
 }

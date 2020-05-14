@@ -161,7 +161,10 @@ public class SQLConnector {
                             + "PRIMARY KEY (islandid));");
             connection.createStatement().execute(
                     "CREATE TABLE IF NOT EXISTS VSkyblock_Challenges("
-                            + "islandid BIGINT UNIQUE NOT NULL);");
+                            + "islandid BIGINT NOT NULL,"
+                            + "challenge VARCHAR(100) NOT NULL,"
+                            + "count BIGINT DEFAULT 0,"
+                            + "INDEX (islandid), UNIQUE (challenge, islandid));");
             //Auto adds new columns (if they are implemented in future updates and the plugin is already running on the server)
             connection.createStatement().execute(
                     "ALTER TABLE VSkyblock_Player ADD COLUMN IF NOT EXISTS("

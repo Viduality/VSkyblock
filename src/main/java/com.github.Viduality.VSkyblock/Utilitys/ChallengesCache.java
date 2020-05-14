@@ -50,7 +50,7 @@ public class ChallengesCache {
     }
 
     public int getChallengeCount (String challenge) {
-        return challengeCounts.get(challenge);
+        return challengeCounts.getOrDefault(challenge, 0);
     }
 
     public HashMap<String, Integer> getAllChallengeCounts() {
