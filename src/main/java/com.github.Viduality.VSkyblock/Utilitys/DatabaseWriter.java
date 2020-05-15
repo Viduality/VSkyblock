@@ -340,10 +340,11 @@ public class DatabaseWriter {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             Connection connection = plugin.getdb().getConnection();
             try {
-                String statement = "INSERT INTO VSkyblock_Challenges(islandid, count, challenge) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE count = count + VALUES(count)";
+                String statement = "INSERT INTO VSkyblock_Challenges(islandid, count, challenge) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE count = VALUES(count)";
                 PreparedStatement updateCount = connection.prepareStatement(statement);
-                updateCount.setInt(1, count);
-                updateCount.setInt(2, islandid);
+                updateCount.setInt(1, islandid);
+                updateCount.setInt(2, count);
+                updateCount.setString(3, mySQLKey);
                 updateCount.executeUpdate();
                 updateCount.close();
             } catch (SQLException e) {
