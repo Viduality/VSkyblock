@@ -102,6 +102,7 @@ public class IslandConfirm implements SubCommand {
                     if (c != null) {
                         player.teleportAsync(islandHome);
                         player.setCanCollide(false);
+                        player.setSleepingIgnored(true);
                         Island.requestvisit.asMap().remove(player.getUniqueId());
                         databaseReader.getIslandMembers(islandid, islandMembers -> {
                             for (String memberName : islandMembers) {

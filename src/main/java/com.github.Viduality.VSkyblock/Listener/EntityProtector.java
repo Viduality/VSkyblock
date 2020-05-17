@@ -160,6 +160,10 @@ public class EntityProtector implements Listener {
         Player player = playerChangedWorldEvent.getPlayer();
         if (player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())) || player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
             player.setCanCollide(true);
+            player.setSleepingIgnored(false);
+        } else {
+            player.setCanCollide(false);
+            player.setSleepingIgnored(true);
         }
     }
 

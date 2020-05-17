@@ -23,6 +23,7 @@ import com.github.Viduality.VSkyblock.Commands.Challenges.CreateChallengesInvent
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -83,10 +84,15 @@ public class ChallengesHandler {
                         enoughItems = false;
                     }
                 }
+                if (player.getGameMode().equals(GameMode.CREATIVE)) {
+                    enoughItems = true;
+                }
                 if (enoughItems) {
                     List<Integer> emptySlots = getEmptySlots(player.getInventory());
                     if (emptySlots.size() >= rewards.size()) {
-                        clearItems(player.getInventory(), challenge.getNeededItems());
+                        if (!player.getGameMode().equals(GameMode.CREATIVE)) {
+                            clearItems(player.getInventory(), challenge.getNeededItems());
+                        }
                         giveRewards(player.getInventory(), rewards);
                         databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
                         inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));

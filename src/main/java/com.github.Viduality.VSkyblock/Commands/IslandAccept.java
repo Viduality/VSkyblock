@@ -48,6 +48,8 @@ public class IslandAccept implements SubCommand {
                                 player.getInventory().clear();
                                 player.getEnderChest().clear();
                                 player.teleportAsync(Island.islandhomes.get(newisland)).whenComplete((b, e) -> {
+                                    player.setCanCollide(true);
+                                    player.setSleepingIgnored(false);
                                     wm.unloadWorld(databaseCache.getIslandname());
                                 });
 
@@ -72,6 +74,8 @@ public class IslandAccept implements SubCommand {
                         player.teleportAsync(Island.islandhomes.get(newisland)).whenComplete((b, e) -> {
                             if (databaseCache.getIslandname() != null) {
                                 if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
+                                    player.setCanCollide(true);
+                                    player.setSleepingIgnored(false);
                                     wm.unloadWorld(databaseCache.getIslandname());
                                 }
                             }

@@ -328,7 +328,7 @@ permissions:
       VSkyblock.List: true
       VSkyblock.Import: true
       VSkyblock.Info: true
-      Skyblock.SetWorldConfig: true
+      VSkyblock.SetWorldConfig: true
       VSkyblock.IgnoreProtected: true
       VSkyblock.IgnoreKick: true
       VSkyblock.Island: true

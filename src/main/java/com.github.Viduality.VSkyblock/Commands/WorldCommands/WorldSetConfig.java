@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock.Commands.WorldCommands;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import org.bukkit.Difficulty;
@@ -15,7 +33,7 @@ public class WorldSetConfig implements AdminSubCommand {
     public void execute(CommandSender sender, String args, String option1, String option2) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission("Skyblock.SetWorldConfig")) {
+            if (player.hasPermission("VSkyblock.SetWorldConfig")) {
                 String world = player.getWorld().getName();
                 String option = option1;
                 String value = option2;

@@ -75,6 +75,7 @@ public class IslandKick implements SubCommand{
                                 onlinetarget.getEnderChest().clear();
                                 onlinetarget.setExp(0);
                                 onlinetarget.setTotalExperience(0);
+                                onlinetarget.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
                                 databaseWriter.removeKicked(targetuuid);
                                 Island.playerislands.remove(targetuuid);
                             }
