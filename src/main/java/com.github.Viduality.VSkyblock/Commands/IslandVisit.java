@@ -67,14 +67,7 @@ public class IslandVisit implements SubCommand {
                                                             e.printStackTrace();
                                                         }
                                                         if (c != null) {
-                                                            player.teleport(islandHome);
-                                                            player.setCanCollide(false);
-                                                            for (String memberName : islandMembers) {
-                                                                Player onlinePlayer = plugin.getServer().getPlayer(memberName);
-                                                                if (onlinePlayer != null) {
-                                                                    ConfigShorts.custommessagefromString("PlayerVisitingYourIsland", onlinePlayer, player.getName());
-                                                                }
-                                                            }
+                                                            plugin.teleportToIsland(player, islandHome, true, islandMembers);
                                                         } else {
                                                             ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
                                                         }

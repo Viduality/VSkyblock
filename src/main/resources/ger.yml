@@ -118,6 +118,7 @@ SetNewNetherHome: "§6Möchtest du das benutzte Portal als neuen Netherhome setz
 SetNewSpawnpoint: "§bErfolgreich einen neuen Spawnpunkt für die Welt §6%replacement% §bgesetzt!"
 SetNewSpawnWorld: "§bErfolgreich eine neue Spawn-Welt ausgewählt!"
 Site: "§8Seite %replacement%/%replacement2%"
+StoppedTeleportation: "§cTeleportation abgebrochen."
 
 TeleportedToWorld: "§bTeleportiere zu Welt §6%replacement%§b."
 TeleportedToNetherHome: "§aTeleportiere zum Netherhome..."
@@ -130,6 +131,7 @@ UseInNetherWorld: "§cDu kannst diesen Befehl nur im §lNether§r§c benutzen!"
 
 VisitYourself: "§cDu kannst dich nicht selbst besuchen!"
 
+WaitingForFall: "§cTeleportiere sobald du nichtmehr fällst..."
 WorldAlreadyExisting: "§cWelt existiert bereits! Du kannst sie mit §6/VSkyblock load <Welt> §claden!"
 WorldAlreadyLoaded: "§cWelt ist bereits geladen!"
 WorldCreate: "§bWelt wird generiert..."

@@ -28,6 +28,7 @@ import com.github.Viduality.VSkyblock.Listener.*;
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.WorldGenerator.VoidGenerator;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
@@ -48,6 +49,8 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
 
     private static VSkyblock instance;
+
+    private TeleportHandler teleportHandler;
 
     private SQLConnector sqlConnector;
 
@@ -74,6 +77,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
         ConfigShorts.reloadAllConfigs();
 
         sqlConnector = new SQLConnector();
+        teleportHandler = new TeleportHandler();
 
 
         {
@@ -104,7 +108,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
         final PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerJoinListener(), this);
         pm.registerEvents(new PlayerLeaveListener(), this);
-        pm.registerEvents(new PlayerRespawnListener(), this);
+        pm.registerEvents(new PlayerDeathListener(), this);
         pm.registerEvents(new BlockBreakListener(), this);
         pm.registerEvents(new NetherPortalListener(), this);
         pm.registerEvents(new BlockProtector(), this);
@@ -410,5 +414,12 @@ public class VSkyblock extends JavaPlugin implements Listener {
             throwables.printStackTrace();
         }
         return true;
+    }
+
+    public boolean teleportToIsland(Player player, Location location, boolean visit, List<String> islandMembers) {
+        return teleportHandler.teleportToIsland(player, location, visit, islandMembers);
+    }
+    public boolean teleportToIsland(Player player, Location location) {
+        return teleportHandler.teleportToIsland(player, location, false, null);
     }
 }

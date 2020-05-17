@@ -118,6 +118,7 @@ SetNewNetherHome: §6Use §b/is setnetherhome §6 in the next 20 seconds to set 
 SetNewSpawnpoint: §bSuccessfully set a new spawnpoint for the world §6%replacement%§b!
 SetNewSpawnWorld: §bSuccessfully set a new Spawn World!
 Site: §8Site %replacement%/%replacement2%
+StoppedTeleportation: "§cTeleportation canceled."
 
 TeleportedToWorld: §bTeleported to world §6%replacement% §b.
 TeleportedToNetherHome: §aTeleporting to your nether home...
@@ -130,6 +131,7 @@ UseInNetherWorld: §cYou can only use this command in a NETHER world!
 
 VisitYourself: §cYou can't visit yourself!
 
+WaitingForFall: "§cTeleporting after fall ends..."
 WorldAlreadyExisting: §cWorld does already exist! You can load it with §6/VSkyblock load <world> §c!
 WorldAlreadyLoaded: §cWorld is already loaded!
 WorldCreate: §bWorld is generating...

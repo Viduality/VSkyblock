@@ -100,17 +100,8 @@ public class IslandConfirm implements SubCommand {
                         e.printStackTrace();
                     }
                     if (c != null) {
-                        player.teleportAsync(islandHome);
-                        player.setCanCollide(false);
-                        player.setSleepingIgnored(true);
-                        Island.requestvisit.asMap().remove(player.getUniqueId());
                         databaseReader.getIslandMembers(islandid, islandMembers -> {
-                            for (String memberName : islandMembers) {
-                                Player onlinePlayer = plugin.getServer().getPlayer(memberName);
-                                if (onlinePlayer != null) {
-                                    ConfigShorts.custommessagefromString("PlayerVisitingYourIsland", onlinePlayer, player.getName());
-                                }
-                            }
+                            plugin.teleportToIsland(player, islandHome, true, islandMembers);
                         });
                     } else {
                         ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
