@@ -210,7 +210,7 @@ public class ChallengesHandler {
      */
     private void giveRewards(Inventory inv, List<ItemStack> items) {
         for (ItemStack current : items) {
-            inv.addItem(current);
+            inv.addItem(current.clone());
         }
     }
 
