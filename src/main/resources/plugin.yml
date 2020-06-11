@@ -5,6 +5,7 @@ author: Viduality
 api-version: '1.15'
 load: POSTWORLD
 database: true
+softdepend: [VSpecialItems]
 
 
 
@@ -355,6 +356,7 @@ permissions:
     children:
       VSkyblock.Island: true
       VSkyblock.Challenges: true
+      VSpecialItems.ChangeBiomeItemUse: true
 
   VSkyblock.WorldCommands:
     description: Permission for world related commands (create, load, tp, etc.).

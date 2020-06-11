@@ -952,3 +952,22 @@ Hard:
     RepeatReward:
       - Emerald_Block;3
       - Diamond;3
+
+  Terraformer:
+    Name: Terraformer
+    Slot: 16
+    ShownItem: Grass_Block
+    Type: onPlayer
+    Description: "Farme 128 Erde, 64 Schneeblöcke, 64 Eisenbarren und 5 Diamanten"
+    NeededText: "128 Erde, 64 Schneeblöcke, 64 Eisenbarren, 5 Diamanten"
+    Needed:
+      - Dirt;128
+      - Snow_Block;64
+      - Iron_Ingot;64
+      - Diamond;5
+    RewardText: "1 Item zum Ändern eines Biomes."
+    Reward:
+      - SpecialItem:ChangeBiomeItem;1
+    RepeatRewardText: "1 Item zum Ändern eines Biomes."
+    RepeatReward:
+      - SpecialItem:ChangeBiomeItem;1

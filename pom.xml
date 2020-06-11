@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.Viduality</groupId>
     <artifactId>VSkyblock</artifactId>
-    <version>1.6.4-SNAPSHOT</version>
+    <version>1.7-SNAPSHOT</version>
     <name>VSkyblock</name>
 
     <properties>
@@ -63,17 +63,18 @@
             <version>1.5-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.Viduality</groupId>
+            <artifactId>VSpecialItems</artifactId>
+            <version>1.3-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 
     <repositories>
         <repository>
-            <id>origami-repo</id>
-            <url>https://repo.minebench.de</url>
-        </repository>
-        <repository>
             <id>minebench-repo</id>
-            <url>http://repo.minebench.de/</url>
+            <url>https://repo.minebench.de</url>
         </repository>
     </repositories>
 

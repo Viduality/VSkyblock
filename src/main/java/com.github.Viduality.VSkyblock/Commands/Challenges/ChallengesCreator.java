@@ -19,14 +19,11 @@ package com.github.Viduality.VSkyblock.Commands.Challenges;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.Utilitys.SpecialItemsConnector;
 import com.github.Viduality.VSkyblock.VSkyblock;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.*;
 
 public class ChallengesCreator {
@@ -213,6 +210,19 @@ public class ChallengesCreator {
                     } else {
                         return null;
                     }
+                } else if (current[0].contains("SpecialItem:")){
+                    if (plugin.getServer().getPluginManager().getPlugin("VSpecialItems") != null) {
+                        String specialItem = current[0];
+                        String[] specialItemString = specialItem.split(":");
+                        if (SpecialItemsConnector.getItem(specialItemString[1]) != null) {
+                            itemStacks.add(SpecialItemsConnector.getItem(specialItemString[1]));
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        System.out.println("Could not find VSpecialItems plugin! Please install it to use special items in challenges!");
+                        return null;
+                    }
                 } else {
                     return null;
                 }
@@ -220,6 +230,18 @@ public class ChallengesCreator {
                 if (Material.matchMaterial(currentItem.toUpperCase()) != null) {
                     ItemStack itemStack = new ItemStack(Material.getMaterial(currentItem.toUpperCase()), 1);
                     itemStacks.add(itemStack);
+                } else if (currentItem.contains("SpecialItem:")) {
+                    if (plugin.getServer().getPluginManager().getPlugin("VSpecialItems") != null) {
+                        String[] specialItemString = currentItem.split(":");
+                        if (SpecialItemsConnector.getItem(specialItemString[1]) != null) {
+                            itemStacks.add(SpecialItemsConnector.getItem(specialItemString[1]));
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        System.out.println("Could not find VSpecialItems plugin! Please install it to use special items in challenges!");
+                        return null;
+                    }
                 } else {
                     return null;
                 }
