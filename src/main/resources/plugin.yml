@@ -245,10 +245,17 @@ commands:
     permission-message: You don't have permission!
 
   VSkyblock info:
-    description: Returns all informations about a VSkyblock world.
-    usage: /VSkyblock info (<world>)
+    description: Returns all informations about a VSkyblock world or a player.
+    usage: /VSkyblock info (<world/player>)
     aliases: [vsky info]
     permission: VSkyblock.Info
+    permission-message: You don't have permission!
+
+  VSkyblock set lastPosition:
+    description: Overrides the last position of a player.
+    usage: /VSkyblock set lastPosition <player>
+    aliases: [vsky set lastPosition]
+    permission: VSkyblock.SetLastPosition
     permission-message: You don't have permission!
 
   VSkyblock set worldconfig:
@@ -320,6 +327,7 @@ permissions:
       VSkyblock.SetNether: true
       VSkyblock.SetSpawnWorld: true
       VSkyblock.SetWorldSpawnPoint: true
+      VSkyblock.SetLastPosition: true
       VSkyblock.AutoLoad: true
       VSkyblock.Teleportation: true
       VSkyblock.LoadWorld: true
@@ -405,6 +413,9 @@ permissions:
   VSkyblock.SetWorldSpawnPoint:
     descriptioin: Allows the player to set a new world spawnpoint.
     default: op
+  VSkyblock.SetLastPosition:
+    description: Allows the player to override the last position of another player.
+    default: op
   VSkyblock:AutoLoad:
     description: Allows the player to enable or disable auto loading for a world.
     default: op
@@ -430,7 +441,7 @@ permissions:
     description: Allows to import an existing world into the VSkyblock world config.
     default: op
   VSkyblock.Info:
-    description: Allows to see all informations about a VSkyblock world.
+    description: Allows to see informations about a VSkyblock world or player.
     default: op
   VSkyblock.SetWorldConfig:
     description: Allows to change the world config.

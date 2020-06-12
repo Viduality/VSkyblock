@@ -70,6 +70,7 @@ NewIslandLevel: §6New island level is %replacement%.
 NewIslandOwner: §6You are now the new island owner!
 NoIsland: §cYou don't have a island! Create one with §b/island§c!
 NoLoadedWorldFound: §cCould not find any loaded world named §6%replacement%§c.
+NoMatchFound: §cCould not find any information for §6%replacement% §c!
 NoPendingInvite: §cThere is no pending island invite for you!
 NoPendingNetherSethome: §cYou have no pending request to set your nether home!
 NoPendingNetherTeleport: §cYou can't teleport to your nether home right now!
@@ -108,6 +109,7 @@ RecreatedChallengeFiles: §bAll challenge files have been recreated.
 ReloadedBlockValues: §bBlock-Values have been reloaded.
 ReloadedConfig: §bAll configs have been reloaded.
 
+SavedLastLocation: §bSuccessfully saved last position for player §6%replacement%§b!
 SendVisitRequest: "§bThis island can't be visited without permission. A request has been sent to all island members and can be accepted in the next 30 seconds! \n §cCaution: You will get teleported the moment they accept the request!"
 SetAutoLoad: §bAutoLoad has been set to §6%replacement% §bfor your current world!
 SethomeSuccess: §aSuccessfully set new homepoint for your island!
