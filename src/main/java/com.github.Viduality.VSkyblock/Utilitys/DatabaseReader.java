@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 
 
 public class DatabaseReader {
@@ -795,7 +796,7 @@ public class DatabaseReader {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             Location location = null;
             double x = 0;
-            double y = 0;
+            double y = 67;
             double z = 0;
             double pitch = 0;
             double yaw = 0;
@@ -808,7 +809,7 @@ public class DatabaseReader {
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE uuid = ?");
                 preparedStatement.setString(1, uuid.toString());
                 ResultSet r = preparedStatement.executeQuery();
-                while (r.next()) {
+                if (r.next()) {
                     islandid = r.getInt("islandid");
                     x = r.getDouble("lastX");
                     y = r.getDouble("lastY");
@@ -816,6 +817,8 @@ public class DatabaseReader {
                     pitch = r.getDouble("lastPitch");
                     yaw = r.getDouble("lastYaw");
                     lastWorld = r.getString("lastWorld");
+                } else {
+                    plugin.getServer().getLogger().log(Level.WARNING, "Could not find last location for uuid: " + uuid + "!");
                 }
                 preparedStatement.close();
 
@@ -1035,7 +1038,7 @@ public class DatabaseReader {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             Location location = null;
             double x = 0;
-            double y = 0;
+            double y = 67;
             double z = 0;
             float yaw = 0;
             float pitch = 0;
@@ -1056,12 +1059,14 @@ public class DatabaseReader {
                     preparedStatement1 = connection.prepareStatement("SELECT * FROM VSkyblock_IslandLocations WHERE islandid = ?");
                     preparedStatement1.setInt(1, islandid);
                     ResultSet getLoc = preparedStatement1.executeQuery();
-                    while (getLoc.next()) {
+                    if (getLoc.next()) {
                         x = getLoc.getDouble("spawnX");
                         y = getLoc.getDouble("spawnY");
                         z = getLoc.getDouble("spawnZ");
                         yaw = getLoc.getFloat("spawnYaw");
                         pitch = getLoc.getFloat("spawnPitch");
+                    } else {
+                        plugin.getServer().getLogger().log(Level.WARNING, "Could not find island spawn location for island " + world + "!");
                     }
                     preparedStatement1.close();
 
