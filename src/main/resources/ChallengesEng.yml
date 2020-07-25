@@ -629,6 +629,23 @@ Medium:
     RepeatReward:
       - Snow_Block;2
 
+  NetherWoodworker:
+    Name: Nether Woodworker
+    Slot: 18
+    ShownItem: Crimson_Stem
+    Type: onPlayer
+    Description: "Obtain 64 crimson stems and 64 warped stems"
+    NeededText: "64 crimson stems, 64 warped stems"
+    Needed:
+      - Crimson_Stem;64
+      - Warped_Stem;64
+    RewardText: "16 gilded blackstone"
+    Reward:
+      - Gilded_Blackstone;16
+    RepeatRewardText: "8 gilded blackstone"
+    RepeatReward:
+      - Gilded_Blackstone;8
+
 Hard:
   Netherportal:
     Name: Netherportal
@@ -953,18 +970,35 @@ Hard:
       - Emerald_Block;3
       - Diamond;3
 
+  SurvivingSoul:
+    Name: Surviving Soul
+    Slot: 16
+    ShownItem: Respawn_Anchor
+    Type: onPlayer
+    Description: "Obtain an respawn anchor."
+    NeededText: "1 respawn anchor"
+    Needed:
+      - Respawn_Anchor;1
+    RewardText: "3 diamonds"
+    Reward:
+      - Diamond;3
+    RepeatRewardText: "8 soul lanterns und 5 iron ingots"
+    RepeatReward:
+      - Soul_Lantern;8
+      - Iron_Ingot;5
+
   Terraformer:
     Name: Terraformer
-    Slot: 16
+    Slot: 17
     ShownItem: Grass_Block
     Type: onPlayer
-    Description: "Farm 128 dirt, 64 snow blocks, 64 iron ingots and 5 diamonds"
-    NeededText: "128 dirt, 64 snow blocks, 64 iron ingots, 5 diamonds"
+    Description: "Farm 128 dirt, 64 snow blocks, 64 iron ingots and 8 ancient debris"
+    NeededText: "128 dirt, 64 snow blocks, 64 iron ingots, 8 ancient debris"
     Needed:
       - Dirt;128
       - Snow_Block;64
       - Iron_Ingot;64
-      - Diamond;5
+      - Ancient_Debris;8
     RewardText: "1 item for changing the biome of a chunk."
     Reward:
       - SpecialItem:ChangeBiomeItem;1

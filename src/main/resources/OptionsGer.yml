@@ -39,6 +39,8 @@ CobblestoneGenerator:
     Level_6_Info: §6- Chance auf Smaragde
     Level_7_Item: DIAMOND_PICKAXE
     Level_7_Info: §6- Chance auf Diamanten
+    Level_8_Item: NETHERITE_PICKAXE
+    Level_8_Info: §6- Chance auf Antiken Schrott
   Upgrade:
     DisplayName: §8§l§nUpgrade
     DisplayNameMaxLevel: §8§l§nMax. Level
@@ -108,6 +110,18 @@ CobblestoneGenerator:
       - Gold_Ingot;64
       - Emerald;25
       NeededText: 64 Kohle, 64 Eisenbarren, 64 Lapis Lazuli, 64 Goldbarren, 25 Smaragde
+    Level_8:
+      Item: ANCIENT_DEBRIS
+      AddsFeature: §9Chance auf Antiken Schrott
+      Needed:
+        - Coal;64
+        - Iron_Ingot;64
+        - Lapis_Lazuli;64
+        - Gold_Ingot;64
+        - Emerald;50
+        - Diamond;32
+        - Ancient_Debris;16
+      NeededText: 64 Kohle, 64 Eisenbarren, 64 Lapis Lazuli, 64 Goldbarren, 50 Smaragde, 32 Diamanten, 16 Antiken Schrott
     Max_Level:
       Item: NETHER_STAR
-      Description: §6§oGut gemacht!. Du hast das maximale Level für deinen Cobblestone-Generator erreicht. Es sind zur Zeit keine weiteren Upgrades möglich.
+      Description: §6§oGut gemacht! Du hast das maximale Level für deinen Cobblestone-Generator erreicht. Es sind zur Zeit keine weiteren Upgrades möglich.

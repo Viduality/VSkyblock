@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
@@ -15,9 +33,9 @@ import java.util.List;
 
 public class CobblestoneGeneratorUpgrade {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseWriter databaseWriter = new DatabaseWriter();
-    private DatabaseReader databaseReader = new DatabaseReader();
+    private final VSkyblock plugin = VSkyblock.getInstance();
+    private final DatabaseWriter databaseWriter = new DatabaseWriter();
+    private final DatabaseReader databaseReader = new DatabaseReader();
 
     /**
      * Checks if the current cobblestone generator can be upgraded.
@@ -188,6 +206,8 @@ public class CobblestoneGeneratorUpgrade {
                 return CobblestoneGenerator.generatorValues.get("EmeraldLevel");
             case 7:
                 return CobblestoneGenerator.generatorValues.get("DiamondLevel");
+            case 8:
+                return CobblestoneGenerator.generatorValues.get("AncientDebrisLevel");
             default:
                 return null;
         }

@@ -102,3 +102,5 @@ CobblestoneGenerator:
   EmeraldChance: 0.05
   DiamondLevel: 125
   DiamondChance: 0.2
+  AncientDebrisLevel: 150
+  AncientDebrisChance: 0.4

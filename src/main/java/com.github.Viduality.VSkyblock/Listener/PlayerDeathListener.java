@@ -33,8 +33,8 @@ import java.util.UUID;
 
 public class PlayerDeathListener implements Listener {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private WorldManager wm = new WorldManager();
+    private final VSkyblock plugin = VSkyblock.getInstance();
+    private final WorldManager wm = new WorldManager();
 
 
     @EventHandler
@@ -44,7 +44,7 @@ public class PlayerDeathListener implements Listener {
         if (Island.playerislands.containsKey(uuid)) {
             if (player.getBedSpawnLocation() == null) {
                 playerRespawnEvent.setRespawnLocation(Island.islandhomes.get(Island.playerislands.get(uuid)));
-                player.setCanCollide(true);
+                player.setCollidable(true);
             }
         }
     }

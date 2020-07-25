@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock.Listener;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.Cache;
@@ -21,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CobblestoneGenerator implements Listener {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin = VSkyblock.getInstance();
 
     public static HashMap<String, Integer> islandGenLevel = new HashMap<>(); //Islandname and generatorlevel
     public static HashMap<String, Double> generatorValues = new HashMap<>(); //"option" and value
@@ -62,6 +80,8 @@ public class CobblestoneGenerator implements Listener {
                     case 7:
                         blockFormEvent.getNewState().setType(rollDiamondLevel(location));
                         break;
+                    case 8:
+                        blockFormEvent.getNewState().setType(rollAncientDebrisLevel(location));
                 }
             }
         }
@@ -245,7 +265,7 @@ public class CobblestoneGenerator implements Listener {
 
     /**
      * Rolls the chances for the diamond level cobblestone-generator.
-     * Returns either cobblestone, coal, iron, redstone, lapis, gold, emerald or diamonds.
+     * Returns either cobblestone, coal, iron, redstone, lapis, gold, emerald or diamond.
      * @return Material
      */
     private Material rollDiamondLevel(Location location) {
@@ -258,6 +278,42 @@ public class CobblestoneGenerator implements Listener {
         double chanceIron = (generatorValues.get("IronChance") / 100) + chanceRedstone;
         double chanceCoal = (generatorValues.get("CoalChance") / 100) + chanceIron;
         if (chanceDiamond >= random) {
+            return Material.DIAMOND_ORE;
+        } else if (chanceEmerald >= random) {
+            return Material.EMERALD_ORE;
+        } else if (chanceGold >= random) {
+            return Material.GOLD_ORE;
+        } else if (chanceLapis >= random) {
+            return Material.LAPIS_ORE;
+        } else if (chanceRedstone >= random) {
+            return Material.REDSTONE_ORE;
+        } else if (chanceIron >= random){
+            return Material.IRON_ORE;
+        } else if (chanceCoal >= random){
+            return Material.COAL_ORE;
+        } else {
+            return getCobblestone(location);
+        }
+    }
+
+    /**
+     * Rolls the chances for the ancient debris level cobblestone-generator.
+     * Returns either cobblestone, coal, iron, redstone, lapis, gold, emerald, diamond or ancient debris.
+     * @return Material
+     */
+    private Material rollAncientDebrisLevel(Location location) {
+        double random = Math.random();
+        double chanceAncientDebris = generatorValues.get("AncientDebrisChance") / 100;
+        double chanceDiamond = generatorValues.get("DiamondChance") / 100;
+        double chanceEmerald = (generatorValues.get("EmeraldChance") /100) + chanceDiamond;
+        double chanceGold = (generatorValues.get("GoldChance") / 100) + chanceEmerald;
+        double chanceLapis = (generatorValues.get("LapisChance") / 100) + chanceGold;
+        double chanceRedstone = (generatorValues.get("RedstoneChance") / 100) + chanceLapis;
+        double chanceIron = (generatorValues.get("IronChance") / 100) + chanceRedstone;
+        double chanceCoal = (generatorValues.get("CoalChance") / 100) + chanceIron;
+        if (chanceAncientDebris >= random) {
+            return Material.ANCIENT_DEBRIS;
+        } else if (chanceDiamond >= random) {
             return Material.DIAMOND_ORE;
         } else if (chanceEmerald >= random) {
             return Material.EMERALD_ORE;

@@ -2,7 +2,7 @@ name: VSkyblock
 main: com.github.Viduality.VSkyblock.VSkyblock
 version: '${minecraft.plugin.version}'
 author: Viduality
-api-version: '1.15'
+api-version: '1.16'
 load: POSTWORLD
 database: true
 softdepend: [VSpecialItems]

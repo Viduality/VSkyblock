@@ -629,6 +629,23 @@ Medium:
     RepeatReward:
       - Snow_Block;2
 
+  NetherWoodworker:
+    Name: Nether-Holzfäller
+    Slot: 18
+    ShownItem: Crimson_Stem
+    Type: onPlayer
+    Description: "Erhalte 64 Karmesinstiele und 64 Wirrstiele"
+    NeededText: "64 Karmesinstiele, 64 Wirrstiele"
+    Needed:
+      - Crimson_Stem;64
+      - Warped_Stem;64
+    RewardText: "16 golddurchzogene Schwarzsteine"
+    Reward:
+      - Gilded_Blackstone;16
+    RepeatRewardText: "8 golddurchzogene Schwarzsteine"
+    RepeatReward:
+      - Gilded_Blackstone;8
+
 Hard:
   Netherportal:
     Name: Netherportal
@@ -953,18 +970,35 @@ Hard:
       - Emerald_Block;3
       - Diamond;3
 
+  SurvivingSoul:
+    Name: Überlebende Seele
+    Slot: 15
+    ShownItem: Respawn_Anchor
+    Type: onPlayer
+    Description: "Erhalte einen Seelenanker."
+    NeededText: "1 Seelenanker"
+    Needed:
+      - Respawn_Anchor;1
+    RewardText: "3 Diamanten"
+    Reward:
+      - Diamond;3
+    RepeatRewardText: "8 Seelenlaternen und 5 Eisenbarren"
+    RepeatReward:
+      - Soul_Lantern;8
+      - Iron_Ingot;5
+
   Terraformer:
     Name: Terraformer
-    Slot: 16
+    Slot: 17
     ShownItem: Grass_Block
     Type: onPlayer
-    Description: "Farme 128 Erde, 64 Schneeblöcke, 64 Eisenbarren und 5 Diamanten"
-    NeededText: "128 Erde, 64 Schneeblöcke, 64 Eisenbarren, 5 Diamanten"
+    Description: "Farme 128 Erde, 64 Schneeblöcke, 64 Eisenbarren und 8 Antiken Schrott"
+    NeededText: "128 Erde, 64 Schneeblöcke, 64 Eisenbarren, 8 Antiker Schrott"
     Needed:
       - Dirt;128
       - Snow_Block;64
       - Iron_Ingot;64
-      - Diamond;5
+      - Ancient_Debris;8
     RewardText: "1 Item zum Ändern eines Biomes."
     Reward:
       - SpecialItem:ChangeBiomeItem;1

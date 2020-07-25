@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class TeleportHandler {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin = VSkyblock.getInstance();
     private final WorldManager wm = new WorldManager();
 
     public static Map<Player, BukkitTask> teleportQueue = new HashMap<>();
@@ -48,7 +48,7 @@ public class TeleportHandler {
                         Bukkit.getScheduler().runTask(plugin, () -> {
                             player.teleport(location);
                             if (visit) {
-                                player.setCanCollide(false);
+                                player.setCollidable(false);
                                 player.setSleepingIgnored(true);
                                 for (String memberName : islandMembers) {
                                     Player onlinePlayer = plugin.getServer().getPlayer(memberName);
@@ -59,7 +59,7 @@ public class TeleportHandler {
                                 teleportQueue.remove(player);
                                 locations.remove(player);
                             } else {
-                                player.setCanCollide(true);
+                                player.setCollidable(true);
                                 player.setSleepingIgnored(false);
                                 teleportQueue.remove(player);
                                 locations.remove(player);

@@ -44,9 +44,9 @@ import java.util.UUID;
 
 public class IslandOptionsInventoryHandler implements Listener {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseWriter databaseWriter = new DatabaseWriter();
-    private DatabaseReader databaseReader = new DatabaseReader();
+    private final VSkyblock plugin = VSkyblock.getInstance();
+    private final DatabaseWriter databaseWriter = new DatabaseWriter();
+    private final DatabaseReader databaseReader = new DatabaseReader();
 
 
     @EventHandler
@@ -285,7 +285,7 @@ public class IslandOptionsInventoryHandler implements Listener {
         Integer currentGeneratorLevel = CobblestoneGenerator.islandGenLevel.get(island);
         Integer nextGeneratorLevel = currentGeneratorLevel + 1;
         String upgradeButtonItem;
-        if (nextGeneratorLevel > 7) {
+        if (nextGeneratorLevel > 8) {
             upgradeButtonItem = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Max_Level.Item");
         } else {
             upgradeButtonItem = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Level_" + nextGeneratorLevel + ".Item");
@@ -369,7 +369,7 @@ public class IslandOptionsInventoryHandler implements Listener {
      */
     private String getDisplayNameGeneratorUpgradeButton(Integer nextGeneratorLevel) {
         String displayname;
-        if (nextGeneratorLevel > 7) {
+        if (nextGeneratorLevel > 8) {
             displayname = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.DisplayNameMaxLevel");
         } else {
             displayname = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.DisplayName");
@@ -401,7 +401,7 @@ public class IslandOptionsInventoryHandler implements Listener {
 
     private List<String> getDescriptionGeneratorUpgradeButton(Integer nextGeneratorLevel) {
         List<String> descriptionList = new ArrayList<>();
-        if (nextGeneratorLevel > 7) {
+        if (nextGeneratorLevel > 8) {
             String description = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Max_Level.Description");
             descriptionList.addAll(splitString(description));
         } else {
@@ -439,10 +439,10 @@ public class IslandOptionsInventoryHandler implements Listener {
             if (maxDropsLine.contains("%number%")) {
                 maxDropsLine = maxDropsLine.replace("%number%", String.valueOf(maxDrops));
             } else {
-                maxDropsLine = maxDropsLine + " " + String.valueOf(maxDrops);
+                maxDropsLine = maxDropsLine + " " + maxDrops;
             }
         } else {
-            maxDropsLine = "Max Drops: " + String.valueOf(maxDrops);
+            maxDropsLine = "Max Drops: " + maxDrops;
         }
         String description = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.CobbleDropChanceDescription");
         List<String> descriptionList = new ArrayList<>();
@@ -493,6 +493,8 @@ public class IslandOptionsInventoryHandler implements Listener {
                         case 7:
                             chanceInfo = chanceInfo.replace("%number%", String.valueOf(CobblestoneGenerator.generatorValues.get("DiamondChance")));
                             break;
+                        case 8:
+                            chanceInfo = chanceInfo.replace("%number%", String.valueOf(CobblestoneGenerator.generatorValues.get("AncientDebrisChance")));
 
                     }
                 }
@@ -513,7 +515,7 @@ public class IslandOptionsInventoryHandler implements Listener {
         String withoutcolorCode = string;
         for (int i = 1; i > 0; i++) {
             if (withoutcolorCode.contains("§")) {
-                colorCode.append(withoutcolorCode.substring(0, 2));
+                colorCode.append(withoutcolorCode, 0, 2);
                 withoutcolorCode = withoutcolorCode.substring(2);
             } else {
                 i = -1;
@@ -576,6 +578,8 @@ public class IslandOptionsInventoryHandler implements Listener {
                 return CobblestoneGenerator.generatorValues.get("EmeraldLevel");
             case 7:
                 return CobblestoneGenerator.generatorValues.get("DiamondLevel");
+            case 8:
+                return CobblestoneGenerator.generatorValues.get("AncientDebrisLevel");
             default:
                 return null;
         }

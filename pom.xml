@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.Viduality</groupId>
     <artifactId>VSkyblock</artifactId>
-    <version>1.7.1-SNAPSHOT</version>
+    <version>1.8.0-SNAPSHOT</version>
     <name>VSkyblock</name>
 
     <properties>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>de.minebench.origami</groupId>
             <artifactId>origami-api</artifactId>
-            <version>1.15.2-R0.1-SNAPSHOT</version>
+            <version>1.16.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.47</version>
+            <version>8.0.16</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -145,6 +145,14 @@
                                 <relocation>
                                     <pattern>org.apache.commons.io</pattern>
                                     <shadedPattern>com.github.Viduality.shaded.apachecommons</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>de.themoep.minedown</pattern>
+                                    <shadedPattern>com.github.Viduality.shaded.minedown</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.zaxxer.hikari</pattern>
+                                    <shadedPattern>com.github.Viduality.shaded.hikari</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

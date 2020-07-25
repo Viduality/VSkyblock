@@ -228,6 +228,8 @@ public class VSkyblock extends JavaPlugin implements Listener {
         double emeraldChance = 0.05;
         double diamondLevel = 100;
         double diamondChance = 0.2;
+        double ancientDebrisLevel = 150;
+        double ancientDebrisChance = 0.4;
         int cobblestoneLevelIntervall = 10;
         double cobblestoneChance = 20;
         if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.CoalLevel") != null) {
@@ -300,6 +302,17 @@ public class VSkyblock extends JavaPlugin implements Listener {
                 diamondChance = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.DiamondChance");
             }
         }
+
+        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.AncientDebrisLevel") != null) {
+            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.AncientDebrisLevel"))) {
+                ancientDebrisLevel = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.AncientDebrisLevel");
+            }
+        }
+        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.AncientDebrisChance") != null) {
+            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.AncientDebrisChance"))) {
+                ancientDebrisChance = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.AncientDebrisChance");
+            }
+        }
         CobblestoneGenerator.generatorValues.put("CoalLevel", coalLevel);
         CobblestoneGenerator.generatorValues.put("CoalChance", coalChance);
         CobblestoneGenerator.generatorValues.put("IronLevel", ironLevel);
@@ -314,6 +327,8 @@ public class VSkyblock extends JavaPlugin implements Listener {
         CobblestoneGenerator.generatorValues.put("EmeraldChance", emeraldChance);
         CobblestoneGenerator.generatorValues.put("DiamondLevel", diamondLevel);
         CobblestoneGenerator.generatorValues.put("DiamondChance", diamondChance);
+        CobblestoneGenerator.generatorValues.put("AncientDebrisLevel", ancientDebrisLevel);
+        CobblestoneGenerator.generatorValues.put("AncientDebrisChance", ancientDebrisChance);
 
 
         if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.Cobblestone.MultipleDrops") != null) {
@@ -405,11 +420,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
         Connection con = getdb().getConnection();
         try {
             ResultSet r = con.getMetaData().getTables(null, null, "VSkyblock_Challenges_Easy", null);
-            if (r.next()) {
-                return false;
-            } else {
-                return true;
-            }
+            return !r.next();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

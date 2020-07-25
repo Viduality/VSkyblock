@@ -26,10 +26,10 @@ import java.util.UUID;
 
 public class IslandAccept implements SubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseReader databaseReader = new DatabaseReader();
-    private DatabaseWriter databaseWriter = new DatabaseWriter();
-    private WorldManager wm = new WorldManager();
+    private final VSkyblock plugin = VSkyblock.getInstance();
+    private final DatabaseReader databaseReader = new DatabaseReader();
+    private final DatabaseWriter databaseWriter = new DatabaseWriter();
+    private final WorldManager wm = new WorldManager();
 
 
 
@@ -48,7 +48,7 @@ public class IslandAccept implements SubCommand {
                                 player.getInventory().clear();
                                 player.getEnderChest().clear();
                                 player.teleportAsync(Island.islandhomes.get(newisland)).whenComplete((b, e) -> {
-                                    player.setCanCollide(true);
+                                    player.setCollidable(true);
                                     player.setSleepingIgnored(false);
                                     wm.unloadWorld(databaseCache.getIslandname());
                                 });
@@ -74,7 +74,7 @@ public class IslandAccept implements SubCommand {
                         player.teleportAsync(Island.islandhomes.get(newisland)).whenComplete((b, e) -> {
                             if (databaseCache.getIslandname() != null) {
                                 if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
-                                    player.setCanCollide(true);
+                                    player.setCollidable(true);
                                     player.setSleepingIgnored(false);
                                     wm.unloadWorld(databaseCache.getIslandname());
                                 }

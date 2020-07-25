@@ -43,9 +43,9 @@ import java.util.concurrent.TimeUnit;
 
 public class EntityProtector implements Listener {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private WorldManager wm = new WorldManager();
-    private static Cache<LivingEntity, BukkitTask> nocollideentities = CacheBuilder.newBuilder()
+    private final VSkyblock plugin = VSkyblock.getInstance();
+    private final WorldManager wm = new WorldManager();
+    private static final Cache<LivingEntity, BukkitTask> nocollideentities = CacheBuilder.newBuilder()
             .expireAfterWrite(1, TimeUnit.SECONDS)
             .build();
 
@@ -159,46 +159,11 @@ public class EntityProtector implements Listener {
     public void onWorldChange(PlayerChangedWorldEvent playerChangedWorldEvent) {
         Player player = playerChangedWorldEvent.getPlayer();
         if (player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())) || player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
-            player.setCanCollide(true);
+            player.setCollidable(true);
             player.setSleepingIgnored(false);
         } else {
-            player.setCanCollide(false);
+            player.setCollidable(false);
             player.setSleepingIgnored(true);
         }
     }
-
-
-
-    private static final Set<EntityType> hostilemobs = EnumSet.of(
-            EntityType.BLAZE,
-            EntityType.CREEPER,
-            EntityType.DROWNED,
-            EntityType.ELDER_GUARDIAN,
-            EntityType.GUARDIAN,
-            EntityType.ENDERMITE,
-            EntityType.EVOKER,
-            EntityType.EVOKER_FANGS,
-            EntityType.GHAST,
-            EntityType.HUSK,
-            EntityType.MAGMA_CUBE,
-            EntityType.PHANTOM,
-            EntityType.SHULKER,
-            EntityType.SILVERFISH,
-            EntityType.SKELETON,
-            EntityType.SLIME,
-            EntityType.STRAY,
-            EntityType.VEX,
-            EntityType.VINDICATOR,
-            EntityType.WITCH,
-            EntityType.WITHER_SKELETON,
-            EntityType.WITHER,
-            EntityType.ZOMBIE,
-            EntityType.ZOMBIE_VILLAGER,
-            EntityType.ILLUSIONER,
-            EntityType.CAVE_SPIDER,
-            EntityType.ENDERMAN,
-            EntityType.SPIDER,
-            EntityType.PIG_ZOMBIE
-
-    );
 }
