@@ -64,41 +64,43 @@ public class IslandKick implements SubCommand{
                     } finally {
                         plugin.getdb().closeConnection(connection);
                     }
-                    if (members.contains(targetuuid)) {
-                        if (databaseCache.isIslandowner()) {
-                            databaseWriter.kickPlayerfromIsland(targetuuid);
-                            ConfigShorts.custommessagefromString("KickedMember", player, player.getName(), target.getName());
-                            if (target.isOnline()) {
-                                Player onlinetarget = (Player) target;
-                                ConfigShorts.messagefromString("KickedFromIsland", onlinetarget);
-                                onlinetarget.getInventory().clear();
-                                onlinetarget.getEnderChest().clear();
-                                onlinetarget.setExp(0);
-                                onlinetarget.setTotalExperience(0);
-                                onlinetarget.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
-                                databaseWriter.removeKicked(targetuuid);
-                                Island.playerislands.remove(targetuuid);
+                    plugin.getServer().getScheduler().runTask(plugin, () -> {
+                        if (members.contains(targetuuid)) {
+                            if (databaseCache.isIslandowner()) {
+                                databaseWriter.kickPlayerfromIsland(targetuuid);
+                                ConfigShorts.custommessagefromString("KickedMember", player, player.getName(), target.getName());
+                                Player onlinetarget = target.getPlayer();
+                                if (onlinetarget != null) {
+                                    ConfigShorts.messagefromString("KickedFromIsland", onlinetarget);
+                                    onlinetarget.getInventory().clear();
+                                    onlinetarget.getEnderChest().clear();
+                                    onlinetarget.setExp(0);
+                                    onlinetarget.setTotalExperience(0);
+                                    onlinetarget.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
+                                    databaseWriter.removeKicked(targetuuid);
+                                    Island.playerislands.remove(targetuuid);
+                                }
+                            } else {
+                                ConfigShorts.messagefromString("NotIslandOwner", player);
                             }
                         } else {
-                            ConfigShorts.messagefromString("NotIslandOwner", player);
-                        }
-                    } else {
-                        if (target.isOnline()) {
-                            Player onlinetarget = (Player) target;
-                            if (!onlinetarget.hasPermission("VSkyblock.IgnoreKick")) {
-                                if (onlinetarget.getWorld().getName().equals(databaseCache.getIslandname())) {
-                                    onlinetarget.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
-                                    ConfigShorts.messagefromString("KickVisitingPlayer", onlinetarget);
+                            Player onlinetarget = target.getPlayer();
+                            if (onlinetarget != null) {
+                                if (!onlinetarget.hasPermission("VSkyblock.IgnoreKick")) {
+                                    if (onlinetarget.getWorld().getName().equals(databaseCache.getIslandname())) {
+                                        onlinetarget.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
+                                        ConfigShorts.messagefromString("KickVisitingPlayer", onlinetarget);
+                                    } else {
+                                        ConfigShorts.messagefromString("PlayerNotIslandMember", player);
+                                    }
                                 } else {
                                     ConfigShorts.messagefromString("PlayerNotIslandMember", player);
                                 }
                             } else {
                                 ConfigShorts.messagefromString("PlayerNotIslandMember", player);
                             }
-                        } else {
-                            ConfigShorts.messagefromString("PlayerNotIslandMember", player);
                         }
-                    }
+                    });
                 } else {
                     ConfigShorts.messagefromString("CantKickYourself", player);
                 }

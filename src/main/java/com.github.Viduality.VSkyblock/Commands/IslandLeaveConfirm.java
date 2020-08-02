@@ -27,38 +27,27 @@ import org.bukkit.entity.Player;
 
 public class IslandLeaveConfirm implements SubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
     private DatabaseWriter databaseWriter = new DatabaseWriter();
     private WorldManager wm = new WorldManager();
 
 
     @Override
     public void execute(DatabaseCache databaseCache) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-            @Override
-            public void run() {
-                Player player = databaseCache.getPlayer();
-                if (Island.leavemap.asMap().containsKey(player.getUniqueId())) {
-                    databaseWriter.leavefromIsland(player.getUniqueId());
-                    ConfigShorts.messagefromString("LeftIsland", player);
-                    player.getInventory().clear();
-                    player.getEnderChest().clear();
-                    player.setExp(0);
-                    player.setTotalExperience(0);
-                    Island.leavemap.asMap().remove(player.getUniqueId());
-                    Island.playerislands.remove(player.getUniqueId());
-                    if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
-                        plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
-                            @Override
-                            public void run() {
-                                wm.unloadWorld(databaseCache.getIslandname());
-                            }
-                        });
-                    }
-                } else {
-                    ConfigShorts.messagefromString("LeaveFirst", player);
-                }
+        Player player = databaseCache.getPlayer();
+        if (Island.leavemap.asMap().containsKey(player.getUniqueId())) {
+            databaseWriter.leavefromIsland(player.getUniqueId());
+            ConfigShorts.messagefromString("LeftIsland", player);
+            player.getInventory().clear();
+            player.getEnderChest().clear();
+            player.setExp(0);
+            player.setTotalExperience(0);
+            Island.leavemap.asMap().remove(player.getUniqueId());
+            Island.playerislands.remove(player.getUniqueId());
+            if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
+                wm.unloadWorld(databaseCache.getIslandname());
             }
-        });
+        } else {
+            ConfigShorts.messagefromString("LeaveFirst", player);
+        }
     }
 }

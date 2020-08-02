@@ -36,11 +36,11 @@ public class IslandRestartConfirm implements SubCommand{
             if (!Island.isgencooldown.asMap().containsValue(player.getUniqueId())) {
                 Island.isgencooldown.put(player.getUniqueId(), player.getUniqueId());
                 ConfigShorts.messagefromString("GenerateNewIsland", player);
-                islandmethods.createNewIsland(databaseCache.getUuid(), databaseCache.getIslandname());
                 player.getInventory().clear();
                 player.getEnderChest().clear();
                 player.setExp(0);
                 player.setTotalExperience(0);
+                islandmethods.createNewIsland(databaseCache.getUuid(), databaseCache.getIslandname());
             } else {
                 ConfigShorts.custommessagefromString("GenerateCooldown", databaseCache.getPlayer(), String.valueOf(Island.getisgencooldown()));
             }

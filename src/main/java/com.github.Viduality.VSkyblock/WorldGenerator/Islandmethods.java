@@ -105,7 +105,12 @@ public class Islandmethods {
                 CobblestoneGenerator.islandGenLevel.put(worldName, 0);
                 CobblestoneGenerator.islandlevels.put(worldName, 0);
                 if (player != null) {
-                    player.teleportAsync(world.getSpawnLocation());
+                    player.teleportAsync(world.getSpawnLocation()).thenAccept(b -> {
+                        player.getInventory().clear();
+                        player.getEnderChest().clear();
+                        player.setExp(0);
+                        player.setTotalExperience(0);
+                    });
                 }
                 if (oldIsland != null) {
                     wm.unloadWorld(oldIsland);
