@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock.Listener;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
@@ -21,25 +39,17 @@ import java.util.Deque;
 
 public class PlayerJoinListener implements Listener {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseReader databaseReader = new DatabaseReader();
-    private DatabaseWriter databaseWriter = new DatabaseWriter();
-    private WorldManager wm = new WorldManager();
+    private final VSkyblock plugin = VSkyblock.getInstance();
+    private final DatabaseReader databaseReader = new DatabaseReader();
+    private final DatabaseWriter databaseWriter = new DatabaseWriter();
+    private final WorldManager wm = new WorldManager();
 
-    private Deque<DatabaseCache> toLoad = new ArrayDeque<>();
+    private final Deque<DatabaseCache> toLoad = new ArrayDeque<>();
 
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent playerJoinEvent) {
         Player player = playerJoinEvent.getPlayer();
-        PotionEffect potionEffectBlindness = new PotionEffect(PotionEffectType.BLINDNESS, 600, 1);
-        PotionEffect potionEffectNightVision = new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 1);
-        player.addPotionEffect(potionEffectBlindness);
-        player.addPotionEffect(potionEffectNightVision);
-        Location location = player.getLocation();
-        location.setPitch(-90);
-        player.teleport(location);
-
 
         if (wm.getUnloadedWorlds().contains(ConfigShorts.getDefConfig().getString("SpawnWorld"))) {
             wm.loadWorld(ConfigShorts.getDefConfig().getString("SpawnWorld"));
@@ -64,6 +74,13 @@ public class PlayerJoinListener implements Listener {
                         }
                     }
                     if (result.getIslandname() != null) {
+                        PotionEffect potionEffectBlindness = new PotionEffect(PotionEffectType.BLINDNESS, 600, 1);
+                        PotionEffect potionEffectNightVision = new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 1);
+                        player.addPotionEffect(potionEffectBlindness);
+                        player.addPotionEffect(potionEffectNightVision);
+                        Location location = player.getLocation();
+                        location.setPitch(-90);
+                        player.teleport(location);
                         BukkitTask task = Island.emptyloadedislands.remove(result.getIslandname());
                         if (task != null) {
                             task.cancel();

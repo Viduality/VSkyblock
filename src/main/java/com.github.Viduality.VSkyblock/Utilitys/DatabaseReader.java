@@ -474,12 +474,15 @@ public class DatabaseReader {
     public void refreshIslands(List<Player> onlineplayers) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             Connection connection = plugin.getdb().getConnection();
+            Location loc = null;
+            String islandname = null;
+            int islandid = 0;
+            int cobblestonelevel = 0;
+            int islandlevel = 0;
+            List<Player> playerList = new ArrayList<>();
             try {
                 for (Player player : onlineplayers) {
-                    String islandname = null;
-                    int islandid = 0;
-                    int cobblestonelevel = 0;
-                    int islandlevel = 0;
+                    playerList.add(player);
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
                     preparedStatement.setString(1, player.getUniqueId().toString());
@@ -521,19 +524,10 @@ public class DatabaseReader {
                             getIslandhome = connection.prepareStatement("SELECT * FROM VSkyblock_IslandLocations WHERE islandid = ?");
                             getIslandhome.setInt(1, islandid);
                             ResultSet r = getIslandhome.executeQuery();
-                            Location loc = null;
                             while (r.next()) {
                                 loc = new Location(w, r.getDouble("spawnX"), r.getDouble("spawnY"), r.getDouble("spawnZ"), r.getFloat("spawnYaw"), r.getFloat("spawnPitch"));
                             }
-                            if (loc != null) {
-                                Island.islandhomes.put(islandname, loc);
-                            }
                         }
-                    }
-                    if (islandname != null && !islandname.equals("NULL")) {
-                        Island.playerislands.put(player.getUniqueId(), islandname);
-                        CobblestoneGenerator.islandGenLevel.put(islandname, cobblestonelevel);
-                        CobblestoneGenerator.islandlevels.put(islandname, islandlevel);
                     }
                     preparedStatement.close();
 
@@ -544,6 +538,23 @@ public class DatabaseReader {
             finally {
                 plugin.getdb().closeConnection(connection);
             }
+
+            Location finalLoc = loc;
+            String finalIslandname = islandname;
+            int finalIslandlevel = islandlevel;
+            int finalCobblestonelevel = cobblestonelevel;
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                for (Player player : playerList) {
+                    if (finalLoc != null) {
+                        Island.islandhomes.put(finalIslandname, finalLoc);
+                    }
+                    if (finalIslandname != null && !finalIslandname.equals("NULL")) {
+                        Island.playerislands.put(player.getUniqueId(), finalIslandname);
+                        CobblestoneGenerator.islandGenLevel.put(finalIslandname, finalCobblestonelevel);
+                        CobblestoneGenerator.islandlevels.put(finalIslandname, finalIslandlevel);
+                    }
+                }
+            });
         });
     }
 

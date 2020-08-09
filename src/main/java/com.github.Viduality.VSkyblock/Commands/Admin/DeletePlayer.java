@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock.Commands.Admin;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Commands.WorldCommands.AdminSubCommand;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
@@ -17,7 +35,7 @@ import java.util.UUID;
 
 public class DeletePlayer implements AdminSubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin = VSkyblock.getInstance();
 
 
     @Override
@@ -48,15 +66,6 @@ public class DeletePlayer implements AdminSubCommand {
                             PreparedStatement preparedStatement1;
 
                             preparedStatement1 = connection.prepareStatement("DELETE FROM VSkyblock_Player WHERE uuid = ?");
-                            preparedStatement1.setString(1, uuid.toString());
-                            preparedStatement1.executeUpdate();
-                            preparedStatement1 = connection.prepareStatement("DELETE FROM VSkyblock_Challenges_Easy WHERE uuid = ?");
-                            preparedStatement1.setString(1, uuid.toString());
-                            preparedStatement1.executeUpdate();
-                            preparedStatement1 = connection.prepareStatement("DELETE FROM VSkyblock_Challenges_Medium WHERE uuid = ?");
-                            preparedStatement1.setString(1, uuid.toString());
-                            preparedStatement1.executeUpdate();
-                            preparedStatement1 = connection.prepareStatement("DELETE FROM VSkyblock_Challenges_Hard WHERE uuid = ?");
                             preparedStatement1.setString(1, uuid.toString());
                             preparedStatement1.executeUpdate();
                             preparedStatement1.close();

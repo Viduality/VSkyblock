@@ -1,5 +1,23 @@
 package com.github.Viduality.VSkyblock.WorldGenerator;
 
+/*
+ * VSkyblock
+ * Copyright (C) 2020  Viduality
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.Utilitys.*;
@@ -8,15 +26,16 @@ import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.UUID;
 
 public class Islandmethods {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseWriter databaseWriter = new DatabaseWriter();
-    private DatabaseReader databaseReader = new DatabaseReader();
-    private WorldManager wm = new WorldManager();
+    private final VSkyblock plugin = VSkyblock.getInstance();
+    private final DatabaseWriter databaseWriter = new DatabaseWriter();
+    private final DatabaseReader databaseReader = new DatabaseReader();
+    private final WorldManager wm = new WorldManager();
 
     /**
      * Checks if a string is from type Integer
@@ -110,6 +129,8 @@ public class Islandmethods {
                         player.getEnderChest().clear();
                         player.setExp(0);
                         player.setTotalExperience(0);
+                        player.removePotionEffect(PotionEffectType.BLINDNESS);
+                        player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                     });
                 }
                 if (oldIsland != null) {
