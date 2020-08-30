@@ -47,126 +47,126 @@ public class WorldGenerator {
                 wc.environment(World.Environment.NORMAL);
                 wc.type(WorldType.FLAT);
                 wc.generateStructures(false);
-                wc.createWorld();
+                World w = wc.createWorld();
 
 
                 for (int x = -1; x < 5; x++) {
                     for (int y = 64; y < 66; y++) {
                         for (int z = -1; z < 5; z++) {
-                            plugin.getServer().getWorld(islandName).getBlockAt(x, y, z).setType(Material.DIRT);
+                            w.getBlockAt(x, y, z).setType(Material.DIRT);
                         }
                     }
                 }
 
                 for (int x = -1; x < 5; x++) {
                     for (int z = -1; z < 5; z++) {
-                        plugin.getServer().getWorld(islandName).getBlockAt(x, 66, z).setType(Material.GRASS_BLOCK);
+                        w.getBlockAt(x, 66, z).setType(Material.GRASS_BLOCK);
                     }
                 }
 
                 for (int x = 2; x < 5; x++) {
                     for (int y = 64; y < 67; y++) {
                         for (int z = 2; z < 5; z++) {
-                            plugin.getServer().getWorld(islandName).getBlockAt(x, y, z).setType(Material.AIR);
+                            w.getBlockAt(x, y, z).setType(Material.AIR);
                         }
                     }
                 }
 
                 for (int x = 1; x < 4; x++) {
-                    plugin.getServer().getWorld(islandName).getBlockAt(x, 65, 0).setType(Material.SAND);
+                    w.getBlockAt(x, 65, 0).setType(Material.SAND);
                 }
 
 
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 64, 0).setType(Material.BEDROCK);
+                w.getBlockAt(0, 64, 0).setType(Material.BEDROCK);
 
 
                 //Tree to get the same tree every time//
 
 
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 67, 3).setType(Material.OAK_LOG);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 68, 3).setType(Material.OAK_LOG);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 69, 3).setType(Material.OAK_LOG);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 70, 3).setType(Material.OAK_LOG);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 71, 3).setType(Material.OAK_LOG);
+                w.getBlockAt(0, 67, 3).setType(Material.OAK_LOG);
+                w.getBlockAt(0, 68, 3).setType(Material.OAK_LOG);
+                w.getBlockAt(0, 69, 3).setType(Material.OAK_LOG);
+                w.getBlockAt(0, 70, 3).setType(Material.OAK_LOG);
+                w.getBlockAt(0, 71, 3).setType(Material.OAK_LOG);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 69, 2).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 70, 2).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 71, 2).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 72, 2).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 69, 1).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 70, 1).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 69, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 70, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 71, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 72, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 69, 1).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 70, 1).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 69, 2).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 70, 2).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 71, 2).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 69, 1).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 70, 1).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 69, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 70, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 71, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 69, 1).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 70, 1).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(1, 69, 2).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(1, 70, 2).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(1, 69, 1).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(1, 70, 1).setType(Material.OAK_LEAVES);
+                w.getBlockAt(1, 69, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(1, 70, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(1, 69, 1).setType(Material.OAK_LEAVES);
+                w.getBlockAt(1, 70, 1).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(-2, 69, 2).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-2, 70, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-2, 69, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-2, 70, 2).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(2, 69, 2).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(2, 70, 2).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(2, 69, 1).setType(Material.OAK_LEAVES);
+                w.getBlockAt(2, 69, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(2, 70, 2).setType(Material.OAK_LEAVES);
+                w.getBlockAt(2, 69, 1).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 69, 4).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 70, 4).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 71, 4).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 72, 4).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 69, 5).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 70, 5).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 69, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 70, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 71, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 72, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 69, 5).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 70, 5).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 69, 4).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 70, 4).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 71, 4).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 69, 5).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 70, 5).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 69, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 70, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 71, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 69, 5).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 70, 5).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(1, 69, 4).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(1, 70, 4).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(1, 69, 5).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(1, 70, 5).setType(Material.OAK_LEAVES);
+                w.getBlockAt(1, 69, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(1, 70, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(1, 69, 5).setType(Material.OAK_LEAVES);
+                w.getBlockAt(1, 70, 5).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(-2, 69, 4).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-2, 70, 4).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-2, 69, 5).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-2, 69, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-2, 70, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-2, 69, 5).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(2, 69, 4).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(2, 70, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(2, 69, 4).setType(Material.OAK_LEAVES);
+                w.getBlockAt(2, 70, 4).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(0, 72, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(0, 72, 3).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(1, 69, 3).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(1, 70, 3).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(1, 71, 3).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(1, 72, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(1, 69, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(1, 70, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(1, 71, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(1, 72, 3).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 69, 3).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 70, 3).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 71, 3).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-1, 72, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 69, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 70, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 71, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-1, 72, 3).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(2, 69, 3).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(2, 70, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(2, 69, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(2, 70, 3).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getBlockAt(-2, 69, 3).setType(Material.OAK_LEAVES);
-                plugin.getServer().getWorld(islandName).getBlockAt(-2, 70, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-2, 69, 3).setType(Material.OAK_LEAVES);
+                w.getBlockAt(-2, 70, 3).setType(Material.OAK_LEAVES);
 
-                plugin.getServer().getWorld(islandName).getWorldBorder().setCenter(0, 0);
-                plugin.getServer().getWorld(islandName).getWorldBorder().setSize(100);
+                w.getWorldBorder().setCenter(0, 0);
+                w.getWorldBorder().setSize(100);
 
 
                 ///// Chest with Start Equip /////
 
-                plugin.getServer().getWorld(islandName).getBlockAt(4, 67, 0).setType(Material.CHEST);
+                w.getBlockAt(4, 67, 0).setType(Material.CHEST);
                 org.bukkit.material.Chest chestData = new org.bukkit.material.Chest(Material.CHEST);
                 chestData.setFacingDirection(BlockFace.WEST);
-                org.bukkit.block.Chest chest = (org.bukkit.block.Chest) plugin.getServer().getWorld(islandName).getBlockAt(4, 67, 0).getState();
+                org.bukkit.block.Chest chest = (org.bukkit.block.Chest) w.getBlockAt(4, 67, 0).getState();
                 chest.setData(chestData);
                 chest.update();
 
@@ -194,11 +194,9 @@ public class WorldGenerator {
                 chest.getBlockInventory().setItem(8, brownmushroom);
                 chest.getBlockInventory().setItem(9, redmushroom);
 
-                plugin.getServer().getWorld(islandName).getSpawnLocation().setX(0);
-                plugin.getServer().getWorld(islandName).getSpawnLocation().setY(67);
-                plugin.getServer().getWorld(islandName).getSpawnLocation().setZ(0);
+                w.setSpawnLocation(0, 67, 0);
 
-                plugin.getServer().getWorld(islandName).setAutoSave(true);
+                w.setAutoSave(true);
                 wm.addWorld(islandName, "VSkyblock", "NORMAL");
 
 
