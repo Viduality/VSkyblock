@@ -1,5 +1,6 @@
 package com.github.Viduality.VSkyblock.WorldGenerator;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;
@@ -25,4 +26,10 @@ public class VoidGenerator extends ChunkGenerator{
             }
         return chunk;
     }
+
+    @Override
+    public Location getFixedSpawnLocation(World world, Random random) {
+        return new Location(world, 0, 67, 0);
+    }
+
 }
