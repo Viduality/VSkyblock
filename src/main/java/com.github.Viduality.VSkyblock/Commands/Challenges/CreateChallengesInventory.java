@@ -234,7 +234,7 @@ public class CreateChallengesInventory {
             lore.add("");
             lore.add(completed.replace("%amount%", ChatColor.GREEN + Integer.toString(challengeCount)));
         }
-        ItemStack c = new ItemStack(challenge.getShownItem(), 1);
+        ItemStack c = new ItemStack(challenge.getShownItem(), Math.min(Math.max(1, challengeCount), 64));
         ItemMeta challengemeta = c.getItemMeta();
 
         challengemeta.setDisplayName(challengeName);
