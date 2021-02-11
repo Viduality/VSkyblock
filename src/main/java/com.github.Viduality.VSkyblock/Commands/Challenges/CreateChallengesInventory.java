@@ -93,6 +93,8 @@ public class CreateChallengesInventory {
                         if (difficulty.equals(Challenge.Difficulty.EASY)) {
                             if (completedchallenges >= mineasycompleted) {
                                 nextDifficultyMeta.setDisplayName(ChatColor.GREEN + ConfigShorts.getChallengesConfig().getString("Difficulty.Medium"));
+                                nextDifficultyMeta.addEnchant(Enchantment.WATER_WORKER, 1, true);
+                                nextDifficultyMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                             } else {
                                 nextDifficulty.setType(Material.BARRIER);
                                 nextDifficultyMeta.setDisplayName(ChatColor.RED + ConfigShorts.getChallengesConfig().getString("CompletedChallenges.MinEasyCompleted"));
@@ -100,14 +102,14 @@ public class CreateChallengesInventory {
                         } else if (difficulty.equals(Challenge.Difficulty.MEDIUM)) {
                             if (completedchallenges >= minmediumcompleted) {
                                 nextDifficultyMeta.setDisplayName(ChatColor.GREEN + ConfigShorts.getChallengesConfig().getString("Difficulty.Hard"));
+                                nextDifficultyMeta.addEnchant(Enchantment.WATER_WORKER, 1, true);
+                                nextDifficultyMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                             } else {
                                 nextDifficulty.setType(Material.BARRIER);
                                 nextDifficultyMeta.setDisplayName(ChatColor.RED + ConfigShorts.getChallengesConfig().getString("CompletedChallenges.MinMediumCompleted"));
                             }
 
                         }
-                        nextDifficultyMeta.addEnchant(Enchantment.WATER_WORKER, 1, true);
-                        nextDifficultyMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                         nextDifficulty.setItemMeta(nextDifficultyMeta);
                         cinv.setItem(26, nextDifficulty);
                     }
@@ -131,8 +133,6 @@ public class CreateChallengesInventory {
                     ItemMeta currentSiteMeta = currentSite.getItemMeta();
                     currentSiteMeta.setDisplayName(ChatColor.GOLD + ConfigShorts.getChallengesConfig().getString("Sites.CurrentSite") + site);
 
-                    currentSiteMeta.addEnchant(Enchantment.WATER_WORKER, 1, true);
-                    currentSiteMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                     currentSite.setItemMeta(currentSiteMeta);
                     cinv.setItem(22, currentSite);
 
