@@ -71,8 +71,15 @@ ChallengeValueAfterFirstComplete: 10
 # The amount of times a repeatable challenge can be added to the island level.
 ChallengeValueRepeats: 15
 
+# Sound to play when a challenge is completed for the first time
+ChallengeCompleteFirst:
+  Sound: UI_TOAST_CHALLENGE_COMPLETE
+  Pitch: 1.0
 
-
+# Sound to play when a challenge is completed
+ChallengeComplete:
+  Sound: ENTITY_PLAYER_LEVELUP
+  Pitch: 1.0
 
 # The world each player without an island will spawn when connecting to the server.
 # Don't change the value by hand! Use /VSkySetWorld to change this.

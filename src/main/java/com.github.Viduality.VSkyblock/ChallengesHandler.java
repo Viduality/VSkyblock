@@ -26,6 +26,7 @@ import com.google.common.cache.CacheBuilder;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -98,6 +99,25 @@ public class ChallengesHandler {
                         inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
                         if (!repeat) {
                             ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge);
+                            if (ConfigShorts.getDefConfig().isConfigurationSection("ChallengeCompleteFirst")) {
+                                try {
+                                    Sound sound = Sound.valueOf(ConfigShorts.getDefConfig().getString("ChallengeCompleteFirst.Sound").toUpperCase());
+                                    float pitch = (float) ConfigShorts.getDefConfig().getDouble("ChallengeCompleteFirst.Pitch");
+                                    for (Player p : player.getWorld().getPlayers()) {
+                                        p.playSound(p.getLocation(), sound, 1, pitch);
+                                    }
+                                } catch (IllegalArgumentException e) {
+                                    VSkyblock.getInstance().getLogger().warning("ChallengeCompleteFirst sound is invalid! " + e.getMessage());
+                                }
+                            }
+                        } else if (ConfigShorts.getDefConfig().isConfigurationSection("ChallengeComplete")) {
+                            try {
+                                Sound sound = Sound.valueOf(ConfigShorts.getDefConfig().getString("ChallengeComplete.Sound").toUpperCase());
+                                float pitch = (float) ConfigShorts.getDefConfig().getDouble("ChallengeComplete.Pitch");
+                                player.playSound(player.getLocation(), sound, 1, pitch);
+                            } catch (IllegalArgumentException e) {
+                                VSkyblock.getInstance().getLogger().warning("ChallengeComplete sound is invalid! " + e.getMessage());
+                            }
                         }
                     } else {
                         ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
@@ -116,6 +136,17 @@ public class ChallengesHandler {
                                 if (getEmptySlots(player.getInventory()).size() >= challenge.getRewards().size()) {
                                     giveRewards(player.getInventory(), challenge.getRewards());
                                     ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge);
+                                    if (ConfigShorts.getDefConfig().isConfigurationSection("ChallengeCompleteFirst")) {
+                                        try {
+                                            Sound sound = Sound.valueOf(ConfigShorts.getDefConfig().getString("ChallengeCompleteFirst.Sound").toUpperCase());
+                                            float pitch = (float) ConfigShorts.getDefConfig().getDouble("ChallengeCompleteFirst.Pitch");
+                                            for (Player p : player.getWorld().getPlayers()) {
+                                                p.playSound(p.getLocation(), sound, 1, pitch);
+                                            }
+                                        } catch (IllegalArgumentException e) {
+                                            VSkyblock.getInstance().getLogger().warning("ChallengeCompleteFirst sound is invalid! " + e.getMessage());
+                                        }
+                                    }
                                     databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
                                     inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
                                 } else {
@@ -154,6 +185,17 @@ public class ChallengesHandler {
                             if (getEmptySlots(player.getInventory()).size() >= challenge.getRewards().size()) {
                                 giveRewards(player.getInventory(), challenge.getRewards());
                                 ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge);
+                                if (ConfigShorts.getDefConfig().isConfigurationSection("ChallengeCompleteFirst")) {
+                                    try {
+                                        Sound sound = Sound.valueOf(ConfigShorts.getDefConfig().getString("ChallengeCompleteFirst.Sound").toUpperCase());
+                                        float pitch = (float) ConfigShorts.getDefConfig().getDouble("ChallengeCompleteFirst.Pitch");
+                                        for (Player p : player.getWorld().getPlayers()) {
+                                            p.playSound(p.getLocation(), sound, 1, pitch);
+                                        }
+                                    } catch (IllegalArgumentException e) {
+                                        VSkyblock.getInstance().getLogger().warning("ChallengeCompleteFirst sound is invalid! " + e.getMessage());
+                                    }
+                                }
                                 databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
                                 inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
                             } else {
