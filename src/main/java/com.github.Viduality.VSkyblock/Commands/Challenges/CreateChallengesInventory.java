@@ -242,12 +242,11 @@ public class CreateChallengesInventory {
 
 
         /*
-         * Adds cool glowing effect.
+         * Adds cool glowing effect if the challenge is available.
          */
-
-        challengemeta.addEnchant(Enchantment.DURABILITY, 1, true);
-        challengemeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        challengemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        if (challengeCount == 0 || challenge.getRepeatRewards() != null && !challenge.getRepeatRewards().isEmpty()) {
+            challengemeta.addEnchant(Enchantment.DURABILITY, 1, true);
+        }
         challengemeta.addItemFlags(ItemFlag.values());
 
         c.setItemMeta(challengemeta);
