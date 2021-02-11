@@ -285,7 +285,8 @@ public class IslandOptionsInventoryHandler implements Listener {
         Integer currentGeneratorLevel = CobblestoneGenerator.islandGenLevel.get(island);
         Integer nextGeneratorLevel = currentGeneratorLevel + 1;
         String upgradeButtonItem;
-        if (nextGeneratorLevel > 8) {
+        boolean canUpgrade = nextGeneratorLevel <= 8;
+        if (!canUpgrade) {
             upgradeButtonItem = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Max_Level.Item");
         } else {
             upgradeButtonItem = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Level_" + nextGeneratorLevel + ".Item");
@@ -297,9 +298,9 @@ public class IslandOptionsInventoryHandler implements Listener {
         upgradeButtonMeta.setDisplayName(getDisplayNameGeneratorUpgradeButton(nextGeneratorLevel));
         upgradeButtonMeta.setLore(getDescriptionGeneratorUpgradeButton(nextGeneratorLevel));
 
-        upgradeButtonMeta.addEnchant(Enchantment.DURABILITY, 1, true);
-        upgradeButtonMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        upgradeButtonMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        if (canUpgrade) {
+            upgradeButtonMeta.addEnchant(Enchantment.DURABILITY, 1, true);
+        }
         upgradeButtonMeta.addItemFlags(ItemFlag.values());
         upgradeButton.setItemMeta(upgradeButtonMeta);
         return upgradeButton;
@@ -319,9 +320,6 @@ public class IslandOptionsInventoryHandler implements Listener {
         cobbleDropChanceInfoMeta.setDisplayName(getDisplayNameCobbleDropChance());
         cobbleDropChanceInfoMeta.setLore(getDescriptionCobblestoneDropChance(maxDrops));
 
-        cobbleDropChanceInfoMeta.addEnchant(Enchantment.DURABILITY, 1, true);
-        cobbleDropChanceInfoMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        cobbleDropChanceInfoMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         cobbleDropChanceInfoMeta.addItemFlags(ItemFlag.values());
         cobbleDropChanceInfo.setItemMeta(cobbleDropChanceInfoMeta);
         return cobbleDropChanceInfo;
@@ -340,9 +338,6 @@ public class IslandOptionsInventoryHandler implements Listener {
         chancesOverviewMeta.setDisplayName(getDisplayNameChancesOverview());
         chancesOverviewMeta.setLore(getDescriptionChancesOverview(currentgeneratorLevel));
 
-        chancesOverviewMeta.addEnchant(Enchantment.DURABILITY, 1, true);
-        chancesOverviewMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        chancesOverviewMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         chancesOverviewMeta.addItemFlags(ItemFlag.values());
         chancesOverview.setItemMeta(chancesOverviewMeta);
         return chancesOverview;
