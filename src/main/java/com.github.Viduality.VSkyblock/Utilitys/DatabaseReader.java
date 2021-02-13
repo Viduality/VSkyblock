@@ -50,8 +50,7 @@ public class DatabaseReader {
     public void getPlayerData(final String uuid, final Callback callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             DatabaseCache databaseCache1 = new DatabaseCache();
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE uuid = ?");
                 preparedStatement.setString(1, uuid);
@@ -83,10 +82,6 @@ public class DatabaseReader {
                 e.printStackTrace();
             }
 
-            finally {
-                plugin.getdb().closeConnection(connection);
-            }
-
 
             final DatabaseCache databaseCache = databaseCache1;
 
@@ -103,8 +98,7 @@ public class DatabaseReader {
     public void getLatestIsland(final CallbackStrings callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             int latestIsland = 0;
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 String database = plugin.getdb().getDatabase();
                 String preparedStatement1 = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \"" + database + "\" AND TABLE_NAME = \"VSkyblock_Island\"";
@@ -116,8 +110,6 @@ public class DatabaseReader {
                 preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
-                plugin.getdb().closeConnection(connection);
             }
             if (latestIsland == 0) {
                 latestIsland = 1;
@@ -137,8 +129,7 @@ public class DatabaseReader {
     public void getislandid(String island, CallbackINT callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             DatabaseCache databaseCache = new DatabaseCache();
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Island WHERE island = ?");
                 preparedStatement.setString(1, island);
@@ -149,9 +140,6 @@ public class DatabaseReader {
                 preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
-            finally {
-                plugin.getdb().closeConnection(connection);
             }
             final int islandid = databaseCache.getIslandId();
             Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(islandid));
@@ -167,8 +155,7 @@ public class DatabaseReader {
     public void hasislandmembers(int islandid, CallbackBoolean callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             DatabaseCache databaseCache = new DatabaseCache();
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
                 preparedStatement.setInt(1, islandid);
@@ -179,8 +166,6 @@ public class DatabaseReader {
                 preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
-                plugin.getdb().closeConnection(connection);
             }
             boolean hasmembers;
             hasmembers = databaseCache.getislandmembers().size() > 1;
@@ -197,8 +182,7 @@ public class DatabaseReader {
     public void getislandidfromplayer(UUID uuid, CallbackINT callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             DatabaseCache databaseCache = new DatabaseCache();
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
                 preparedStatement.setString(1, uuid.toString());
@@ -209,9 +193,6 @@ public class DatabaseReader {
                 preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
-            finally {
-                plugin.getdb().closeConnection(connection);
             }
             final int islandid = databaseCache.getIslandId();
             Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(islandid));
@@ -227,8 +208,7 @@ public class DatabaseReader {
     public void getislandnamefromplayer(UUID uuid, CallbackString callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             DatabaseCache databaseCache = new DatabaseCache();
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
                 preparedStatement.setString(1, uuid.toString());
@@ -250,9 +230,6 @@ public class DatabaseReader {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            finally {
-                plugin.getdb().closeConnection(connection);
-            }
             final String island = databaseCache.getIslandname();
             Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(island));
         });
@@ -268,8 +245,7 @@ public class DatabaseReader {
     public void getIslandMembers(Integer islandid, CallbackList callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             List<String> islandmembers = new ArrayList<>();
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT playername FROM VSkyblock_Player WHERE islandid = ?");
                 preparedStatement.setInt(1, islandid);
@@ -280,9 +256,6 @@ public class DatabaseReader {
                 preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
-            finally {
-                plugin.getdb().closeConnection(connection);
             }
 
             final List<String> result = islandmembers;
@@ -299,8 +272,7 @@ public class DatabaseReader {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             List<Integer> islandids = new ArrayList<>();
             List<String> emptyislands = new ArrayList<>();
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Island");
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -327,9 +299,6 @@ public class DatabaseReader {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            finally {
-                plugin.getdb().closeConnection(connection);
-            }
 
             final List<String> result = emptyislands;
             Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(result));
@@ -345,8 +314,7 @@ public class DatabaseReader {
     public void getislandlevelfromuuid(UUID uuid, CallbackINT callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             DatabaseCache databaseCache = new DatabaseCache();
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 int islandid = 0;
                 PreparedStatement prep;
                 prep = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
@@ -368,64 +336,8 @@ public class DatabaseReader {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            finally {
-                plugin.getdb().closeConnection(connection);
-            }
             final int islandlevel = databaseCache.getIslandLevel();
             Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(islandlevel));
-        });
-    }
-
-    /**
-     * Gets the challenge counts for a specific difficulty from a player (database action).
-     *
-     * @param uuid            The unique id of a player.
-     * @param challengeTable  The mysql table of the challenges. (e.g. VSkyblock_Challenges_Easy)
-     * @param callback        Returns a cache with the challenge count of all challenges in the given table.
-     */
-    public void getPlayerChallenges(final String uuid, String challengeTable, final cCallback callback) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            ChallengesCache cache = new ChallengesCache();
-            Connection connection = plugin.getdb().getConnection();
-            try {
-                PreparedStatement preparedStatement;
-                preparedStatement = connection.prepareStatement("SELECT * FROM " + challengeTable + " WHERE uuid = ?");
-                preparedStatement.setString(1, uuid);
-                ResultSet r = preparedStatement.executeQuery();
-                while (r.next()) {
-                    cache.setc1(r.getInt("c1"));
-                    cache.setc2(r.getInt("c2"));
-                    cache.setc3(r.getInt("c3"));
-                    cache.setc4(r.getInt("c4"));
-                    cache.setc5(r.getInt("c5"));
-                    cache.setc6(r.getInt("c6"));
-                    cache.setc7(r.getInt("c7"));
-                    cache.setc8(r.getInt("c8"));
-                    cache.setc9(r.getInt("c9"));
-                    cache.setc10(r.getInt("c10"));
-                    cache.setc11(r.getInt("c11"));
-                    cache.setc12(r.getInt("c12"));
-                    cache.setc13(r.getInt("c13"));
-                    cache.setc14(r.getInt("c14"));
-                    cache.setc15(r.getInt("c15"));
-                    cache.setc16(r.getInt("c16"));
-                    cache.setc17(r.getInt("c17"));
-                    cache.setc18(r.getInt("c18"));
-                }
-                preparedStatement.close();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-            finally {
-                plugin.getdb().closeConnection(connection);
-            }
-
-
-            final ChallengesCache cache1 = cache;
-
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(cache1));
         });
     }
 
@@ -438,8 +350,7 @@ public class DatabaseReader {
     public void getIslandChallenges(final int islandid, final cCallback callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             ChallengesCache cache = new ChallengesCache();
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Challenges WHERE islandid = ?");
                 preparedStatement.setInt(1, islandid);
@@ -451,10 +362,6 @@ public class DatabaseReader {
 
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
-
-            finally {
-                plugin.getdb().closeConnection(connection);
             }
 
 
@@ -535,9 +442,6 @@ public class DatabaseReader {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            finally {
-                plugin.getdb().closeConnection(connection);
-            }
 
             Location finalLoc = loc;
             String finalIslandname = islandname;
@@ -565,8 +469,7 @@ public class DatabaseReader {
      */
     public void addToCobbleStoneGenerators(String islandname) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 int islandgeneratorLVL = 0;
                 int islandlevel = 0;
                 PreparedStatement preparedStatementGetGeneratorLevel;
@@ -593,9 +496,6 @@ public class DatabaseReader {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            finally {
-                plugin.getdb().closeConnection(connection);
-            }
         });
     }
 
@@ -609,8 +509,7 @@ public class DatabaseReader {
             List<Integer> islandids = new ArrayList<>();
             List<Integer> islandlevels = new ArrayList<>();
             List<String> playersperisland = new ArrayList<>();
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island ORDER BY CAST(islandlevel as unsigned) desc limit 5");
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -647,9 +546,6 @@ public class DatabaseReader {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            finally {
-                plugin.getdb().closeConnection(connection);
-            }
 
             final List<String> result = playersperisland;
             Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(result));
@@ -665,8 +561,7 @@ public class DatabaseReader {
     public void isislandvisitable(int islandid, CallbackBoolean callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             boolean visitable = false;
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE islandid = ?");
                 preparedStatement.setInt(1, islandid);
@@ -679,8 +574,6 @@ public class DatabaseReader {
                 preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
-                plugin.getdb().closeConnection(connection);
             }
             final boolean finalvisitable = visitable;
             Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(finalvisitable));
@@ -696,8 +589,7 @@ public class DatabaseReader {
     public void islandneedsrequestforvisit(int islandid, CallbackBoolean callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             boolean needsrequest = false;
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE islandid = ?");
                 preparedStatement.setInt(1, islandid);
@@ -710,8 +602,6 @@ public class DatabaseReader {
                 preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
-                plugin.getdb().closeConnection(connection);
             }
             final boolean finalneedsrequest = needsrequest;
             Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(finalneedsrequest));
@@ -728,8 +618,7 @@ public class DatabaseReader {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             IslandOptionsCache islandOptionsCache = new IslandOptionsCache();
             PreparedStatement preparedStatement;
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE islandid = ?");
                 preparedStatement.setInt(1, islandid);
                 ResultSet r = preparedStatement.executeQuery();
@@ -742,10 +631,6 @@ public class DatabaseReader {
 
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
-
-            finally {
-                plugin.getdb().closeConnection(connection);
             }
 
 
@@ -762,8 +647,7 @@ public class DatabaseReader {
      */
     public void refreshDeathCounts(List<Player> onlineplayers) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 for (Player player : onlineplayers) {
                     int deathcount = 0;
                     PreparedStatement preparedStatement;
@@ -791,9 +675,6 @@ public class DatabaseReader {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            finally {
-                plugin.getdb().closeConnection(connection);
-            }
         });
     }
 
@@ -814,8 +695,7 @@ public class DatabaseReader {
             String lastWorld = null;
             int islandid = 0;
             String island = null;
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE uuid = ?");
                 preparedStatement.setString(1, uuid.toString());
@@ -846,9 +726,6 @@ public class DatabaseReader {
 
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
-            finally {
-                plugin.getdb().closeConnection(connection);
             }
 
             if (lastWorld != null) {
@@ -993,8 +870,7 @@ public class DatabaseReader {
             double yaw = 0;
             String world = null;
             int islandid = 0;
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement getislandid;
                 getislandid = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
                 getislandid.setString(1, uuid.toString());
@@ -1030,10 +906,6 @@ public class DatabaseReader {
                 e.printStackTrace();
             }
 
-            finally {
-                plugin.getdb().closeConnection(connection);
-            }
-
             Location finalLocation = location;
             Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(finalLocation));
         });
@@ -1054,8 +926,7 @@ public class DatabaseReader {
             float yaw = 0;
             float pitch = 0;
             int islandid = 0;
-            Connection connection = plugin.getdb().getConnection();
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement getislandid;
                 getislandid = connection.prepareStatement("SELECT islandid FROM VSkyblock_Island WHERE island = ?");
                 getislandid.setString(1, world);
@@ -1091,10 +962,6 @@ public class DatabaseReader {
 
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
-
-            finally {
-                plugin.getdb().closeConnection(connection);
             }
 
             Location finalLocation = location;

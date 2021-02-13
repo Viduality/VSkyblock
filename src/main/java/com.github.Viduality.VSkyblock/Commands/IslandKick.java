@@ -50,8 +50,7 @@ public class IslandKick implements SubCommand{
                 if (target != player) {
                     UUID targetuuid = target.getUniqueId();
                     Set<UUID> members = new LinkedHashSet<>();
-                    Connection connection = plugin.getdb().getConnection();
-                    try {
+                    try (Connection connection = plugin.getdb().getConnection()) {
                         PreparedStatement preparedStatement;
                         preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
                         preparedStatement.setInt(1, databaseCache.getIslandId());
@@ -61,8 +60,6 @@ public class IslandKick implements SubCommand{
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
-                    } finally {
-                        plugin.getdb().closeConnection(connection);
                     }
                     plugin.getServer().getScheduler().runTask(plugin, () -> {
                         if (members.contains(targetuuid)) {

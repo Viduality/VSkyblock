@@ -40,67 +40,50 @@ public class DeletePlayer implements AdminSubCommand {
 
     @Override
     public void execute(CommandSender sender, String args, String option1, String option2) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-            @Override
-            public void run() {
-                if (sender.hasPermission("VSkyblock.DeletePlayer")) {
-                    DatabaseCache databaseCache = new DatabaseCache();
-                    Connection connection = plugin.getdb().getConnection();
-                    try {
-                        PreparedStatement preparedStatement;
-                        preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE playername = ?");
-                        preparedStatement.setString(1, args);
-                        ResultSet r = preparedStatement.executeQuery();
-                        while (r.next()) {
-                            databaseCache.setUuid(r.getString("uuid"));
-                        }
-                        preparedStatement.close();
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            if (sender.hasPermission("VSkyblock.DeletePlayer")) {
+                DatabaseCache databaseCache = new DatabaseCache();
+                try (Connection connection = plugin.getdb().getConnection()) {
+                    PreparedStatement preparedStatement;
+                    preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE playername = ?");
+                    preparedStatement.setString(1, args);
+                    ResultSet r = preparedStatement.executeQuery();
+                    while (r.next()) {
+                        databaseCache.setUuid(r.getString("uuid"));
+                    }
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+
+                UUID uuid = databaseCache.getUuid();
+                if (uuid != null) {
+                    try (Connection connection = plugin.getdb().getConnection()) {
+                        PreparedStatement preparedStatement1;
+
+                        preparedStatement1 = connection.prepareStatement("DELETE FROM VSkyblock_Player WHERE uuid = ?");
+                        preparedStatement1.setString(1, uuid.toString());
+                        preparedStatement1.executeUpdate();
+                        preparedStatement1.close();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-
-
-                    UUID uuid = databaseCache.getUuid();
-                    if (uuid != null) {
-                        try {
-                            PreparedStatement preparedStatement1;
-
-                            preparedStatement1 = connection.prepareStatement("DELETE FROM VSkyblock_Player WHERE uuid = ?");
-                            preparedStatement1.setString(1, uuid.toString());
-                            preparedStatement1.executeUpdate();
-                            preparedStatement1.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        } finally {
-                            plugin.getdb().closeConnection(connection);
-                        }
-                        plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
-                            @Override
-                            public void run() {
-                                ConfigShorts.custommessagefromString("DeletedPlayer", sender, args);
-                                OfflinePlayer target = plugin.getServer().getOfflinePlayer(args);
-                                if (target.isOnline()) {
-                                    Player onlinetarget = (Player) target;
-                                    onlinetarget.kickPlayer("Relog please");
-                                }
-                            }
-                        });
-                    } else {
-                        plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
-                            @Override
-                            public void run() {
-                                ConfigShorts.messagefromString("PlayerDoesNotExist", sender);
-                            }
-                        });
-                    }
-                } else {
-                    plugin.getServer().getScheduler().runTask(plugin, new Runnable() {
-                        @Override
-                        public void run() {
-                            ConfigShorts.messagefromString("PermissionLack", sender);
+                    plugin.getServer().getScheduler().runTask(plugin, () -> {
+                        ConfigShorts.custommessagefromString("DeletedPlayer", sender, args);
+                        OfflinePlayer target = plugin.getServer().getOfflinePlayer(args);
+                        if (target.isOnline()) {
+                            Player onlinetarget = (Player) target;
+                            onlinetarget.kickPlayer("Relog please");
                         }
                     });
+                } else {
+                    plugin.getServer().getScheduler().runTask(plugin,
+                            () -> ConfigShorts.messagefromString("PlayerDoesNotExist", sender));
                 }
+            } else {
+                plugin.getServer().getScheduler().runTask(plugin,
+                        () -> ConfigShorts.messagefromString("PermissionLack", sender));
             }
         });
     }

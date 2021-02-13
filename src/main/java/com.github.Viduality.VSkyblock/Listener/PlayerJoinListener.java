@@ -59,52 +59,49 @@ public class PlayerJoinListener implements Listener {
         }
 
 
-        databaseReader.getPlayerData(player.getUniqueId().toString(), new DatabaseReader.Callback() {
-            @Override
-            public void onQueryDone(DatabaseCache result) {
-                if (result.getUuid() == null) {
-                    databaseWriter.addPlayer(player.getUniqueId(), player.getName());
-                } else {
-                    if (!result.getName().equals(player.getName())) {
-                        databaseWriter.updatePlayerName(player.getUniqueId(), player.getName());
-                    }
-                    if (plugin.scoreboardmanager.doesobjectiveexist("deaths")) {
-                        if (plugin.scoreboardmanager.addPlayerToObjective(player, "deaths")) {
-                            plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", result.getDeathCount());
-                        }
-                    }
-                    if (result.getIslandname() != null) {
-                        PotionEffect potionEffectBlindness = new PotionEffect(PotionEffectType.BLINDNESS, 600, 1);
-                        PotionEffect potionEffectNightVision = new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 1);
-                        player.addPotionEffect(potionEffectBlindness);
-                        player.addPotionEffect(potionEffectNightVision);
-                        Location location = player.getLocation();
-                        location.setPitch(-90);
-                        player.teleport(location);
-                        BukkitTask task = Island.emptyloadedislands.remove(result.getIslandname());
-                        if (task != null) {
-                            task.cancel();
-                        }
-                        toLoad.add(result);
-                        if (toLoad.size() == 1) {
-                            loadWorld(result);
-                        }
-                    } else {
-                        player.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld"))).whenComplete((b, e) -> {
-                            player.removePotionEffect(PotionEffectType.BLINDNESS);
-                            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                        });
-                        if (result.isKicked()) {
-                            ConfigShorts.messagefromString("KickedFromIslandOffline", player);
-                            player.setTotalExperience(0);
-                            player.setExp(0);
-                            player.getEnderChest().clear();
-                            player.getInventory().clear();
-                            databaseWriter.removeKicked(result.getUuid());
-                        }
-                    }
-
+        databaseReader.getPlayerData(player.getUniqueId().toString(), result -> {
+            if (result.getUuid() == null) {
+                databaseWriter.addPlayer(player.getUniqueId(), player.getName());
+            } else {
+                if (!result.getName().equals(player.getName())) {
+                    databaseWriter.updatePlayerName(player.getUniqueId(), player.getName());
                 }
+                if (plugin.scoreboardmanager.doesobjectiveexist("deaths")) {
+                    if (plugin.scoreboardmanager.addPlayerToObjective(player, "deaths")) {
+                        plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", result.getDeathCount());
+                    }
+                }
+                if (result.getIslandname() != null) {
+                    PotionEffect potionEffectBlindness = new PotionEffect(PotionEffectType.BLINDNESS, 600, 1);
+                    PotionEffect potionEffectNightVision = new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 1);
+                    player.addPotionEffect(potionEffectBlindness);
+                    player.addPotionEffect(potionEffectNightVision);
+                    Location location = player.getLocation();
+                    location.setPitch(-90);
+                    player.teleport(location);
+                    BukkitTask task = Island.emptyloadedislands.remove(result.getIslandname());
+                    if (task != null) {
+                        task.cancel();
+                    }
+                    toLoad.add(result);
+                    if (toLoad.size() == 1) {
+                        loadWorld(result);
+                    }
+                } else {
+                    player.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld"))).whenComplete((b, e) -> {
+                        player.removePotionEffect(PotionEffectType.BLINDNESS);
+                        player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                    });
+                    if (result.isKicked()) {
+                        ConfigShorts.messagefromString("KickedFromIslandOffline", player);
+                        player.setTotalExperience(0);
+                        player.setExp(0);
+                        player.getEnderChest().clear();
+                        player.getInventory().clear();
+                        databaseWriter.removeKicked(result.getUuid());
+                    }
+                }
+
             }
         });
 

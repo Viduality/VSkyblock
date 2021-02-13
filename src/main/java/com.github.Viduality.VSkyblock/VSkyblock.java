@@ -370,8 +370,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
     private void updateNewTables() {
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            Connection connection = getdb().getConnection();
-            try {
+            try (Connection connection = getdb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island");
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -409,8 +408,6 @@ public class VSkyblock extends JavaPlugin implements Listener {
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
-            } finally {
-                getdb().closeConnection(connection);
             }
         });
     }

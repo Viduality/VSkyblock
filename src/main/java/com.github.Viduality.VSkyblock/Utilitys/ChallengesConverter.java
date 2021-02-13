@@ -38,10 +38,9 @@ public class ChallengesConverter {
             String ANSI_RED = "\u001B[31m";
             String ANSI_RESET = "\u001B[0m";
             System.out.println(ANSI_RED + "Converting Challenges to new Database..." + ANSI_RESET);
-            Connection connection = plugin.getdb().getConnection();
             List<Integer> islands = new ArrayList<>();
 
-            try {
+            try (Connection connection = plugin.getdb().getConnection()) {
                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island");
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
@@ -167,8 +166,6 @@ public class ChallengesConverter {
                 System.out.println(ANSI_RED + "Converting Challenges finished" + ANSI_RESET);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
-            } finally {
-                plugin.getdb().closeConnection(connection);
             }
         });
     }

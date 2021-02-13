@@ -23,40 +23,34 @@ public class IslandSetOwner implements SubCommand{
 
     @Override
     public void execute(DatabaseCache databaseCache) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-            @Override
-            public void run() {
-                Player player = databaseCache.getPlayer();
-                if (databaseCache.isIslandowner()) {
-                    OfflinePlayer target = plugin.getServer().getOfflinePlayer(databaseCache.getArg());
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            Player player = databaseCache.getPlayer();
+            if (databaseCache.isIslandowner()) {
+                OfflinePlayer target = plugin.getServer().getOfflinePlayer(databaseCache.getArg());
 
-                    List<String> members = new ArrayList<>();
-                    Connection connection = plugin.getdb().getConnection();
-                    try {
-                        PreparedStatement preparedStatement;
-                        preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
-                        preparedStatement.setInt(1, databaseCache.getIslandId());
-                        ResultSet resultSet = preparedStatement.executeQuery();
-                        while (resultSet.next()) {
-                            members.add(resultSet.getString("uuid"));
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    } finally {
-                        plugin.getdb().closeConnection(connection);
+                List<String> members = new ArrayList<>();
+                try (Connection connection = plugin.getdb().getConnection()) {
+                    PreparedStatement preparedStatement;
+                    preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
+                    preparedStatement.setInt(1, databaseCache.getIslandId());
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    while (resultSet.next()) {
+                        members.add(resultSet.getString("uuid"));
                     }
-                    if (members.contains(target.getUniqueId().toString())) {
-                        databaseWriter.updateOwner(player.getUniqueId(), target.getUniqueId());
-                        ConfigShorts.messagefromString("SetNewIslandOwner", player);
-                        if (target.isOnline()) {
-                            ConfigShorts.messagefromString("NewIslandOwner", (Player) target);
-                        }
-                    } else {
-                        ConfigShorts.messagefromString("PlayerNotIslandMember", player);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if (members.contains(target.getUniqueId().toString())) {
+                    databaseWriter.updateOwner(player.getUniqueId(), target.getUniqueId());
+                    ConfigShorts.messagefromString("SetNewIslandOwner", player);
+                    if (target.isOnline()) {
+                        ConfigShorts.messagefromString("NewIslandOwner", (Player) target);
                     }
                 } else {
-                    ConfigShorts.messagefromString("NotIslandOwner", player);
+                    ConfigShorts.messagefromString("PlayerNotIslandMember", player);
                 }
+            } else {
+                ConfigShorts.messagefromString("NotIslandOwner", player);
             }
         });
     }

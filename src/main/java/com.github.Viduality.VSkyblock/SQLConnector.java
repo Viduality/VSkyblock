@@ -197,22 +197,6 @@ public class SQLConnector {
     }
 
     /**
-     * Close connection to the database.
-     * @param connection
-     */
-    public void closeConnection(Connection connection) {
-        try {
-            if (connection != null) {
-                connection.close();
-            } else {
-                VSkyblock.getInstance().getLogger().warning("connection = null, VSkyblock can't close");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Should never be used since it does nothing special ;)
      */
     public void close(){
