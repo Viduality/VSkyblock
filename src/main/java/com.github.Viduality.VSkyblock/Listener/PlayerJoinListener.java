@@ -62,7 +62,7 @@ public class PlayerJoinListener implements Listener {
         databaseReader.getPlayerData(player.getUniqueId().toString(), result -> {
             if (result.getUuid() == null) {
                 databaseWriter.addPlayer(player.getUniqueId(), player.getName());
-            } else {
+            } else if (player.isOnline()) {
                 if (!result.getName().equals(player.getName())) {
                     databaseWriter.updatePlayerName(player.getUniqueId(), player.getName());
                 }
@@ -83,6 +83,11 @@ public class PlayerJoinListener implements Listener {
                     if (task != null) {
                         task.cancel();
                     }
+                    databaseReader.getIslandChallenges(result.getIslandId(), challenges -> {
+                        if (player.isOnline()) {
+                            plugin.getScoreboardManager().updateTracked(player, challenges);
+                        }
+                    });
                     toLoad.add(result);
                     if (toLoad.size() == 1) {
                         loadWorld(result);

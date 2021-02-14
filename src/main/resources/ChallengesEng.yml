@@ -14,6 +14,8 @@ ItemOverlay:
   DescriptionColor: §9
   ChallengeNameColor: §8§l§n
   NotRepeatable: "Not repeatable!"
+  Track: "§8§oRight click to track"
+  Untrack: "§7§oRight click to untrack"
 
 Sites:
   CurrentSite: "Site: "

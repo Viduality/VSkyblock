@@ -1,4 +1,4 @@
-package com.github.Viduality.VSkyblock.Commands.Challenges;
+package com.github.Viduality.VSkyblock.Challenges;
 
 /*
  * VSkyblock
@@ -20,26 +20,32 @@ package com.github.Viduality.VSkyblock.Commands.Challenges;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
+import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
 public class CreateChallengesInventory {
 
+    public static final NamespacedKey CHALLENGE_KEY = new NamespacedKey(VSkyblock.getInstance(), "challengeid");
     private DatabaseReader databaseReader = new DatabaseReader();
 
     public static final String descriptioncolor = ConfigShorts.getChallengesConfig().getString("ItemOverlay.DescriptionColor");
     private final String challengeNameColor = ConfigShorts.getChallengesConfig().getString("ItemOverlay.ChallengeNameColor");
     private final String notRepeatable = ConfigShorts.getChallengesConfig().getString("ItemOverlay.NotRepeatable");
     private final String completed = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Completed");
+    private final String track = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Track");
+    private final String untrack = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Untrack");
     public static final String loreString = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Lore");
     public static final String neededonPlayer = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Needed.onPlayer");
     public static final String neededonIsland = ConfigShorts.getChallengesConfig().getString("ItemOverlay.Needed.onIsland");
@@ -71,7 +77,7 @@ public class CreateChallengesInventory {
                     for (int i = slotrange; i <= slotrange + 17; i++) {
                         Challenge c = getChallenge(difficulty, i);
                         if (c != null) {
-                            cinv.setItem(c.getInventorySlot(), createChallengeItem(c, islandChallenges.getChallengeCount(c.getMySQLKey())));
+                            cinv.setItem(c.getInventorySlot(), createChallengeItem(c, islandChallenges.getChallengeCount(c.getMySQLKey()), islandChallenges.getTrackedChallenges().contains(c.getMySQLKey())));
                         }
                     }
                     int mineasycompleted = 5;
@@ -168,18 +174,18 @@ public class CreateChallengesInventory {
         int slot1 = slot - 1;
         switch (difficulty) {
             case EASY:
-                if (Challenges.sortedChallengesEasy.size() >= slot) {
-                    return Challenges.sortedChallengesEasy.get(slot1);
+                if (ChallengesHandler.sortedChallengesEasy.size() >= slot) {
+                    return ChallengesHandler.sortedChallengesEasy.get(slot1);
                 }
                 break;
             case MEDIUM:
-                if (Challenges.sortedChallengesMedium.size() >= slot) {
-                    return Challenges.sortedChallengesMedium.get(slot1);
+                if (ChallengesHandler.sortedChallengesMedium.size() >= slot) {
+                    return ChallengesHandler.sortedChallengesMedium.get(slot1);
                 }
                 break;
             case HARD:
-                if (Challenges.sortedChallengesHard.size() >= slot) {
-                    return Challenges.sortedChallengesHard.get(slot1);
+                if (ChallengesHandler.sortedChallengesHard.size() >= slot) {
+                    return ChallengesHandler.sortedChallengesHard.get(slot1);
                 }
                 break;
         }
@@ -191,9 +197,10 @@ public class CreateChallengesInventory {
      *
      * @param challenge       The challenge you want to create an item for.
      * @param challengeCount  The challenge count for the given challenge.
+     * @param isTracked
      * @return ItemStack of the challenge
      */
-    public ItemStack createChallengeItem(Challenge challenge, int challengeCount) {
+    public ItemStack createChallengeItem(Challenge challenge, int challengeCount, boolean isTracked) {
         String challengeName = challengeNameColor + challenge.getChallengeName();
         List<String> lore = new ArrayList<>();
         lore.add(loreString);
@@ -229,10 +236,19 @@ public class CreateChallengesInventory {
             if (challengeCount != 0) {
                 lore.add("");
                 lore.add(ChatColor.DARK_RED + notRepeatable);
+            } else if (isTracked) {
+                lore.add(untrack);
+            } else {
+                lore.add(track);
             }
         } else {
             lore.add("");
             lore.add(completed.replace("%amount%", ChatColor.GREEN + Integer.toString(challengeCount)));
+            if (isTracked) {
+                lore.add(untrack);
+            } else {
+                lore.add(track);
+            }
         }
         ItemStack c = new ItemStack(challenge.getShownItem(), Math.min(Math.max(1, challengeCount), 64));
         ItemMeta challengemeta = c.getItemMeta();
@@ -249,6 +265,11 @@ public class CreateChallengesInventory {
         }
         challengemeta.addItemFlags(ItemFlag.values());
 
+        challengemeta.getPersistentDataContainer().set(
+                CHALLENGE_KEY,
+                PersistentDataType.STRING,
+                challenge.getMySQLKey());
+
         c.setItemMeta(challengemeta);
         return c;
     }
@@ -259,11 +280,11 @@ public class CreateChallengesInventory {
      * @param difficulty  Challenge.Difficulty
      * @return HashMap
      */
-    private HashMap<String, Challenge> getChallenges(Challenge.Difficulty difficulty) {
+    private Map<String, Challenge> getChallenges(Challenge.Difficulty difficulty) {
         switch (difficulty) {
-            case EASY: return Challenges.challengesEasy;
-            case MEDIUM: return Challenges.challengesMedium;
-            case HARD: return Challenges.challengesHard;
+            case EASY: return ChallengesHandler.challengesEasy;
+            case MEDIUM: return ChallengesHandler.challengesMedium;
+            case HARD: return ChallengesHandler.challengesHard;
             default: return null;
         }
     }
@@ -291,9 +312,9 @@ public class CreateChallengesInventory {
      */
     private int getChallengeListSize(Challenge.Difficulty difficulty) {
         switch (difficulty) {
-            case EASY: return Challenges.sortedChallengesEasy.size();
-            case MEDIUM: return Challenges.sortedChallengesMedium.size();
-            case HARD: return Challenges.sortedChallengesHard.size();
+            case EASY: return ChallengesHandler.sortedChallengesEasy.size();
+            case MEDIUM: return ChallengesHandler.sortedChallengesMedium.size();
+            case HARD: return ChallengesHandler.sortedChallengesHard.size();
             default: return 0;
         }
     }

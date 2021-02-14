@@ -1,4 +1,4 @@
-package com.github.Viduality.VSkyblock.Commands.Challenges;
+package com.github.Viduality.VSkyblock.Challenges;
 
 /*
  * VSkyblock

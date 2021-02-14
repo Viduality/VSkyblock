@@ -29,7 +29,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.UUID;
 
 public class DatabaseWriter {
@@ -280,6 +279,29 @@ public class DatabaseWriter {
                 PreparedStatement updateCount = connection.prepareStatement(statement);
                 updateCount.setInt(1, islandid);
                 updateCount.setInt(2, count);
+                updateCount.setString(3, mySQLKey);
+                updateCount.executeUpdate();
+                updateCount.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * Updates whetehr or not a challenge is tracked on an island.
+     *
+     * @param islandid  The id of an island.
+     * @param mySQLKey  The mySQL column name.
+     * @param tracked   The new tracking state.
+     */
+    public void updateChallengeTracked(int islandid, String mySQLKey, boolean tracked) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            try (Connection connection = plugin.getdb().getConnection()) {
+                String statement = "INSERT INTO VSkyblock_Challenges(islandid, tracked, challenge) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE tracked = VALUES(tracked)";
+                PreparedStatement updateCount = connection.prepareStatement(statement);
+                updateCount.setInt(1, islandid);
+                updateCount.setBoolean(2, tracked);
                 updateCount.setString(3, mySQLKey);
                 updateCount.executeUpdate();
                 updateCount.close();

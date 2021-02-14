@@ -18,8 +18,8 @@ package com.github.Viduality.VSkyblock.Utilitys;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Challenges.Challenge;
-import com.github.Viduality.VSkyblock.Commands.Challenges.Challenges;
+import com.github.Viduality.VSkyblock.Challenges.ChallengesHandler;
+import com.github.Viduality.VSkyblock.Challenges.Challenge;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 
@@ -145,9 +145,9 @@ public class ChallengesConverter {
                                 }
                             }
                             PreparedStatement updateStatement = connection.prepareStatement("INSERT IGNORE INTO VSkyblock_Challenges(islandid, count, challenge) VALUES (?, ?, ?)");
-                            convertChallenges(currentisland, currentIslandChallengesEasy, Challenges.sortedChallengesEasy, updateStatement);
-                            convertChallenges(currentisland, currentIslandChallengesMedium, Challenges.sortedChallengesMedium, updateStatement);
-                            convertChallenges(currentisland, currentIslandChallengesHard, Challenges.sortedChallengesHard, updateStatement);
+                            convertChallenges(currentisland, currentIslandChallengesEasy, ChallengesHandler.sortedChallengesEasy, updateStatement);
+                            convertChallenges(currentisland, currentIslandChallengesMedium, ChallengesHandler.sortedChallengesMedium, updateStatement);
+                            convertChallenges(currentisland, currentIslandChallengesHard, ChallengesHandler.sortedChallengesHard, updateStatement);
                             updateStatement.executeBatch();
                         }
                     }

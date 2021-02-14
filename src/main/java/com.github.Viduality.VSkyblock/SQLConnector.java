@@ -164,6 +164,7 @@ public class SQLConnector {
                             + "islandid BIGINT NOT NULL,"
                             + "challenge VARCHAR(100) NOT NULL,"
                             + "count BIGINT DEFAULT 0,"
+                            + "tracked BOOLEAN DEFAULT false,"
                             + "INDEX (islandid), UNIQUE (challenge, islandid));");
             //Auto adds new columns (if they are implemented in future updates and the plugin is already running on the server)
             connection.createStatement().execute(
@@ -189,6 +190,10 @@ public class SQLConnector {
                     + "spawnZ DOUBLE,"
                     + "spawnYaw FLOAT,"
                     + "spawnPitch FLOAT);"
+            );
+            connection.createStatement().execute(
+                    "ALTER TABLE VSkyblock_Challenges ADD COLUMN IF NOT EXISTS("
+                    + "tracked BOOLEAN DEFAULT false);"
             );
             connection.close();
         } catch (SQLException e) {

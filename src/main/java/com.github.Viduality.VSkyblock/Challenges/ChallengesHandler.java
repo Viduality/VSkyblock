@@ -1,4 +1,4 @@
-package com.github.Viduality.VSkyblock;
+package com.github.Viduality.VSkyblock.Challenges;
 
 /*
  * VSkyblock
@@ -18,9 +18,10 @@ package com.github.Viduality.VSkyblock;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Challenges.Challenge;
-import com.github.Viduality.VSkyblock.Commands.Challenges.CreateChallengesInventory;
-import com.github.Viduality.VSkyblock.Utilitys.*;
+import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
+import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
+import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.bukkit.GameMode;
@@ -34,10 +35,19 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class ChallengesHandler {
+
+    public static final Map<String, Challenge> challenges = new HashMap<>();
+    static final Map<String, Challenge> challengesEasy = new HashMap<>(); //DisplayName and challenge
+    static final Map<String, Challenge> challengesMedium = new HashMap<>(); //DisplayName and challenge
+    static final Map<String, Challenge> challengesHard = new HashMap<>(); //DisplayName and challenge
+    public static List<Challenge> sortedChallengesEasy = new ArrayList<>();
+    public static List<Challenge> sortedChallengesMedium = new ArrayList<>();
+    public static List<Challenge> sortedChallengesHard = new ArrayList<>();
 
     private final DatabaseReader databaseReader = new DatabaseReader();
     private final DatabaseWriter databaseWriter = new DatabaseWriter();
@@ -96,7 +106,8 @@ public class ChallengesHandler {
                         }
                         giveRewards(player.getInventory(), rewards);
                         databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
-                        inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
+                        inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
+                        unTrack(challenge, player);
                         if (!repeat) {
                             ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge);
                             if (ConfigShorts.getDefConfig().isConfigurationSection("ChallengeCompleteFirst")) {
@@ -148,7 +159,7 @@ public class ChallengesHandler {
                                         }
                                     }
                                     databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
-                                    inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
+                                    inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
                                 } else {
                                     ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
                                 }
@@ -161,7 +172,7 @@ public class ChallengesHandler {
                     }
                 } else {
                     ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
-                    inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
+                    inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
                 }
             } else if (challenge.getChallengeType().equals(Challenge.ChallengeType.onIsland)) {
                 if (!repeat) {
@@ -197,7 +208,7 @@ public class ChallengesHandler {
                                     }
                                 }
                                 databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
-                                inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
+                                inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
                             } else {
                                 ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
                             }
@@ -209,7 +220,7 @@ public class ChallengesHandler {
                     }
                 } else {
                     ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
-                    inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1));
+                    inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
                 }
             }
         }));
@@ -299,5 +310,30 @@ public class ChallengesHandler {
             }
         }
         return blocks;
+    }
+
+    public void toggleTracked(Challenge challenge, Player player) {
+        databaseReader.getislandidfromplayer(player.getUniqueId(), (islandId) -> databaseReader.getIslandChallenges(islandId, (challenges) -> {
+            if (challenges.getTrackedChallenges().size() < 10
+                    && challenges.getChallengeCount(challenge.getChallengeName()) == 0 || challenge.getRepeatRewards() != null) {
+                if (challenges.getTrackedChallenges().contains(challenge.getMySQLKey())) {
+                    challenges.removeTrackedChallenge(challenge.getMySQLKey());
+                    databaseWriter.updateChallengeTracked(islandId, challenge.getMySQLKey(), false);
+                } else {
+                    challenges.addTrackedChallenge(challenge.getMySQLKey());
+                    databaseWriter.updateChallengeTracked(islandId, challenge.getMySQLKey(), true);
+                }
+                VSkyblock.getInstance().getScoreboardManager().updateTracked(islandId, challenges);
+            }
+        }));
+    }
+
+    public void unTrack(Challenge challenge, Player player) {
+        databaseReader.getislandidfromplayer(player.getUniqueId(), (islandId) -> databaseReader.getIslandChallenges(islandId, (challenges) -> {
+            if (challenges.removeTrackedChallenge(challenge.getMySQLKey())) {
+                databaseWriter.updateChallengeTracked(islandId, challenge.getMySQLKey(), false);
+                VSkyblock.getInstance().getScoreboardManager().updateTracked(islandId, challenges);
+            }
+        }));
     }
 }

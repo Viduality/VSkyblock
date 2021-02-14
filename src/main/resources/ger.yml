@@ -119,6 +119,7 @@ SetNewNether: "§bErfolgreich einen neuen Nether ausgewählt!"
 SetNewNetherHome: "§6Möchtest du das benutzte Portal als neuen Netherhome setzen? Mit §b/is setnetherhome §6kannst du das Portal in den nächsten 20 Sekunden als neues Netherhome bestätigen."
 SetNewSpawnpoint: "§bErfolgreich einen neuen Spawnpunkt für die Welt §6%replacement% §bgesetzt!"
 SetNewSpawnWorld: "§bErfolgreich eine neue Spawn-Welt ausgewählt!"
+SideBarTrackedChallenges: "§6§oToDo:"
 Site: "§8Seite %replacement%/%replacement2%"
 StoppedTeleportation: "§cTeleportation abgebrochen."
 

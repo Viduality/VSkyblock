@@ -1,4 +1,4 @@
-package com.github.Viduality.VSkyblock.Commands.Challenges;
+package com.github.Viduality.VSkyblock.Commands;
 
 /*
  * VSkyblock
@@ -18,9 +18,10 @@ package com.github.Viduality.VSkyblock.Commands.Challenges;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import com.github.Viduality.VSkyblock.Challenges.Challenge;
+import com.github.Viduality.VSkyblock.Challenges.CreateChallengesInventory;
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -28,10 +29,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-
-import java.util.HashMap;
-import java.util.List;
 
 
 public class Challenges implements CommandExecutor {
@@ -42,14 +39,6 @@ public class Challenges implements CommandExecutor {
     public Challenges(VSkyblock challenges) {
         this.challenges = challenges;
     }
-
-    public static HashMap<String, Challenge> challengesEasy = new HashMap<>(); //DisplayName and challenge
-    public static HashMap<String, Challenge> challengesMedium = new HashMap<>(); //DisplayName and challenge
-    public static HashMap<String, Challenge> challengesHard = new HashMap<>(); //DisplayName and challenge
-
-    public static List<Challenge> sortedChallengesEasy;
-    public static List<Challenge> sortedChallengesMedium;
-    public static List<Challenge> sortedChallengesHard;
 
 
     @Override

@@ -20,8 +20,8 @@ package com.github.Viduality.VSkyblock;
  */
 
 import com.github.Viduality.VSkyblock.Commands.Admin.*;
-import com.github.Viduality.VSkyblock.Commands.Challenges.Challenges;
-import com.github.Viduality.VSkyblock.Commands.Challenges.ChallengesCreator;
+import com.github.Viduality.VSkyblock.Commands.Challenges;
+import com.github.Viduality.VSkyblock.Challenges.ChallengesCreator;
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Commands.Admin.AdminCommands;
 import com.github.Viduality.VSkyblock.Listener.*;
@@ -53,6 +53,8 @@ public class VSkyblock extends JavaPlugin implements Listener {
     private TeleportHandler teleportHandler;
 
     private SQLConnector sqlConnector;
+    private DatabaseReader databaseReader;
+    private DatabaseWriter databaseWriter;
 
     public Scoreboardmanager scoreboardmanager;
 
@@ -67,8 +69,6 @@ public class VSkyblock extends JavaPlugin implements Listener {
     public void onEnable() {
         instance = this;
 
-        DatabaseReader databaseReader = new DatabaseReader();
-
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
@@ -77,6 +77,8 @@ public class VSkyblock extends JavaPlugin implements Listener {
         ConfigShorts.reloadAllConfigs();
 
         sqlConnector = new SQLConnector();
+        databaseReader = new DatabaseReader();
+        databaseWriter = new DatabaseWriter();
         teleportHandler = new TeleportHandler();
 
 
@@ -195,6 +197,18 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
     public SQLConnector getdb() {
         return sqlConnector;
+    }
+
+    public DatabaseReader getDatabaseReader() {
+        return databaseReader;
+    }
+
+    public DatabaseWriter getDatabaseWriter() {
+        return databaseWriter;
+    }
+
+    public Scoreboardmanager getScoreboardManager() {
+        return scoreboardmanager;
     }
 
 

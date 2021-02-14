@@ -1,9 +1,19 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
+import com.github.Viduality.VSkyblock.Challenges.Challenge;
+import com.github.Viduality.VSkyblock.Challenges.ChallengesHandler;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Team;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Scoreboardmanager {
 
@@ -89,5 +99,63 @@ public class Scoreboardmanager {
                 return obj.getScore(playername).getScore();
             }
         } return 0;
+    }
+
+    public void updateTracked(int islandId, ChallengesCache challenges) {
+        plugin.getDatabaseReader().getIslandMembers(islandId, members -> {
+            for (String member : members) {
+                Player player = plugin.getServer().getPlayer(member);
+                if (player != null) {
+                    updateTracked(player, challenges);
+                }
+            }
+        });
+    }
+
+    public void updateTracked(Player player, ChallengesCache challenges) {
+        if (challenges.getTrackedChallenges().isEmpty()) {
+            player.setScoreboard(sm.getMainScoreboard());
+        } else {
+            if (player.getScoreboard() == sm.getMainScoreboard()) {
+                player.setScoreboard(sm.getNewScoreboard());
+            }
+
+            Objective sidebar = player.getScoreboard().getObjective("tracked");
+            if (sidebar == null) {
+                sidebar = player.getScoreboard().registerNewObjective("tracked", "dummy", ConfigShorts.getMessageConfig().getString("SideBarTrackedChallenges"));
+            }
+            if (sidebar.getDisplaySlot() != DisplaySlot.SIDEBAR) {
+                sidebar.setDisplaySlot(DisplaySlot.SIDEBAR);
+            }
+
+            Map<Challenge, Integer> challengeCounts = new LinkedHashMap<>();
+            for (String challengeId : challenges.getTrackedChallenges()) {
+                Challenge challenge = ChallengesHandler.challenges.get(challengeId);
+                if (challenge != null) {
+                    challengeCounts.put(challenge, challenges.getChallengeCount(challengeId));
+                }
+            }
+
+            List<Map.Entry<Challenge, Integer>> lines = new ArrayList<>(challengeCounts.entrySet());
+            for (int i = 0; i < lines.size(); i++) {
+                sidebar.getScore(ChatColor.values()[i].toString()).setScore(lines.get(i).getValue());
+
+                Team team = player.getScoreboard().getTeam("vskyblock_ct" + i);
+                if (team == null) {
+                    team = player.getScoreboard().registerNewTeam("vskyblock_ct" + i);
+                    team.addEntry(ChatColor.values()[i].toString());
+                }
+
+                String line = lines.get(i).getKey().getNeededText();
+                if (line.length() <= 32) {
+                    team.setPrefix(ChatColor.YELLOW + line);
+                } else {
+                    team.setPrefix(ChatColor.YELLOW + line.substring(0, 32) + "...");
+                }
+            }
+            for (int i = lines.size(); i < 10; i++) {
+                player.getScoreboard().resetScores(ChatColor.values()[i].toString());
+            }
+        }
     }
 }

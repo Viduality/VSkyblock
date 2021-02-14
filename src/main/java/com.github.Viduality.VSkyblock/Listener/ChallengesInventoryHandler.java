@@ -18,18 +18,20 @@ package com.github.Viduality.VSkyblock.Listener;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.ChallengesHandler;
-import com.github.Viduality.VSkyblock.Commands.Challenges.Challenge;
-import com.github.Viduality.VSkyblock.Commands.Challenges.Challenges;
-import com.github.Viduality.VSkyblock.Commands.Challenges.CreateChallengesInventory;
+import com.github.Viduality.VSkyblock.Challenges.ChallengesHandler;
+import com.github.Viduality.VSkyblock.Challenges.Challenge;
+import com.github.Viduality.VSkyblock.Challenges.CreateChallengesInventory;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 
 public class ChallengesInventoryHandler implements Listener {
@@ -46,27 +48,27 @@ public class ChallengesInventoryHandler implements Listener {
             inventoryClickEvent.setCancelled(true);
             if (inventoryClickEvent.getCurrentItem() != null) {
                 if (inventoryClickEvent.getRawSlot() < 27) {
-                    if (inventoryClickEvent.getSlot() == 18 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR) && !inventoryClickEvent.getCurrentItem().getType().equals(Material.BARRIER)) {
-                        getpreviousChallengeinv(inventoryClickEvent.getView(), (Player) inventoryClickEvent.getWhoClicked(), 1, true);
-                    }
-                    if (inventoryClickEvent.getSlot() == 26 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR) && !inventoryClickEvent.getCurrentItem().getType().equals(Material.BARRIER)) {
-                        getnextChallengeinv(inventoryClickEvent.getView(), (Player) inventoryClickEvent.getWhoClicked(), 1, true);
-                    }
-                    if (inventoryClickEvent.getSlot() == 21 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR)) {
-                        getpreviousChallengeinv(inventoryClickEvent.getView(), (Player) inventoryClickEvent.getWhoClicked(), getPreviousSite(inventoryClickEvent.getView()), false);
-                    }
-                    if (inventoryClickEvent.getSlot() == 23 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR)) {
-                        getnextChallengeinv(inventoryClickEvent.getView(), (Player) inventoryClickEvent.getWhoClicked(), getNextSite(inventoryClickEvent.getView()), false);
+                    if (inventoryClickEvent.getClick() == ClickType.LEFT) {
+                        if (inventoryClickEvent.getSlot() == 18 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR) && !inventoryClickEvent.getCurrentItem().getType().equals(Material.BARRIER)) {
+                            getpreviousChallengeinv(inventoryClickEvent.getView(), (Player) inventoryClickEvent.getWhoClicked(), 1, true);
+                        } else if (inventoryClickEvent.getSlot() == 26 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR) && !inventoryClickEvent.getCurrentItem().getType().equals(Material.BARRIER)) {
+                            getnextChallengeinv(inventoryClickEvent.getView(), (Player) inventoryClickEvent.getWhoClicked(), 1, true);
+                        } else if (inventoryClickEvent.getSlot() == 21 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR)) {
+                            getpreviousChallengeinv(inventoryClickEvent.getView(), (Player) inventoryClickEvent.getWhoClicked(), getPreviousSite(inventoryClickEvent.getView()), false);
+                        } else if (inventoryClickEvent.getSlot() == 23 && !inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR)) {
+                            getnextChallengeinv(inventoryClickEvent.getView(), (Player) inventoryClickEvent.getWhoClicked(), getNextSite(inventoryClickEvent.getView()), false);
+                        }
                     }
                     if (inventoryClickEvent.getSlot() >= 0 && inventoryClickEvent.getSlot() <= 17 ) {
                         if (!inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR)) {
-                            String challenge = getChallengeName(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName());
-                            if (inventoryClickEvent.getView().getTitle().equals("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Easy"))) {
-                                cH.checkChallenge(Challenges.challengesEasy.get(challenge), (Player) inventoryClickEvent.getWhoClicked(), inventoryClickEvent.getClickedInventory(), inventoryClickEvent.getSlot());
-                            } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Medium"))) {
-                                cH.checkChallenge(Challenges.challengesMedium.get(challenge), (Player) inventoryClickEvent.getWhoClicked(), inventoryClickEvent.getClickedInventory(), inventoryClickEvent.getSlot());
-                            } else if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Hard"))) {
-                                cH.checkChallenge(Challenges.challengesHard.get(challenge), (Player) inventoryClickEvent.getWhoClicked(), inventoryClickEvent.getClickedInventory(), inventoryClickEvent.getSlot());
+                            String challengeId = getChallengeName(inventoryClickEvent.getCurrentItem());
+                            Challenge challenge = ChallengesHandler.challenges.get(challengeId);
+                            if (challenge != null) {
+                                if (inventoryClickEvent.getClick() == ClickType.LEFT) {
+                                    cH.checkChallenge(challenge, (Player) inventoryClickEvent.getWhoClicked(), inventoryClickEvent.getClickedInventory(), inventoryClickEvent.getSlot());
+                                } else if (inventoryClickEvent.getClick() == ClickType.RIGHT) {
+                                    cH.toggleTracked(challenge, (Player) inventoryClickEvent.getWhoClicked());
+                                }
                             }
                         }
                     }
@@ -102,17 +104,14 @@ public class ChallengesInventoryHandler implements Listener {
     }
 
     /**
-     * Deletes color codes from item names.
+     * Gets the challenge name from an item stack
      *
-     * @param challengewithColors
+     * @param challengeItem
      * @return String
      */
-    private String getChallengeName(String challengewithColors) {
-        String challenge = challengewithColors;
-        while (challenge.contains("§")) {
-            challenge = challenge.substring(2);
-        }
-        return challenge;
+    private String getChallengeName(ItemStack challengeItem) {
+        return challengeItem.getItemMeta().getPersistentDataContainer()
+                .get(CreateChallengesInventory.CHALLENGE_KEY, PersistentDataType.STRING);
     }
 
     @EventHandler

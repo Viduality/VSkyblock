@@ -30,7 +30,6 @@ import org.bukkit.scoreboard.Objective;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -357,6 +356,9 @@ public class DatabaseReader {
                 ResultSet r = preparedStatement.executeQuery();
                 while (r.next()) {
                     cache.setChallengeCount(r.getString("challenge"), r.getInt("count"));
+                    if (r.getBoolean("tracked")) {
+                        cache.addTrackedChallenge(r.getString("challenge"));
+                    }
                 }
                 preparedStatement.close();
 

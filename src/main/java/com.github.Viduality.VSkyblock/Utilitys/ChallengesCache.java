@@ -20,6 +20,9 @@ package com.github.Viduality.VSkyblock.Utilitys;
  */
 
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class ChallengesCache {
 
@@ -43,18 +46,31 @@ public class ChallengesCache {
     private int c17 = 0;
     private int c18 = 0;
 
-    private HashMap<String, Integer> challengeCounts = new HashMap<>();
+    private Map<String, Integer> challengeCounts = new HashMap<>();
+    private Set<String> trackedChallenges = new LinkedHashSet<>();
 
     public void setChallengeCount(String challenge, int count) {
         challengeCounts.put(challenge, count);
     }
 
-    public int getChallengeCount (String challenge) {
+    public int getChallengeCount(String challenge) {
         return challengeCounts.getOrDefault(challenge, 0);
     }
 
-    public HashMap<String, Integer> getAllChallengeCounts() {
+    public Map<String, Integer> getAllChallengeCounts() {
         return challengeCounts;
+    }
+
+    public boolean addTrackedChallenge(String challenge) {
+        return trackedChallenges.add(challenge);
+    }
+
+    public boolean removeTrackedChallenge(String challenge) {
+        return trackedChallenges.remove(challenge);
+    }
+
+    public Set<String> getTrackedChallenges() {
+        return trackedChallenges;
     }
 
     public int getc1() {

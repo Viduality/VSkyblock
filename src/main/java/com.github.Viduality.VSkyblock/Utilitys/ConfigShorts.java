@@ -18,8 +18,8 @@ package com.github.Viduality.VSkyblock.Utilitys;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Challenges.Challenge;
-import com.github.Viduality.VSkyblock.Commands.Challenges.CreateChallengesInventory;
+import com.github.Viduality.VSkyblock.Challenges.Challenge;
+import com.github.Viduality.VSkyblock.Challenges.CreateChallengesInventory;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import de.themoep.minedown.MineDown;
 import net.md_5.bungee.api.chat.*;

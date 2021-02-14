@@ -119,6 +119,7 @@ SetNewNether: §bSuccessfully set a new Nether!
 SetNewNetherHome: §6Use §b/is setnetherhome §6 in the next 20 seconds to set the used netherportal as your new nether home.
 SetNewSpawnpoint: §bSuccessfully set a new spawnpoint for the world §6%replacement%§b!
 SetNewSpawnWorld: §bSuccessfully set a new Spawn World!
+SideBarTrackedChallenges: "§6§oToDo:"
 Site: §8Site %replacement%/%replacement2%
 StoppedTeleportation: "§cTeleportation canceled."
 
