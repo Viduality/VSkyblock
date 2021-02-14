@@ -2,11 +2,19 @@ package com.github.Viduality.VSkyblock.Utilitys;
 
 import com.github.Viduality.VSkyblock.VSkyblock;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.util.logging.Level;
 
 public class ConfigChanger {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin ;
+
+    public ConfigChanger(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     /**
      * Changes parameter in the config.yml file.
@@ -21,7 +29,7 @@ public class ConfigChanger {
 
         try {
             // input the file content to the StringBuffer "input"
-            BufferedReader file = new BufferedReader(new FileReader(plugin.getDataFolder() + "/config.yml"));
+            BufferedReader file = new BufferedReader(new FileReader(new File(plugin.getDataFolder(), "config.yml")));
             String line;
             StringBuffer inputBuffer = new StringBuffer();
 
@@ -46,16 +54,15 @@ public class ConfigChanger {
                     } else {
                         inputStr = inputStr.replace(OldLine, NewLine);
                     }
-            } else System.out.println("Keine Zeile in der Config gefunden!");
+            } else plugin.getLogger().warning("Keine Zeile in der Config gefunden!");
 
                 // write the new String with the replaced line OVER the same file
-                FileOutputStream fileOut = new FileOutputStream(plugin.getDataFolder() + "/config.yml");
+                FileOutputStream fileOut = new FileOutputStream(new File(plugin.getDataFolder(), "config.yml"));
                 fileOut.write(inputStr.getBytes());
                 fileOut.close();
 
         } catch (Exception e) {
-                System.out.println("Problem reading file.");
-                e.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "Problem reading file.", e);
         }
     }
 }

@@ -6,7 +6,6 @@ import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,10 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 public class NetherPortalListener implements Listener {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
-    private final DatabaseReader databaseReader = new DatabaseReader();
-    private final DatabaseWriter databaseWriter = new DatabaseWriter();
-    private final WorldManager wm = new WorldManager();
+    private final VSkyblock plugin;
 
     public static Cache<UUID, Location> setNetherHome = CacheBuilder.newBuilder()
             .expireAfterWrite(20, TimeUnit.SECONDS)
@@ -33,18 +29,22 @@ public class NetherPortalListener implements Listener {
             .expireAfterWrite(20, TimeUnit.SECONDS)
             .build();
 
+    public NetherPortalListener(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onNetherPortalUse(PlayerPortalEvent playerPortalEvent) {
         Player player = playerPortalEvent.getPlayer();
         playerPortalEvent.setCancelled(true);
         final Location location = playerPortalEvent.getFrom();
         if (playerPortalEvent.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL)) {
-            databaseReader.getPlayerData(player.getUniqueId().toString(), (result) -> {
+            plugin.getDb().getReader().getPlayerData(player.getUniqueId().toString(), (result) -> {
                 if (player.getWorld().getName().equals(result.getIslandname())) {
-                    player.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("NetherWorld"))).whenComplete((b, e) -> {
+                    player.teleportAsync(plugin.getWorldManager().getSpawnLocation(ConfigShorts.getDefConfig().getString("NetherWorld"))).whenComplete((b, e) -> {
                         ConfigShorts.messagefromString("NetherJoin1", player);
                         ConfigShorts.messagefromString("NetherJoin2", player);
-                        databaseReader.getNetherHome(result.getUuid(), (netherhome) -> {
+                        plugin.getDb().getReader().getNetherHome(result.getUuid(), (netherhome) -> {
                             if (netherhome != null) {
                                 teleportToNetherHome.put(result.getUuid(), netherhome);
                                 ConfigShorts.messagefromString("TeleportToNetherHome", player);
@@ -58,7 +58,7 @@ public class NetherPortalListener implements Listener {
                 } else if (player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
                     if (result.getIslandname() != null) {
                         player.teleportAsync(Island.islandhomes.get(result.getIslandname()));
-                        databaseReader.getNetherHome(result.getUuid(), (netherhome) -> {
+                        plugin.getDb().getReader().getNetherHome(result.getUuid(), (netherhome) -> {
                             if (netherhome != null) {
                                 if (result.isIslandowner()) {
                                     if (netherhome.distance(location) > 10) {
@@ -67,11 +67,11 @@ public class NetherPortalListener implements Listener {
                                     }
                                 }
                             } else {
-                                databaseWriter.saveNetherHome(result.getIslandId(), location);
+                                plugin.getDb().getWriter().saveNetherHome(result.getIslandId(), location);
                             }
                         });
                     } else {
-                        player.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
+                        player.teleportAsync(plugin.getWorldManager().getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
                     }
                 }
             });

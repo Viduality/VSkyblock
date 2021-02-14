@@ -23,35 +23,31 @@ import com.github.Viduality.VSkyblock.Commands.IslandLevel;
 import com.github.Viduality.VSkyblock.Commands.WorldCommands.AdminSubCommand;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
-import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 
 public class RecalculateIslandLevel implements AdminSubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseReader databaseReader = new DatabaseReader();
-    private DatabaseWriter databaseWriter = new DatabaseWriter();
-    WorldManager wm = new WorldManager();
+    private final VSkyblock plugin;
 
-
+    public RecalculateIslandLevel(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(CommandSender sender, String args, String option1, String option2) {
         if (sender.hasPermission("VSkyblock.RecalculateIslandLevel")) {
             OfflinePlayer p = plugin.getServer().getOfflinePlayer(args);
-            databaseReader.getPlayerData(p.getUniqueId().toString(), (playerdata -> {
+            plugin.getDb().getReader().getPlayerData(p.getUniqueId().toString(), (playerdata -> {
                 if (playerdata.getUuid() != null) {
-                    databaseReader.getislandidfromplayer(playerdata.getUuid(), (islandid -> {
+                    plugin.getDb().getReader().getislandidfromplayer(playerdata.getUuid(), (islandid -> {
                         if (islandid != 0) {
-                            databaseReader.getislandlevelfromuuid(playerdata.getUuid(), (oldislandlevel -> {
+                            plugin.getDb().getReader().getislandlevelfromuuid(playerdata.getUuid(), (oldislandlevel -> {
                                 ConfigShorts.custommessagefromString("CurrentIslandLevel", sender, String.valueOf(oldislandlevel));
-                                databaseReader.getislandnamefromplayer(playerdata.getUuid(), (islandname -> {
-                                    if (wm.loadWorld(islandname)) {
-                                        databaseReader.getIslandsChallengePoints(islandid, (challengePoints -> {
+                                plugin.getDb().getReader().getislandnamefromplayer(playerdata.getUuid(), (islandname -> {
+                                    if (plugin.getWorldManager().loadWorld(islandname)) {
+                                        plugin.getDb().getReader().getIslandsChallengePoints(islandid, (challengePoints -> {
                                             World world = plugin.getServer().getWorld(islandname);
                                             int valueriselevel = getValueRiseLevel();
                                             int valueincrease = getValueIncrease();
@@ -103,10 +99,10 @@ public class RecalculateIslandLevel implements AdminSubCommand {
                                                 }
 
                                                 int roundlevel = (int) Math.floor(level);
-                                                databaseWriter.updateIslandLevel(islandid, roundlevel, c.blocks, p.getUniqueId());
+                                                plugin.getDb().getWriter().updateIslandLevel(islandid, roundlevel, c.blocks, p.getUniqueId());
                                                 ConfigShorts.custommessagefromString("NewIslandLevel", sender, String.valueOf(roundlevel));
                                                 if (!Island.playerislands.containsValue(islandname)) {
-                                                    wm.unloadWorld(islandname);
+                                                    plugin.getWorldManager().unloadWorld(islandname);
                                                 }
                                                 if (CobblestoneGenerator.islandlevels.containsKey(islandname)) {
                                                     CobblestoneGenerator.islandlevels.put(islandname, roundlevel);

@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CobblestoneGenerator implements Listener {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin;
 
     public static HashMap<String, Integer> islandGenLevel = new HashMap<>(); //Islandname and generatorlevel
     public static HashMap<String, Double> generatorValues = new HashMap<>(); //"option" and value
@@ -48,6 +48,10 @@ public class CobblestoneGenerator implements Listener {
             .maximumSize(10000)
             .expireAfterAccess(10, TimeUnit.MINUTES)
             .build();
+
+    public CobblestoneGenerator(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void cobblestoneGeneratorBlocks(BlockFormEvent blockFormEvent) {

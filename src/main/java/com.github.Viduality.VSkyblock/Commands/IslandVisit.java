@@ -20,20 +20,19 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
-import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.List;
 import java.util.UUID;
 
 public class IslandVisit implements SubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseReader databaseReader = new DatabaseReader();
-    private WorldManager wm = new WorldManager();
+    private final VSkyblock plugin;
+
+    public IslandVisit(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
 
     @Override
@@ -43,11 +42,11 @@ public class IslandVisit implements SubCommand {
         if (player != onlinetarget) {
             if (onlinetarget != null) {
                 UUID uuid = onlinetarget.getUniqueId();
-                databaseReader.getislandidfromplayer(uuid, islandId -> databaseReader.getIslandMembers(islandId, islandMembers -> {
+                plugin.getDb().getReader().getislandidfromplayer(uuid, islandId -> plugin.getDb().getReader().getIslandMembers(islandId, islandMembers -> {
                     if (!islandMembers.contains(player.getName())) {
-                        databaseReader.isislandvisitable(islandId, isVisitable -> {
+                        plugin.getDb().getReader().isislandvisitable(islandId, isVisitable -> {
                             if (isVisitable) {
-                                databaseReader.islandneedsrequestforvisit(islandId, needsRequest -> {
+                                plugin.getDb().getReader().islandneedsrequestforvisit(islandId, needsRequest -> {
                                     if (needsRequest) {
                                         Island.requestvisit.put(player.getUniqueId(), islandId);
                                         ConfigShorts.messagefromString("SendVisitRequest", player);
@@ -58,8 +57,8 @@ public class IslandVisit implements SubCommand {
                                             }
                                         }
                                     } else {
-                                        databaseReader.getislandnamefromplayer(uuid, islandName -> {
-                                            if (wm.getLoadedWorlds().contains(islandName)) {
+                                        plugin.getDb().getReader().getislandnamefromplayer(uuid, islandName -> {
+                                            if (plugin.getWorldManager().getLoadedWorlds().contains(islandName)) {
                                                 Location islandHome = Island.islandhomes.get(islandName);
                                                 if (islandHome != null) {
                                                     islandHome.getWorld().getChunkAtAsync(islandHome).whenComplete((c, e) -> {

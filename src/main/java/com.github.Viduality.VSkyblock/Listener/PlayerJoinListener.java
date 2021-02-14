@@ -21,7 +21,7 @@ package com.github.Viduality.VSkyblock.Listener;
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
-import com.github.Viduality.VSkyblock.WorldGenerator.WorldGenerator;
+import com.github.Viduality.VSkyblock.WorldGenerator.MasterIslandGenerator;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -39,32 +39,34 @@ import java.util.Deque;
 
 public class PlayerJoinListener implements Listener {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
-    private final DatabaseReader databaseReader = new DatabaseReader();
-    private final DatabaseWriter databaseWriter = new DatabaseWriter();
-    private final WorldManager wm = new WorldManager();
+    private final VSkyblock plugin;
 
     private final Deque<DatabaseCache> toLoad = new ArrayDeque<>();
+
+    public PlayerJoinListener(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent playerJoinEvent) {
         Player player = playerJoinEvent.getPlayer();
 
-        if (wm.getUnloadedWorlds().contains(ConfigShorts.getDefConfig().getString("SpawnWorld"))) {
-            wm.loadWorld(ConfigShorts.getDefConfig().getString("SpawnWorld"));
+        if (plugin.getWorldManager().getUnloadedWorlds().contains(ConfigShorts.getDefConfig().getString("SpawnWorld"))) {
+            plugin.getWorldManager().loadWorld(ConfigShorts.getDefConfig().getString("SpawnWorld"));
         }
-        if (wm.getUnloadedWorlds().contains(ConfigShorts.getDefConfig().getString("NetherWorld"))) {
-            wm.loadWorld(ConfigShorts.getDefConfig().getString("NetherWorld"));
+
+        if (plugin.getWorldManager().getUnloadedWorlds().contains(ConfigShorts.getDefConfig().getString("NetherWorld"))) {
+            plugin.getWorldManager().loadWorld(ConfigShorts.getDefConfig().getString("NetherWorld"));
         }
 
 
-        databaseReader.getPlayerData(player.getUniqueId().toString(), result -> {
+        plugin.getDb().getReader().getPlayerData(player.getUniqueId().toString(), result -> {
             if (result.getUuid() == null) {
-                databaseWriter.addPlayer(player.getUniqueId(), player.getName());
+                plugin.getDb().getWriter().addPlayer(player.getUniqueId(), player.getName());
             } else if (player.isOnline()) {
                 if (!result.getName().equals(player.getName())) {
-                    databaseWriter.updatePlayerName(player.getUniqueId(), player.getName());
+                    plugin.getDb().getWriter().updatePlayerName(player.getUniqueId(), player.getName());
                 }
                 if (plugin.scoreboardmanager.doesobjectiveexist("deaths")) {
                     if (plugin.scoreboardmanager.addPlayerToObjective(player, "deaths")) {
@@ -83,7 +85,7 @@ public class PlayerJoinListener implements Listener {
                     if (task != null) {
                         task.cancel();
                     }
-                    databaseReader.getIslandChallenges(result.getIslandId(), challenges -> {
+                    plugin.getDb().getReader().getIslandChallenges(result.getIslandId(), challenges -> {
                         if (player.isOnline()) {
                             plugin.getScoreboardManager().updateTracked(player, challenges);
                         }
@@ -93,7 +95,7 @@ public class PlayerJoinListener implements Listener {
                         loadWorld(result);
                     }
                 } else {
-                    player.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld"))).whenComplete((b, e) -> {
+                    player.teleportAsync(plugin.getWorldManager().getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld"))).whenComplete((b, e) -> {
                         player.removePotionEffect(PotionEffectType.BLINDNESS);
                         player.removePotionEffect(PotionEffectType.NIGHT_VISION);
                     });
@@ -103,7 +105,7 @@ public class PlayerJoinListener implements Listener {
                         player.setExp(0);
                         player.getEnderChest().clear();
                         player.getInventory().clear();
-                        databaseWriter.removeKicked(result.getUuid());
+                        plugin.getDb().getWriter().removeKicked(result.getUuid());
                     }
                 }
 
@@ -111,10 +113,10 @@ public class PlayerJoinListener implements Listener {
         });
 
 
-        if (plugin.getServer().getWorld("VSkyblockMasterIsland") == null && !wm.getUnloadedWorlds().contains("VSkyblockMasterIsland")) {
+        if (plugin.getServer().getWorld(MasterIslandGenerator.WORLD_NAME) == null && !plugin.getWorldManager().getUnloadedWorlds().contains(MasterIslandGenerator.WORLD_NAME)) {
             ConfigShorts.broadcastfromString("MasterIsland");
-            WorldGenerator.CreateNewMasterIsland(result -> {
-                wm.unloadWorld(result);
+            new MasterIslandGenerator(plugin).create(result -> {
+                plugin.getWorldManager().unloadWorld(result);
                 ConfigShorts.broadcastfromString("MasterIslandReady");
             });
         }
@@ -122,9 +124,9 @@ public class PlayerJoinListener implements Listener {
 
     private void loadWorld(DatabaseCache result) {
         if (!Island.playerislands.containsValue(result.getIslandname())) {
-            databaseReader.addToCobbleStoneGenerators(result.getIslandname());
+            plugin.getDb().getReader().addToCobbleStoneGenerators(result.getIslandname());
         }
-        if (!wm.loadWorld(result.getIslandname())) {
+        if (!plugin.getWorldManager().loadWorld(result.getIslandname())) {
             ConfigShorts.custommessagefromString("WorldFailedToLoad", result.getPlayer(), result.getIslandname());
             toLoad.remove(result);
             DatabaseCache nextResult = toLoad.peekFirst();
@@ -134,11 +136,11 @@ public class PlayerJoinListener implements Listener {
             return;
         }
         Island.playerislands.put(result.getUuid(), result.getIslandname());
-        databaseReader.getIslandSpawn(result.getIslandname(), islandspawn -> {
+        plugin.getDb().getReader().getIslandSpawn(result.getIslandname(), islandspawn -> {
             if (!Island.islandhomes.containsKey(result.getIslandname())) {
                 Island.islandhomes.put(result.getIslandname(), islandspawn);
             }
-            databaseReader.getlastLocation(result.getUuid(), loc -> {
+            plugin.getDb().getReader().getlastLocation(result.getUuid(), loc -> {
                 Player player = result.getPlayer();
                 if (player != null) {
                     if (loc == null) {
@@ -163,7 +165,7 @@ public class PlayerJoinListener implements Listener {
                     });
                 } else {
                     Island.emptyloadedislands.put(result.getIslandname(), plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                        wm.unloadWorld(result.getIslandname());
+                        plugin.getWorldManager().unloadWorld(result.getIslandname());
                         Island.islandhomes.remove(result.getIslandname());
                     }, 20 * 60));
                 }

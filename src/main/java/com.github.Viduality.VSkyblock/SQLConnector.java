@@ -19,6 +19,8 @@ package com.github.Viduality.VSkyblock;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
+import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -27,9 +29,23 @@ import java.sql.SQLException;
 
 public class SQLConnector {
 
-    private static final VSkyblock plugin = VSkyblock.getInstance();
-    public static final HikariConfig config = new HikariConfig();
-    public static HikariDataSource ds;
+    private final HikariDataSource ds;
+
+    private final DatabaseReader databaseReader;
+    private final DatabaseWriter databaseWriter;
+
+    public SQLConnector(VSkyblock plugin) {
+        databaseReader = new DatabaseReader(plugin, this);
+        databaseWriter = new DatabaseWriter(plugin, this);
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl("jdbc:mysql://" + getDbUrl() + "/" + getDatabase());
+        config.setUsername(getDbUser());
+        config.setPassword(getDbPassword());
+        config.addDataSourceProperty("cachePrepStmts", "true");
+        config.addDataSourceProperty("prepStmtCacheSize", "250");
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        ds = new HikariDataSource(config);
+    }
 
 
     /**
@@ -81,16 +97,12 @@ public class SQLConnector {
         }
     }
 
-    {
-        config.setJdbcUrl("jdbc:mysql://"
-                + getDbUrl() + "/"
-                + getDatabase());
-        config.setUsername(getDbUser());
-        config.setPassword(getDbPassword());
-        config.addDataSourceProperty("cachePrepStmts", "true");
-        config.addDataSourceProperty("prepStmtCacheSize", "250");
-        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        ds = new HikariDataSource(config);
+    public DatabaseReader getReader() {
+        return databaseReader;
+    }
+
+    public DatabaseWriter getWriter() {
+        return databaseWriter;
     }
 
     /**

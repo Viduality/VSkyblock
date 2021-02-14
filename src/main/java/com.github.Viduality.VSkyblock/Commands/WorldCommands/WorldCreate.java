@@ -1,7 +1,6 @@
 package com.github.Viduality.VSkyblock.Commands.WorldCommands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -12,8 +11,11 @@ import org.bukkit.entity.Player;
 
 public class WorldCreate implements AdminSubCommand {
 
-    private WorldManager wm = new WorldManager();
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin;
+
+    public WorldCreate(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
 
     @Override
@@ -21,7 +23,7 @@ public class WorldCreate implements AdminSubCommand {
         if (sender instanceof  Player) {
             Player player = (Player) sender;
             if (sender.hasPermission("VSkyblock.CreateWorld")) {
-                if (!wm.getAllWorlds().contains(args)) {
+                if (!plugin.getWorldManager().getAllWorlds().contains(args)) {
                     ConfigShorts.messagefromString("WorldCreate", player);
                     String generator = option1;
                     String environment = option2;
@@ -40,18 +42,18 @@ public class WorldCreate implements AdminSubCommand {
                         wc.generateStructures(true);
                         World loadedworld = wc.createWorld();
                         if (loadedworld != null) {
-                            if (wm.addWorld(args, generator, environment.toUpperCase())) {
+                            if (plugin.getWorldManager().addWorld(args, generator, environment.toUpperCase())) {
                                 Location spawnlocation = loadedworld.getSpawnLocation();
-                                if (wm.setSpawnLocation(spawnlocation)) {
+                                if (plugin.getWorldManager().setSpawnLocation(spawnlocation)) {
                                     ConfigShorts.messagefromString("WorldCreated", player);
-                                    player.teleportAsync(wm.getSpawnLocation(args));
+                                    player.teleportAsync(plugin.getWorldManager().getSpawnLocation(args));
                                 } else {
                                     ConfigShorts.messagefromString("WorldCreationFailed", player);
-                                    wm.deleteWorld(args);
+                                    plugin.getWorldManager().deleteWorld(args);
                                 }
                             } else {
                                 ConfigShorts.messagefromString("WorldCreationFailed", player);
-                                wm.deleteWorld(args);
+                                plugin.getWorldManager().deleteWorld(args);
                             }
                         } else {
                             ConfigShorts.messagefromString("WorldCreationFailed", player);

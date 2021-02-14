@@ -20,8 +20,8 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.Utilitys.IslandOptionsCache;
+import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -33,14 +33,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class IslandOptions implements SubCommand {
 
-    private DatabaseReader databaseReader = new DatabaseReader();
+    private final VSkyblock plugin;
 
-
+    public IslandOptions(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(DatabaseCache databaseCache) {
         if (databaseCache.getIslandId() != 0) {
-            databaseReader.getIslandOptions(databaseCache.getIslandId(), isoptionsCache ->
+            plugin.getDb().getReader().getIslandOptions(databaseCache.getIslandId(), isoptionsCache ->
                     createOptionsInventory(isoptionsCache, databaseCache.getPlayer(), databaseCache.isIslandowner()));
         } else {
             ConfigShorts.messagefromString("NoIsland", databaseCache.getPlayer());

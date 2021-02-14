@@ -5,13 +5,16 @@ import com.github.Viduality.VSkyblock.DefaultFiles;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 
 public class RecreateLanguageFiles implements AdminSubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin;
+
+    public RecreateLanguageFiles(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(CommandSender sender, String args, String option1, String option2) {

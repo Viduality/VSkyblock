@@ -21,8 +21,7 @@ package com.github.Viduality.VSkyblock.Commands;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.VSkyblock;
-import com.github.Viduality.VSkyblock.WorldGenerator.Islandmethods;
-import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
+import com.github.Viduality.VSkyblock.WorldGenerator.IslandCreator;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -32,10 +31,11 @@ import org.bukkit.entity.Player;
 
 public class IslandCommand implements SubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin;
 
-    private Islandmethods im = new Islandmethods();
-    private WorldManager wm = new WorldManager();
+    public IslandCommand(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(DatabaseCache databaseCache) {
@@ -55,8 +55,8 @@ public class IslandCommand implements SubCommand {
                 }
             }
             if (teleport) {
-                if (!wm.getLoadedWorlds().contains(databaseCache.getIslandname())) {
-                    if (!wm.loadWorld(databaseCache.getIslandname())) {
+                if (!plugin.getWorldManager().getLoadedWorlds().contains(databaseCache.getIslandname())) {
+                    if (!plugin.getWorldManager().loadWorld(databaseCache.getIslandname())) {
                         ConfigShorts.custommessagefromString("WorldFailedToLoad", player, databaseCache.getIslandname());
                         return;
                     }
@@ -87,7 +87,7 @@ public class IslandCommand implements SubCommand {
                 player.setTotalExperience(0);
                 player.setExp(0);
                 player.setFoodLevel(20);
-                im.createNewIsland(databaseCache.getUuid(), null);
+                new IslandCreator(plugin, databaseCache.getUuid()).createNewIsland();
                 Island.isgencooldown.put(player.getUniqueId(), player.getUniqueId());
             } else {
                 ConfigShorts.custommessagefromString("GenerateCooldown", player, String.valueOf(Island.getisgencooldown()));

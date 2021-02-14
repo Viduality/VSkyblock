@@ -9,32 +9,29 @@ import org.bukkit.entity.Player;
 
 public class IslandRestart implements SubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseReader databaseReader = new DatabaseReader();
+    private final VSkyblock plugin;
+
+    public IslandRestart(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
 
     @Override
     public void execute(DatabaseCache databaseCache) {
-        Bukkit.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-            @Override
-            public void run() {
-                Player player = plugin.getServer().getPlayer(databaseCache.getPlayer().getUniqueId());
-                if (player != null) {
-                    if (databaseCache.isIslandowner()) {
-                        databaseReader.hasislandmembers(databaseCache.getIslandId(), new DatabaseReader.CallbackBoolean() {
-                            @Override
-                            public void onQueryDone(boolean hasislandmembers) {
-                                if (!hasislandmembers) {
-                                    Island.restartmap.put(player.getUniqueId(), 1);
-                                    ConfigShorts.messagefromString("ConfirmRestart", player);
-                                } else {
-                                    ConfigShorts.messagefromString("HasIslandMembers", player);
-                                }
-                            }
-                        });
-                    } else {
-                        ConfigShorts.messagefromString("NotIslandOwner", player);
-                    }
+        Bukkit.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            Player player = plugin.getServer().getPlayer(databaseCache.getPlayer().getUniqueId());
+            if (player != null) {
+                if (databaseCache.isIslandowner()) {
+                    plugin.getDb().getReader().hasislandmembers(databaseCache.getIslandId(), hasislandmembers -> {
+                        if (!hasislandmembers) {
+                            Island.restartmap.put(player.getUniqueId(), 1);
+                            ConfigShorts.messagefromString("ConfirmRestart", player);
+                        } else {
+                            ConfigShorts.messagefromString("HasIslandMembers", player);
+                        }
+                    });
+                } else {
+                    ConfigShorts.messagefromString("NotIslandOwner", player);
                 }
             }
         });

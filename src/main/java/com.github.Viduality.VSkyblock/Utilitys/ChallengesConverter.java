@@ -18,7 +18,7 @@ package com.github.Viduality.VSkyblock.Utilitys;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Challenges.ChallengesHandler;
+import com.github.Viduality.VSkyblock.Challenges.ChallengesManager;
 import com.github.Viduality.VSkyblock.Challenges.Challenge;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
@@ -29,9 +29,11 @@ import java.util.List;
 
 public class ChallengesConverter {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin;
 
-    private final DatabaseWriter databaseWriter = new DatabaseWriter();
+    public ChallengesConverter(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     public void convertAllChallenges() {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
@@ -40,7 +42,7 @@ public class ChallengesConverter {
             System.out.println(ANSI_RED + "Converting Challenges to new Database..." + ANSI_RESET);
             List<Integer> islands = new ArrayList<>();
 
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = plugin.getDb().getConnection()) {
                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island");
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
@@ -145,9 +147,9 @@ public class ChallengesConverter {
                                 }
                             }
                             PreparedStatement updateStatement = connection.prepareStatement("INSERT IGNORE INTO VSkyblock_Challenges(islandid, count, challenge) VALUES (?, ?, ?)");
-                            convertChallenges(currentisland, currentIslandChallengesEasy, ChallengesHandler.sortedChallengesEasy, updateStatement);
-                            convertChallenges(currentisland, currentIslandChallengesMedium, ChallengesHandler.sortedChallengesMedium, updateStatement);
-                            convertChallenges(currentisland, currentIslandChallengesHard, ChallengesHandler.sortedChallengesHard, updateStatement);
+                            convertChallenges(currentisland, currentIslandChallengesEasy, ChallengesManager.sortedChallengesEasy, updateStatement);
+                            convertChallenges(currentisland, currentIslandChallengesMedium, ChallengesManager.sortedChallengesMedium, updateStatement);
+                            convertChallenges(currentisland, currentIslandChallengesHard, ChallengesManager.sortedChallengesHard, updateStatement);
                             updateStatement.executeBatch();
                         }
                     }

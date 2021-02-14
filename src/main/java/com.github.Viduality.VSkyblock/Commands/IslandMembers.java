@@ -3,57 +3,46 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.VSkyblock;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-
 
 public class IslandMembers implements SubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseReader databaseReader = new DatabaseReader();
+    private final VSkyblock plugin;
 
-
+    public IslandMembers(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(DatabaseCache databaseCache) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-            @Override
-            public void run() {
-                Player player = databaseCache.getPlayer();
-                if (databaseCache.getIslandId() != 0) {
-                    databaseReader.hasislandmembers(databaseCache.getIslandId(), new DatabaseReader.CallbackBoolean() {
-                        @Override
-                        public void onQueryDone(boolean hasislandmembers) {
-                            if (hasislandmembers) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            Player player = databaseCache.getPlayer();
+            if (databaseCache.getIslandId() != 0) {
+                plugin.getDb().getReader().hasislandmembers(databaseCache.getIslandId(), hasislandmembers -> {
+                    if (hasislandmembers) {
 
-                                databaseReader.getIslandMembers(databaseCache.getIslandId(), new DatabaseReader.CallbackList() {
-                                    @Override
-                                    public void onQueryDone(List<String> result) {
+                        plugin.getDb().getReader().getIslandMembers(databaseCache.getIslandId(), result -> {
 
-                                        StringBuilder memberList = null;
-                                        for (String member : result) {
-                                            if (memberList == null) {
-                                                memberList = new StringBuilder(member);
-                                            } else {
-                                                memberList.append(", ").append(member);
-                                            }
-                                        }
-                                        player.sendMessage(ChatColor.AQUA + "Players: " + ChatColor.RESET + memberList);
-                                    }
-                                });
-                            } else {
-                                ConfigShorts.messagefromString("OnlyMember", player);
+                            StringBuilder memberList = null;
+                            for (String member : result) {
+                                if (memberList == null) {
+                                    memberList = new StringBuilder(member);
+                                } else {
+                                    memberList.append(", ").append(member);
+                                }
                             }
-                        }
-                    });
-                } else {
-                    ConfigShorts.messagefromString("NoIsland", player);
-                }
+                            player.sendMessage(ChatColor.AQUA + "Players: " + ChatColor.RESET + memberList);
+                        });
+                    } else {
+                        ConfigShorts.messagefromString("OnlyMember", player);
+                    }
+                });
+            } else {
+                ConfigShorts.messagefromString("NoIsland", player);
             }
         });
     }

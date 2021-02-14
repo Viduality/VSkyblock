@@ -20,14 +20,17 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
-import com.github.Viduality.VSkyblock.WorldGenerator.Islandmethods;
+import com.github.Viduality.VSkyblock.VSkyblock;
+import com.github.Viduality.VSkyblock.WorldGenerator.IslandCreator;
 import org.bukkit.entity.Player;
 
 public class IslandRestartConfirm implements SubCommand{
 
-    private Islandmethods islandmethods = new Islandmethods();
+    private final VSkyblock plugin;
 
+    public IslandRestartConfirm(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(DatabaseCache databaseCache) {
@@ -40,7 +43,9 @@ public class IslandRestartConfirm implements SubCommand{
                 player.getEnderChest().clear();
                 player.setExp(0);
                 player.setTotalExperience(0);
-                islandmethods.createNewIsland(databaseCache.getUuid(), databaseCache.getIslandname());
+                new IslandCreator(plugin, databaseCache.getUuid())
+                        .oldIsland(databaseCache.getIslandname())
+                        .createNewIsland();
             } else {
                 ConfigShorts.custommessagefromString("GenerateCooldown", databaseCache.getPlayer(), String.valueOf(Island.getisgencooldown()));
             }

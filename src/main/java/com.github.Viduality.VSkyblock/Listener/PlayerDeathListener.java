@@ -21,8 +21,6 @@ package com.github.Viduality.VSkyblock.Listener;
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.TeleportHandler;
-import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
-import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,10 +30,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import java.util.UUID;
 
 public class PlayerDeathListener implements Listener {
-
-    private final VSkyblock plugin = VSkyblock.getInstance();
-    private final WorldManager wm = new WorldManager();
-
 
     @EventHandler
     public void playerRespawnListener(PlayerRespawnEvent playerRespawnEvent) {

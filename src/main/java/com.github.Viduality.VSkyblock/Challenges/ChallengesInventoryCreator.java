@@ -19,7 +19,6 @@ package com.github.Viduality.VSkyblock.Challenges;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,10 +34,11 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
-public class CreateChallengesInventory {
+public class ChallengesInventoryCreator {
 
     public static final NamespacedKey CHALLENGE_KEY = new NamespacedKey(VSkyblock.getInstance(), "challengeid");
-    private DatabaseReader databaseReader = new DatabaseReader();
+
+    private final VSkyblock plugin;
 
     public static final String descriptioncolor = ConfigShorts.getChallengesConfig().getString("ItemOverlay.DescriptionColor");
     private final String challengeNameColor = ConfigShorts.getChallengesConfig().getString("ItemOverlay.ChallengeNameColor");
@@ -55,6 +55,10 @@ public class CreateChallengesInventory {
     private final String mineasycomp = ConfigShorts.getChallengesConfig().getString("CompletedChallenges.MinEasyCompleted");
     private final String minmediumcomp = ConfigShorts.getChallengesConfig().getString("CompletedChallenges.MinMediumCompleted");
 
+    public ChallengesInventoryCreator(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
+
     /**
      * Creates an inventory for up to 18 challenges for the given difficulty.
      *
@@ -63,7 +67,7 @@ public class CreateChallengesInventory {
      * @param site        The site of the challenges difficulty.
      */
     public void createChallenges(Player player, Challenge.Difficulty difficulty, int site) {
-        databaseReader.getislandidfromplayer(player.getUniqueId(), (islandid) -> databaseReader.getIslandChallenges(islandid, (islandChallenges) -> {
+        plugin.getDb().getReader().getislandidfromplayer(player.getUniqueId(), (islandid) -> plugin.getDb().getReader().getIslandChallenges(islandid, (islandChallenges) -> {
             Inventory cinv = Bukkit.createInventory(null, 27, "Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty." + getDifficulty(difficulty)));
             if (getChallenges(difficulty) != null) {
                 if (!getChallenges(difficulty).isEmpty()) {
@@ -174,18 +178,18 @@ public class CreateChallengesInventory {
         int slot1 = slot - 1;
         switch (difficulty) {
             case EASY:
-                if (ChallengesHandler.sortedChallengesEasy.size() >= slot) {
-                    return ChallengesHandler.sortedChallengesEasy.get(slot1);
+                if (ChallengesManager.sortedChallengesEasy.size() >= slot) {
+                    return ChallengesManager.sortedChallengesEasy.get(slot1);
                 }
                 break;
             case MEDIUM:
-                if (ChallengesHandler.sortedChallengesMedium.size() >= slot) {
-                    return ChallengesHandler.sortedChallengesMedium.get(slot1);
+                if (ChallengesManager.sortedChallengesMedium.size() >= slot) {
+                    return ChallengesManager.sortedChallengesMedium.get(slot1);
                 }
                 break;
             case HARD:
-                if (ChallengesHandler.sortedChallengesHard.size() >= slot) {
-                    return ChallengesHandler.sortedChallengesHard.get(slot1);
+                if (ChallengesManager.sortedChallengesHard.size() >= slot) {
+                    return ChallengesManager.sortedChallengesHard.get(slot1);
                 }
                 break;
         }
@@ -282,9 +286,9 @@ public class CreateChallengesInventory {
      */
     private Map<String, Challenge> getChallenges(Challenge.Difficulty difficulty) {
         switch (difficulty) {
-            case EASY: return ChallengesHandler.challengesEasy;
-            case MEDIUM: return ChallengesHandler.challengesMedium;
-            case HARD: return ChallengesHandler.challengesHard;
+            case EASY: return ChallengesManager.challengesEasy;
+            case MEDIUM: return ChallengesManager.challengesMedium;
+            case HARD: return ChallengesManager.challengesHard;
             default: return null;
         }
     }
@@ -312,9 +316,9 @@ public class CreateChallengesInventory {
      */
     private int getChallengeListSize(Challenge.Difficulty difficulty) {
         switch (difficulty) {
-            case EASY: return ChallengesHandler.sortedChallengesEasy.size();
-            case MEDIUM: return ChallengesHandler.sortedChallengesMedium.size();
-            case HARD: return ChallengesHandler.sortedChallengesHard.size();
+            case EASY: return ChallengesManager.sortedChallengesEasy.size();
+            case MEDIUM: return ChallengesManager.sortedChallengesMedium.size();
+            case HARD: return ChallengesManager.sortedChallengesHard.size();
             default: return 0;
         }
     }

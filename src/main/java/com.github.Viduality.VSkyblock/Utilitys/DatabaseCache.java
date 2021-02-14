@@ -1,6 +1,5 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
-import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -10,11 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class DatabaseCache {
-
-
-    private VSkyblock plugin = VSkyblock.getInstance();
-
-
     private UUID playerId;
     private String name = null;
     private int islandid = 0;

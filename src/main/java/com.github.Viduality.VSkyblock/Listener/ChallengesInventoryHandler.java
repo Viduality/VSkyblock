@@ -18,10 +18,11 @@ package com.github.Viduality.VSkyblock.Listener;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Challenges.ChallengesHandler;
+import com.github.Viduality.VSkyblock.Challenges.ChallengesManager;
 import com.github.Viduality.VSkyblock.Challenges.Challenge;
-import com.github.Viduality.VSkyblock.Challenges.CreateChallengesInventory;
+import com.github.Viduality.VSkyblock.Challenges.ChallengesInventoryCreator;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,9 +37,11 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class ChallengesInventoryHandler implements Listener {
 
-    private CreateChallengesInventory cc = new CreateChallengesInventory();
-    private ChallengesHandler cH = new ChallengesHandler();
+    private VSkyblock plugin;
 
+    public ChallengesInventoryHandler(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void cinvHandler(InventoryClickEvent inventoryClickEvent) {
@@ -62,12 +65,12 @@ public class ChallengesInventoryHandler implements Listener {
                     if (inventoryClickEvent.getSlot() >= 0 && inventoryClickEvent.getSlot() <= 17 ) {
                         if (!inventoryClickEvent.getCurrentItem().getType().equals(Material.AIR)) {
                             String challengeId = getChallengeName(inventoryClickEvent.getCurrentItem());
-                            Challenge challenge = ChallengesHandler.challenges.get(challengeId);
+                            Challenge challenge = ChallengesManager.challenges.get(challengeId);
                             if (challenge != null) {
                                 if (inventoryClickEvent.getClick() == ClickType.LEFT) {
-                                    cH.checkChallenge(challenge, (Player) inventoryClickEvent.getWhoClicked(), inventoryClickEvent.getClickedInventory(), inventoryClickEvent.getSlot());
+                                    plugin.getChallengesManager().checkChallenge(challenge, (Player) inventoryClickEvent.getWhoClicked(), inventoryClickEvent.getClickedInventory(), inventoryClickEvent.getSlot());
                                 } else if (inventoryClickEvent.getClick() == ClickType.RIGHT) {
-                                    cH.toggleTracked(challenge, (Player) inventoryClickEvent.getWhoClicked());
+                                    plugin.getChallengesManager().toggleTracked(challenge, (Player) inventoryClickEvent.getWhoClicked());
                                 }
                             }
                         }
@@ -111,7 +114,7 @@ public class ChallengesInventoryHandler implements Listener {
      */
     private String getChallengeName(ItemStack challengeItem) {
         return challengeItem.getItemMeta().getPersistentDataContainer()
-                .get(CreateChallengesInventory.CHALLENGE_KEY, PersistentDataType.STRING);
+                .get(ChallengesInventoryCreator.CHALLENGE_KEY, PersistentDataType.STRING);
     }
 
     @EventHandler
@@ -129,6 +132,7 @@ public class ChallengesInventoryHandler implements Listener {
      * @param player
      */
     private void getnextChallengeinv(InventoryView currentInv, Player player, int site, boolean switchDifficulty) {
+        ChallengesInventoryCreator cc = plugin.getChallengesManager().getInventoryCreator();
         if (currentInv.getTitle().equals("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Easy"))) {
             if (switchDifficulty) {
                 cc.createChallenges(player, Challenge.Difficulty.MEDIUM, site);
@@ -152,6 +156,7 @@ public class ChallengesInventoryHandler implements Listener {
      * @param player
      */
     private void getpreviousChallengeinv(InventoryView currentInv, Player player, int site, boolean switchDifficulty) {
+        ChallengesInventoryCreator cc = plugin.getChallengesManager().getInventoryCreator();
         if (currentInv.getTitle().equals("Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty.Hard"))) {
             if (switchDifficulty) {
                 cc.createChallenges(player, Challenge.Difficulty.MEDIUM, site);

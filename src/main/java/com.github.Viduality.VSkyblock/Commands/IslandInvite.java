@@ -2,7 +2,6 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -16,8 +15,11 @@ import java.util.List;
 
 public class IslandInvite implements SubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseReader databaseReader = new DatabaseReader();
+    private final VSkyblock plugin;
+
+    public IslandInvite(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
 
     @Override
@@ -26,13 +28,13 @@ public class IslandInvite implements SubCommand {
             Player player = databaseCache.getPlayer();
             OfflinePlayer target = plugin.getServer().getOfflinePlayer(databaseCache.getArg());
             if (databaseCache.isIslandowner()) {
-                databaseReader.getIslandMembers(databaseCache.getIslandId(), result -> {
+                plugin.getDb().getReader().getIslandMembers(databaseCache.getIslandId(), result -> {
                     if (result.size() <= getislandplayerlimit()) {
                         if (target.isOnline()) {
                             Player onlinetarget = (Player) target;
                             if (onlinetarget != player) {
                                 List<String> members = new ArrayList<>();
-                                try (Connection connection = plugin.getdb().getConnection()) {
+                                try (Connection connection = plugin.getDb().getConnection()) {
                                     PreparedStatement preparedStatement;
                                     preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
                                     preparedStatement.setInt(1, databaseCache.getIslandId());

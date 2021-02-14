@@ -1,7 +1,6 @@
 package com.github.Viduality.VSkyblock.Commands.Admin;
 
 import com.github.Viduality.VSkyblock.Commands.WorldCommands.AdminSubCommand;
-import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.VSkyblock;
@@ -15,7 +14,11 @@ import java.util.UUID;
 
 public class ResetChallenges implements AdminSubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin;
+
+    public ResetChallenges(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
 
     @Override
@@ -23,7 +26,7 @@ public class ResetChallenges implements AdminSubCommand {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             if (sender.hasPermission("VSkyblock.ResetChallenges")) {
                 DatabaseCache databaseCache = new DatabaseCache();
-                try (Connection connection = plugin.getdb().getConnection()) {
+                try (Connection connection = plugin.getDb().getConnection()) {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE playername = ?");
                     preparedStatement.setString(1, args);
@@ -39,7 +42,7 @@ public class ResetChallenges implements AdminSubCommand {
 
                 UUID uuid = databaseCache.getUuid();
                 if (uuid != null) {
-                    try (Connection connection = plugin.getdb().getConnection()) {
+                    try (Connection connection = plugin.getDb().getConnection()) {
                         for (int i = 0; i < 3; i++) {
                             for (int x = 1; x < 19; x++) {
                                 String c = "c" + x;

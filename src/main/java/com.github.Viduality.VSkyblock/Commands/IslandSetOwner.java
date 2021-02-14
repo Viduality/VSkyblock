@@ -1,9 +1,7 @@
 package com.github.Viduality.VSkyblock.Commands;
 
-import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -17,9 +15,11 @@ import java.util.List;
 
 public class IslandSetOwner implements SubCommand{
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseWriter databaseWriter = new DatabaseWriter();
+    private final VSkyblock plugin;
 
+    public IslandSetOwner(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(DatabaseCache databaseCache) {
@@ -29,7 +29,7 @@ public class IslandSetOwner implements SubCommand{
                 OfflinePlayer target = plugin.getServer().getOfflinePlayer(databaseCache.getArg());
 
                 List<String> members = new ArrayList<>();
-                try (Connection connection = plugin.getdb().getConnection()) {
+                try (Connection connection = plugin.getDb().getConnection()) {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
                     preparedStatement.setInt(1, databaseCache.getIslandId());
@@ -41,7 +41,7 @@ public class IslandSetOwner implements SubCommand{
                     e.printStackTrace();
                 }
                 if (members.contains(target.getUniqueId().toString())) {
-                    databaseWriter.updateOwner(player.getUniqueId(), target.getUniqueId());
+                    plugin.getDb().getWriter().updateOwner(player.getUniqueId(), target.getUniqueId());
                     ConfigShorts.messagefromString("SetNewIslandOwner", player);
                     if (target.isOnline()) {
                         ConfigShorts.messagefromString("NewIslandOwner", (Player) target);

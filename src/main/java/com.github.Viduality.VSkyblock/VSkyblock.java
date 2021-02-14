@@ -19,6 +19,7 @@ package com.github.Viduality.VSkyblock;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import com.github.Viduality.VSkyblock.Challenges.ChallengesManager;
 import com.github.Viduality.VSkyblock.Commands.Admin.*;
 import com.github.Viduality.VSkyblock.Commands.Challenges;
 import com.github.Viduality.VSkyblock.Challenges.ChallengesCreator;
@@ -47,24 +48,16 @@ import java.util.List;
  */
 public class VSkyblock extends JavaPlugin implements Listener {
 
-
     private static VSkyblock instance;
 
     private TeleportHandler teleportHandler;
 
     private SQLConnector sqlConnector;
-    private DatabaseReader databaseReader;
-    private DatabaseWriter databaseWriter;
 
     public Scoreboardmanager scoreboardmanager;
-
-    private Island islandExecutor;
-    private Testcommand testcommandExecutor;
-    private Challenges challengesExecutor;
-    private AdminCommands adminCommandsExecutor;
-
-
-
+    private WorldManager worldManager;
+    private ChallengesManager challengesManager;
+    private ConfigChanger configChanger;
 
     public void onEnable() {
         instance = this;
@@ -76,31 +69,20 @@ public class VSkyblock extends JavaPlugin implements Listener {
         DefaultFiles.init();
         ConfigShorts.reloadAllConfigs();
 
-        sqlConnector = new SQLConnector();
-        databaseReader = new DatabaseReader();
-        databaseWriter = new DatabaseWriter();
-        teleportHandler = new TeleportHandler();
+        configChanger = new ConfigChanger(this);
+        sqlConnector = new SQLConnector(this);
+        worldManager = new WorldManager(this);
+        challengesManager = new ChallengesManager(this);
+        teleportHandler = new TeleportHandler(this);
 
 
-        {
-            islandExecutor = new Island(this);
-            getCommand("Island").setExecutor(islandExecutor);
-        }
+        getCommand("Island").setExecutor(new Island(this));
 
-        {
-            challengesExecutor = new Challenges(this);
-            getCommand("Challenges").setExecutor(challengesExecutor);
-        }
+        getCommand("Challenges").setExecutor(new Challenges(this));
 
-        {
-            testcommandExecutor = new Testcommand(this);
-            getCommand("Testcommand").setExecutor(testcommandExecutor);
-        }
+        //getCommand("Testcommand").setExecutor(new Testcommand());
 
-        {
-            adminCommandsExecutor = new AdminCommands(this);
-            getCommand("VSkyblock").setExecutor(adminCommandsExecutor);
-        }
+        getCommand("VSkyblock").setExecutor( new AdminCommands(this));
 
 
         /*
@@ -108,25 +90,26 @@ public class VSkyblock extends JavaPlugin implements Listener {
          */
 
         final PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new PlayerJoinListener(), this);
-        pm.registerEvents(new PlayerLeaveListener(), this);
+        pm.registerEvents(new PlayerJoinListener(this), this);
+        pm.registerEvents(new PlayerLeaveListener(this), this);
         pm.registerEvents(new PlayerDeathListener(), this);
         pm.registerEvents(new BlockBreakListener(), this);
-        pm.registerEvents(new NetherPortalListener(), this);
+        pm.registerEvents(new NetherPortalListener(this), this);
         pm.registerEvents(new BlockProtector(), this);
-        pm.registerEvents(new EntityProtector(), this);
-        pm.registerEvents(new InteractBlocker(), this);
+        pm.registerEvents(new EntityProtector(this), this);
+        pm.registerEvents(new InteractBlocker(this), this);
         pm.registerEvents(new ItemDropBlocker(), this);
         pm.registerEvents(new ItemPickupBlocker(), this);
-        pm.registerEvents(new ChallengesInventoryHandler(), this);
-        pm.registerEvents(new PortalAccessor(), this);
+        pm.registerEvents(new ChallengesInventoryHandler(this), this);
+        pm.registerEvents(new PortalAccessor(this), this);
         pm.registerEvents(new TeleporterInventoryHandler(), this);
-        pm.registerEvents(new IslandOptionsInventoryHandler(), this);
-        pm.registerEvents(new CobblestoneGenerator(), this);
-        pm.registerEvents(new CobblestoneGeneratorInventoryHandler(), this);
+        pm.registerEvents(new IslandOptionsInventoryHandler(this), this);
+        pm.registerEvents(new CobblestoneGenerator(this), this);
+        pm.registerEvents(new CobblestoneGeneratorInventoryHandler(this), this);
         pm.registerEvents(new PhantomSpawn(), this);
 
-        new DeleteOldIslands().run();
+
+        getServer().getScheduler().runTaskTimer(this, new DeleteOldIslands(this), 10, 72000);
 
         /*  NOT IMPLEMENTED YET
          {   //Teleporter Recipe
@@ -150,11 +133,11 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
         sqlConnector.initTables();
 
-        new WorldLoader().run();
+        getServer().getScheduler().runTaskAsynchronously(this, new WorldLoader(this));
 
         setGeneratorChances();
 
-        scoreboardmanager = new Scoreboardmanager();
+        scoreboardmanager = new Scoreboardmanager(this);
 
         ScoreboardManager sm = getServer().getScoreboardManager();
         Scoreboard scoreboard = sm.getMainScoreboard();
@@ -164,14 +147,14 @@ public class VSkyblock extends JavaPlugin implements Listener {
         }
 
         if (getOnlinePlayers().size() != 0) {
-            databaseReader.refreshIslands(getOnlinePlayers());
-            databaseReader.refreshDeathCounts(getOnlinePlayers());
+            getDb().getReader().refreshIslands(getOnlinePlayers());
+            getDb().getReader().refreshDeathCounts(getOnlinePlayers());
         }
         updateNewTables();
-        ChallengesCreator cc = new ChallengesCreator();
+        ChallengesCreator cc = new ChallengesCreator(this);
         if (cc.createAllChallenges()) {
             if (!useNewTables()) {
-                new ChallengesConverter().convertAllChallenges();
+                new ChallengesConverter(this).convertAllChallenges();
             }
         }
     }
@@ -194,23 +177,26 @@ public class VSkyblock extends JavaPlugin implements Listener {
         return instance;
     }
 
+    public ConfigChanger getConfigChanger() {
+        return configChanger;
+    }
 
-    public SQLConnector getdb() {
+    public SQLConnector getDb() {
         return sqlConnector;
-    }
-
-    public DatabaseReader getDatabaseReader() {
-        return databaseReader;
-    }
-
-    public DatabaseWriter getDatabaseWriter() {
-        return databaseWriter;
     }
 
     public Scoreboardmanager getScoreboardManager() {
         return scoreboardmanager;
     }
 
+
+    public WorldManager getWorldManager() {
+        return worldManager;
+    }
+
+    public ChallengesManager getChallengesManager() {
+        return challengesManager;
+    }
 
     /**
      * Returns all online players.
@@ -384,7 +370,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
     private void updateNewTables() {
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            try (Connection connection = getdb().getConnection()) {
+            try (Connection connection = getDb().getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island");
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -427,7 +413,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
     }
 
     private boolean useNewTables() {
-        Connection con = getdb().getConnection();
+        Connection con = getDb().getConnection();
         try {
             ResultSet r = con.getMetaData().getTables(null, null, "VSkyblock_Challenges_Easy", null);
             return !r.next();

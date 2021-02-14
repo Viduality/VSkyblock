@@ -38,8 +38,11 @@ import java.util.Objects;
 
 public class InteractBlocker implements Listener {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin;
 
+    public InteractBlocker(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void interactEvent(PlayerInteractEvent event) {

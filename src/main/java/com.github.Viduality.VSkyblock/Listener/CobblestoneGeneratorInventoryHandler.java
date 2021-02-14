@@ -12,8 +12,13 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 
 public class CobblestoneGeneratorInventoryHandler implements Listener {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private CobblestoneGeneratorUpgrade cobblestoneGeneratorUpgrade = new CobblestoneGeneratorUpgrade();
+    private final VSkyblock plugin;
+    private final CobblestoneGeneratorUpgrade cobblestoneGeneratorUpgrade;
+
+    public CobblestoneGeneratorInventoryHandler(VSkyblock plugin) {
+        this.plugin = plugin;
+        cobblestoneGeneratorUpgrade = new CobblestoneGeneratorUpgrade();
+    }
 
 
     @EventHandler

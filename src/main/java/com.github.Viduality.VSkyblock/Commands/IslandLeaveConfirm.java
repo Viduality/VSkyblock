@@ -20,22 +20,22 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
-import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.entity.Player;
 
 public class IslandLeaveConfirm implements SubCommand {
 
-    private DatabaseWriter databaseWriter = new DatabaseWriter();
-    private WorldManager wm = new WorldManager();
+    private final VSkyblock plugin;
 
+    public IslandLeaveConfirm(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(DatabaseCache databaseCache) {
         Player player = databaseCache.getPlayer();
         if (Island.leavemap.asMap().containsKey(player.getUniqueId())) {
-            databaseWriter.leavefromIsland(player.getUniqueId());
+            plugin.getDb().getWriter().leavefromIsland(player.getUniqueId());
             ConfigShorts.messagefromString("LeftIsland", player);
             player.getInventory().clear();
             player.getEnderChest().clear();
@@ -44,7 +44,7 @@ public class IslandLeaveConfirm implements SubCommand {
             Island.leavemap.asMap().remove(player.getUniqueId());
             Island.playerislands.remove(player.getUniqueId());
             if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
-                wm.unloadWorld(databaseCache.getIslandname());
+                plugin.getWorldManager().unloadWorld(databaseCache.getIslandname());
             }
         } else {
             ConfigShorts.messagefromString("LeaveFirst", player);

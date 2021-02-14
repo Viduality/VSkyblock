@@ -21,8 +21,6 @@ package com.github.Viduality.VSkyblock;
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -34,8 +32,6 @@ import java.util.List;
 public class CobblestoneGeneratorUpgrade {
 
     private final VSkyblock plugin = VSkyblock.getInstance();
-    private final DatabaseWriter databaseWriter = new DatabaseWriter();
-    private final DatabaseReader databaseReader = new DatabaseReader();
 
     /**
      * Checks if the current cobblestone generator can be upgraded.
@@ -73,23 +69,16 @@ public class CobblestoneGeneratorUpgrade {
                 upgradeCobbleGenerator(island, nextlevel);
                 removeItems(neededItems, neededAmounts, player);
                 player.closeInventory();
-                databaseReader.getislandid(Island.playerislands.get(player.getUniqueId()), new DatabaseReader.CallbackINT() {
-                    @Override
-                    public void onQueryDone(int result) {
-                        databaseReader.getIslandMembers(result, new DatabaseReader.CallbackList() {
-                            @Override
-                            public void onQueryDone(List<String> result) {
-                                for (String member : result) {
-                                    OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(member);
-                                    if (offlinePlayer.isOnline()) {
-                                        Player onlinePlayer = (Player) offlinePlayer;
-                                        ConfigShorts.custommessagefromString("UpgradedYourCobblestoneGenerator", onlinePlayer, player.getName());
-                                    }
-                                }
-                            }
-                        });
+                plugin.getDb().getReader().getislandid(Island.playerislands.get(player.getUniqueId()), 
+                        islandId -> plugin.getDb().getReader().getIslandMembers(islandId, members -> {
+                    for (String member : members) {
+                        OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(member);
+                        if (offlinePlayer.isOnline()) {
+                            Player onlinePlayer = (Player) offlinePlayer;
+                            ConfigShorts.custommessagefromString("UpgradedYourCobblestoneGenerator", onlinePlayer, player.getName());
+                        }
                     }
-                });
+                }));
             } else {
                 ConfigShorts.messagefromString("NotEnoughItemsGenerator", player);
             }
@@ -142,7 +131,7 @@ public class CobblestoneGeneratorUpgrade {
      * @param nextLevel
      */
     private void upgradeCobbleGenerator(String island, int nextLevel) {
-        databaseWriter.updateCobblestoneGeneratorLevel(island, nextLevel);
+        plugin.getDb().getWriter().updateCobblestoneGeneratorLevel(island, nextLevel);
         CobblestoneGenerator.islandGenLevel.put(island, nextLevel);
     }
 

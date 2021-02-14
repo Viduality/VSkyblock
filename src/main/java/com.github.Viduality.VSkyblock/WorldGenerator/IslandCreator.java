@@ -30,12 +30,22 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.UUID;
 
-public class Islandmethods {
+public class IslandCreator {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
-    private final DatabaseWriter databaseWriter = new DatabaseWriter();
-    private final DatabaseReader databaseReader = new DatabaseReader();
-    private final WorldManager wm = new WorldManager();
+    private final VSkyblock plugin;
+    private final UUID playerId;
+
+    private String oldIsland = null;
+
+    public IslandCreator(VSkyblock plugin, UUID playerId) {
+        this.plugin = plugin;
+        this.playerId = playerId;
+    }
+
+    public IslandCreator oldIsland(String oldIsland) {
+        this.oldIsland = oldIsland;
+        return this;
+    }
 
     /**
      * Checks if a string is from type Integer
@@ -53,18 +63,16 @@ public class Islandmethods {
 
     /**
      * Copies the template island and creates a new world for the player.
-     * @param uuid
-     * @param oldIsland
      */
-    public void createNewIsland(UUID uuid, String oldIsland) {
+    public void createNewIsland() {
         String worldsizeString = ConfigShorts.getDefConfig().getString("WorldSize");
         String difficulty = ConfigShorts.getDefConfig().getString("Difficulty");
-        databaseReader.getLatestIsland((worldName, a) -> {
-            Player player = plugin.getServer().getPlayer(uuid);
+        plugin.getDb().getReader().getLatestIsland((worldName, a) -> {
+            Player player = plugin.getServer().getPlayer(playerId);
             if (a) {
-                if (!wm.createIsland(worldName)) {
+                if (!plugin.getWorldManager().createIsland(worldName)) {
                     ConfigShorts.messagefromString("FailedToCreateIsland", player);
-                    plugin.getLogger().severe("Failed to create new island for " + uuid + " with id " + worldName);
+                    plugin.getLogger().severe("Failed to create new island for " + playerId + " with id " + worldName);
                     return;
                 }
 
@@ -76,7 +84,7 @@ public class Islandmethods {
                 World world = plugin.getServer().getWorld(worldName);
                 if (world == null) {
                     ConfigShorts.messagefromString("FailedToCreateIsland", player);
-                    plugin.getLogger().severe("Could not create new island for " + uuid + " properly as we don't know the world?");
+                    plugin.getLogger().severe("Could not create new island for " + playerId + " properly as we don't know the world?");
                     return;
                 }
                 world.getWorldBorder().setCenter(0, 0);
@@ -118,8 +126,8 @@ public class Islandmethods {
                 world.setGameRule(GameRule.DO_INSOMNIA, false);
 
 
-                Island.restartmap.asMap().remove(uuid);
-                Island.playerislands.put(uuid, worldName);
+                Island.restartmap.asMap().remove(playerId);
+                Island.playerislands.put(playerId, worldName);
                 Island.islandhomes.put(worldName, world.getSpawnLocation());
                 CobblestoneGenerator.islandGenLevel.put(worldName, 0);
                 CobblestoneGenerator.islandlevels.put(worldName, 0);
@@ -134,13 +142,13 @@ public class Islandmethods {
                     });
                 }
                 if (oldIsland != null) {
-                    wm.unloadWorld(oldIsland);
+                    plugin.getWorldManager().unloadWorld(oldIsland);
                 }
-                databaseWriter.addIsland(worldName, uuid, finaldifficutly.toUpperCase());
-                databaseWriter.updateDeathCount(uuid, 0);
+                plugin.getDb().getWriter().addIsland(worldName, playerId, finaldifficutly.toUpperCase());
+                plugin.getDb().getWriter().updateDeathCount(playerId, 0);
                 plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", 0);
             } else {
-                ConfigShorts.messagefromString("FailedToCreateIsland", plugin.getServer().getPlayer(uuid));
+                ConfigShorts.messagefromString("FailedToCreateIsland", plugin.getServer().getPlayer(playerId));
             }
         });
     }

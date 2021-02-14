@@ -19,7 +19,6 @@ package com.github.Viduality.VSkyblock.Utilitys;
  */
 
 
-import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -33,17 +32,20 @@ import java.util.Map;
 
 public class TeleportHandler {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
-    private final WorldManager wm = new WorldManager();
+    private final VSkyblock plugin;
 
     public static Map<Player, BukkitTask> teleportQueue = new HashMap<>();
     public static HashMap<Player, Location> locations = new HashMap<>();
+
+    public TeleportHandler(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     public boolean teleportToIsland(Player player, Location location, boolean visit, List<String> islandMembers) {
         locations.put(player, location);
         if (player.getFallDistance() < 5) {
             if (location != null) {
-                if (wm.getLoadedWorlds().contains(location.getWorld().getName())) {
+                if (plugin.getWorldManager().getLoadedWorlds().contains(location.getWorld().getName())) {
                     if (!player.getLocation().getBlock().getType().equals(Material.LAVA)) {
                         Bukkit.getScheduler().runTask(plugin, () -> {
                             player.teleport(location);

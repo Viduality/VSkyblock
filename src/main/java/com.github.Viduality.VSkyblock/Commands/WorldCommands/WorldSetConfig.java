@@ -19,15 +19,18 @@ package com.github.Viduality.VSkyblock.Commands.WorldCommands;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
+import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Difficulty;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class WorldSetConfig implements AdminSubCommand {
 
-    private WorldManager wm = new WorldManager();
+    private final VSkyblock plugin;
 
+    public WorldSetConfig(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(CommandSender sender, String args, String option1, String option2) {
@@ -37,12 +40,12 @@ public class WorldSetConfig implements AdminSubCommand {
                 String world = player.getWorld().getName();
                 String option = option1;
                 String value = option2;
-                if (wm.getAllWorlds().contains(world)) {
+                if (plugin.getWorldManager().getAllWorlds().contains(world)) {
                     if (value != null) {
                         switch (option.toUpperCase()) {
                             case "AUTOLOAD":
                                 if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
-                                    wm.setOption(world, "autoLoad", value.toLowerCase());
+                                    plugin.getWorldManager().setOption(world, "autoLoad", value.toLowerCase());
                                     ConfigShorts.messagefromString("OptionChanged", player);
                                     break;
                                 } else {
@@ -57,7 +60,7 @@ public class WorldSetConfig implements AdminSubCommand {
                                 break;
                             case "DIFFICULTY":
                                 if (getDifficultyasString(value) != null) {
-                                    wm.setOption(world, "difficulty", value.toUpperCase());
+                                    plugin.getWorldManager().setOption(world, "difficulty", value.toUpperCase());
                                     player.getWorld().setDifficulty(getDifficulty(value));
                                     ConfigShorts.messagefromString("OptionChanged", player);
                                     break;
@@ -67,7 +70,7 @@ public class WorldSetConfig implements AdminSubCommand {
                                 }
                             case "KEEPSPAWNINMEMORY":
                                 if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
-                                    wm.setOption(world, "keepSpawnInMemory", value.toLowerCase());
+                                    plugin.getWorldManager().setOption(world, "keepSpawnInMemory", value.toLowerCase());
                                     player.getWorld().setKeepSpawnInMemory(Boolean.parseBoolean(value.toLowerCase()));
                                     ConfigShorts.messagefromString("OptionChanged", player);
                                     break;
@@ -77,7 +80,7 @@ public class WorldSetConfig implements AdminSubCommand {
                                 }
                             case "GENERATESTRUCTURES":
                                 if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
-                                    wm.setOption(world, "generateStructures", value.toLowerCase());
+                                    plugin.getWorldManager().setOption(world, "generateStructures", value.toLowerCase());
                                     player.getWorld().setKeepSpawnInMemory(Boolean.parseBoolean(value.toLowerCase()));
                                     ConfigShorts.messagefromString("OptionChanged", player);
                                     break;

@@ -4,27 +4,22 @@ package com.github.Viduality.VSkyblock.Utilitys;
 import com.github.Viduality.VSkyblock.VSkyblock;
 
 import java.util.Calendar;
-import java.util.List;
 
 public class DeleteOldIslands implements Runnable {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseReader databaseReader = new DatabaseReader();
-    private DatabaseWriter databaseWriter = new DatabaseWriter();
-    private WorldManager wm = new WorldManager();
+    private final VSkyblock plugin;
+
+    public DeleteOldIslands(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
 
     @Override
     public void run() {
-        plugin.getServer().getScheduler().runTaskTimer(plugin, new Runnable() {
-            @Override
-            public void run() {
-                int rltime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                if (rltime == getCleanUpTime()) {
-                    startCleanUp();
-                }
-            }
-        }, 10, 72000);
+        int rltime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        if (rltime == getCleanUpTime()) {
+            startCleanUp();
+        }
     }
 
     /**
@@ -32,17 +27,14 @@ public class DeleteOldIslands implements Runnable {
      */
     private void startCleanUp() {
         ConfigShorts.broadcastfromString("CleaningUpOldIslands");
-        databaseReader.getemptyIslands(new DatabaseReader.CallbackList() {
-            @Override
-            public void onQueryDone(List<String> result) {
-                for (String currentIsland : result) {
-                    boolean deleted = wm.deleteWorld(currentIsland);
-                    if (deleted) {
-                        databaseWriter.deleteIsland(currentIsland);
-                    }
+        plugin.getDb().getReader().getemptyIslands(result -> {
+            for (String currentIsland : result) {
+                boolean deleted = plugin.getWorldManager().deleteWorld(currentIsland);
+                if (deleted) {
+                    plugin.getDb().getWriter().deleteIsland(currentIsland);
                 }
-                ConfigShorts.broadcastfromString("CleaningUpOldIslandsDone");
             }
+            ConfigShorts.broadcastfromString("CleaningUpOldIslandsDone");
         });
     }
 

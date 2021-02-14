@@ -19,7 +19,6 @@ package com.github.Viduality.VSkyblock.Commands.Admin;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -27,13 +26,9 @@ import org.bukkit.command.CommandSender;
 
 public class PlayerInfo {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
-    private final DatabaseReader databaseReader = new DatabaseReader();
-
-
-    public PlayerInfo(CommandSender sender, String args) {
+    public PlayerInfo(CommandSender sender, String args, VSkyblock plugin) {
         OfflinePlayer p = plugin.getServer().getOfflinePlayer(args);
-        databaseReader.getPlayerData(p.getUniqueId().toString(), (playerData -> {
+        plugin.getDb().getReader().getPlayerData(p.getUniqueId().toString(), (playerData -> {
             if (playerData.getUuid() != null) {
                 String playerInfo = ChatColor.AQUA + "----- " + playerData.getName() + " -----" + "\n" + "\n" +
                         ChatColor.GOLD + "IslandID: " + ChatColor.RESET + playerData.getIslandId() + "\n" +

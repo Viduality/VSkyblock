@@ -20,8 +20,6 @@ package com.github.Viduality.VSkyblock.Commands.Admin;
 
 import com.github.Viduality.VSkyblock.Commands.WorldCommands.AdminSubCommand;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -29,10 +27,11 @@ import org.bukkit.entity.Player;
 
 public class SetLastPosition implements AdminSubCommand {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
-    private final DatabaseWriter databaseWriter = new DatabaseWriter();
-    private final DatabaseReader databaseReader = new DatabaseReader();
+    private final VSkyblock plugin;
 
+    public SetLastPosition(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(CommandSender sender, String args, String option1, String option2) {
@@ -40,9 +39,9 @@ public class SetLastPosition implements AdminSubCommand {
             Player player = (Player) sender;
             if (player.hasPermission("VSkyblock.SetLastPosition")) {
                 OfflinePlayer p = plugin.getServer().getOfflinePlayer(args);
-                databaseReader.getPlayerData(p.getUniqueId().toString(), (playerData -> {
+                plugin.getDb().getReader().getPlayerData(p.getUniqueId().toString(), (playerData -> {
                     if (playerData.getUuid() != null) {
-                        databaseWriter.savelastLocation(playerData.getUuid(), player.getLocation());
+                        plugin.getDb().getWriter().savelastLocation(playerData.getUuid(), player.getLocation());
                         ConfigShorts.custommessagefromString("SavedLastLocation", player, playerData.getName());
                     } else {
                         ConfigShorts.messagefromString("PlayerDoesNotExist", player);

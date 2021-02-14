@@ -27,11 +27,6 @@ import java.util.UUID;
 public class IslandAccept implements SubCommand {
 
     private final VSkyblock plugin = VSkyblock.getInstance();
-    private final DatabaseReader databaseReader = new DatabaseReader();
-    private final DatabaseWriter databaseWriter = new DatabaseWriter();
-    private final WorldManager wm = new WorldManager();
-
-
 
     @Override
     public void execute(DatabaseCache databaseCache) {
@@ -40,24 +35,24 @@ public class IslandAccept implements SubCommand {
             if (Island.invitemap.asMap().containsKey(databaseCache.getUuid())) {
                 UUID newmemberuuid = databaseCache.getUuid();
                 UUID islandowneruuid = Island.invitemap.asMap().get(databaseCache.getUuid());
-                databaseReader.getislandidfromplayer(islandowneruuid, (islandid) -> databaseReader.getislandnamefromplayer(islandowneruuid, (newisland) -> {
+                plugin.getDb().getReader().getislandidfromplayer(islandowneruuid, (islandid) -> plugin.getDb().getReader().getislandnamefromplayer(islandowneruuid, (newisland) -> {
                     if (databaseCache.isIslandowner()) {
-                        databaseReader.hasislandmembers(databaseCache.getIslandId(), result1 -> {
-                            if (!result1) {
+                        plugin.getDb().getReader().hasislandmembers(databaseCache.getIslandId(), hasMembers -> {
+                            if (!hasMembers) {
 
                                 player.getInventory().clear();
                                 player.getEnderChest().clear();
                                 player.teleportAsync(Island.islandhomes.get(newisland)).whenComplete((b, e) -> {
                                     player.setCollidable(true);
                                     player.setSleepingIgnored(false);
-                                    wm.unloadWorld(databaseCache.getIslandname());
+                                    plugin.getWorldManager().unloadWorld(databaseCache.getIslandname());
                                 });
 
-                                databaseWriter.updatePlayersIsland(newmemberuuid, islandid, false);
+                                plugin.getDb().getWriter().updatePlayersIsland(newmemberuuid, islandid, false);
                                 Island.invitemap.asMap().remove(player.getUniqueId());
                                 Island.playerislands.put(player.getUniqueId(), newisland);
                                 Island.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
-                                databaseWriter.updateDeathCount(newmemberuuid, 0);
+                                plugin.getDb().getWriter().updateDeathCount(newmemberuuid, 0);
                                 plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", 0);
 
                             } else {
@@ -67,7 +62,7 @@ public class IslandAccept implements SubCommand {
                     } else {
                         player.getInventory().clear();
                         player.getEnderChest().clear();
-                        databaseWriter.updatePlayersIsland(newmemberuuid, islandid, false);
+                        plugin.getDb().getWriter().updatePlayersIsland(newmemberuuid, islandid, false);
                         Island.invitemap.asMap().remove(player.getUniqueId());
                         Island.playerislands.put(player.getUniqueId(), newisland);
                         Island.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
@@ -76,7 +71,7 @@ public class IslandAccept implements SubCommand {
                                 if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
                                     player.setCollidable(true);
                                     player.setSleepingIgnored(false);
-                                    wm.unloadWorld(databaseCache.getIslandname());
+                                    plugin.getWorldManager().unloadWorld(databaseCache.getIslandname());
                                 }
                             }
                             if (e != null) {

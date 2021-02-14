@@ -28,10 +28,11 @@ import java.util.*;
 
 public class ChallengesCreator {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin;
 
-    private final String ANSI_RED = "\u001B[31m";
-    private final String ANSI_RESET = "\u001B[0m";
+    public ChallengesCreator(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     public boolean createAllChallenges() {
         if (createChallenges(Challenge.Difficulty.EASY)) {
@@ -91,8 +92,8 @@ public class ChallengesCreator {
                 challenge.setRewards(createItems(rewards));
                 challenge.setRepeatRewards(createItems(repeatRewards));
                 if (isChallengeValid(challenge)) {
-                    if (!ChallengesHandler.challenges.containsKey(challenge.getMySQLKey())) {
-                        ChallengesHandler.challenges.put(challenge.getMySQLKey(), challenge);
+                    if (!ChallengesManager.challenges.containsKey(challenge.getMySQLKey())) {
+                        ChallengesManager.challenges.put(challenge.getMySQLKey(), challenge);
                         switch (diff) {
                             case EASY:
                                 if (slotsEasy.get(challenge.getSlot()) != null) {
@@ -100,7 +101,7 @@ public class ChallengesCreator {
                                         challenge.setSlot(challenge.getSlot() + 1);
                                     }
                                 }
-                                ChallengesHandler.challengesEasy.put(challengeName, challenge);
+                                ChallengesManager.challengesEasy.put(challengeName, challenge);
                                 slotsEasy.put(challenge.getSlot(), challenge);
                                 if (challenge.getSlot() > highestSlot) {
                                     highestSlot = challenge.getSlot();
@@ -112,7 +113,7 @@ public class ChallengesCreator {
                                         challenge.setSlot(challenge.getSlot() + 1);
                                     }
                                 }
-                                ChallengesHandler.challengesMedium.put(challengeName, challenge);
+                                ChallengesManager.challengesMedium.put(challengeName, challenge);
                                 slotsMedium.put(challenge.getSlot(), challenge);
                                 if (challenge.getSlot() > highestSlot) {
                                     highestSlot = challenge.getSlot();
@@ -124,7 +125,7 @@ public class ChallengesCreator {
                                         challenge.setSlot(challenge.getSlot() + 1);
                                     }
                                 }
-                                ChallengesHandler.challengesHard.put(challengeName, challenge);
+                                ChallengesManager.challengesHard.put(challengeName, challenge);
                                 slotsHard.put(challenge.getSlot(), challenge);
                                 if (challenge.getSlot() > highestSlot) {
                                     highestSlot = challenge.getSlot();
@@ -146,13 +147,13 @@ public class ChallengesCreator {
         Map<String, Challenge> challengeHashMap;
         switch (difficulty) {
             case EASY:
-                challengeHashMap = ChallengesHandler.challengesEasy;
+                challengeHashMap = ChallengesManager.challengesEasy;
                 break;
             case MEDIUM:
-                challengeHashMap = ChallengesHandler.challengesMedium;
+                challengeHashMap = ChallengesManager.challengesMedium;
                 break;
             case HARD:
-                challengeHashMap = ChallengesHandler.challengesHard;
+                challengeHashMap = ChallengesManager.challengesHard;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + difficulty + " while sorting challenges!");
@@ -164,15 +165,15 @@ public class ChallengesCreator {
         boolean b;
         switch (difficulty) {
             case EASY:
-                ChallengesHandler.sortedChallengesEasy = sortedChallenges;
+                ChallengesManager.sortedChallengesEasy = sortedChallenges;
                 b = true;
                 break;
             case MEDIUM:
-                ChallengesHandler.sortedChallengesMedium = sortedChallenges;
+                ChallengesManager.sortedChallengesMedium = sortedChallenges;
                 b = true;
                 break;
             case HARD:
-                ChallengesHandler.sortedChallengesHard = sortedChallenges;
+                ChallengesManager.sortedChallengesHard = sortedChallenges;
                 b = true;
                 break;
             default:

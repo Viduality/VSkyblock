@@ -22,8 +22,6 @@ import com.github.Viduality.VSkyblock.DefaultFiles;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -43,12 +41,14 @@ import java.util.logging.Level;
 
 public class IslandLevel implements SubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseReader databaseReader = new DatabaseReader();
-    private DatabaseWriter databaseWriter = new DatabaseWriter();
+    private final VSkyblock plugin;
     private static Cache<UUID, Boolean> timebetweenreuse = CacheBuilder.newBuilder()
             .expireAfterWrite(gettimebetweencalc(), TimeUnit.MINUTES)
             .build();
+
+    public IslandLevel(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(DatabaseCache databaseCache) {
@@ -61,7 +61,7 @@ public class IslandLevel implements SubCommand {
                 uuid = databaseCache.getUuid();
             }
             Player player = databaseCache.getPlayer();
-            databaseReader.getislandlevelfromuuid(uuid, (islandlevel) -> {
+            plugin.getDb().getReader().getislandlevelfromuuid(uuid, (islandlevel) -> {
                 if (databaseCache.getArg() != null) {
                     ConfigShorts.custommessagefromString("PlayersIslandLevel", player, String.valueOf(islandlevel), databaseCache.getArg());
                 } else {
@@ -74,7 +74,7 @@ public class IslandLevel implements SubCommand {
                             plugin.getLogger().log(Level.SEVERE, "World " + databaseCache.getIslandname() + " not found?");
                             return;
                         }
-                        databaseReader.getIslandsChallengePoints(databaseCache.getIslandId(), (challengePoints) -> {
+                        plugin.getDb().getReader().getIslandsChallengePoints(databaseCache.getIslandId(), (challengePoints) -> {
                             int valueriselevel = getValueRiseLevel();
                             int valueincrease = getValueIncrease();
                             double worldsize = world.getWorldBorder().getSize();
@@ -125,7 +125,7 @@ public class IslandLevel implements SubCommand {
                                 }
 
                                 int roundlevel = (int) Math.floor(level);
-                                databaseWriter.updateIslandLevel(databaseCache.getIslandId(), roundlevel, c.blocks, player.getUniqueId());
+                                plugin.getDb().getWriter().updateIslandLevel(databaseCache.getIslandId(), roundlevel, c.blocks, player.getUniqueId());
                                 ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
                                 CobblestoneGenerator.islandlevels.put(databaseCache.getIslandname(), roundlevel);
                             });

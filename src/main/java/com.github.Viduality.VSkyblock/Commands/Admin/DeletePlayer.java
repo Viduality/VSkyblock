@@ -35,15 +35,18 @@ import java.util.UUID;
 
 public class DeletePlayer implements AdminSubCommand {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin;
 
+    public DeletePlayer(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(CommandSender sender, String args, String option1, String option2) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             if (sender.hasPermission("VSkyblock.DeletePlayer")) {
                 DatabaseCache databaseCache = new DatabaseCache();
-                try (Connection connection = plugin.getdb().getConnection()) {
+                try (Connection connection = plugin.getDb().getConnection()) {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE playername = ?");
                     preparedStatement.setString(1, args);
@@ -59,7 +62,7 @@ public class DeletePlayer implements AdminSubCommand {
 
                 UUID uuid = databaseCache.getUuid();
                 if (uuid != null) {
-                    try (Connection connection = plugin.getdb().getConnection()) {
+                    try (Connection connection = plugin.getDb().getConnection()) {
                         PreparedStatement preparedStatement1;
 
                         preparedStatement1 = connection.prepareStatement("DELETE FROM VSkyblock_Player WHERE uuid = ?");

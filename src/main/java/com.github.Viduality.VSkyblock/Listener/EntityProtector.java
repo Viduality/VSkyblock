@@ -20,7 +20,6 @@ package com.github.Viduality.VSkyblock.Listener;
 
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -33,21 +32,21 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.EnumSet;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
 public class EntityProtector implements Listener {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
-    private final WorldManager wm = new WorldManager();
+    private final VSkyblock plugin;
     private static final Cache<LivingEntity, BukkitTask> nocollideentities = CacheBuilder.newBuilder()
             .expireAfterWrite(1, TimeUnit.SECONDS)
             .build();
+
+    public EntityProtector(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
 
     @EventHandler
@@ -86,7 +85,7 @@ public class EntityProtector implements Listener {
                 entityDamageEvent.setCancelled(true);
                 if (entityDamageEvent.getCause() == EntityDamageEvent.DamageCause.VOID || player.getLocation().getY() < 0) {
                     player.setFallDistance(0);
-                    player.teleportAsync(wm.getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
+                    player.teleportAsync(plugin.getWorldManager().getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
                 }
             }
         }

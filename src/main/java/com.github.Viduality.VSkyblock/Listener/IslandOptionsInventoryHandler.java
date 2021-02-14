@@ -44,10 +44,11 @@ import java.util.UUID;
 
 public class IslandOptionsInventoryHandler implements Listener {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
-    private final DatabaseWriter databaseWriter = new DatabaseWriter();
-    private final DatabaseReader databaseReader = new DatabaseReader();
+    private final VSkyblock plugin;
 
+    public IslandOptionsInventoryHandler(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void isOptionsHandler(InventoryClickEvent inventoryClickEvent) {
@@ -108,8 +109,8 @@ public class IslandOptionsInventoryHandler implements Listener {
                 player.closeInventory();
                 ConfigShorts.messagefromString("UpdatedIslandOptions", player);
                 String finalDifficulty = difficulty;
-                databaseWriter.updateIslandOptions(player, visit, needRequest, difficulty, done ->
-                        databaseReader.getislandnamefromplayer(player.getUniqueId(), result ->
+                plugin.getDb().getWriter().updateIslandOptions(player, visit, needRequest, difficulty, done ->
+                        plugin.getDb().getReader().getislandnamefromplayer(player.getUniqueId(), result ->
                                 updateIsland(result, finalDifficulty)));
             }
         }

@@ -19,8 +19,6 @@ package com.github.Viduality.VSkyblock.Commands;
  */
 
 import com.github.Viduality.VSkyblock.Challenges.Challenge;
-import com.github.Viduality.VSkyblock.Challenges.CreateChallengesInventory;
-import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.ChatColor;
@@ -30,16 +28,13 @@ import org.bukkit.command.CommandSender;
 
 import org.bukkit.entity.Player;
 
-
 public class Challenges implements CommandExecutor {
 
-    private final CreateChallengesInventory cc = new CreateChallengesInventory();
+    private VSkyblock plugin;
 
-    private VSkyblock challenges;
-    public Challenges(VSkyblock challenges) {
-        this.challenges = challenges;
+    public Challenges(VSkyblock plugin) {
+        this.plugin = plugin;
     }
-
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
@@ -49,7 +44,7 @@ public class Challenges implements CommandExecutor {
                 if (player.hasPermission("VSkyblock.Challenges")) {
                     if (Island.playerislands.containsKey(player.getUniqueId())) {
                         if (Island.playerislands.get(player.getUniqueId()).equals(player.getWorld().getName())) {
-                            cc.createChallenges(player, Challenge.Difficulty.EASY, 1);
+                            plugin.getChallengesManager().getInventoryCreator().createChallenges(player, Challenge.Difficulty.EASY, 1);
                         } else {
                             ConfigShorts.messagefromString("NotAtPlayersIsland", player);
                         }

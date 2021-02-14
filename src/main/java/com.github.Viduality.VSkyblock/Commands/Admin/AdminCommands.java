@@ -28,13 +28,11 @@ import org.bukkit.entity.Player;
 
 public class AdminCommands implements CommandExecutor {
 
-    private VSkyblock adminCommands;
-    public AdminCommands(VSkyblock adminCommands) {
-        this.adminCommands = adminCommands;
+    private final VSkyblock plugin;
+
+    public AdminCommands(VSkyblock plugin) {
+        this.plugin = plugin;
     }
-
-
-
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
@@ -45,22 +43,22 @@ public class AdminCommands implements CommandExecutor {
             AdminSubCommand adminSubCommand = null;
 
             if (args.length == 0) {
-                adminSubCommand = new AdminCommandsHelp();
+                adminSubCommand = new AdminCommandsHelp(plugin);
             }
 
             if (args.length == 1) {
 
                 if (args[0].equalsIgnoreCase("help")) {
-                    adminSubCommand = new AdminCommandsHelp();
+                    adminSubCommand = new AdminCommandsHelp(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("list")) {
-                    adminSubCommand = new WorldList();
+                    adminSubCommand = new WorldList(plugin);
                 }
 
                 if (sender instanceof Player) {
                     if (args[0].equalsIgnoreCase("info")) {
-                        adminSubCommand = new WorldInfo();
+                        adminSubCommand = new WorldInfo(plugin);
                     }
                 }
 
@@ -71,27 +69,27 @@ public class AdminCommands implements CommandExecutor {
                 arg = args[1];
 
                 if (args[0].equalsIgnoreCase("teleport") || args[0].equalsIgnoreCase("tp")) {
-                    adminSubCommand = new WorldTeleportation();
+                    adminSubCommand = new WorldTeleportation(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("load")) {
-                    adminSubCommand = new WorldLoad();
+                    adminSubCommand = new WorldLoad(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("unload")) {
-                    adminSubCommand = new WorldUnload();
+                    adminSubCommand = new WorldUnload(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("list")) {
-                    adminSubCommand = new WorldList();
+                    adminSubCommand = new WorldList(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("Nether")) {
-                    adminSubCommand = new SetNether();
+                    adminSubCommand = new SetNether(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("SpawnWorld")) {
-                    adminSubCommand = new SetSpawnWorld();
+                    adminSubCommand = new SetSpawnWorld(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("SpawnPoint")) {
@@ -99,23 +97,23 @@ public class AdminCommands implements CommandExecutor {
                 }
 
                 if (args[0].equalsIgnoreCase("import")) {
-                    adminSubCommand = new WorldImport();
+                    adminSubCommand = new WorldImport(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("info")) {
-                    adminSubCommand = new WorldInfo();
+                    adminSubCommand = new WorldInfo(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("recreate") && args[1].equalsIgnoreCase("languages")) {
-                    adminSubCommand = new RecreateLanguageFiles();
+                    adminSubCommand = new RecreateLanguageFiles(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("recreate") && args[1].equalsIgnoreCase("help")) {
-                    adminSubCommand = new RecreateHelpFiles();
+                    adminSubCommand = new RecreateHelpFiles(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("recreate") && args[1].equalsIgnoreCase("challenges")) {
-                    adminSubCommand = new RecreateChallengeFiles();
+                    adminSubCommand = new RecreateChallengeFiles(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("reload") && args[1].equalsIgnoreCase("blockvalues")) {
@@ -133,32 +131,32 @@ public class AdminCommands implements CommandExecutor {
                 arg = args[2];
 
                 if (args[0].equalsIgnoreCase("delete") && args[1].equalsIgnoreCase("world")) {
-                    adminSubCommand = new WorldDelete();
+                    adminSubCommand = new WorldDelete(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("delete") && args[1].equalsIgnoreCase("player")) {
-                    adminSubCommand = new DeletePlayer();
+                    adminSubCommand = new DeletePlayer(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("reset") && args[1].equalsIgnoreCase("challenges")) {
-                    adminSubCommand = new ResetChallenges();
+                    adminSubCommand = new ResetChallenges(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("autoLoad")) {
-                    adminSubCommand = new WorldAutoLoad();
+                    adminSubCommand = new WorldAutoLoad(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("lastposition")) {
-                    adminSubCommand = new SetLastPosition();
+                    adminSubCommand = new SetLastPosition(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("create") && args[1].equalsIgnoreCase("world")) {
-                    adminSubCommand = new WorldCreate();
+                    adminSubCommand = new WorldCreate(plugin);
                 }
 
                 if ((args[0].equalsIgnoreCase("recalculate") || args[0].equalsIgnoreCase("recalc"))
                         && (args[1].equalsIgnoreCase("islandlevel") || args[1].equalsIgnoreCase("islevel"))) {
-                    adminSubCommand = new RecalculateIslandLevel();
+                    adminSubCommand = new RecalculateIslandLevel(plugin);
                 }
 
             }
@@ -170,11 +168,11 @@ public class AdminCommands implements CommandExecutor {
                 opt2 = args[3];
 
                 if (args[0].equalsIgnoreCase("import")) {
-                    adminSubCommand = new WorldImport();
+                    adminSubCommand = new WorldImport(plugin);
                 }
 
                 if (args[0].equalsIgnoreCase("set") && args[1].equalsIgnoreCase("worldconfig")) {
-                    adminSubCommand = new WorldSetConfig();
+                    adminSubCommand = new WorldSetConfig(plugin);
                 }
             }
 
@@ -185,7 +183,7 @@ public class AdminCommands implements CommandExecutor {
                 opt2 = args[4];
 
                 if (args[0].equalsIgnoreCase("create") && args[1].equalsIgnoreCase("world")) {
-                    adminSubCommand = new WorldCreate();
+                    adminSubCommand = new WorldCreate(plugin);
                 }
 
             }

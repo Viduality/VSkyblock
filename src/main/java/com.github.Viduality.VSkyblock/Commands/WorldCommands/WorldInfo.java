@@ -19,16 +19,17 @@ package com.github.Viduality.VSkyblock.Commands.WorldCommands;
  */
 
 import com.github.Viduality.VSkyblock.Commands.Admin.PlayerInfo;
-import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
+import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class WorldInfo implements AdminSubCommand {
 
-    private WorldManager wm = new WorldManager();
+    private final VSkyblock plugin;
 
-
+    public WorldInfo(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(CommandSender sender, String args, String option1, String option2) {
@@ -39,10 +40,10 @@ public class WorldInfo implements AdminSubCommand {
                     args = player.getWorld().getName();
                 }
             }
-            if (wm.getAllWorlds().contains(args)) {
-                sender.sendMessage(wm.getWorldInformation(args));
+            if (plugin.getWorldManager().getAllWorlds().contains(args)) {
+                sender.sendMessage(plugin.getWorldManager().getWorldInformation(args));
             } else {
-                new PlayerInfo(sender, args);
+                new PlayerInfo(sender, args, plugin);
             }
         }
     }

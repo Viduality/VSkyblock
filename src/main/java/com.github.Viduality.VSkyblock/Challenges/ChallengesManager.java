@@ -19,8 +19,6 @@ package com.github.Viduality.VSkyblock.Challenges;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -39,7 +37,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class ChallengesHandler {
+public class ChallengesManager {
 
     public static final Map<String, Challenge> challenges = new HashMap<>();
     static final Map<String, Challenge> challengesEasy = new HashMap<>(); //DisplayName and challenge
@@ -49,10 +47,6 @@ public class ChallengesHandler {
     public static List<Challenge> sortedChallengesMedium = new ArrayList<>();
     public static List<Challenge> sortedChallengesHard = new ArrayList<>();
 
-    private final DatabaseReader databaseReader = new DatabaseReader();
-    private final DatabaseWriter databaseWriter = new DatabaseWriter();
-    private final CreateChallengesInventory cc = new CreateChallengesInventory();
-
     public static Cache<UUID, Integer> onIslandDelay = CacheBuilder.newBuilder()
             .expireAfterWrite(30, TimeUnit.SECONDS)
             .build();
@@ -60,6 +54,19 @@ public class ChallengesHandler {
     public static Cache<UUID, Integer> islandLevelDelay = CacheBuilder.newBuilder()
             .expireAfterWrite(5, TimeUnit.SECONDS)
             .build();
+    
+    private VSkyblock plugin;
+
+    private final ChallengesInventoryCreator inventoryCreator;
+
+    public ChallengesManager(VSkyblock plugin) {
+        this.plugin = plugin;
+        inventoryCreator = new ChallengesInventoryCreator(plugin);
+    }
+
+    public ChallengesInventoryCreator getInventoryCreator() {
+        return inventoryCreator;
+    }
 
     /**
      * Checks if a challenge can be completed.
@@ -68,7 +75,7 @@ public class ChallengesHandler {
      * @param player       The player who wants to complete the challenge.
      */
     public void checkChallenge(Challenge challenge, Player player, Inventory inv, int challengeSlot) {
-        databaseReader.getislandidfromplayer(player.getUniqueId(), (islandid) -> databaseReader.getIslandChallenges(islandid, (islandChallenges) -> {
+        plugin.getDb().getReader().getislandidfromplayer(player.getUniqueId(), (islandid) -> plugin.getDb().getReader().getIslandChallenges(islandid, (islandChallenges) -> {
             boolean repeat = false;
             if (islandChallenges.getChallengeCount(challenge.getMySQLKey()) != 0) {
                 repeat = true;
@@ -105,8 +112,8 @@ public class ChallengesHandler {
                             clearItems(player.getInventory(), challenge.getNeededItems());
                         }
                         giveRewards(player.getInventory(), rewards);
-                        databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
-                        inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
+                        plugin.getDb().getWriter().updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
+                        inv.setItem(challengeSlot, inventoryCreator.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
                         unTrack(challenge, player);
                         if (!repeat) {
                             ConfigShorts.broadcastChallengeCompleted("ChallengeComplete", player.getName(), challenge);
@@ -142,7 +149,7 @@ public class ChallengesHandler {
                 if (!repeat) {
                     if (!islandLevelDelay.asMap().containsKey(player.getUniqueId())) {
                         islandLevelDelay.put(player.getUniqueId(), 1);
-                        databaseReader.getislandlevelfromuuid(player.getUniqueId(), (islandLevel) -> {
+                        plugin.getDb().getReader().getislandlevelfromuuid(player.getUniqueId(), (islandLevel) -> {
                             if (islandLevel >= challenge.getNeededLevel()) {
                                 if (getEmptySlots(player.getInventory()).size() >= challenge.getRewards().size()) {
                                     giveRewards(player.getInventory(), challenge.getRewards());
@@ -158,8 +165,8 @@ public class ChallengesHandler {
                                             VSkyblock.getInstance().getLogger().warning("ChallengeCompleteFirst sound is invalid! " + e.getMessage());
                                         }
                                     }
-                                    databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
-                                    inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
+                                    plugin.getDb().getWriter().updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
+                                    inv.setItem(challengeSlot, inventoryCreator.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
                                 } else {
                                     ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
                                 }
@@ -172,7 +179,7 @@ public class ChallengesHandler {
                     }
                 } else {
                     ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
-                    inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
+                    inv.setItem(challengeSlot, inventoryCreator.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
                 }
             } else if (challenge.getChallengeType().equals(Challenge.ChallengeType.onIsland)) {
                 if (!repeat) {
@@ -207,8 +214,8 @@ public class ChallengesHandler {
                                         VSkyblock.getInstance().getLogger().warning("ChallengeCompleteFirst sound is invalid! " + e.getMessage());
                                     }
                                 }
-                                databaseWriter.updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
-                                inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
+                                plugin.getDb().getWriter().updateChallengeCount(islandid, challenge.getMySQLKey(), islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1);
+                                inv.setItem(challengeSlot, inventoryCreator.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
                             } else {
                                 ConfigShorts.messagefromString("NotEnoughInventorySpace", player);
                             }
@@ -220,7 +227,7 @@ public class ChallengesHandler {
                     }
                 } else {
                     ConfigShorts.messagefromString("ChallengeNotRepeatable", player);
-                    inv.setItem(challengeSlot, cc.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
+                    inv.setItem(challengeSlot, inventoryCreator.createChallengeItem(challenge, islandChallenges.getChallengeCount(challenge.getMySQLKey()) + 1, islandChallenges.getTrackedChallenges().contains(challenge.getMySQLKey())));
                 }
             }
         }));
@@ -313,15 +320,15 @@ public class ChallengesHandler {
     }
 
     public void toggleTracked(Challenge challenge, Player player) {
-        databaseReader.getislandidfromplayer(player.getUniqueId(), (islandId) -> databaseReader.getIslandChallenges(islandId, (challenges) -> {
+        plugin.getDb().getReader().getislandidfromplayer(player.getUniqueId(), (islandId) -> plugin.getDb().getReader().getIslandChallenges(islandId, (challenges) -> {
             if (challenges.getTrackedChallenges().size() < 10
                     && challenges.getChallengeCount(challenge.getChallengeName()) == 0 || challenge.getRepeatRewards() != null) {
                 if (challenges.getTrackedChallenges().contains(challenge.getMySQLKey())) {
                     challenges.removeTrackedChallenge(challenge.getMySQLKey());
-                    databaseWriter.updateChallengeTracked(islandId, challenge.getMySQLKey(), false);
+                    plugin.getDb().getWriter().updateChallengeTracked(islandId, challenge.getMySQLKey(), false);
                 } else {
                     challenges.addTrackedChallenge(challenge.getMySQLKey());
-                    databaseWriter.updateChallengeTracked(islandId, challenge.getMySQLKey(), true);
+                    plugin.getDb().getWriter().updateChallengeTracked(islandId, challenge.getMySQLKey(), true);
                 }
                 VSkyblock.getInstance().getScoreboardManager().updateTracked(islandId, challenges);
             }
@@ -329,9 +336,9 @@ public class ChallengesHandler {
     }
 
     public void unTrack(Challenge challenge, Player player) {
-        databaseReader.getislandidfromplayer(player.getUniqueId(), (islandId) -> databaseReader.getIslandChallenges(islandId, (challenges) -> {
+        plugin.getDb().getReader().getislandidfromplayer(player.getUniqueId(), (islandId) -> plugin.getDb().getReader().getIslandChallenges(islandId, (challenges) -> {
             if (challenges.removeTrackedChallenge(challenge.getMySQLKey())) {
-                databaseWriter.updateChallengeTracked(islandId, challenge.getMySQLKey(), false);
+                plugin.getDb().getWriter().updateChallengeTracked(islandId, challenge.getMySQLKey(), false);
                 VSkyblock.getInstance().getScoreboardManager().updateTracked(islandId, challenges);
             }
         }));

@@ -18,6 +18,7 @@ package com.github.Viduality.VSkyblock.Utilitys;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -33,9 +34,13 @@ import java.util.UUID;
 
 public class DatabaseWriter {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private DatabaseReader databaseReader = new DatabaseReader();
-    private WorldManager wm = new WorldManager();
+    private final VSkyblock plugin;
+    private final SQLConnector connector;
+
+    public DatabaseWriter(VSkyblock plugin, SQLConnector connector) {
+        this.plugin = plugin;
+        this.connector = connector;
+    }
 
     /**
      * Adds a player to the database. (database action)
@@ -46,7 +51,7 @@ public class DatabaseWriter {
      */
     public void addPlayer(UUID uuid, String name) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement preparedStatement;
 
                 preparedStatement = connection.prepareStatement("INSERT INTO VSkyblock_Player(uuid, playername) VALUES(?, ?)");
@@ -69,7 +74,7 @@ public class DatabaseWriter {
      */
     public void addIsland(String island, UUID uuid, String difficutly) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("INSERT INTO VSkyblock_Island(island, difficulty) VALUES(?, ?)");
                 preparedStatement.setString(1, island);
@@ -81,11 +86,11 @@ public class DatabaseWriter {
             }
 
             final int[] newislandidarray = {0};
-            databaseReader.getislandid(island, result -> {
+            connector.getReader().getislandid(island, result -> {
                 newislandidarray[0] = result;
                 plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
                     int islandid = newislandidarray[0];
-                    try (Connection connection = plugin.getdb().getConnection()) {
+                    try (Connection connection = connector.getConnection()) {
                         PreparedStatement preparedStatement;
                         preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandid = ?, islandowner = true WHERE uuid = ?");
                         preparedStatement.setInt(1, islandid);
@@ -116,7 +121,7 @@ public class DatabaseWriter {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandid = NULL, owneruuid = NULL, kicked = 1 WHERE uuid = ?");
                     preparedStatement.setString(1, uuid.toString());
@@ -136,7 +141,7 @@ public class DatabaseWriter {
      */
     public void removeKicked(UUID uuid) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET kicked = 0 WHERE uuid = ?");
                 preparedStatement.setString(1, uuid.toString());
@@ -156,7 +161,7 @@ public class DatabaseWriter {
      */
     public void updateOwner(UUID oldOwner, UUID newOwner) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandowner = 0 WHERE uuid = ?");
                 preparedStatement.setString(1, oldOwner.toString());
@@ -180,7 +185,7 @@ public class DatabaseWriter {
      */
     public void leavefromIsland(UUID uuid) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandid = NULL, owneruuid = NULL, islandowner = 0 WHERE uuid = ?");
                 preparedStatement.setString(1, uuid.toString());
@@ -207,7 +212,7 @@ public class DatabaseWriter {
             } else {
                 islandownerInt = 0;
             }
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement preparedStatement;
 
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET islandid = ?, islandowner = ? WHERE uuid = ?");
@@ -229,7 +234,7 @@ public class DatabaseWriter {
      */
     public void deleteIsland(String island) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 int islandid = 0;
                 PreparedStatement getid;
                 getid = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE island = ?");
@@ -274,7 +279,7 @@ public class DatabaseWriter {
      */
     public void updateChallengeCount(int islandid, String mySQLKey, int count) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 String statement = "INSERT INTO VSkyblock_Challenges(islandid, count, challenge) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE count = VALUES(count)";
                 PreparedStatement updateCount = connection.prepareStatement(statement);
                 updateCount.setInt(1, islandid);
@@ -297,7 +302,7 @@ public class DatabaseWriter {
      */
     public void updateChallengeTracked(int islandid, String mySQLKey, boolean tracked) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 String statement = "INSERT INTO VSkyblock_Challenges(islandid, tracked, challenge) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE tracked = VALUES(tracked)";
                 PreparedStatement updateCount = connection.prepareStatement(statement);
                 updateCount.setInt(1, islandid);
@@ -318,8 +323,8 @@ public class DatabaseWriter {
      * @param level
      */
     public void updateIslandLevel(int islandid, Integer level, Integer totalblocks, UUID uuid) {
-        databaseReader.getIslandMembers(islandid, result -> plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+        connector.getReader().getIslandMembers(islandid, result -> plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement updateChallengeCount;
                 updateChallengeCount = connection.prepareStatement("UPDATE VSkyblock_Island SET islandlevel = ?, totalblocks = ? WHERE islandid = ?");
                 updateChallengeCount.setInt(1, level);
@@ -351,7 +356,7 @@ public class DatabaseWriter {
      */
     public void updateIslandOptions(Player player, boolean visit, boolean needsRequest, String difficulty, final Callback callback) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 int islandid = 0;
                 String islandname = null;
                 PreparedStatement preparedStatementREAD;
@@ -382,7 +387,7 @@ public class DatabaseWriter {
                 }
                 preparedStatementGetIslandName.close();
 
-                wm.setOption(islandname, "difficulty", difficulty);
+                plugin.getWorldManager().setOption(islandname, "difficulty", difficulty);
 
                 Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(true));
             } catch (SQLException e) {
@@ -399,7 +404,7 @@ public class DatabaseWriter {
      */
     public void updateCobblestoneGeneratorLevel(String islandname, Integer level) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement updateGeneratorLevel;
                 updateGeneratorLevel = connection.prepareStatement("UPDATE VSkyblock_Island SET cobblestonelevel = ? WHERE island = ?");
                 updateGeneratorLevel.setInt(1, level);
@@ -419,7 +424,7 @@ public class DatabaseWriter {
      */
     public void updateDeathCount(UUID uuid, int count) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET deaths = ? WHERE uuid = ?");
                 preparedStatement.setInt(1, count);
@@ -440,7 +445,7 @@ public class DatabaseWriter {
      */
     public void updatePlayerName(UUID uuid, String name) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection.prepareStatement("UPDATE VSkyblock_Player SET playername = ? WHERE uuid = ?");
                 preparedStatement.setString(1, name);
@@ -467,7 +472,7 @@ public class DatabaseWriter {
         double yaw = loc.getYaw();
         String world = loc.getWorld().getName();
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement savelastLoc;
                 savelastLoc = connection.prepareStatement("UPDATE VSkyblock_Player SET lastX = ?, lastY = ?, lastZ = ?, lastPitch = ?, lastYaw = ?, lastWorld = ? WHERE uuid = ?");
                 savelastLoc.setDouble(1, x);
@@ -548,7 +553,7 @@ public class DatabaseWriter {
         }
         loc.setYaw((float) rotation);
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement savelastLoc;
                 savelastLoc = connection.prepareStatement("UPDATE VSkyblock_IslandLocations SET netherX = ?, netherY = ?, netherZ = ?, netherYaw = ?, netherWorld = ? WHERE islandid = ?");
                 savelastLoc.setDouble(1, x);
@@ -578,7 +583,7 @@ public class DatabaseWriter {
         float yaw = loc.getYaw();
         float pitch = loc.getPitch();
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (Connection connection = plugin.getdb().getConnection()) {
+            try (Connection connection = connector.getConnection()) {
                 PreparedStatement savelastLoc;
                 savelastLoc = connection.prepareStatement("UPDATE VSkyblock_IslandLocations SET spawnX = ?, spawnY = ?, spawnZ = ?, spawnYaw = ?, spawnPitch = ? WHERE islandid = ?");
                 savelastLoc.setDouble(1, x);

@@ -18,7 +18,6 @@ package com.github.Viduality.VSkyblock.Commands.Admin;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,12 +26,6 @@ import org.bukkit.entity.Player;
 
 
 public class Testcommand implements CommandExecutor {
-
-    private VSkyblock testcommand;
-    public Testcommand(VSkyblock testcommand) {
-        this.testcommand = testcommand;
-    }
-
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {

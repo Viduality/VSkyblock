@@ -1,18 +1,14 @@
 package com.github.Viduality.VSkyblock.Portals;
 
 import com.github.Viduality.VSkyblock.VSkyblock;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class CraftPortal {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private final VSkyblock plugin;
+
+    public CraftPortal(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     // TODO implement portals
     // NOT IN USE YET
@@ -25,7 +21,7 @@ public class CraftPortal {
         portalFramemeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         portalFrame.setItemMeta(portalFramemeta);
 
-        NamespacedKey portalFrameKey = NamespacedKey.minecraft("vskyblockportalframe");
+        NamespacedKey portalFrameKey = new NamespacedKey(plugin, "portalframe");
         ShapedRecipe portal = new ShapedRecipe(portalFrameKey, portalFrame);
         portal.shape("ded", "oeo", "sss");
         portal.setIngredient('e', Material.ENDER_EYE);

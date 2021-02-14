@@ -20,8 +20,6 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
-import com.github.Viduality.VSkyblock.Utilitys.WorldManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -33,9 +31,11 @@ import java.util.UUID;
 
 public class IslandConfirm implements SubCommand {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private WorldManager wm = new WorldManager();
-    private DatabaseReader databaseReader = new DatabaseReader();
+    private final VSkyblock plugin;
+
+    public IslandConfirm(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void execute(DatabaseCache databaseCache) {
@@ -92,7 +92,7 @@ public class IslandConfirm implements SubCommand {
 
 
     private void teleportPlayer(Player player, String island, int islandid) {
-        if (wm.getLoadedWorlds().contains(island)) {
+        if (plugin.getWorldManager().getLoadedWorlds().contains(island)) {
             Location islandHome = Island.islandhomes.get(island);
             if (islandHome != null) {
                 islandHome.getWorld().getChunkAtAsync(islandHome).whenComplete((c, e) -> {
@@ -100,7 +100,7 @@ public class IslandConfirm implements SubCommand {
                         e.printStackTrace();
                     }
                     if (c != null) {
-                        databaseReader.getIslandMembers(islandid, islandMembers -> {
+                        plugin.getDb().getReader().getIslandMembers(islandid, islandMembers -> {
                             plugin.teleportToIsland(player, islandHome, true, islandMembers);
                         });
                     } else {

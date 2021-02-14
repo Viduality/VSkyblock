@@ -19,7 +19,7 @@ package com.github.Viduality.VSkyblock.Utilitys;
  */
 
 import com.github.Viduality.VSkyblock.Challenges.Challenge;
-import com.github.Viduality.VSkyblock.Challenges.CreateChallengesInventory;
+import com.github.Viduality.VSkyblock.Challenges.ChallengesInventoryCreator;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import de.themoep.minedown.MineDown;
 import net.md_5.bungee.api.chat.*;
@@ -104,20 +104,20 @@ public class ConfigShorts {
 
     private static String createHover(Challenge challenge) {
         List<String> lore = new ArrayList<>();
-        lore.add(CreateChallengesInventory.loreString);
-        lore.addAll(splitString(challenge.getDescription(), CreateChallengesInventory.descriptioncolor));
+        lore.add(ChallengesInventoryCreator.loreString);
+        lore.addAll(splitString(challenge.getDescription(), ChallengesInventoryCreator.descriptioncolor));
         switch (challenge.getChallengeType()) {
             case onPlayer:
-                lore.add(CreateChallengesInventory.neededonPlayer);
+                lore.add(ChallengesInventoryCreator.neededonPlayer);
                 break;
             case onIsland:
-                lore.add(CreateChallengesInventory.neededonIsland);
+                lore.add(ChallengesInventoryCreator.neededonIsland);
                 break;
             case islandLevel:
-                lore.add(CreateChallengesInventory.neededislandlevel);
+                lore.add(ChallengesInventoryCreator.neededislandlevel);
                 break;
         }
-        lore.addAll(splitString(challenge.getNeededText(), CreateChallengesInventory.descriptioncolor));
+        lore.addAll(splitString(challenge.getNeededText(), ChallengesInventoryCreator.descriptioncolor));
 
         StringBuilder hover = new StringBuilder();
         for (String loreLine : lore) {

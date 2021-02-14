@@ -1,7 +1,7 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
 import com.github.Viduality.VSkyblock.Challenges.Challenge;
-import com.github.Viduality.VSkyblock.Challenges.ChallengesHandler;
+import com.github.Viduality.VSkyblock.Challenges.ChallengesManager;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -17,8 +17,13 @@ import java.util.Map;
 
 public class Scoreboardmanager {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
-    private ScoreboardManager sm = plugin.getServer().getScoreboardManager();
+    private final VSkyblock plugin;
+    private ScoreboardManager sm;
+
+    public Scoreboardmanager(VSkyblock plugin) {
+        this.plugin = plugin;
+        sm = plugin.getServer().getScoreboardManager();
+    }
 
     /**
      * Checks if given objective exists.
@@ -102,7 +107,7 @@ public class Scoreboardmanager {
     }
 
     public void updateTracked(int islandId, ChallengesCache challenges) {
-        plugin.getDatabaseReader().getIslandMembers(islandId, members -> {
+        plugin.getDb().getReader().getIslandMembers(islandId, members -> {
             for (String member : members) {
                 Player player = plugin.getServer().getPlayer(member);
                 if (player != null) {
@@ -130,7 +135,7 @@ public class Scoreboardmanager {
 
             Map<Challenge, Integer> challengeCounts = new LinkedHashMap<>();
             for (String challengeId : challenges.getTrackedChallenges()) {
-                Challenge challenge = ChallengesHandler.challenges.get(challengeId);
+                Challenge challenge = ChallengesManager.challenges.get(challengeId);
                 if (challenge != null) {
                     challengeCounts.put(challenge, challenges.getChallengeCount(challengeId));
                 }

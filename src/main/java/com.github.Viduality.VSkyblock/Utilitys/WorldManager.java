@@ -1,22 +1,32 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
 import com.github.Viduality.VSkyblock.VSkyblock;
+import com.github.Viduality.VSkyblock.WorldGenerator.MasterIslandGenerator;
 import org.apache.commons.io.FileUtils;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Difficulty;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class WorldManager {
 
-    private VSkyblock plugin = VSkyblock.getInstance();
+    private VSkyblock plugin;
 
-    private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_RESET = "\u001b[0m";
-
+    public WorldManager(VSkyblock plugin) {
+        this.plugin = plugin;
+    }
 
     /**
      * Creates a new island. Also writes it into the Worlds.yml config file
@@ -30,7 +40,7 @@ public class WorldManager {
             if (!dir.exists()) {
                 dir.mkdirs();
 
-                File source = new File(plugin.getServer().getWorldContainer().getAbsolutePath(), "VSkyblockMasterIsland");
+                File source = new File(plugin.getServer().getWorldContainer().getAbsolutePath(), MasterIslandGenerator.WORLD_NAME);
 
                 try {
                     FileUtils.copyDirectory(source, dir);
@@ -59,14 +69,14 @@ public class WorldManager {
                 if (addWorld(island, "VSkyblock", "NORMAL")) {
                     return true;
                 } else {
-                    System.out.println(ANSI_RED + "Could not add world to config!" + ANSI_RESET);
+                    plugin.getLogger().severe("Could not add world to config!");
                     return false;
                 }
             } else {
-                System.out.println(ANSI_RED + "Folder already exists!" + ANSI_RESET);
+                plugin.getLogger().severe("Folder already exists!");
             }
         } else {
-            System.out.println(ANSI_RED + "Tried to create a world but VSkyblock already knows about it!" + ANSI_RESET);
+            plugin.getLogger().warning("Tried to create a world but VSkyblock already knows about it!");
         }
         return false;
     }
@@ -94,7 +104,7 @@ public class WorldManager {
                 return false;
             }
         } else {
-            System.out.println(ANSI_RED + "Tried to unload a world VSkyblock does not know about or which is already unloaded." + ANSI_RESET);
+            plugin.getLogger().warning("Tried to unload a world VSkyblock does not know about or which is already unloaded.");
             return false;
         }
     }
@@ -118,14 +128,14 @@ public class WorldManager {
                     loadedworld.setKeepSpawnInMemory(keepSpawnInMemory(world));
                     return true;
                 } else {
-                    System.out.println(ANSI_RED + "VSkyblock failed to load world " + world + ANSI_RESET);
+                    plugin.getLogger().severe("Failed to load world " + world);
                     return false;
                 }
             } else {
                 return getLoadedWorlds().contains(world);
             }
         } else {
-            System.out.println(ANSI_RED + "VSkyblock does not know about the world " + world + ANSI_RESET);
+            plugin.getLogger().severe("Unknown world " + world);
             return false;
         }
     }
@@ -188,15 +198,15 @@ public class WorldManager {
                     deleteWorldfromConfig(world);
                     return(deleteFolder.delete());
                 } else {
-                    System.out.println(ANSI_RED + "Could not delete world " + world + ANSI_RESET);
+                    plugin.getLogger().severe("Could not delete world " + world);
                     return false;
                 }
             } else {
-                System.out.println(ANSI_RED + "Could not delete world " + world + ANSI_RESET);
+                plugin.getLogger().severe("Could not delete world " + world);
                 return false;
             }
         } else {
-            System.out.println(ANSI_RED + "VSkyblock does not know about this world: " + world + ANSI_RESET);
+            plugin.getLogger().severe("Unknown world: " + world);
             return false;
         }
     }
@@ -231,7 +241,7 @@ public class WorldManager {
             float pitch = (float) ConfigShorts.getWorldConfig().getDouble("Worlds." + world + ".spawnLocation.pitch");
             return new Location(world1, x, y, z, yaw, pitch);
         } else {
-            System.out.println(ANSI_RED + "Could not find a spawn location for world " + world + "!" + ANSI_RESET);
+            plugin.getLogger().severe("Could not find a spawn location for world " + world + "!");
             return null;
         }
     }
@@ -294,7 +304,7 @@ public class WorldManager {
             ConfigShorts.getWorldConfig().save();
             return true;
         } catch (IOException e) {
-            System.out.println(ANSI_RED + "Problem storing world " + world + ANSI_RESET);
+            plugin.getLogger().severe("Problem storing world " + world);
             e.printStackTrace();
             return false;
         }
@@ -309,7 +319,7 @@ public class WorldManager {
         try {
             ConfigShorts.getWorldConfig().save();
         } catch (IOException e) {
-            System.out.println(ANSI_RED + "Problem deleting world " + world + ANSI_RESET);
+            plugin.getLogger().severe("Problem deleting world " + world);
             e.printStackTrace();
         }
     }
@@ -323,14 +333,14 @@ public class WorldManager {
     public void setOption(String world, String option, String value) {
         ConfigurationSection worldConfig = ConfigShorts.getWorldConfig().getConfigurationSection("Worlds." + world);
         if (worldConfig == null) {
-            System.out.println(ANSI_RED + "World " + world + " is not known?" + ANSI_RESET);
+            plugin.getLogger().severe("World " + world + " is not known?");
             return;
         }
         worldConfig.set(option, value);
         try {
             ConfigShorts.getWorldConfig().save();
         } catch (IOException e) {
-            System.out.println(ANSI_RED + "Problem storing option " + option + ": " + value + " for world " + world + ANSI_RESET);
+            plugin.getLogger().severe("Problem storing option " + option + ": " + value + " for world " + world);
             e.printStackTrace();
         }
     }
@@ -342,7 +352,7 @@ public class WorldManager {
     public boolean setSpawnLocation(Location loc) {
         ConfigurationSection worldConfig = ConfigShorts.getWorldConfig().getConfigurationSection("Worlds." + loc.getWorld().getName());
         if (worldConfig == null) {
-            System.out.println(ANSI_RED + "World " + loc.getWorld().getName() + " is not known?" + ANSI_RESET);
+            plugin.getLogger().severe("World " + loc.getWorld().getName() + " is not known?");
             return false;
         }
         ConfigurationSection spawnSection = worldConfig.createSection("spawnLocation");
@@ -355,7 +365,7 @@ public class WorldManager {
             ConfigShorts.getWorldConfig().save();
             return true;
         } catch (IOException e) {
-            System.out.println(ANSI_RED + "Problem storing spawn location of world " + loc.getWorld().getName() + ANSI_RESET);
+            plugin.getLogger().severe("Problem storing spawn location of world " + loc.getWorld().getName());
             e.printStackTrace();
             return false;
         }
