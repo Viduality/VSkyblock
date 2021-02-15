@@ -43,6 +43,7 @@ public class IslandRestartConfirm implements SubCommand{
                 player.getEnderChest().clear();
                 player.setExp(0);
                 player.setTotalExperience(0);
+                player.setScoreboard(plugin.getServer().getScoreboardManager().getMainScoreboard());
                 new IslandCreator(plugin, databaseCache.getUuid())
                         .oldIsland(databaseCache.getIslandname())
                         .createNewIsland();

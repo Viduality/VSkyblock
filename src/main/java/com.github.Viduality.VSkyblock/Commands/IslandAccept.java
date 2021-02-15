@@ -43,9 +43,17 @@ public class IslandAccept implements SubCommand {
                                 player.getInventory().clear();
                                 player.getEnderChest().clear();
                                 player.teleportAsync(Island.islandhomes.get(newisland)).whenComplete((b, e) -> {
+                                    if (e != null) {
+                                        e.printStackTrace();
+                                    }
                                     player.setCollidable(true);
                                     player.setSleepingIgnored(false);
                                     plugin.getWorldManager().unloadWorld(databaseCache.getIslandname());
+                                    plugin.getDb().getReader().getIslandChallenges(databaseCache.getIslandId(), challenges -> {
+                                        if (player.isOnline()) {
+                                            plugin.getScoreboardManager().updateTracked(player, challenges);
+                                        }
+                                    });
                                 });
 
                                 plugin.getDb().getWriter().updatePlayersIsland(newmemberuuid, islandid, false);
@@ -67,6 +75,9 @@ public class IslandAccept implements SubCommand {
                         Island.playerislands.put(player.getUniqueId(), newisland);
                         Island.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
                         player.teleportAsync(Island.islandhomes.get(newisland)).whenComplete((b, e) -> {
+                            if (e != null) {
+                                e.printStackTrace();
+                            }
                             if (databaseCache.getIslandname() != null) {
                                 if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
                                     player.setCollidable(true);
@@ -74,9 +85,11 @@ public class IslandAccept implements SubCommand {
                                     plugin.getWorldManager().unloadWorld(databaseCache.getIslandname());
                                 }
                             }
-                            if (e != null) {
-                                e.printStackTrace();
-                            }
+                            plugin.getDb().getReader().getIslandChallenges(databaseCache.getIslandId(), challenges -> {
+                                if (player.isOnline()) {
+                                    plugin.getScoreboardManager().updateTracked(player, challenges);
+                                }
+                            });
                         });
                     }
                 }));

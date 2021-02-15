@@ -41,6 +41,7 @@ public class IslandLeaveConfirm implements SubCommand {
             player.getEnderChest().clear();
             player.setExp(0);
             player.setTotalExperience(0);
+            player.setScoreboard(plugin.getServer().getScoreboardManager().getMainScoreboard());
             Island.leavemap.asMap().remove(player.getUniqueId());
             Island.playerislands.remove(player.getUniqueId());
             if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {

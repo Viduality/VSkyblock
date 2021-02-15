@@ -72,6 +72,7 @@ public class IslandKick implements SubCommand{
                                 onlinetarget.getEnderChest().clear();
                                 onlinetarget.setExp(0);
                                 onlinetarget.setTotalExperience(0);
+                                onlinetarget.setScoreboard(plugin.getServer().getScoreboardManager().getMainScoreboard());
                                 onlinetarget.teleportAsync(plugin.getWorldManager().getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
                                 plugin.getDb().getWriter().removeKicked(targetuuid);
                                 Island.playerislands.remove(targetuuid);
@@ -83,6 +84,7 @@ public class IslandKick implements SubCommand{
                         Player onlinetarget = target.getPlayer();
                         if (onlinetarget != null) {
                             if (!onlinetarget.hasPermission("VSkyblock.IgnoreKick")) {
+                                onlinetarget.setScoreboard(plugin.getServer().getScoreboardManager().getMainScoreboard());
                                 if (onlinetarget.getWorld().getName().equals(databaseCache.getIslandname())) {
                                     onlinetarget.teleportAsync(plugin.getWorldManager().getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
                                     ConfigShorts.messagefromString("KickVisitingPlayer", onlinetarget);
