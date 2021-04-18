@@ -133,7 +133,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
 
         sqlConnector.initTables();
 
-        getServer().getScheduler().runTaskAsynchronously(this, new WorldLoader(this));
+        new WorldLoader(this).run();
 
         setGeneratorChances();
 
