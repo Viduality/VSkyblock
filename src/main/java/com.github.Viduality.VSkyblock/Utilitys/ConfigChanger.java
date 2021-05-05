@@ -37,29 +37,31 @@ public class ConfigChanger {
                 inputBuffer.append(line);
                 inputBuffer.append('\n');
             }
-                inputStr = inputBuffer.toString();
+            inputStr = inputBuffer.toString();
 
-                file.close();
+            file.close();
 
-                /// Whoever reads the following lines... Please, don't blame me for it, i know this is absolut botched xD
+            /// Whoever reads the following lines... Please, don't blame me for it, i know this is absolut botched xD
 
             if (inputStr.contains(string)) {
-                    String OldString = ConfigShorts.getDefConfig().getString(string);
-                    String replace1 = string + ":";
-                    String with1 = string + ": " + newString;
-                    String OldLine = string + ": " + OldString;
-                    String NewLine = string + ": " + newString;
-                    if (OldString == null) {
-                        inputStr = inputStr.replace(replace1, with1);
-                    } else {
-                        inputStr = inputStr.replace(OldLine, NewLine);
-                    }
+                String OldString = ConfigShorts.getDefConfig().getString(string);
+                String replace1 = string + ":";
+                String with1 = string + ": " + newString;
+                String OldLine = string + ": " + OldString;
+                String NewLine = string + ": " + newString;
+                if (OldString == null) {
+                    inputStr = inputStr.replace(replace1, with1);
+                } else {
+                    inputStr = inputStr.replace(OldLine, NewLine);
+                }
             } else plugin.getLogger().warning("Keine Zeile in der Config gefunden!");
 
-                // write the new String with the replaced line OVER the same file
-                FileOutputStream fileOut = new FileOutputStream(new File(plugin.getDataFolder(), "config.yml"));
-                fileOut.write(inputStr.getBytes());
-                fileOut.close();
+            // write the new String with the replaced line OVER the same file
+            FileOutputStream fileOut = new FileOutputStream(new File(plugin.getDataFolder(), "config.yml"));
+            fileOut.write(inputStr.getBytes());
+            fileOut.close();
+
+            plugin.reloadConfig();
 
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, "Problem reading file.", e);
