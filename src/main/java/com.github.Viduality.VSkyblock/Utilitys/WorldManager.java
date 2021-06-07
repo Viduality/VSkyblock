@@ -19,6 +19,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
 
 public class WorldManager {
 
@@ -176,39 +178,56 @@ public class WorldManager {
      * @param world
      * @return boolean
      */
-    public boolean deleteWorld(String world) {
+    public CompletableFuture<Boolean> deleteWorld(String world) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
         if (getAllWorlds().contains(world)) {
-            if (loadWorld(world)) {
-                World delete = plugin.getServer().getWorld(world);
-                File deleteFolder = delete.getWorldFolder();
-                if (unloadWorld(world)) {
+            boolean unloaded = true;
+            World delete = plugin.getServer().getWorld(world);
+            File deleteFolder;
+            if (delete != null) {
+                deleteFolder = delete.getWorldFolder();
+                unloaded = unloadWorld(world);
+            } else {
+                deleteFolder = new File(plugin.getServer().getWorldContainer(), world);
+            }
+            if (unloaded) {
+                if (deleteFolder.exists()) {
+                    plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+                        try {
+                            File files[] = deleteFolder.listFiles();
 
-                    if(deleteFolder.exists()) {
-                        File files[] = deleteFolder.listFiles();
-
-                        for (File file : files) {
-                            if (file.isDirectory()) {
-                                for (File file2 : file.listFiles()) {
-                                    file2.delete();
+                            for (File file : files) {
+                                if (file.isDirectory()) {
+                                    for (File file2 : file.listFiles()) {
+                                        file2.delete();
+                                    }
                                 }
+                                file.delete();
                             }
-                            file.delete();
+
+                            boolean success = deleteFolder.delete();
+                            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                                if (success) deleteWorldfromConfig(world);
+                                future.complete(success);
+                            });
+                        } catch (Exception e) {
+                            plugin.getLogger().log(Level.SEVERE, "Could not delete world " + world + ". Error while deleting files!", e);
+                            plugin.getServer().getScheduler().runTask(plugin, () -> future.complete(false));
                         }
-                    }
-                    deleteWorldfromConfig(world);
-                    return(deleteFolder.delete());
+                    });
                 } else {
-                    plugin.getLogger().severe("Could not delete world " + world);
-                    return false;
+                    plugin.getLogger().severe("Could not delete world " + world + ". It has no world folder?");
+                    future.complete(false);
                 }
             } else {
-                plugin.getLogger().severe("Could not delete world " + world);
-                return false;
+                plugin.getLogger().severe("Could not delete world " + world + ". Unloading it failed!");
+                future.complete(false);
             }
         } else {
             plugin.getLogger().severe("Unknown world: " + world);
-            return false;
+            future.complete(false);
         }
+        return future;
     }
 
     /**

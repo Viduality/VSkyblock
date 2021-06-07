@@ -16,11 +16,13 @@ public class WorldDelete implements AdminSubCommand {
     public void execute(CommandSender sender, String args, String option1, String option2) {
         if (sender.hasPermission("VSkyblock.DeleteWorld")) {
             if (plugin.getWorldManager().getAllWorlds().contains(args)) {
-                if (plugin.getWorldManager().deleteWorld(args)) {
-                    ConfigShorts.messagefromString("WorldDeleted", sender);
-                } else {
-                    ConfigShorts.messagefromString("FailedToDeleteWorld", sender);
-                }
+                plugin.getWorldManager().deleteWorld(args).thenAccept(success -> {
+                    if (success) {
+                        ConfigShorts.messagefromString("WorldDeleted", sender);
+                    } else {
+                        ConfigShorts.messagefromString("FailedToDeleteWorld", sender);
+                    }
+                });
             }
         }
     }

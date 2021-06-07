@@ -29,10 +29,11 @@ public class DeleteOldIslands implements Runnable {
         ConfigShorts.broadcastfromString("CleaningUpOldIslands");
         plugin.getDb().getReader().getemptyIslands(result -> {
             for (String currentIsland : result) {
-                boolean deleted = plugin.getWorldManager().deleteWorld(currentIsland);
-                if (deleted) {
-                    plugin.getDb().getWriter().deleteIsland(currentIsland);
-                }
+                plugin.getWorldManager().deleteWorld(currentIsland).thenAccept(deleted -> {
+                    if (deleted) {
+                        plugin.getDb().getWriter().deleteIsland(currentIsland);
+                    }
+                });
             }
             ConfigShorts.broadcastfromString("CleaningUpOldIslandsDone");
         });
