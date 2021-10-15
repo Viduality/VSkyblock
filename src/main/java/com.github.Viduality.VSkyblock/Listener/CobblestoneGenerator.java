@@ -308,7 +308,7 @@ public class CobblestoneGenerator implements Listener {
     private Material rollAncientDebrisLevel(Location location) {
         double random = Math.random();
         double chanceAncientDebris = generatorValues.get("AncientDebrisChance") / 100;
-        double chanceDiamond = generatorValues.get("DiamondChance") / 100;
+        double chanceDiamond = (generatorValues.get("DiamondChance") / 100) + chanceAncientDebris;
         double chanceEmerald = (generatorValues.get("EmeraldChance") /100) + chanceDiamond;
         double chanceGold = (generatorValues.get("GoldChance") / 100) + chanceEmerald;
         double chanceLapis = (generatorValues.get("LapisChance") / 100) + chanceGold;
