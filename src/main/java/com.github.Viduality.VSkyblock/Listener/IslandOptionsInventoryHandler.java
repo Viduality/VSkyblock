@@ -20,8 +20,6 @@ package com.github.Viduality.VSkyblock.Listener;
 
 import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseReader;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseWriter;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
@@ -310,8 +308,8 @@ public class IslandOptionsInventoryHandler implements Listener {
     private ItemStack getCobbleDropChanceInfo(UUID playerUUID) {
         String island = Island.playerislands.get(playerUUID);
         Integer currentIslandLevel = CobblestoneGenerator.islandlevels.get(island);
-        Double levelIntervall = CobblestoneGenerator.generatorValues.get("CobblestoneLevelIntervall");
-        int maxDrops = (int) ((currentIslandLevel/levelIntervall) + 1);
+        int levelIntervall = CobblestoneGenerator.cobblestoneLevelInterval;
+        int maxDrops = currentIslandLevel / levelIntervall + 1;
 
 
         Material mat = Material.COBBLESTONE;
@@ -413,7 +411,7 @@ public class IslandOptionsInventoryHandler implements Listener {
             String neededItemsColorCode = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.NeededColor");
 
             String neededLevel = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.NeededLevel");
-            String neededLevelNumber = neededItemsColorCode + getRequiredIslandLevel(nextGeneratorLevel);
+            String neededLevelNumber = neededItemsColorCode + CobblestoneGenerator.getRequiredIslandLevel(nextGeneratorLevel);
             neededLevel = neededLevel.replace("%number%", neededLevelNumber);
 
             String neededItemsStart = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.Needed");
@@ -457,46 +455,16 @@ public class IslandOptionsInventoryHandler implements Listener {
                 return splitString("No additional items, only cobblestone");
             }
         } else {
-            boolean showPercentagePerItem = true;
-            if (ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.ShowPercentagePerItem").equalsIgnoreCase("false")) {
-                showPercentagePerItem = false;
-            }
+            boolean showPercentagePerItem = ConfigShorts.getOptionsConfig().getBoolean("CobblestoneGenerator.Chances.ShowPercentagePerItem", true);
             List<String> descriptionList = new ArrayList<>();
 
-            for (int i = 1; i <= currentGeneratorLevel; i++) {
-                String chanceInfoText = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.Level_" + i + "_Info");
-                String chanceInfo = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.ChanceInfo");
-                if (chanceInfo.contains("%number%")) {
-                    switch (i) {
-                        case 1:
-                            chanceInfo = chanceInfo.replace("%number%", String.valueOf(CobblestoneGenerator.generatorValues.get("CoalChance")));
-                            break;
-                        case 2:
-                            chanceInfo = chanceInfo.replace("%number%", String.valueOf(CobblestoneGenerator.generatorValues.get("IronChance")));
-                            break;
-                        case 3:
-                            chanceInfo = chanceInfo.replace("%number%", String.valueOf(CobblestoneGenerator.generatorValues.get("RedstoneChance")));
-                            break;
-                        case 4:
-                            chanceInfo = chanceInfo.replace("%number%", String.valueOf(CobblestoneGenerator.generatorValues.get("LapisChance")));
-                            break;
-                        case 5:
-                            chanceInfo = chanceInfo.replace("%number%", String.valueOf(CobblestoneGenerator.generatorValues.get("GoldChance")));
-                            break;
-                        case 6:
-                            chanceInfo = chanceInfo.replace("%number%", String.valueOf(CobblestoneGenerator.generatorValues.get("EmeraldChance")));
-                            break;
-                        case 7:
-                            chanceInfo = chanceInfo.replace("%number%", String.valueOf(CobblestoneGenerator.generatorValues.get("DiamondChance")));
-                            break;
-                        case 8:
-                            chanceInfo = chanceInfo.replace("%number%", String.valueOf(CobblestoneGenerator.generatorValues.get("AncientDebrisChance")));
-
+            for (CobblestoneGenerator.Level level : CobblestoneGenerator.LEVELS) {
+                if (level.getLevel() <= currentGeneratorLevel) {
+                    descriptionList.addAll(splitString(ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.Level_" + level.getLevel() + "_Info")));
+                    if (showPercentagePerItem) {
+                        descriptionList.addAll(splitString(ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.ChanceInfo")
+                                .replace("%number%", String.valueOf(level.getChance()))));
                     }
-                }
-                descriptionList.addAll(splitString(chanceInfoText));
-                if (showPercentagePerItem) {
-                    descriptionList.addAll(splitString(chanceInfo));
                 }
             }
             return descriptionList;
@@ -556,28 +524,5 @@ public class IslandOptionsInventoryHandler implements Listener {
             }
         }
         return splittedString;
-    }
-
-    private Double getRequiredIslandLevel(int nextGeneratorLevel) {
-        switch (nextGeneratorLevel) {
-            case 1:
-                return CobblestoneGenerator.generatorValues.get("CoalLevel");
-            case 2:
-                return CobblestoneGenerator.generatorValues.get("IronLevel");
-            case 3:
-                return CobblestoneGenerator.generatorValues.get("RedstoneLevel");
-            case 4:
-                return CobblestoneGenerator.generatorValues.get("LapisLevel");
-            case 5:
-                return CobblestoneGenerator.generatorValues.get("GoldLevel");
-            case 6:
-                return CobblestoneGenerator.generatorValues.get("EmeraldLevel");
-            case 7:
-                return CobblestoneGenerator.generatorValues.get("DiamondLevel");
-            case 8:
-                return CobblestoneGenerator.generatorValues.get("AncientDebrisLevel");
-            default:
-                return null;
-        }
     }
 }

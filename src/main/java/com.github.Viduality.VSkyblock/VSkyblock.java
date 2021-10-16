@@ -20,7 +20,6 @@ package com.github.Viduality.VSkyblock;
  */
 
 import com.github.Viduality.VSkyblock.Challenges.ChallengesManager;
-import com.github.Viduality.VSkyblock.Commands.Admin.*;
 import com.github.Viduality.VSkyblock.Commands.Challenges;
 import com.github.Viduality.VSkyblock.Challenges.ChallengesCreator;
 import com.github.Viduality.VSkyblock.Commands.Island;
@@ -30,6 +29,7 @@ import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.WorldGenerator.VoidGenerator;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
@@ -214,140 +214,27 @@ public class VSkyblock extends JavaPlugin implements Listener {
     }
 
     private void setGeneratorChances() {
-        double coalLevel = 20;
-        double coalChance = 3;
-        double ironLevel = 35;
-        double ironChance = 1.5;
-        double redstoneLevel = 50;
-        double redstoneChance = 1.5;
-        double lapisLevel = 60;
-        double lapisChance = 2;
-        double goldLevel = 80;
-        double goldChance = 1;
-        double emeraldLevel = 100;
-        double emeraldChance = 0.05;
-        double diamondLevel = 100;
-        double diamondChance = 0.2;
-        double ancientDebrisLevel = 150;
-        double ancientDebrisChance = 0.4;
-        int cobblestoneLevelIntervall = 10;
-        double cobblestoneChance = 20;
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.CoalLevel") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.CoalLevel"))) {
-                coalLevel = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.CoalLevel");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.CoalChance") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.CoalChance"))) {
-                coalChance = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.CoalChance");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.IronLevel") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.IronLevel"))) {
-                ironLevel = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.IronLevel");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.IronChance") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.IronChance"))) {
-                ironChance = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.IronChance");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.RedstoneLevel") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.RedstoneLevel"))) {
-                redstoneLevel = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.RedstoneLevel");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.RedstoneChance") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.RedstoneChance"))) {
-                redstoneChance = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.RedstoneChance");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.LapisLevel") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.LapisLevel"))) {
-                lapisLevel = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.LapisLevel");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.LapisChance") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.LapisChance"))) {
-                lapisChance = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.LapisChance");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.GoldLevel") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.GoldLevel"))) {
-                goldLevel = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.GoldLevel");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.GoldChance") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.GoldChance"))) {
-                goldChance = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.GoldChance");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.EmeraldLevel") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.EmeraldLevel"))) {
-                emeraldLevel = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.EmeraldLevel");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.EmeraldChance") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.EmeraldChance"))) {
-                emeraldChance = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.EmeraldChance");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.DiamondLevel") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.DiamondLevel"))) {
-                diamondLevel = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.DiamondLevel");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.DiamondChance") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.DiamondChance"))) {
-                diamondChance = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.DiamondChance");
-            }
-        }
+        addGeneratorLevel("Coal", Material.COAL_ORE, 1, 20, 3);
+        addGeneratorLevel("Iron", Material.IRON_ORE, 2, 35, 1.5);
+        addGeneratorLevel("Redstone", Material.REDSTONE_ORE, 3, 50, 1.5);
+        addGeneratorLevel("Lapis", Material.LAPIS_ORE, 4, 60, 2);
+        addGeneratorLevel("Gold", Material.GOLD_ORE, 5, 80, 1);
+        addGeneratorLevel("Emerald", Material.EMERALD_ORE, 6, 100, 0.05);
+        addGeneratorLevel("Diamond", Material.DIAMOND_ORE, 7, 100, 0.2);
+        addGeneratorLevel("AncientDebris", Material.ANCIENT_DEBRIS, 8, 150, 0.4);
 
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.AncientDebrisLevel") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.AncientDebrisLevel"))) {
-                ancientDebrisLevel = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.AncientDebrisLevel");
-            }
-        }
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.AncientDebrisChance") != null) {
-            if (isDouble(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.AncientDebrisChance"))) {
-                ancientDebrisChance = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.AncientDebrisChance");
-            }
-        }
-        CobblestoneGenerator.generatorValues.put("CoalLevel", coalLevel);
-        CobblestoneGenerator.generatorValues.put("CoalChance", coalChance);
-        CobblestoneGenerator.generatorValues.put("IronLevel", ironLevel);
-        CobblestoneGenerator.generatorValues.put("IronChance", ironChance);
-        CobblestoneGenerator.generatorValues.put("RedstoneLevel", redstoneLevel);
-        CobblestoneGenerator.generatorValues.put("RedstoneChance", redstoneChance);
-        CobblestoneGenerator.generatorValues.put("LapisLevel", lapisLevel);
-        CobblestoneGenerator.generatorValues.put("LapisChance", lapisChance);
-        CobblestoneGenerator.generatorValues.put("GoldLevel", goldLevel);
-        CobblestoneGenerator.generatorValues.put("GoldChance", goldChance);
-        CobblestoneGenerator.generatorValues.put("EmeraldLevel", emeraldLevel);
-        CobblestoneGenerator.generatorValues.put("EmeraldChance", emeraldChance);
-        CobblestoneGenerator.generatorValues.put("DiamondLevel", diamondLevel);
-        CobblestoneGenerator.generatorValues.put("DiamondChance", diamondChance);
-        CobblestoneGenerator.generatorValues.put("AncientDebrisLevel", ancientDebrisLevel);
-        CobblestoneGenerator.generatorValues.put("AncientDebrisChance", ancientDebrisChance);
+        CobblestoneGenerator.cobbleStoneMultiDrop = ConfigShorts.getDefConfig().getBoolean("CobblestoneGenerator.Cobblestone.MultipleDrops", false);
+        CobblestoneGenerator.cobblestoneLevelInterval = ConfigShorts.getDefConfig().getInt("CobblestoneGenerator.Cobblestone.CobblestoneLevelIntervall", 10);
+        CobblestoneGenerator.cobblestoneChance = ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator.Cobblestone.CobblestoneChance", 20);
+    }
 
-
-        if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.Cobblestone.MultipleDrops") != null) {
-            if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.Cobblestone.MultipleDrops").equalsIgnoreCase("true")) {
-                if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.Cobblestone.CobblestoneLevelIntervall") != null) {
-                    if (isInt(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.Cobblestone.CobblestoneLevelIntervall"))) {
-                        cobblestoneLevelIntervall = ConfigShorts.getDefConfig().getInt("CobblestoneGenerator.Cobblestone.CobblestoneLevelIntervall");
-                    }
-                }
-                if (ConfigShorts.getDefConfig().getString("CobblestoneGenerator.Cobblestone.CobblestoneChance") != null) {
-                    if (isInt(ConfigShorts.getDefConfig().getString("CobblestoneGenerator.Cobblestone.CobblestoneChance"))) {
-                        cobblestoneChance = ConfigShorts.getDefConfig().getInt("CobblestoneGenerator.Cobblestone.CobblestoneChance");
-                    }
-                }
-            }
-        }
-
-        CobblestoneGenerator.generatorValues.put("CobblestoneLevelIntervall", (double) cobblestoneLevelIntervall);
-        CobblestoneGenerator.generatorValues.put("CobblestoneChance", cobblestoneChance);
+    private void addGeneratorLevel(String name, Material type, int level, int islandLevel, double chance) {
+        CobblestoneGenerator.LEVELS.add(new CobblestoneGenerator.Level(
+                level,
+                ConfigShorts.getDefConfig().getInt("CobblestoneGenerator." + name + "Level", islandLevel),
+                type,
+                ConfigShorts.getDefConfig().getDouble("CobblestoneGenerator." + name + "Chance", chance))
+        );
     }
 
     private boolean isDouble(String s) {

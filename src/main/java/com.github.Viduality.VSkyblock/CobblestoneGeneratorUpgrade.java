@@ -22,7 +22,6 @@ import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -42,9 +41,9 @@ public class CobblestoneGeneratorUpgrade {
         int currentlevel = CobblestoneGenerator.islandGenLevel.get(island);
         int nextlevel = currentlevel + 1;
 
-        Double requiredIslandLevel = getRequiredIslandLevel(nextlevel);
+        Integer requiredIslandLevel = CobblestoneGenerator.getRequiredIslandLevel(nextlevel);
         int islandlevel = CobblestoneGenerator.islandlevels.get(Island.playerislands.get(player.getUniqueId()));
-        if (islandlevel >= requiredIslandLevel) {
+        if (requiredIslandLevel != null && islandlevel >= requiredIslandLevel) {
             List<Material> neededItems = getneededItems(nextlevel);
             List<Integer> neededAmounts = getneededItemsAmount(nextlevel);
 
@@ -72,9 +71,8 @@ public class CobblestoneGeneratorUpgrade {
                 plugin.getDb().getReader().getislandid(Island.playerislands.get(player.getUniqueId()), 
                         islandId -> plugin.getDb().getReader().getIslandMembers(islandId, members -> {
                     for (String member : members) {
-                        OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(member);
-                        if (offlinePlayer.isOnline()) {
-                            Player onlinePlayer = (Player) offlinePlayer;
+                        Player onlinePlayer = plugin.getServer().getPlayer(member);
+                        if (onlinePlayer != null) {
                             ConfigShorts.custommessagefromString("UpgradedYourCobblestoneGenerator", onlinePlayer, player.getName());
                         }
                     }
@@ -170,35 +168,6 @@ public class CobblestoneGeneratorUpgrade {
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * Returns the required island level to upgrade the current cobblestone generator.
-     *
-     * @param nextGeneratorLevel
-     * @return Double
-     */
-    private Double getRequiredIslandLevel(int nextGeneratorLevel) {
-        switch (nextGeneratorLevel) {
-            case 1:
-                return CobblestoneGenerator.generatorValues.get("CoalLevel");
-            case 2:
-                return CobblestoneGenerator.generatorValues.get("IronLevel");
-            case 3:
-                return CobblestoneGenerator.generatorValues.get("RedstoneLevel");
-            case 4:
-                return CobblestoneGenerator.generatorValues.get("LapisLevel");
-            case 5:
-                return CobblestoneGenerator.generatorValues.get("GoldLevel");
-            case 6:
-                return CobblestoneGenerator.generatorValues.get("EmeraldLevel");
-            case 7:
-                return CobblestoneGenerator.generatorValues.get("DiamondLevel");
-            case 8:
-                return CobblestoneGenerator.generatorValues.get("AncientDebrisLevel");
-            default:
-                return null;
         }
     }
 }
