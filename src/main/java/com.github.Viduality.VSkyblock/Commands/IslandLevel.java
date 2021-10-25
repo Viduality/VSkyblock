@@ -61,7 +61,7 @@ public class IslandLevel implements SubCommand {
                 uuid = databaseCache.getUuid();
             }
             Player player = databaseCache.getPlayer();
-            plugin.getDb().getReader().getislandlevelfromuuid(uuid, (islandlevel) -> {
+            plugin.getDb().getReader().getIslandLevelFromUuid(uuid, (islandlevel) -> {
                 if (databaseCache.getArg() != null) {
                     ConfigShorts.custommessagefromString("PlayersIslandLevel", player, String.valueOf(islandlevel), databaseCache.getArg());
                 } else {

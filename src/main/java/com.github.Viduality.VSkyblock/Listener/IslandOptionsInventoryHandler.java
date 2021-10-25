@@ -108,7 +108,7 @@ public class IslandOptionsInventoryHandler implements Listener {
                 ConfigShorts.messagefromString("UpdatedIslandOptions", player);
                 String finalDifficulty = difficulty;
                 plugin.getDb().getWriter().updateIslandOptions(player, visit, needRequest, difficulty, done ->
-                        plugin.getDb().getReader().getislandnamefromplayer(player.getUniqueId(), result ->
+                        plugin.getDb().getReader().getIslandNameFromPlayer(player.getUniqueId(), result ->
                                 updateIsland(result, finalDifficulty)));
             }
         }

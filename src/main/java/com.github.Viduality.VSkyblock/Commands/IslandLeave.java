@@ -20,7 +20,7 @@ public class IslandLeave implements SubCommand{
             Player player = databaseCache.getPlayer();
             if (databaseCache.getIslandId() != 0) {
                 if (databaseCache.isIslandowner()) {
-                    plugin.getDb().getReader().hasislandmembers(databaseCache.getIslandId(), result -> {
+                    plugin.getDb().getReader().hasIslandMembers(databaseCache.getIslandId(), result -> {
                         if (!result) {
                             Island.leavemap.put(databaseCache.getUuid(), 1);
                             ConfigShorts.messagefromString("AcceptLeave", player);

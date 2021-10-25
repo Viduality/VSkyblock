@@ -42,11 +42,11 @@ public class IslandVisit implements SubCommand {
         if (player != onlinetarget) {
             if (onlinetarget != null) {
                 UUID uuid = onlinetarget.getUniqueId();
-                plugin.getDb().getReader().getislandidfromplayer(uuid, islandId -> plugin.getDb().getReader().getIslandMembers(islandId, islandMembers -> {
+                plugin.getDb().getReader().getIslandIdFromPlayer(uuid, islandId -> plugin.getDb().getReader().getIslandMembers(islandId, islandMembers -> {
                     if (!islandMembers.contains(player.getName())) {
-                        plugin.getDb().getReader().isislandvisitable(islandId, isVisitable -> {
+                        plugin.getDb().getReader().isIslandVisitable(islandId, isVisitable -> {
                             if (isVisitable) {
-                                plugin.getDb().getReader().islandneedsrequestforvisit(islandId, needsRequest -> {
+                                plugin.getDb().getReader().islandNeedsRequestForVisit(islandId, needsRequest -> {
                                     if (needsRequest) {
                                         Island.requestvisit.put(player.getUniqueId(), islandId);
                                         ConfigShorts.messagefromString("SendVisitRequest", player);
@@ -57,7 +57,7 @@ public class IslandVisit implements SubCommand {
                                             }
                                         }
                                     } else {
-                                        plugin.getDb().getReader().getislandnamefromplayer(uuid, islandName -> {
+                                        plugin.getDb().getReader().getIslandNameFromPlayer(uuid, islandName -> {
                                             if (plugin.getWorldManager().getLoadedWorlds().contains(islandName)) {
                                                 Location islandHome = Island.islandhomes.get(islandName);
                                                 if (islandHome != null) {

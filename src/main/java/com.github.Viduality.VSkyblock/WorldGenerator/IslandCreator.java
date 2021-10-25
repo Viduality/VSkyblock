@@ -67,9 +67,9 @@ public class IslandCreator {
     public void createNewIsland() {
         String worldsizeString = ConfigShorts.getDefConfig().getString("WorldSize");
         String difficulty = ConfigShorts.getDefConfig().getString("Difficulty");
-        plugin.getDb().getReader().getLatestIsland((worldName, a) -> {
+        plugin.getDb().getReader().getLatestIsland((worldName) -> {
             Player player = plugin.getServer().getPlayer(playerId);
-            if (a) {
+            if (worldName != null) {
                 if (!plugin.getWorldManager().createIsland(worldName)) {
                     ConfigShorts.messagefromString("FailedToCreateIsland", player);
                     plugin.getLogger().severe("Failed to create new island for " + playerId + " with id " + worldName);

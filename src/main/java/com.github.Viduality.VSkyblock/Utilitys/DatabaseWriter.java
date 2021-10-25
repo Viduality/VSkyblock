@@ -86,7 +86,7 @@ public class DatabaseWriter {
             }
 
             final int[] newislandidarray = {0};
-            connector.getReader().getislandid(island, result -> {
+            connector.getReader().getIslandId(island, result -> {
                 newislandidarray[0] = result;
                 plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
                     int islandid = newislandidarray[0];

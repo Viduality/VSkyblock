@@ -226,7 +226,7 @@ public class ChallengesCreator {
                             return null;
                         }
                     } else {
-                        System.out.println("Could not find VSpecialItems plugin! Please install it to use special items in challenges!");
+                        plugin.getLogger().severe("Could not find VSpecialItems plugin! Please install it to use special items in challenges!");
                         return null;
                     }
                 } else {
@@ -245,7 +245,7 @@ public class ChallengesCreator {
                             return null;
                         }
                     } else {
-                        System.out.println("Could not find VSpecialItems plugin! Please install it to use special items in challenges!");
+                        plugin.getLogger().severe("Could not find VSpecialItems plugin! Please install it to use special items in challenges!");
                         return null;
                     }
                 } else {

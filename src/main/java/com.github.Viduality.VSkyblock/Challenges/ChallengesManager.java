@@ -75,7 +75,7 @@ public class ChallengesManager {
      * @param player       The player who wants to complete the challenge.
      */
     public void checkChallenge(Challenge challenge, Player player, Inventory inv, int challengeSlot) {
-        plugin.getDb().getReader().getislandidfromplayer(player.getUniqueId(), (islandid) -> plugin.getDb().getReader().getIslandChallenges(islandid, (islandChallenges) -> {
+        plugin.getDb().getReader().getIslandIdFromPlayer(player.getUniqueId(), (islandid) -> plugin.getDb().getReader().getIslandChallenges(islandid, (islandChallenges) -> {
             boolean repeat = false;
             if (islandChallenges.getChallengeCount(challenge.getMySQLKey()) != 0) {
                 repeat = true;
@@ -149,7 +149,7 @@ public class ChallengesManager {
                 if (!repeat) {
                     if (!islandLevelDelay.asMap().containsKey(player.getUniqueId())) {
                         islandLevelDelay.put(player.getUniqueId(), 1);
-                        plugin.getDb().getReader().getislandlevelfromuuid(player.getUniqueId(), (islandLevel) -> {
+                        plugin.getDb().getReader().getIslandLevelFromUuid(player.getUniqueId(), (islandLevel) -> {
                             if (islandLevel >= challenge.getNeededLevel()) {
                                 if (getEmptySlots(player.getInventory()).size() >= challenge.getRewards().size()) {
                                     giveRewards(player.getInventory(), challenge.getRewards());
@@ -320,7 +320,7 @@ public class ChallengesManager {
     }
 
     public void toggleTracked(Challenge challenge, Player player) {
-        plugin.getDb().getReader().getislandidfromplayer(player.getUniqueId(), (islandId) -> plugin.getDb().getReader().getIslandChallenges(islandId, (challenges) -> {
+        plugin.getDb().getReader().getIslandIdFromPlayer(player.getUniqueId(), (islandId) -> plugin.getDb().getReader().getIslandChallenges(islandId, (challenges) -> {
             if (challenges.getTrackedChallenges().size() < 10
                     && challenges.getChallengeCount(challenge.getChallengeName()) == 0 || challenge.getRepeatRewards() != null) {
                 if (challenges.getTrackedChallenges().contains(challenge.getMySQLKey())) {
@@ -336,7 +336,7 @@ public class ChallengesManager {
     }
 
     public void unTrack(Challenge challenge, Player player) {
-        plugin.getDb().getReader().getislandidfromplayer(player.getUniqueId(), (islandId) -> plugin.getDb().getReader().getIslandChallenges(islandId, (challenges) -> {
+        plugin.getDb().getReader().getIslandIdFromPlayer(player.getUniqueId(), (islandId) -> plugin.getDb().getReader().getIslandChallenges(islandId, (challenges) -> {
             if (challenges.removeTrackedChallenge(challenge.getMySQLKey())) {
                 plugin.getDb().getWriter().updateChallengeTracked(islandId, challenge.getMySQLKey(), false);
                 VSkyblock.getInstance().getScoreboardManager().updateTracked(islandId, challenges);

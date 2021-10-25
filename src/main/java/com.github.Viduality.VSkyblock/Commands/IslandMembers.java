@@ -22,7 +22,7 @@ public class IslandMembers implements SubCommand {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             Player player = databaseCache.getPlayer();
             if (databaseCache.getIslandId() != 0) {
-                plugin.getDb().getReader().hasislandmembers(databaseCache.getIslandId(), hasislandmembers -> {
+                plugin.getDb().getReader().hasIslandMembers(databaseCache.getIslandId(), hasislandmembers -> {
                     if (hasislandmembers) {
 
                         plugin.getDb().getReader().getIslandMembers(databaseCache.getIslandId(), result -> {

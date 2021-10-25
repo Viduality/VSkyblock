@@ -71,7 +71,7 @@ public class DefaultFiles {
     public static void reloadBlockValues() {
         File configFile = new File(plugin.getDataFolder(), "BlockValues.yml");
         if (!configFile.exists()) {
-            System.out.println("BlockValues.yml does not exist!");
+            plugin.getLogger().info("BlockValues.yml does not exist!");
             return;
         }
         if (!blockvalues.isEmpty()) {
@@ -89,16 +89,16 @@ public class DefaultFiles {
                         blockvalues.put(Material.getMaterial(material), value);
                     }
                     else {
-                        System.out.println("Material: " + material + " has an invalid block value (" + blockValuesConfig.get(configString) + ")");
+                        plugin.getLogger().info("Material: " + material + " has an invalid block value (" + blockValuesConfig.get(configString) + ")");
                     }
                 }
                 else {
-                    System.out.println("Material string " + configString + " is not a valid material!");
+                    plugin.getLogger().info("Material string " + configString + " is not a valid material!");
                 }
             }
 
         } catch (Exception e) {
-            System.out.println("Problem reading block values file.");
+            plugin.getLogger().info("Problem reading block values file.");
             e.printStackTrace();
         }
     }

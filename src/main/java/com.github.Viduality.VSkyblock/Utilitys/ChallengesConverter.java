@@ -39,7 +39,7 @@ public class ChallengesConverter {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             String ANSI_RED = "\u001B[31m";
             String ANSI_RESET = "\u001B[0m";
-            System.out.println(ANSI_RED + "Converting Challenges to new Database..." + ANSI_RESET);
+            plugin.getLogger().info("Converting Challenges to new Database...");
             List<Integer> islands = new ArrayList<>();
 
             try (Connection connection = plugin.getDb().getConnection()) {
@@ -51,7 +51,7 @@ public class ChallengesConverter {
                 preparedStatement.close();
                 if (!islands.isEmpty()) {
                     for (int currentisland : islands) {
-                        System.out.println("Converting Challenges of Island " + currentisland + "...");
+                        plugin.getLogger().info("Converting Challenges of Island " + currentisland + "...");
                         List<String> uuids = new ArrayList<>();
                         PreparedStatement getMembers = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
                         getMembers.setInt(1, currentisland);
@@ -165,7 +165,7 @@ public class ChallengesConverter {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-                System.out.println(ANSI_RED + "Converting Challenges finished" + ANSI_RESET);
+                plugin.getLogger().info("Converting Challenges finished");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

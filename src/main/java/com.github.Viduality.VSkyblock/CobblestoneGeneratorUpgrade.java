@@ -68,7 +68,7 @@ public class CobblestoneGeneratorUpgrade {
                 upgradeCobbleGenerator(island, nextlevel);
                 removeItems(neededItems, neededAmounts, player);
                 player.closeInventory();
-                plugin.getDb().getReader().getislandid(Island.playerislands.get(player.getUniqueId()), 
+                plugin.getDb().getReader().getIslandId(Island.playerislands.get(player.getUniqueId()),
                         islandId -> plugin.getDb().getReader().getIslandMembers(islandId, members -> {
                     for (String member : members) {
                         Player onlinePlayer = plugin.getServer().getPlayer(member);

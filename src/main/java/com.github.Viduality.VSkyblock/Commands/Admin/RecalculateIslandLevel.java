@@ -41,11 +41,11 @@ public class RecalculateIslandLevel implements AdminSubCommand {
             OfflinePlayer p = plugin.getServer().getOfflinePlayer(args);
             plugin.getDb().getReader().getPlayerData(p.getUniqueId().toString(), (playerdata -> {
                 if (playerdata.getUuid() != null) {
-                    plugin.getDb().getReader().getislandidfromplayer(playerdata.getUuid(), (islandid -> {
+                    plugin.getDb().getReader().getIslandIdFromPlayer(playerdata.getUuid(), (islandid -> {
                         if (islandid != 0) {
-                            plugin.getDb().getReader().getislandlevelfromuuid(playerdata.getUuid(), (oldislandlevel -> {
+                            plugin.getDb().getReader().getIslandLevelFromUuid(playerdata.getUuid(), (oldislandlevel -> {
                                 ConfigShorts.custommessagefromString("CurrentIslandLevel", sender, String.valueOf(oldislandlevel));
-                                plugin.getDb().getReader().getislandnamefromplayer(playerdata.getUuid(), (islandname -> {
+                                plugin.getDb().getReader().getIslandNameFromPlayer(playerdata.getUuid(), (islandname -> {
                                     if (plugin.getWorldManager().loadWorld(islandname)) {
                                         plugin.getDb().getReader().getIslandsChallengePoints(islandid, (challengePoints -> {
                                             World world = plugin.getServer().getWorld(islandname);

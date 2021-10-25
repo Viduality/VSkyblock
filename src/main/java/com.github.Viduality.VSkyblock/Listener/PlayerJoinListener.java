@@ -140,7 +140,7 @@ public class PlayerJoinListener implements Listener {
             if (!Island.islandhomes.containsKey(result.getIslandname())) {
                 Island.islandhomes.put(result.getIslandname(), islandspawn);
             }
-            plugin.getDb().getReader().getlastLocation(result.getUuid(), loc -> {
+            plugin.getDb().getReader().getLastLocation(result.getUuid(), loc -> {
                 Player player = result.getPlayer();
                 if (player != null) {
                     if (loc == null) {

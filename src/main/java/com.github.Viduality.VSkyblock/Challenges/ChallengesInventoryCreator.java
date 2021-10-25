@@ -67,7 +67,7 @@ public class ChallengesInventoryCreator {
      * @param site        The site of the challenges difficulty.
      */
     public void createChallenges(Player player, Challenge.Difficulty difficulty, int site) {
-        plugin.getDb().getReader().getislandidfromplayer(player.getUniqueId(), (islandid) -> plugin.getDb().getReader().getIslandChallenges(islandid, (islandChallenges) -> {
+        plugin.getDb().getReader().getIslandIdFromPlayer(player.getUniqueId(), (islandid) -> plugin.getDb().getReader().getIslandChallenges(islandid, (islandChallenges) -> {
             Inventory cinv = Bukkit.createInventory(null, 27, "Challenges " + ConfigShorts.getChallengesConfig().getString("Difficulty." + getDifficulty(difficulty)));
             if (getChallenges(difficulty) != null) {
                 if (!getChallenges(difficulty).isEmpty()) {

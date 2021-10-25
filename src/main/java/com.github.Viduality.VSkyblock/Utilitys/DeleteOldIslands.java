@@ -27,7 +27,7 @@ public class DeleteOldIslands implements Runnable {
      */
     private void startCleanUp() {
         ConfigShorts.broadcastfromString("CleaningUpOldIslands");
-        plugin.getDb().getReader().getemptyIslands(result -> {
+        plugin.getDb().getReader().getEmptyIslands(result -> {
             for (String currentIsland : result) {
                 plugin.getWorldManager().deleteWorld(currentIsland).thenAccept(deleted -> {
                     if (deleted) {

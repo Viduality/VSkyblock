@@ -35,9 +35,9 @@ public class IslandAccept implements SubCommand {
             if (Island.invitemap.asMap().containsKey(databaseCache.getUuid())) {
                 UUID newmemberuuid = databaseCache.getUuid();
                 UUID islandowneruuid = Island.invitemap.asMap().get(databaseCache.getUuid());
-                plugin.getDb().getReader().getislandidfromplayer(islandowneruuid, (islandid) -> plugin.getDb().getReader().getislandnamefromplayer(islandowneruuid, (newisland) -> {
+                plugin.getDb().getReader().getIslandIdFromPlayer(islandowneruuid, (islandid) -> plugin.getDb().getReader().getIslandNameFromPlayer(islandowneruuid, (newisland) -> {
                     if (databaseCache.isIslandowner()) {
-                        plugin.getDb().getReader().hasislandmembers(databaseCache.getIslandId(), hasMembers -> {
+                        plugin.getDb().getReader().hasIslandMembers(databaseCache.getIslandId(), hasMembers -> {
                             if (!hasMembers) {
 
                                 player.getInventory().clear();

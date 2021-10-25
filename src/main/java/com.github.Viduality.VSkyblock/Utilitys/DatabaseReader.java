@@ -35,6 +35,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 
 
@@ -54,45 +55,40 @@ public class DatabaseReader {
      * @param uuid      The unique id of a player.
      * @param callback  Returns the player data. (Database Cache)
      */
-    public void getPlayerData(final String uuid, final Callback callback) {
+    public void getPlayerData(final String uuid, final Consumer<DatabaseCache> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            DatabaseCache databaseCache1 = new DatabaseCache();
-            try (Connection connection = connector.getConnection()) {
-                PreparedStatement preparedStatement;
-                preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE uuid = ?");
+            DatabaseCache databaseCache = new DatabaseCache();
+            try (Connection connection = connector.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE uuid = ?")) {;
                 preparedStatement.setString(1, uuid);
                 ResultSet r = preparedStatement.executeQuery();
-                while (r.next()) {
-                    databaseCache1.setUuid(r.getString("uuid"));
-                    databaseCache1.setName(r.getString("playername"));
-                    databaseCache1.setKicked(r.getBoolean("kicked"));
-                    databaseCache1.setIslandowner(r.getBoolean("islandowner"));
-                    databaseCache1.setIslandId(r.getInt("islandid"));
-                    databaseCache1.setIslandowneruuid(r.getString("owneruuid"));
-                    databaseCache1.setDeathCount(r.getInt("deaths"));
-                }
-                preparedStatement.close();
+                if (r.next()) {
+                    databaseCache.setUuid(r.getString("uuid"));
+                    databaseCache.setName(r.getString("playername"));
+                    databaseCache.setKicked(r.getBoolean("kicked"));
+                    databaseCache.setIslandowner(r.getBoolean("islandowner"));
+                    databaseCache.setIslandId(r.getInt("islandid"));
+                    databaseCache.setIslandowneruuid(r.getString("owneruuid"));
+                    databaseCache.setDeathCount(r.getInt("deaths"));
 
-                if (databaseCache1.getIslandId() != 0) {
+                    if (databaseCache.getIslandId() != 0) {
 
-                    preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE islandid = ?");
-                    preparedStatement.setInt(1, databaseCache1.getIslandId());
-                    ResultSet r1 = preparedStatement.executeQuery();
-                    while (r1.next()) {
-                        databaseCache1.setIslandname(r1.getString("island"));
-                        databaseCache1.setIslandLevel(r1.getInt("islandlevel"));
+                        PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE islandid = ?");
+                        preparedStatement1.setInt(1, databaseCache.getIslandId());
+                        ResultSet r1 = preparedStatement1.executeQuery();
+                        while (r1.next()) {
+                            databaseCache.setIslandname(r1.getString("island"));
+                            databaseCache.setIslandLevel(r1.getInt("islandlevel"));
+                        }
+                        preparedStatement1.close();
                     }
-                    preparedStatement.close();
                 }
 
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-
-            final DatabaseCache databaseCache = databaseCache1;
-
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(databaseCache));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(databaseCache));
         });
     }
 
@@ -102,28 +98,27 @@ public class DatabaseReader {
      *
      * @param callback  Returns the latest islands name with its id on a sync thread.
      */
-    public void getLatestIsland(final CallbackStrings callback) {
+    public void getLatestIsland(final Consumer<String> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            int latestIsland = 0;
-            try (Connection connection = connector.getConnection()) {
-                PreparedStatement preparedStatement;
-                String database = connector.getDatabase();
-                String preparedStatement1 = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \"" + database + "\" AND TABLE_NAME = \"VSkyblock_Island\"";
-                preparedStatement = connection.prepareStatement(preparedStatement1);
+            int latestIsland = -1;
+            String database = connector.getDatabase();
+            String preparedStatement1 = "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = \"" + database + "\" AND TABLE_NAME = \"VSkyblock_Island\"";
+            try (Connection connection = connector.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(preparedStatement1)) {
                 ResultSet r = preparedStatement.executeQuery();
-                while (r.next()) {
+                if (r.next()) {
                     latestIsland = r.getInt("AUTO_INCREMENT");
                 }
-                preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            if (latestIsland == 0) {
-                latestIsland = 1;
+            final String islandname;
+            if (latestIsland > -1) {
+                islandname = "VSkyblockIsland_" + latestIsland;
+            } else {
+                islandname = null;
             }
-            final String islandname = "VSkyblockIsland_" + latestIsland;
-            final boolean a = true;
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(islandname, a));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(islandname));
         });
     }
 
@@ -133,23 +128,22 @@ public class DatabaseReader {
      * @param island    The name of the island (world).
      * @param callback  Returns the id of the island on a sync thread.
      */
-    public void getislandid(String island, CallbackINT callback) {
+    public void getIslandId(String island, Consumer<Integer> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            DatabaseCache databaseCache = new DatabaseCache();
-            try (Connection connection = connector.getConnection()) {
-                PreparedStatement preparedStatement;
-                preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Island WHERE island = ?");
+            try (Connection connection = connector.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Island WHERE island = ?")) {
                 preparedStatement.setString(1, island);
                 ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    databaseCache.setIslandId(resultSet.getInt("islandid"));
+                int islandId;
+                if (resultSet.next()) {
+                    islandId = resultSet.getInt("islandid");
+                } else {
+                    islandId = 0;
                 }
-                preparedStatement.close();
+                Bukkit.getScheduler().runTask(plugin, () -> callback.accept(islandId));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            final int islandid = databaseCache.getIslandId();
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(islandid));
         });
     }
 
@@ -159,24 +153,21 @@ public class DatabaseReader {
      * @param islandid  The id of the island.
      * @param callback  Returns (boolean) wether the island has members or not.
      */
-    public void hasislandmembers(int islandid, CallbackBoolean callback) {
+    public void hasIslandMembers(int islandid, Consumer<Boolean> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            DatabaseCache databaseCache = new DatabaseCache();
-            try (Connection connection = connector.getConnection()) {
-                PreparedStatement preparedStatement;
-                preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
+            int islandMemberCount = 0;
+            try (Connection connection = connector.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?")) {
                 preparedStatement.setInt(1, islandid);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    databaseCache.addIslandMember(resultSet.getString("playername"));
+                    islandMemberCount++;
                 }
-                preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            boolean hasmembers;
-            hasmembers = databaseCache.getislandmembers().size() > 1;
-            plugin.getServer().getScheduler().runTask(plugin, () -> callback.onQueryDone(hasmembers));
+            boolean hasMembers = islandMemberCount > 1;
+            plugin.getServer().getScheduler().runTask(plugin, () -> callback.accept(hasMembers));
         });
     }
 
@@ -186,23 +177,21 @@ public class DatabaseReader {
      * @param uuid      The unique id of a player.
      * @param callback  Returns the islandid of the given player.
      */
-    public void getislandidfromplayer(UUID uuid, CallbackINT callback) {
+    public void getIslandIdFromPlayer(UUID uuid, Consumer<Integer> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            DatabaseCache databaseCache = new DatabaseCache();
-            try (Connection connection = connector.getConnection()) {
-                PreparedStatement preparedStatement;
-                preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
+            int islandId = 0;
+            try (Connection connection = connector.getConnection();
+                PreparedStatement preparedStatement  = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?")) {
                 preparedStatement.setString(1, uuid.toString());
                 ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    databaseCache.setIslandId(resultSet.getInt("islandid"));
+                if (resultSet.next()) {
+                    islandId = resultSet.getInt("islandid");
                 }
-                preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            final int islandid = databaseCache.getIslandId();
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(islandid));
+            int finalIslandId = islandId;
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(finalIslandId));
         });
     }
 
@@ -212,33 +201,24 @@ public class DatabaseReader {
      * @param uuid      The unique id of a player.
      * @param callback  Returns the island on which the player is playing.
      */
-    public void getislandnamefromplayer(UUID uuid, CallbackString callback) {
+    public void getIslandNameFromPlayer(UUID uuid, Consumer<String> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            DatabaseCache databaseCache = new DatabaseCache();
-            try (Connection connection = connector.getConnection()) {
-                PreparedStatement preparedStatement;
-                preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
+            String island = null;
+            try (Connection connection = connector.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT i.island AS island FROM VSkyblock_Island AS i" +
+                         " INNER JOIN VSkyblock_Player AS p" +
+                         " ON i.islandid = p.islandid" +
+                         " WHERE p.uuid = ?")) {
                 preparedStatement.setString(1, uuid.toString());
                 ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    databaseCache.setIslandId(resultSet.getInt("islandid"));
+                if (resultSet.next()) {
+                    island = resultSet.getString("island");
                 }
-                preparedStatement.close();
-
-                PreparedStatement preparedStatement1;
-                preparedStatement1 = connection.prepareStatement("SELECT island FROM VSkyblock_Island WHERE islandid = ?");
-                preparedStatement1.setInt(1, databaseCache.getIslandId());
-                ResultSet resultSet1 = preparedStatement1.executeQuery();
-                while (resultSet1.next()) {
-                    databaseCache.setIslandname(resultSet1.getString("island"));
-                }
-                preparedStatement1.close();
-                resultSet1.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            final String island = databaseCache.getIslandname();
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(island));
+            String finalIsland = island;
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(finalIsland));
         });
     }
 
@@ -249,24 +229,21 @@ public class DatabaseReader {
      * @param islandid  The id of an island.
      * @param callback  Returns all members of the island.
      */
-    public void getIslandMembers(Integer islandid, CallbackList callback) {
+    public void getIslandMembers(Integer islandid, Consumer<List<String>> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             List<String> islandmembers = new ArrayList<>();
-            try (Connection connection = connector.getConnection()) {
-                PreparedStatement preparedStatement;
-                preparedStatement = connection.prepareStatement("SELECT playername FROM VSkyblock_Player WHERE islandid = ?");
+            try (Connection connection = connector.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT playername FROM VSkyblock_Player WHERE islandid = ?")) {
                 preparedStatement.setInt(1, islandid);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     islandmembers.add(resultSet.getString("playername"));
                 }
-                preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            final List<String> result = islandmembers;
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(result));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(islandmembers));
         });
     }
 
@@ -275,40 +252,21 @@ public class DatabaseReader {
      *
      * @param callback Returns a list of all empty islands.
      */
-    public void getemptyIslands(CallbackList callback) {
+    public void getEmptyIslands(Consumer<List<String>> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             List<Integer> islandids = new ArrayList<>();
             List<String> emptyislands = new ArrayList<>();
-            try (Connection connection = connector.getConnection()) {
-                PreparedStatement preparedStatement;
-                preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Island");
+            try (Connection connection = connector.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Island WHERE islandid NOT IN (SELECT islandid FROM VSkyblock_Player)")) {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    islandids.add(resultSet.getInt("islandid"));
+                    emptyislands.add("VSkyblockIsland_" + resultSet.getInt("islandid"));
                 }
-                preparedStatement.close();
-
-                PreparedStatement preparedStatement1;
-                for (Integer currentid : islandids) {
-                    preparedStatement1 = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
-                    preparedStatement1.setInt(1, currentid);
-                    ResultSet resultSet1 = preparedStatement1.executeQuery();
-                    boolean hasmembers = false;
-                    while (resultSet1.next()) {
-                        hasmembers = true;
-                    }
-                    if (!hasmembers) {
-                        emptyislands.add("VSkyblockIsland_" + currentid);
-                    }
-                    preparedStatement1.close();
-                }
-
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            final List<String> result = emptyislands;
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(result));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(emptyislands));
         });
     }
 
@@ -318,33 +276,25 @@ public class DatabaseReader {
      * @param uuid      The unique id of a player.
      * @param callback  Returns the island level of a player.
      */
-    public void getislandlevelfromuuid(UUID uuid, CallbackINT callback) {
+    public void getIslandLevelFromUuid(UUID uuid, Consumer<Integer> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            DatabaseCache databaseCache = new DatabaseCache();
-            try (Connection connection = connector.getConnection()) {
-                int islandid = 0;
-                PreparedStatement prep;
-                prep = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
-                prep.setString(1, uuid.toString());
-                ResultSet rs = prep.executeQuery();
-                while (rs.next()) {
-                    islandid = rs.getInt("islandid");
-                }
-                prep.close();
-
-                PreparedStatement preparedStatement;
-                preparedStatement = connection.prepareStatement("SELECT islandlevel FROM VSkyblock_Island WHERE islandid = ?");
-                preparedStatement.setInt(1, islandid);
+            try (Connection connection = connector.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement("SELECT i.islandlevel AS islandlevel FROM VSkyblock_Island AS i" +
+                        " INNER JOIN VSkyblock_Player AS p" +
+                        " ON i.islandid = p.islandid" +
+                        " WHERE p.uuid = ?")) {
+                preparedStatement.setString(1, uuid.toString());
                 ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    databaseCache.setIslandLevel(resultSet.getInt("islandlevel"));
+                int islandLevel;
+                if (resultSet.next()) {
+                    islandLevel = resultSet.getInt("islandlevel");
+                } else {
+                    islandLevel = 0;
                 }
-                preparedStatement.close();
+                Bukkit.getScheduler().runTask(plugin, () -> callback.accept(islandLevel));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            final int islandlevel = databaseCache.getIslandLevel();
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(islandlevel));
         });
     }
 
@@ -354,7 +304,7 @@ public class DatabaseReader {
      * @param islandid  The id of an island.
      * @param callback  Returns a cache with the challenge counts.
      */
-    public void getIslandChallenges(final int islandid, final cCallback callback) {
+    public void getIslandChallenges(final int islandid, final Consumer<ChallengesCache> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             ChallengesCache cache = new ChallengesCache();
             try (Connection connection = connector.getConnection()) {
@@ -374,10 +324,7 @@ public class DatabaseReader {
                 e.printStackTrace();
             }
 
-
-            final ChallengesCache cache1 = cache;
-
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(cache1));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(cache));
         });
     }
 
@@ -404,7 +351,7 @@ public class DatabaseReader {
                     preparedStatement = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
                     preparedStatement.setString(1, player.getUniqueId().toString());
                     ResultSet resultSet = preparedStatement.executeQuery();
-                    while (resultSet.next()) {
+                    if (resultSet.next()) {
                         islandid = resultSet.getInt("islandid");
                     }
                     if (islandid != 0) {
@@ -412,7 +359,7 @@ public class DatabaseReader {
                         preparedStatement1 = connection.prepareStatement("SELECT island FROM VSkyblock_Island WHERE islandid = ?");
                         preparedStatement1.setInt(1, islandid);
                         ResultSet resultSet1 = preparedStatement1.executeQuery();
-                        while (resultSet1.next()) {
+                        if (resultSet1.next()) {
                             islandname = resultSet1.getString("island");
                         }
                         preparedStatement1.close();
@@ -420,7 +367,7 @@ public class DatabaseReader {
                         preparedStatementGetGeneratorLevel = connection.prepareStatement("SELECT cobblestonelevel FROM VSkyblock_Island WHERE islandid = ?");
                         preparedStatementGetGeneratorLevel.setInt(1, islandid);
                         ResultSet resultSet2 = preparedStatementGetGeneratorLevel.executeQuery();
-                        while (resultSet2.next()) {
+                        if (resultSet2.next()) {
                             cobblestonelevel = resultSet2.getInt("cobblestonelevel");
                         }
                         preparedStatementGetGeneratorLevel.close();
@@ -429,7 +376,7 @@ public class DatabaseReader {
                         preparedStatementGetIslandLevel = connection.prepareStatement("SELECT islandlevel FROM VSkyblock_Island WHERE islandid = ?");
                         preparedStatementGetIslandLevel.setInt(1, islandid);
                         ResultSet resultSet3 = preparedStatementGetIslandLevel.executeQuery();
-                        while (resultSet3.next()) {
+                        if (resultSet3.next()) {
                             islandlevel = resultSet3.getInt("islandlevel");
                         }
                         preparedStatementGetIslandLevel.close();
@@ -441,7 +388,7 @@ public class DatabaseReader {
                             getIslandhome = connection.prepareStatement("SELECT * FROM VSkyblock_IslandLocations WHERE islandid = ?");
                             getIslandhome.setInt(1, islandid);
                             ResultSet r = getIslandhome.executeQuery();
-                            while (r.next()) {
+                            if (r.next()) {
                                 loc = new Location(w, r.getDouble("spawnX"), r.getDouble("spawnY"), r.getDouble("spawnZ"), r.getFloat("spawnYaw"), r.getFloat("spawnPitch"));
                             }
                         }
@@ -486,7 +433,7 @@ public class DatabaseReader {
                 preparedStatementGetGeneratorLevel = connection.prepareStatement("SELECT cobblestonelevel FROM VSkyblock_Island WHERE island = ?");
                 preparedStatementGetGeneratorLevel.setString(1, islandname);
                 ResultSet resultSet = preparedStatementGetGeneratorLevel.executeQuery();
-                while (resultSet.next()) {
+                if (resultSet.next()) {
                     islandgeneratorLVL = resultSet.getInt("cobblestonelevel");
                 }
                 CobblestoneGenerator.islandGenLevel.put(islandname, islandgeneratorLVL);
@@ -496,7 +443,7 @@ public class DatabaseReader {
                 preparedStatementGetIslandLevel = connection.prepareStatement("SELECT islandlevel FROM VSkyblock_Island WHERE island = ?");
                 preparedStatementGetIslandLevel.setString(1, islandname);
                 ResultSet resultSet1 = preparedStatementGetIslandLevel.executeQuery();
-                while (resultSet1.next()) {
+                if (resultSet1.next()) {
                     islandlevel = resultSet1.getInt("islandlevel");
                 }
                 CobblestoneGenerator.islandlevels.put(islandname, islandlevel);
@@ -514,7 +461,7 @@ public class DatabaseReader {
      *
      * @param callback  Returns a list of the 5 highest islands, sorted by level
      */
-    public void getHighestIslands(CallbackList callback) {
+    public void getHighestIslands(Consumer<List<String>> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             List<Integer> islandids = new ArrayList<>();
             List<Integer> islandlevels = new ArrayList<>();
@@ -557,8 +504,7 @@ public class DatabaseReader {
                 e.printStackTrace();
             }
 
-            final List<String> result = playersperisland;
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(result));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(playersperisland));
         });
     }
 
@@ -568,7 +514,7 @@ public class DatabaseReader {
      * @param islandid  The id of the island.
      * @param callback  Returns true if the island is visitable (boolean).
      */
-    public void isislandvisitable(int islandid, CallbackBoolean callback) {
+    public void isIslandVisitable(int islandid, Consumer<Boolean> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             boolean visitable = false;
             try (Connection connection = connector.getConnection()) {
@@ -577,7 +523,7 @@ public class DatabaseReader {
                 preparedStatement.setInt(1, islandid);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
-                while (resultSet.next()) {
+                if (resultSet.next()) {
                     visitable = resultSet.getBoolean("visit");
                 }
 
@@ -586,7 +532,7 @@ public class DatabaseReader {
                 e.printStackTrace();
             }
             final boolean finalvisitable = visitable;
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(finalvisitable));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(finalvisitable));
         });
     }
 
@@ -596,7 +542,7 @@ public class DatabaseReader {
      * @param islandid  The id of the island.
      * @param callback  Returns true if players need to request.
      */
-    public void islandneedsrequestforvisit(int islandid, CallbackBoolean callback) {
+    public void islandNeedsRequestForVisit(int islandid, Consumer<Boolean> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             boolean needsrequest = false;
             try (Connection connection = connector.getConnection()) {
@@ -605,7 +551,7 @@ public class DatabaseReader {
                 preparedStatement.setInt(1, islandid);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
-                while (resultSet.next()) {
+                if (resultSet.next()) {
                     needsrequest = resultSet.getBoolean("visitneedsrequest");
                 }
 
@@ -614,7 +560,7 @@ public class DatabaseReader {
                 e.printStackTrace();
             }
             final boolean finalneedsrequest = needsrequest;
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(finalneedsrequest));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(finalneedsrequest));
         });
     }
 
@@ -624,7 +570,7 @@ public class DatabaseReader {
      * @param islandid  The id of the island
      * @param callback  Returns all options for the given island.
      */
-    public void getIslandOptions(final int islandid, final isoptionsCallback callback) {
+    public void getIslandOptions(final int islandid, final Consumer<IslandOptionsCache> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             IslandOptionsCache islandOptionsCache = new IslandOptionsCache();
             PreparedStatement preparedStatement;
@@ -632,7 +578,7 @@ public class DatabaseReader {
                 preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE islandid = ?");
                 preparedStatement.setInt(1, islandid);
                 ResultSet r = preparedStatement.executeQuery();
-                while (r.next()) {
+                if (r.next()) {
                     islandOptionsCache.setVisit(r.getBoolean("visit"));
                     islandOptionsCache.setDifficulty(r.getString("difficulty"));
                     islandOptionsCache.setNeedRequest(r.getBoolean("visitneedsrequest"));
@@ -643,10 +589,7 @@ public class DatabaseReader {
                 e.printStackTrace();
             }
 
-
-            final IslandOptionsCache cache = islandOptionsCache;
-
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(cache));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(islandOptionsCache));
         });
     }
 
@@ -664,7 +607,7 @@ public class DatabaseReader {
                     preparedStatement = connection.prepareStatement("SELECT deaths FROM VSkyblock_Player WHERE uuid = ?");
                     preparedStatement.setString(1, player.getUniqueId().toString());
                     ResultSet resultSet = preparedStatement.executeQuery();
-                    while (resultSet.next()) {
+                    if (resultSet.next()) {
                         deathcount = resultSet.getInt("deaths");
                     }
                     if (deathcount != 0) {
@@ -694,7 +637,7 @@ public class DatabaseReader {
      * @param uuid      The unique id of a player.
      * @param callback  Returns the last location the player where, before leaving the server.
      */
-    public void getlastLocation(final UUID uuid, final CallbackLocation callback) {
+    public void getLastLocation(final UUID uuid, final Consumer<Location> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             Location location = null;
             double x = 0;
@@ -750,7 +693,7 @@ public class DatabaseReader {
             }
 
             Location finalLocation = location;
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(finalLocation));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(finalLocation));
         });
     }
 
@@ -761,7 +704,7 @@ public class DatabaseReader {
      * @param islandid  The id of the island.
      * @param callback  Returns the points the island will get for all finished challenges.
      */
-    public void getIslandsChallengePoints(int islandid, CallbackINT callback) {
+    public void getIslandsChallengePoints(int islandid, Consumer<Integer> callback) {
         getIslandChallenges(islandid, (cache) -> {
             int challengeValueFirstComplete = getChallengeValueFirstComplete();
             int challengeValueAfterFirstComplete = getChallengeValueAfterFirstComplete();
@@ -776,7 +719,7 @@ public class DatabaseReader {
                     totalChallengePoints = totalChallengePoints + challengeValueFirstComplete + repeatedPoints;
                 }
             }
-            callback.onQueryDone(totalChallengePoints);
+            callback.accept(totalChallengePoints);
         });
     }
 
@@ -871,7 +814,7 @@ public class DatabaseReader {
      * @param uuid      The unique id of a player
      * @param callback  Returns the nether home
      */
-    public void getNetherHome(final UUID uuid, final CallbackLocation callback) {
+    public void getNetherHome(final UUID uuid, final Consumer<Location> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             Location location = null;
             double x = 0;
@@ -885,7 +828,7 @@ public class DatabaseReader {
                 getislandid = connection.prepareStatement("SELECT islandid FROM VSkyblock_Player WHERE uuid = ?");
                 getislandid.setString(1, uuid.toString());
                 ResultSet r = getislandid.executeQuery();
-                while (r.next()) {
+                if (r.next()) {
                     islandid = r.getInt("islandid");
                 }
                 getislandid.close();
@@ -917,7 +860,7 @@ public class DatabaseReader {
             }
 
             Location finalLocation = location;
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(finalLocation));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(finalLocation));
         });
     }
 
@@ -927,7 +870,7 @@ public class DatabaseReader {
      * @param world     The name of the world.
      * @param callback  Returns the location.
      */
-    public void getIslandSpawn(final String world, final CallbackLocation callback) {
+    public void getIslandSpawn(final String world, final Consumer<Location> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             Location location = null;
             double x = 0;
@@ -941,7 +884,7 @@ public class DatabaseReader {
                 getislandid = connection.prepareStatement("SELECT islandid FROM VSkyblock_Island WHERE island = ?");
                 getislandid.setString(1, world);
                 ResultSet r = getislandid.executeQuery();
-                while (r.next()) {
+                if (r.next()) {
                     islandid = r.getInt("islandid");
                 }
                 getislandid.close();
@@ -975,49 +918,8 @@ public class DatabaseReader {
             }
 
             Location finalLocation = location;
-            Bukkit.getScheduler().runTask(plugin, () -> callback.onQueryDone(finalLocation));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(finalLocation));
         });
     }
 
-
-
-
-
-
-
-    public interface Callback {
-        void onQueryDone(DatabaseCache result);
-    }
-
-    public interface cCallback {
-        void onQueryDone(ChallengesCache cache);
-    }
-
-    public interface isoptionsCallback {
-        void onQueryDone(IslandOptionsCache isoptionsCache);
-    }
-
-    public interface CallbackString {
-        void onQueryDone(String result);
-    }
-
-    public interface CallbackINT {
-        void onQueryDone(int result);
-    }
-
-    public interface CallbackBoolean {
-        void onQueryDone(boolean result);
-    }
-
-    public interface CallbackList {
-        void onQueryDone(List<String> result);
-    }
-
-    public interface CallbackStrings {
-        void onQueryDone(String result, boolean a);
-    }
-
-    public interface CallbackLocation {
-        void onQueryDone(Location loc);
-    }
 }
