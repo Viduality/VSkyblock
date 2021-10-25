@@ -55,30 +55,29 @@ public class DatabaseReader {
      * @param uuid      The unique id of a player.
      * @param callback  Returns the player data. (Database Cache)
      */
-    public void getPlayerData(final String uuid, final Consumer<DatabaseCache> callback) {
+    public void getPlayerData(final String uuid, final Consumer<PlayerInfo> callback) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            DatabaseCache databaseCache = new DatabaseCache();
+            PlayerInfo playerInfo = new PlayerInfo();
             try (Connection connection = connector.getConnection();
                  PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE uuid = ?")) {;
                 preparedStatement.setString(1, uuid);
                 ResultSet r = preparedStatement.executeQuery();
                 if (r.next()) {
-                    databaseCache.setUuid(r.getString("uuid"));
-                    databaseCache.setName(r.getString("playername"));
-                    databaseCache.setKicked(r.getBoolean("kicked"));
-                    databaseCache.setIslandowner(r.getBoolean("islandowner"));
-                    databaseCache.setIslandId(r.getInt("islandid"));
-                    databaseCache.setIslandowneruuid(r.getString("owneruuid"));
-                    databaseCache.setDeathCount(r.getInt("deaths"));
+                    playerInfo.setUuid(r.getString("uuid"));
+                    playerInfo.setName(r.getString("playername"));
+                    playerInfo.setKicked(r.getBoolean("kicked"));
+                    playerInfo.setIsIslandOwner(r.getBoolean("islandowner"));
+                    playerInfo.setIslandId(r.getInt("islandid"));
+                    playerInfo.setDeathCount(r.getInt("deaths"));
 
-                    if (databaseCache.getIslandId() != 0) {
+                    if (playerInfo.getIslandId() != 0) {
 
                         PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT * FROM VSkyblock_Island WHERE islandid = ?");
-                        preparedStatement1.setInt(1, databaseCache.getIslandId());
+                        preparedStatement1.setInt(1, playerInfo.getIslandId());
                         ResultSet r1 = preparedStatement1.executeQuery();
                         while (r1.next()) {
-                            databaseCache.setIslandname(r1.getString("island"));
-                            databaseCache.setIslandLevel(r1.getInt("islandlevel"));
+                            playerInfo.setIslandName(r1.getString("island"));
+                            playerInfo.setIslandLevel(r1.getInt("islandlevel"));
                         }
                         preparedStatement1.close();
                     }
@@ -88,7 +87,7 @@ public class DatabaseReader {
                 e.printStackTrace();
             }
 
-            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(databaseCache));
+            Bukkit.getScheduler().runTask(plugin, () -> callback.accept(playerInfo));
         });
     }
 

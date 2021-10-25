@@ -1,7 +1,7 @@
 package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,14 +14,14 @@ public class IslandRestart implements SubCommand {
         this.plugin = plugin;
     }
 
-
     @Override
-    public void execute(DatabaseCache databaseCache) {
+    public void execute(ExecutionInfo execution) {
+        PlayerInfo playerInfo = execution.getPlayerInfo();
         Bukkit.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Player player = plugin.getServer().getPlayer(databaseCache.getPlayer().getUniqueId());
+            Player player = plugin.getServer().getPlayer(playerInfo.getPlayer().getUniqueId());
             if (player != null) {
-                if (databaseCache.isIslandowner()) {
-                    plugin.getDb().getReader().hasIslandMembers(databaseCache.getIslandId(), hasislandmembers -> {
+                if (playerInfo.isIslandOwner()) {
+                    plugin.getDb().getReader().hasIslandMembers(playerInfo.getIslandId(), hasislandmembers -> {
                         if (!hasislandmembers) {
                             Island.restartmap.put(player.getUniqueId(), 1);
                             ConfigShorts.messagefromString("ConfirmRestart", player);

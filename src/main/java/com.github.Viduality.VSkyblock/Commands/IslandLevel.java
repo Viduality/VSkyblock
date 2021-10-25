@@ -21,7 +21,7 @@ package com.github.Viduality.VSkyblock.Commands;
 import com.github.Viduality.VSkyblock.DefaultFiles;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -51,30 +51,31 @@ public class IslandLevel implements SubCommand {
     }
 
     @Override
-    public void execute(DatabaseCache databaseCache) {
-        if (databaseCache.getIslandId() != 0) {
+    public void execute(ExecutionInfo execution) {
+        PlayerInfo playerInfo = execution.getPlayerInfo();
+        if (playerInfo.getIslandId() != 0) {
             UUID uuid = null;
-            if (databaseCache.getArg() != null) {
-                OfflinePlayer target = plugin.getServer().getOfflinePlayer(databaseCache.getArg());
+            if (execution.getArg() != null) {
+                OfflinePlayer target = plugin.getServer().getOfflinePlayer(execution.getArg());
                 uuid = target.getUniqueId();
             } else {
-                uuid = databaseCache.getUuid();
+                uuid = playerInfo.getUuid();
             }
-            Player player = databaseCache.getPlayer();
+            Player player = playerInfo.getPlayer();
             plugin.getDb().getReader().getIslandLevelFromUuid(uuid, (islandlevel) -> {
-                if (databaseCache.getArg() != null) {
-                    ConfigShorts.custommessagefromString("PlayersIslandLevel", player, String.valueOf(islandlevel), databaseCache.getArg());
+                if (execution.getArg() != null) {
+                    ConfigShorts.custommessagefromString("PlayersIslandLevel", player, String.valueOf(islandlevel), execution.getArg());
                 } else {
                     ConfigShorts.custommessagefromString("CurrentIslandLevel", player, String.valueOf(islandlevel));
                     if (timebetweenreuse.getIfPresent(player.getUniqueId()) == null) {
                         timebetweenreuse.put(player.getUniqueId(), true);
                         ConfigShorts.messagefromString("CalculatingNewIslandLevel", player);
-                        World world = plugin.getServer().getWorld(databaseCache.getIslandname());
+                        World world = plugin.getServer().getWorld(playerInfo.getIslandName());
                         if (world == null) {
-                            plugin.getLogger().log(Level.SEVERE, "World " + databaseCache.getIslandname() + " not found?");
+                            plugin.getLogger().log(Level.SEVERE, "World " + playerInfo.getIslandName() + " not found?");
                             return;
                         }
-                        plugin.getDb().getReader().getIslandsChallengePoints(databaseCache.getIslandId(), (challengePoints) -> {
+                        plugin.getDb().getReader().getIslandsChallengePoints(playerInfo.getIslandId(), (challengePoints) -> {
                             int valueriselevel = getValueRiseLevel();
                             int valueincrease = getValueIncrease();
                             double worldsize = world.getWorldBorder().getSize();
@@ -125,9 +126,9 @@ public class IslandLevel implements SubCommand {
                                 }
 
                                 int roundlevel = (int) Math.floor(level);
-                                plugin.getDb().getWriter().updateIslandLevel(databaseCache.getIslandId(), roundlevel, c.blocks, player.getUniqueId());
+                                plugin.getDb().getWriter().updateIslandLevel(playerInfo.getIslandId(), roundlevel, c.blocks, player.getUniqueId());
                                 ConfigShorts.custommessagefromString("NewIslandLevel", player, String.valueOf(roundlevel));
-                                CobblestoneGenerator.islandlevels.put(databaseCache.getIslandname(), roundlevel);
+                                CobblestoneGenerator.islandlevels.put(playerInfo.getIslandName(), roundlevel);
                             });
 
                             // Two loops are necessary as getChunkAtAsync might return instantly if chunk is loaded
@@ -147,7 +148,7 @@ public class IslandLevel implements SubCommand {
                 }
             });
         } else {
-            ConfigShorts.messagefromString("NoIsland", databaseCache.getPlayer());
+            ConfigShorts.messagefromString("NoIsland", playerInfo.getPlayer());
         }
     }
 

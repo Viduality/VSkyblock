@@ -32,9 +32,9 @@ public class PlayerInfo {
             if (playerData.getUuid() != null) {
                 String playerInfo = ChatColor.AQUA + "----- " + playerData.getName() + " -----" + "\n" + "\n" +
                         ChatColor.GOLD + "IslandID: " + ChatColor.RESET + playerData.getIslandId() + "\n" +
-                        ChatColor.GOLD + "Island: " + ChatColor.RESET + playerData.getIslandname() + "\n" +
+                        ChatColor.GOLD + "Island: " + ChatColor.RESET + playerData.getIslandName() + "\n" +
                         ChatColor.GOLD + "IslandLevel: " + ChatColor.RESET + playerData.getIslandLevel() + "\n" +
-                        ChatColor.GOLD + "IslandOwner: " + ChatColor.RESET + playerData.isIslandowner() + "\n" +
+                        ChatColor.GOLD + "IslandOwner: " + ChatColor.RESET + playerData.isIslandOwner() + "\n" +
                         ChatColor.GOLD + "DeathCount: " + ChatColor.RESET + playerData.getDeathCount() + "\n";
                 sender.sendMessage(playerInfo);
             } else {

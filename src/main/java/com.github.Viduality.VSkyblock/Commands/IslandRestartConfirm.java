@@ -19,7 +19,7 @@ package com.github.Viduality.VSkyblock.Commands;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.WorldGenerator.IslandCreator;
 import org.bukkit.entity.Player;
@@ -33,8 +33,9 @@ public class IslandRestartConfirm implements SubCommand{
     }
 
     @Override
-    public void execute(DatabaseCache databaseCache) {
-        Player player = databaseCache.getPlayer();
+    public void execute(ExecutionInfo execution) {
+        PlayerInfo playerInfo = execution.getPlayerInfo();
+        Player player = playerInfo.getPlayer();
         if (Island.restartmap.asMap().containsKey(player.getUniqueId())) {
             if (!Island.isgencooldown.asMap().containsValue(player.getUniqueId())) {
                 Island.isgencooldown.put(player.getUniqueId(), player.getUniqueId());
@@ -44,11 +45,11 @@ public class IslandRestartConfirm implements SubCommand{
                 player.setExp(0);
                 player.setTotalExperience(0);
                 player.setScoreboard(plugin.getServer().getScoreboardManager().getMainScoreboard());
-                new IslandCreator(plugin, databaseCache.getUuid())
-                        .oldIsland(databaseCache.getIslandname())
+                new IslandCreator(plugin, playerInfo.getUuid())
+                        .oldIsland(playerInfo.getIslandName())
                         .createNewIsland();
             } else {
-                ConfigShorts.custommessagefromString("GenerateCooldown", databaseCache.getPlayer(), String.valueOf(Island.getisgencooldown()));
+                ConfigShorts.custommessagefromString("GenerateCooldown", playerInfo.getPlayer(), String.valueOf(Island.getisgencooldown()));
             }
         } else {
             ConfigShorts.messagefromString("RestartFirst", player);

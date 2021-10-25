@@ -29,15 +29,16 @@ public class IslandAccept implements SubCommand {
     private final VSkyblock plugin = VSkyblock.getInstance();
 
     @Override
-    public void execute(DatabaseCache databaseCache) {
+    public void execute(ExecutionInfo execution) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Player player = databaseCache.getPlayer();
-            if (Island.invitemap.asMap().containsKey(databaseCache.getUuid())) {
-                UUID newmemberuuid = databaseCache.getUuid();
-                UUID islandowneruuid = Island.invitemap.asMap().get(databaseCache.getUuid());
+            PlayerInfo playerInfo = execution.getPlayerInfo();
+            Player player = playerInfo.getPlayer();
+            if (Island.invitemap.asMap().containsKey(playerInfo.getUuid())) {
+                UUID newmemberuuid = playerInfo.getUuid();
+                UUID islandowneruuid = Island.invitemap.asMap().get(playerInfo.getUuid());
                 plugin.getDb().getReader().getIslandIdFromPlayer(islandowneruuid, (islandid) -> plugin.getDb().getReader().getIslandNameFromPlayer(islandowneruuid, (newisland) -> {
-                    if (databaseCache.isIslandowner()) {
-                        plugin.getDb().getReader().hasIslandMembers(databaseCache.getIslandId(), hasMembers -> {
+                    if (playerInfo.isIslandOwner()) {
+                        plugin.getDb().getReader().hasIslandMembers(playerInfo.getIslandId(), hasMembers -> {
                             if (!hasMembers) {
 
                                 player.getInventory().clear();
@@ -48,8 +49,8 @@ public class IslandAccept implements SubCommand {
                                     }
                                     player.setCollidable(true);
                                     player.setSleepingIgnored(false);
-                                    plugin.getWorldManager().unloadWorld(databaseCache.getIslandname());
-                                    plugin.getDb().getReader().getIslandChallenges(databaseCache.getIslandId(), challenges -> {
+                                    plugin.getWorldManager().unloadWorld(playerInfo.getIslandName());
+                                    plugin.getDb().getReader().getIslandChallenges(playerInfo.getIslandId(), challenges -> {
                                         if (player.isOnline()) {
                                             plugin.getScoreboardManager().updateTracked(player, challenges);
                                         }
@@ -78,14 +79,14 @@ public class IslandAccept implements SubCommand {
                             if (e != null) {
                                 e.printStackTrace();
                             }
-                            if (databaseCache.getIslandname() != null) {
-                                if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
+                            if (playerInfo.getIslandName() != null) {
+                                if (!Island.playerislands.containsValue(playerInfo.getIslandName())) {
                                     player.setCollidable(true);
                                     player.setSleepingIgnored(false);
-                                    plugin.getWorldManager().unloadWorld(databaseCache.getIslandname());
+                                    plugin.getWorldManager().unloadWorld(playerInfo.getIslandName());
                                 }
                             }
-                            plugin.getDb().getReader().getIslandChallenges(databaseCache.getIslandId(), challenges -> {
+                            plugin.getDb().getReader().getIslandChallenges(playerInfo.getIslandId(), challenges -> {
                                 if (player.isOnline()) {
                                     plugin.getScoreboardManager().updateTracked(player, challenges);
                                 }

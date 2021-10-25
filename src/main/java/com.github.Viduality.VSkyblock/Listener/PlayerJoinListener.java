@@ -41,7 +41,7 @@ public class PlayerJoinListener implements Listener {
 
     private final VSkyblock plugin;
 
-    private final Deque<DatabaseCache> toLoad = new ArrayDeque<>();
+    private final Deque<PlayerInfo> toLoad = new ArrayDeque<>();
 
     public PlayerJoinListener(VSkyblock plugin) {
         this.plugin = plugin;
@@ -73,7 +73,7 @@ public class PlayerJoinListener implements Listener {
                         plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", result.getDeathCount());
                     }
                 }
-                if (result.getIslandname() != null) {
+                if (result.getIslandName() != null) {
                     PotionEffect potionEffectBlindness = new PotionEffect(PotionEffectType.BLINDNESS, 600, 1);
                     PotionEffect potionEffectNightVision = new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 1);
                     player.addPotionEffect(potionEffectBlindness);
@@ -81,7 +81,7 @@ public class PlayerJoinListener implements Listener {
                     Location location = player.getLocation();
                     location.setPitch(-90);
                     player.teleport(location);
-                    BukkitTask task = Island.emptyloadedislands.remove(result.getIslandname());
+                    BukkitTask task = Island.emptyloadedislands.remove(result.getIslandName());
                     if (task != null) {
                         task.cancel();
                     }
@@ -122,23 +122,23 @@ public class PlayerJoinListener implements Listener {
         }
     }
 
-    private void loadWorld(DatabaseCache result) {
-        if (!Island.playerislands.containsValue(result.getIslandname())) {
-            plugin.getDb().getReader().addToCobbleStoneGenerators(result.getIslandname());
+    private void loadWorld(PlayerInfo result) {
+        if (!Island.playerislands.containsValue(result.getIslandName())) {
+            plugin.getDb().getReader().addToCobbleStoneGenerators(result.getIslandName());
         }
-        if (!plugin.getWorldManager().loadWorld(result.getIslandname())) {
-            ConfigShorts.custommessagefromString("WorldFailedToLoad", result.getPlayer(), result.getIslandname());
+        if (!plugin.getWorldManager().loadWorld(result.getIslandName())) {
+            ConfigShorts.custommessagefromString("WorldFailedToLoad", result.getPlayer(), result.getIslandName());
             toLoad.remove(result);
-            DatabaseCache nextResult = toLoad.peekFirst();
+            PlayerInfo nextResult = toLoad.peekFirst();
             if (nextResult != null) {
                 loadWorld(nextResult);
             }
             return;
         }
-        Island.playerislands.put(result.getUuid(), result.getIslandname());
-        plugin.getDb().getReader().getIslandSpawn(result.getIslandname(), islandspawn -> {
-            if (!Island.islandhomes.containsKey(result.getIslandname())) {
-                Island.islandhomes.put(result.getIslandname(), islandspawn);
+        Island.playerislands.put(result.getUuid(), result.getIslandName());
+        plugin.getDb().getReader().getIslandSpawn(result.getIslandName(), islandspawn -> {
+            if (!Island.islandhomes.containsKey(result.getIslandName())) {
+                Island.islandhomes.put(result.getIslandName(), islandspawn);
             }
             plugin.getDb().getReader().getLastLocation(result.getUuid(), loc -> {
                 Player player = result.getPlayer();
@@ -160,17 +160,17 @@ public class PlayerJoinListener implements Listener {
                             }
                             player.teleport(finalLoc);
                         } else {
-                            ConfigShorts.custommessagefromString("WorldFailedToLoad", player, result.getIslandname());
+                            ConfigShorts.custommessagefromString("WorldFailedToLoad", player, result.getIslandName());
                         }
                     });
                 } else {
-                    Island.emptyloadedislands.put(result.getIslandname(), plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                        plugin.getWorldManager().unloadWorld(result.getIslandname());
-                        Island.islandhomes.remove(result.getIslandname());
+                    Island.emptyloadedislands.put(result.getIslandName(), plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                        plugin.getWorldManager().unloadWorld(result.getIslandName());
+                        Island.islandhomes.remove(result.getIslandName());
                     }, 20 * 60));
                 }
                 toLoad.remove(result);
-                DatabaseCache nextResult = toLoad.peekFirst();
+                PlayerInfo nextResult = toLoad.peekFirst();
                 if (nextResult != null) {
                     loadWorld(nextResult);
                 }

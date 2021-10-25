@@ -19,7 +19,7 @@ package com.github.Viduality.VSkyblock.Commands;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -41,18 +41,19 @@ public class IslandKick implements SubCommand{
     }
 
     @Override
-    public void execute(DatabaseCache databaseCache) {
+    public void execute(ExecutionInfo execution) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Player player = databaseCache.getPlayer();
+            PlayerInfo playerInfo = execution.getPlayerInfo();
+            Player player = playerInfo.getPlayer();
             // TODO: Replace with database query
-            OfflinePlayer target = plugin.getServer().getOfflinePlayer(databaseCache.getArg());
+            OfflinePlayer target = plugin.getServer().getOfflinePlayer(execution.getArg());
             if (target != player) {
                 UUID targetuuid = target.getUniqueId();
                 Set<UUID> members = new LinkedHashSet<>();
                 try (Connection connection = plugin.getDb().getConnection()) {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE islandid = ?");
-                    preparedStatement.setInt(1, databaseCache.getIslandId());
+                    preparedStatement.setInt(1, playerInfo.getIslandId());
                     ResultSet resultSet = preparedStatement.executeQuery();
                     while (resultSet.next()) {
                         members.add(UUID.fromString(resultSet.getString("uuid")));
@@ -62,7 +63,7 @@ public class IslandKick implements SubCommand{
                 }
                 plugin.getServer().getScheduler().runTask(plugin, () -> {
                     if (members.contains(targetuuid)) {
-                        if (databaseCache.isIslandowner()) {
+                        if (playerInfo.isIslandOwner()) {
                             plugin.getDb().getWriter().kickPlayerfromIsland(targetuuid);
                             ConfigShorts.custommessagefromString("KickedMember", player, player.getName(), target.getName());
                             Player onlinetarget = target.getPlayer();
@@ -85,7 +86,7 @@ public class IslandKick implements SubCommand{
                         if (onlinetarget != null) {
                             if (!onlinetarget.hasPermission("VSkyblock.IgnoreKick")) {
                                 onlinetarget.setScoreboard(plugin.getServer().getScoreboardManager().getMainScoreboard());
-                                if (onlinetarget.getWorld().getName().equals(databaseCache.getIslandname())) {
+                                if (onlinetarget.getWorld().getName().equals(playerInfo.getIslandName())) {
                                     onlinetarget.teleportAsync(plugin.getWorldManager().getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
                                     ConfigShorts.messagefromString("KickVisitingPlayer", onlinetarget);
                                 } else {

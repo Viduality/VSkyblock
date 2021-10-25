@@ -19,7 +19,7 @@ package com.github.Viduality.VSkyblock.Commands;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -36,12 +36,13 @@ public class IslandVisit implements SubCommand {
 
 
     @Override
-    public void execute(DatabaseCache databaseCache) {
-        Player player = databaseCache.getPlayer();
-        Player onlinetarget = plugin.getServer().getPlayer(databaseCache.getArg());
-        if (player != onlinetarget) {
-            if (onlinetarget != null) {
-                UUID uuid = onlinetarget.getUniqueId();
+    public void execute(ExecutionInfo execution) {
+        PlayerInfo playerInfo = execution.getPlayerInfo();
+        Player player = playerInfo.getPlayer();
+        Player onlineTarget = plugin.getServer().getPlayer(execution.getArg());
+        if (player != onlineTarget) {
+            if (onlineTarget != null) {
+                UUID uuid = onlineTarget.getUniqueId();
                 plugin.getDb().getReader().getIslandIdFromPlayer(uuid, islandId -> plugin.getDb().getReader().getIslandMembers(islandId, islandMembers -> {
                     if (!islandMembers.contains(player.getName())) {
                         plugin.getDb().getReader().isIslandVisitable(islandId, isVisitable -> {
@@ -87,7 +88,7 @@ public class IslandVisit implements SubCommand {
                     }
                 }));
             } else {
-                ConfigShorts.custommessagefromString("PlayerNotOnline", player, player.getName(), databaseCache.getArg());
+                ConfigShorts.custommessagefromString("PlayerNotOnline", player, player.getName(), execution.getArg());
             }
         } else {
             ConfigShorts.messagefromString("VisitYourself", player);

@@ -40,7 +40,7 @@ public class NetherPortalListener implements Listener {
         final Location location = playerPortalEvent.getFrom();
         if (playerPortalEvent.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL)) {
             plugin.getDb().getReader().getPlayerData(player.getUniqueId().toString(), (result) -> {
-                if (player.getWorld().getName().equals(result.getIslandname())) {
+                if (player.getWorld().getName().equals(result.getIslandName())) {
                     player.teleportAsync(plugin.getWorldManager().getSpawnLocation(ConfigShorts.getDefConfig().getString("NetherWorld"))).whenComplete((b, e) -> {
                         ConfigShorts.messagefromString("NetherJoin1", player);
                         ConfigShorts.messagefromString("NetherJoin2", player);
@@ -56,11 +56,11 @@ public class NetherPortalListener implements Listener {
                     });
 
                 } else if (player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
-                    if (result.getIslandname() != null) {
-                        player.teleportAsync(Island.islandhomes.get(result.getIslandname()));
+                    if (result.getIslandName() != null) {
+                        player.teleportAsync(Island.islandhomes.get(result.getIslandName()));
                         plugin.getDb().getReader().getNetherHome(result.getUuid(), (netherhome) -> {
                             if (netherhome != null) {
-                                if (result.isIslandowner()) {
+                                if (result.isIslandOwner()) {
                                     if (netherhome.distance(location) > 10) {
                                         setNetherHome.put(result.getUuid(), location);
                                         ConfigShorts.messagefromString("SetNewNetherHome", player);

@@ -19,7 +19,7 @@ package com.github.Viduality.VSkyblock.Commands;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.Utilitys.IslandOptionsCache;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
@@ -40,12 +40,13 @@ public class IslandOptions implements SubCommand {
     }
 
     @Override
-    public void execute(DatabaseCache databaseCache) {
-        if (databaseCache.getIslandId() != 0) {
-            plugin.getDb().getReader().getIslandOptions(databaseCache.getIslandId(), isoptionsCache ->
-                    createOptionsInventory(isoptionsCache, databaseCache.getPlayer(), databaseCache.isIslandowner()));
+    public void execute(ExecutionInfo execution) {
+        PlayerInfo playerInfo = execution.getPlayerInfo();
+        if (playerInfo.getIslandId() != 0) {
+            plugin.getDb().getReader().getIslandOptions(playerInfo.getIslandId(), isoptionsCache ->
+                    createOptionsInventory(isoptionsCache, playerInfo.getPlayer(), playerInfo.isIslandOwner()));
         } else {
-            ConfigShorts.messagefromString("NoIsland", databaseCache.getPlayer());
+            ConfigShorts.messagefromString("NoIsland", playerInfo.getPlayer());
         }
     }
 

@@ -20,7 +20,7 @@ package com.github.Viduality.VSkyblock.Commands.Admin;
 
 import com.github.Viduality.VSkyblock.Commands.WorldCommands.AdminSubCommand;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -45,14 +45,14 @@ public class DeletePlayer implements AdminSubCommand {
     public void execute(CommandSender sender, String args, String option1, String option2) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             if (sender.hasPermission("VSkyblock.DeletePlayer")) {
-                DatabaseCache databaseCache = new DatabaseCache();
+                PlayerInfo playerInfo = new PlayerInfo();
                 try (Connection connection = plugin.getDb().getConnection()) {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection.prepareStatement("SELECT * FROM VSkyblock_Player WHERE playername = ?");
                     preparedStatement.setString(1, args);
                     ResultSet r = preparedStatement.executeQuery();
                     while (r.next()) {
-                        databaseCache.setUuid(r.getString("uuid"));
+                        playerInfo.setUuid(r.getString("uuid"));
                     }
                     preparedStatement.close();
                 } catch (SQLException e) {
@@ -60,7 +60,7 @@ public class DeletePlayer implements AdminSubCommand {
                 }
 
 
-                UUID uuid = databaseCache.getUuid();
+                UUID uuid = playerInfo.getUuid();
                 if (uuid != null) {
                     try (Connection connection = plugin.getDb().getConnection()) {
                         PreparedStatement preparedStatement1;

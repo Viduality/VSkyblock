@@ -19,7 +19,7 @@ package com.github.Viduality.VSkyblock.Commands;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.entity.Player;
 
@@ -32,8 +32,9 @@ public class IslandLeaveConfirm implements SubCommand {
     }
 
     @Override
-    public void execute(DatabaseCache databaseCache) {
-        Player player = databaseCache.getPlayer();
+    public void execute(ExecutionInfo execution) {
+        PlayerInfo playerInfo = execution.getPlayerInfo();
+        Player player = playerInfo.getPlayer();
         if (Island.leavemap.asMap().containsKey(player.getUniqueId())) {
             plugin.getDb().getWriter().leavefromIsland(player.getUniqueId());
             ConfigShorts.messagefromString("LeftIsland", player);
@@ -44,8 +45,8 @@ public class IslandLeaveConfirm implements SubCommand {
             player.setScoreboard(plugin.getServer().getScoreboardManager().getMainScoreboard());
             Island.leavemap.asMap().remove(player.getUniqueId());
             Island.playerislands.remove(player.getUniqueId());
-            if (!Island.playerislands.containsValue(databaseCache.getIslandname())) {
-                plugin.getWorldManager().unloadWorld(databaseCache.getIslandname());
+            if (!Island.playerislands.containsValue(playerInfo.getIslandName())) {
+                plugin.getWorldManager().unloadWorld(playerInfo.getIslandName());
             }
         } else {
             ConfigShorts.messagefromString("LeaveFirst", player);

@@ -19,7 +19,7 @@ package com.github.Viduality.VSkyblock.Commands;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.WorldGenerator.IslandCreator;
 import org.bukkit.Location;
@@ -38,9 +38,10 @@ public class IslandCommand implements SubCommand {
     }
 
     @Override
-    public void execute(DatabaseCache databaseCache) {
-        Player player = databaseCache.getPlayer();
-        if (databaseCache.getIslandId() != 0) {
+    public void execute(ExecutionInfo execution) {
+        PlayerInfo playerInfo = execution.getPlayerInfo();
+        Player player = playerInfo.getPlayer();
+        if (playerInfo.getIslandId() != 0) {
             boolean teleport = true;
             if (!ConfigShorts.getDefConfig().getBoolean("SaveWithIslandCommand")) {
                 if (player.getFallDistance() > 2) {
@@ -55,13 +56,13 @@ public class IslandCommand implements SubCommand {
                 }
             }
             if (teleport) {
-                if (!plugin.getWorldManager().getLoadedWorlds().contains(databaseCache.getIslandname())) {
-                    if (!plugin.getWorldManager().loadWorld(databaseCache.getIslandname())) {
-                        ConfigShorts.custommessagefromString("WorldFailedToLoad", player, databaseCache.getIslandname());
+                if (!plugin.getWorldManager().getLoadedWorlds().contains(playerInfo.getIslandName())) {
+                    if (!plugin.getWorldManager().loadWorld(playerInfo.getIslandName())) {
+                        ConfigShorts.custommessagefromString("WorldFailedToLoad", player, playerInfo.getIslandName());
                         return;
                     }
                 }
-                Location islandHome = Island.islandhomes.get(databaseCache.getIslandname());
+                Location islandHome = Island.islandhomes.get(playerInfo.getIslandName());
                 if (islandHome != null) {
                     islandHome.getWorld().getChunkAtAsync(islandHome).whenComplete((c, e) -> {
                        if (e != null) {
@@ -74,7 +75,7 @@ public class IslandCommand implements SubCommand {
                            }
                            plugin.teleportToIsland(player, islandHome);
                        } else {
-                           ConfigShorts.custommessagefromString("WorldFailedToLoad", player, databaseCache.getIslandname());
+                           ConfigShorts.custommessagefromString("WorldFailedToLoad", player, playerInfo.getIslandName());
                        }
                     });
                 }
@@ -87,7 +88,7 @@ public class IslandCommand implements SubCommand {
                 player.setTotalExperience(0);
                 player.setExp(0);
                 player.setFoodLevel(20);
-                new IslandCreator(plugin, databaseCache.getUuid()).createNewIsland();
+                new IslandCreator(plugin, playerInfo.getUuid()).createNewIsland();
                 Island.isgencooldown.put(player.getUniqueId(), player.getUniqueId());
             } else {
                 ConfigShorts.custommessagefromString("GenerateCooldown", player, String.valueOf(Island.getisgencooldown()));

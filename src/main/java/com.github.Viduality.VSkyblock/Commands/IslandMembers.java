@@ -2,7 +2,7 @@ package com.github.Viduality.VSkyblock.Commands;
 
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 
 import org.bukkit.ChatColor;
@@ -18,14 +18,15 @@ public class IslandMembers implements SubCommand {
     }
 
     @Override
-    public void execute(DatabaseCache databaseCache) {
+    public void execute(ExecutionInfo execution) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Player player = databaseCache.getPlayer();
-            if (databaseCache.getIslandId() != 0) {
-                plugin.getDb().getReader().hasIslandMembers(databaseCache.getIslandId(), hasislandmembers -> {
+            PlayerInfo playerInfo = execution.getPlayerInfo();
+            Player player = playerInfo.getPlayer();
+            if (playerInfo.getIslandId() != 0) {
+                plugin.getDb().getReader().hasIslandMembers(playerInfo.getIslandId(), hasislandmembers -> {
                     if (hasislandmembers) {
 
-                        plugin.getDb().getReader().getIslandMembers(databaseCache.getIslandId(), result -> {
+                        plugin.getDb().getReader().getIslandMembers(playerInfo.getIslandId(), result -> {
 
                             StringBuilder memberList = null;
                             for (String member : result) {

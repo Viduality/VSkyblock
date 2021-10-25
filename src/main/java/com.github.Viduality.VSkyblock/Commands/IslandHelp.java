@@ -19,7 +19,6 @@ package com.github.Viduality.VSkyblock.Commands;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.ChatColor;
 
@@ -34,7 +33,7 @@ public class IslandHelp implements SubCommand {
 
 
     @Override
-    public void execute(DatabaseCache databaseCache) {
+    public void execute(ExecutionInfo execution) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             String intro = ConfigShorts.getHelpConfig().getString("IntroText");
             String island = ConfigShorts.getHelpConfig().getString("Island");
@@ -76,7 +75,7 @@ public class IslandHelp implements SubCommand {
                     ChatColor.GOLD + ChatColor.BOLD + "/island setnetherhome" + "\n" + ChatColor.RESET + " - " + setnetherhome + "\n" +
                     ChatColor.GOLD + ChatColor.BOLD + "/island nether" + "\n" + ChatColor.RESET + " - " + nether + "\n" +
                     ChatColor.GOLD + ChatColor.BOLD + "/challenges" + "\n" + ChatColor.RESET + " - " + challenges;
-            databaseCache.getPlayer().sendMessage(message);
+            execution.getSender().sendMessage(message);
         });
     }
 }

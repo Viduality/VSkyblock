@@ -1,6 +1,6 @@
 package com.github.Viduality.VSkyblock.Commands;
 
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.ChatColor;
 
@@ -13,14 +13,14 @@ public class IslandTop implements SubCommand {
     }
 
     @Override
-    public void execute(DatabaseCache databaseCache) {
+    public void execute(ExecutionInfo execution) {
         plugin.getDb().getReader().getHighestIslands(result -> {
             String message = "§9§l-----Top Islands-----" + "\n";
             for (int i = 0; i < result.size(); i++) {
                 int rank = i + 1;
                 message = message + ChatColor.GOLD + rank + ".: " + ChatColor.RESET + result.get(i) + "\n";
             }
-            databaseCache.getPlayer().sendMessage(message);
+            execution.getSender().sendMessage(message);
         });
     }
 }

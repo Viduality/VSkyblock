@@ -79,9 +79,11 @@ public class Island implements CommandExecutor {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (cmd.getName().equalsIgnoreCase("island")) {
-                    plugin.getDb().getReader().getPlayerData(player.getUniqueId().toString(), databasecache -> {
-                        databasecache.setPlayer(player);
+                    plugin.getDb().getReader().getPlayerData(player.getUniqueId().toString(), playerInfo -> {
+                        playerInfo.setPlayer(player);
                         SubCommand subCommand = null;
+
+                        ExecutionInfo executionInfo = new ExecutionInfo(sender, playerInfo);
 
 
                         if (player.hasPermission("VSkyblock.Island")) {
@@ -222,8 +224,8 @@ public class Island implements CommandExecutor {
 
                             else if (args.length == 2) {
 
-                                databasecache.setTargetPlayer(plugin.getServer().getOfflinePlayer(args[1]));
-                                databasecache.setArg(args[1]);
+                                executionInfo.setTargetPlayer(plugin.getServer().getOfflinePlayer(args[1]));
+                                executionInfo.setArg(args[1]);
 
 
                                 /*
@@ -307,7 +309,7 @@ public class Island implements CommandExecutor {
                             ConfigShorts.messagefromString("PermissionLack", player);
                         }
                         if (subCommand != null) {
-                            subCommand.execute(databasecache);
+                            subCommand.execute(executionInfo);
                         } else {
                             ConfigShorts.messagefromString("FalseInput", player);
                         }

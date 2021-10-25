@@ -1,7 +1,7 @@
 package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
-import com.github.Viduality.VSkyblock.Utilitys.DatabaseCache;
+import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.entity.Player;
 
@@ -15,25 +15,26 @@ public class IslandLeave implements SubCommand{
 
 
     @Override
-    public void execute(DatabaseCache databaseCache) {
+    public void execute(ExecutionInfo execution) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            Player player = databaseCache.getPlayer();
-            if (databaseCache.getIslandId() != 0) {
-                if (databaseCache.isIslandowner()) {
-                    plugin.getDb().getReader().hasIslandMembers(databaseCache.getIslandId(), result -> {
+            PlayerInfo playerInfo = execution.getPlayerInfo();
+            Player player = playerInfo.getPlayer();
+            if (playerInfo.getIslandId() != 0) {
+                if (playerInfo.isIslandOwner()) {
+                    plugin.getDb().getReader().hasIslandMembers(playerInfo.getIslandId(), result -> {
                         if (!result) {
-                            Island.leavemap.put(databaseCache.getUuid(), 1);
+                            Island.leavemap.put(playerInfo.getUuid(), 1);
                             ConfigShorts.messagefromString("AcceptLeave", player);
                         } else {
                             ConfigShorts.messagefromString("HasIslandMembers", player);
                         }
                     });
                 } else {
-                    Island.leavemap.put(databaseCache.getUuid(), 1);
+                    Island.leavemap.put(playerInfo.getUuid(), 1);
                     ConfigShorts.messagefromString("AcceptLeave", player);
                 }
             } else {
-                ConfigShorts.messagefromString("NoIsland", databaseCache.getPlayer());
+                ConfigShorts.messagefromString("NoIsland", playerInfo.getPlayer());
             }
         });
     }

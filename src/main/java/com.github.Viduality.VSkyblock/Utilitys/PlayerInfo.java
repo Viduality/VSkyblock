@@ -4,29 +4,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-public class DatabaseCache {
+public class PlayerInfo {
     private UUID playerId;
     private String name = null;
-    private int islandid = 0;
-    private boolean islandowner = false;
-    private String islandowneruuid = null;
+    private int islandId = 0;
+    private boolean isIslandOwner = false;
+    private String islandOwnerUuid = null;
     private boolean kicked = false;
-    private String islandname = null;
+    private String islandName = null;
     private int islandLevel = 0;
-    private List<String> islandmembers = new ArrayList<>();
     private String arg = null;
     private int deathCount = 0;
-    private double spawnX;
-    private double spawnY;
-    private double spawnZ;
-    private double spawnPitch;
-    private double spawnYaw;
 
-    private OfflinePlayer offlinePlayer;
+    private OfflinePlayer targetPlayer;
 
 
     /**
@@ -43,38 +35,6 @@ public class DatabaseCache {
      */
     public void setPlayer(Player player) {
         this.playerId = player.getUniqueId();
-    }
-
-    /**
-     * Returns the target (player).
-     * @return Player
-     */
-    public OfflinePlayer getTargetPlayer() {
-        return offlinePlayer;
-    }
-
-    /**
-     * Sets the target (player).
-     * @param targetPlayer
-     */
-    public void setTargetPlayer(OfflinePlayer targetPlayer) {
-        this.offlinePlayer = targetPlayer;
-    }
-
-    /**
-     * Sets the argument from the chat input.
-     * @param arg
-     */
-    public void setArg(String arg) {
-        this.arg = arg;
-    }
-
-    /**
-     * Returns the argument.
-     * @return String
-     */
-    public String getArg() {
-        return arg;
     }
 
     /**
@@ -114,7 +74,7 @@ public class DatabaseCache {
      * @param islandid
      */
     public void setIslandId(int islandid) {
-        this.islandid = islandid;
+        this.islandId = islandid;
     }
 
     /**
@@ -122,39 +82,23 @@ public class DatabaseCache {
      * @return int
      */
     public int getIslandId() {
-        return islandid;
+        return islandId;
     }
 
     /**
      * Sets the island owner from the players island.
      * @param islandowner
      */
-    public void setIslandowner(boolean islandowner) {
-        this.islandowner = islandowner;
+    public void setIsIslandOwner(boolean islandowner) {
+        this.isIslandOwner = islandowner;
     }
 
     /**
      * Returns true if the player is the owner of the island where he is playing.
      * @return boolean
      */
-    public boolean isIslandowner() {
-        return islandowner;
-    }
-
-    /**
-     * Sets the uuid from the island owner.
-     * @param islandowneruuid
-     */
-    public void setIslandowneruuid(String islandowneruuid) {
-        this.islandowneruuid = islandowneruuid;
-    }
-
-    /**
-     * Returns the uuid from the island owner.
-     * @return String
-     */
-    public String getIslandowneruuid() {
-        return islandowneruuid;
+    public boolean isIslandOwner() {
+        return isIslandOwner;
     }
 
     /**
@@ -177,16 +121,16 @@ public class DatabaseCache {
      * Sets the island name.
      * @param islandname
      */
-    public void setIslandname(String islandname) {
-        this.islandname = islandname;
+    public void setIslandName(String islandname) {
+        this.islandName = islandname;
     }
 
     /**
      * Returns the island name.
      * @return String
      */
-    public String getIslandname() {
-        return islandname;
+    public String getIslandName() {
+        return islandName;
     }
 
     /**
@@ -203,29 +147,6 @@ public class DatabaseCache {
      */
     public int getIslandLevel() {
         return islandLevel;
-    }
-
-    /**
-     * Resets the list of island members.
-     */
-    public void resetislandmembers() {
-        islandmembers.clear();
-    }
-
-    /**
-     * Adds an member to the island (uuid).
-     * @param uuid
-     */
-    public void addIslandMember(String uuid) {
-        islandmembers.add(uuid);
-    }
-
-    /**
-     * Returns a list of all island members.
-     * @return list of all members
-     */
-    public List<String> getislandmembers() {
-        return islandmembers;
     }
 
     /**
