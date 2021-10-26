@@ -18,7 +18,6 @@ package com.github.Viduality.VSkyblock.Utilitys;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Island;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.SQLConnector;
 import com.github.Viduality.VSkyblock.VSkyblock;
@@ -406,10 +405,10 @@ public class DatabaseReader {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 for (Player player : playerList) {
                     if (finalLoc != null) {
-                        Island.islandhomes.put(finalIslandname, finalLoc);
+                        IslandCacheHandler.islandhomes.put(finalIslandname, finalLoc);
                     }
                     if (finalIslandname != null && !finalIslandname.equals("NULL")) {
-                        Island.playerislands.put(player.getUniqueId(), finalIslandname);
+                        IslandCacheHandler.playerislands.put(player.getUniqueId(), finalIslandname);
                         CobblestoneGenerator.islandGenLevel.put(finalIslandname, finalCobblestonelevel);
                         CobblestoneGenerator.islandlevels.put(finalIslandname, finalIslandlevel);
                     }

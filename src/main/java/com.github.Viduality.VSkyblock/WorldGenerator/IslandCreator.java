@@ -18,7 +18,7 @@ package com.github.Viduality.VSkyblock.WorldGenerator;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
@@ -126,9 +126,9 @@ public class IslandCreator {
                 world.setGameRule(GameRule.DO_INSOMNIA, false);
 
 
-                Island.restartmap.asMap().remove(playerId);
-                Island.playerislands.put(playerId, worldName);
-                Island.islandhomes.put(worldName, world.getSpawnLocation());
+                IslandCacheHandler.restartmap.asMap().remove(playerId);
+                IslandCacheHandler.playerislands.put(playerId, worldName);
+                IslandCacheHandler.islandhomes.put(worldName, world.getSpawnLocation());
                 CobblestoneGenerator.islandGenLevel.put(worldName, 0);
                 CobblestoneGenerator.islandlevels.put(worldName, 0);
                 if (player != null) {

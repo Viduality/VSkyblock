@@ -1,6 +1,6 @@
 package com.github.Viduality.VSkyblock.Listener;
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -21,14 +21,14 @@ public class PlayerLeaveListener implements Listener {
     public void onPlayerLeaveEvent(PlayerQuitEvent playerQuitEvent) {
         Player player = playerQuitEvent.getPlayer();
         Location loc = player.getLocation();
-        if (Island.playerislands.containsKey(player.getUniqueId())) {
-            String island = Island.playerislands.get(player.getUniqueId());
-            Island.playerislands.remove(player.getUniqueId());
-            if (!Island.playerislands.containsValue(island)) {
+        if (IslandCacheHandler.playerislands.containsKey(player.getUniqueId())) {
+            String island = IslandCacheHandler.playerislands.get(player.getUniqueId());
+            IslandCacheHandler.playerislands.remove(player.getUniqueId());
+            if (!IslandCacheHandler.playerislands.containsValue(island)) {
                 if (!plugin.getWorldManager().getAutoLoad(island)) {
-                    Island.emptyloadedislands.put(island, plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                    IslandCacheHandler.emptyloadedislands.put(island, plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                         plugin.getWorldManager().unloadWorld(island);
-                        Island.islandhomes.remove(island);
+                        IslandCacheHandler.islandhomes.remove(island);
                     }, 20 * 60));
                 }
             }

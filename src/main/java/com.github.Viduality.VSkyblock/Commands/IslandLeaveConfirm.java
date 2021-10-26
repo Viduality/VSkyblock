@@ -19,23 +19,25 @@ package com.github.Viduality.VSkyblock.Commands;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class IslandLeaveConfirm implements SubCommand {
-
-    private final VSkyblock plugin;
+/*
+ * Confirms the island leave and executes it.
+ */
+public class IslandLeaveConfirm extends PlayerSubCommand {
 
     public IslandLeaveConfirm(VSkyblock plugin) {
-        this.plugin = plugin;
+        super(plugin, "confirm");
     }
 
     @Override
-    public void execute(ExecutionInfo execution) {
-        PlayerInfo playerInfo = execution.getPlayerInfo();
+    public void execute(CommandSender sender, PlayerInfo playerInfo, String[] args) {
         Player player = playerInfo.getPlayer();
-        if (Island.leavemap.asMap().containsKey(player.getUniqueId())) {
+        if (IslandCacheHandler.leavemap.getIfPresent(player.getUniqueId()) != null) {
             plugin.getDb().getWriter().leavefromIsland(player.getUniqueId());
             ConfigShorts.messagefromString("LeftIsland", player);
             player.getInventory().clear();
@@ -43,9 +45,9 @@ public class IslandLeaveConfirm implements SubCommand {
             player.setExp(0);
             player.setTotalExperience(0);
             player.setScoreboard(plugin.getServer().getScoreboardManager().getMainScoreboard());
-            Island.leavemap.asMap().remove(player.getUniqueId());
-            Island.playerislands.remove(player.getUniqueId());
-            if (!Island.playerislands.containsValue(playerInfo.getIslandName())) {
+            IslandCacheHandler.leavemap.invalidate(player.getUniqueId());
+            IslandCacheHandler.playerislands.remove(player.getUniqueId());
+            if (!IslandCacheHandler.playerislands.containsValue(playerInfo.getIslandName())) {
                 plugin.getWorldManager().unloadWorld(playerInfo.getIslandName());
             }
         } else {

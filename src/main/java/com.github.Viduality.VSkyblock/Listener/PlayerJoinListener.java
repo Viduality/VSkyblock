@@ -18,7 +18,7 @@ package com.github.Viduality.VSkyblock.Listener;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.WorldGenerator.MasterIslandGenerator;
@@ -81,7 +81,7 @@ public class PlayerJoinListener implements Listener {
                     Location location = player.getLocation();
                     location.setPitch(-90);
                     player.teleport(location);
-                    BukkitTask task = Island.emptyloadedislands.remove(result.getIslandName());
+                    BukkitTask task = IslandCacheHandler.emptyloadedislands.remove(result.getIslandName());
                     if (task != null) {
                         task.cancel();
                     }
@@ -123,7 +123,7 @@ public class PlayerJoinListener implements Listener {
     }
 
     private void loadWorld(PlayerInfo result) {
-        if (!Island.playerislands.containsValue(result.getIslandName())) {
+        if (!IslandCacheHandler.playerislands.containsValue(result.getIslandName())) {
             plugin.getDb().getReader().addToCobbleStoneGenerators(result.getIslandName());
         }
         if (!plugin.getWorldManager().loadWorld(result.getIslandName())) {
@@ -135,10 +135,10 @@ public class PlayerJoinListener implements Listener {
             }
             return;
         }
-        Island.playerislands.put(result.getUuid(), result.getIslandName());
+        IslandCacheHandler.playerislands.put(result.getUuid(), result.getIslandName());
         plugin.getDb().getReader().getIslandSpawn(result.getIslandName(), islandspawn -> {
-            if (!Island.islandhomes.containsKey(result.getIslandName())) {
-                Island.islandhomes.put(result.getIslandName(), islandspawn);
+            if (!IslandCacheHandler.islandhomes.containsKey(result.getIslandName())) {
+                IslandCacheHandler.islandhomes.put(result.getIslandName(), islandspawn);
             }
             plugin.getDb().getReader().getLastLocation(result.getUuid(), loc -> {
                 Player player = result.getPlayer();
@@ -164,9 +164,9 @@ public class PlayerJoinListener implements Listener {
                         }
                     });
                 } else {
-                    Island.emptyloadedislands.put(result.getIslandName(), plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                    IslandCacheHandler.emptyloadedislands.put(result.getIslandName(), plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                         plugin.getWorldManager().unloadWorld(result.getIslandName());
-                        Island.islandhomes.remove(result.getIslandName());
+                        IslandCacheHandler.islandhomes.remove(result.getIslandName());
                     }, 20 * 60));
                 }
                 toLoad.remove(result);

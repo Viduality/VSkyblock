@@ -19,62 +19,65 @@ package com.github.Viduality.VSkyblock.Commands;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class IslandConfirm implements SubCommand {
-
-    private final VSkyblock plugin;
+/*
+ * Confirms the visit request.
+ */
+public class IslandConfirm extends PlayerSubCommand {
 
     public IslandConfirm(VSkyblock plugin) {
-        this.plugin = plugin;
+        super(plugin, "confirm");
     }
 
     @Override
-    public void execute(ExecutionInfo execution) {
-        PlayerInfo playerInfo = execution.getPlayerInfo();
-        if (Island.requestvisit.asMap().containsValue(playerInfo.getIslandId())) {
+    public void execute(CommandSender sender, PlayerInfo playerInfo, String[] args) {
+        if (IslandCacheHandler.requestvisit.asMap().containsValue(playerInfo.getIslandId())) {
             int i = 0;
             List<UUID> players = new ArrayList<>();
-            for (UUID currentrequest : Island.requestvisit.asMap().keySet()) {
-                if (Island.requestvisit.asMap().get(currentrequest).equals(playerInfo.getIslandId())) {
+            for (UUID currentrequest : IslandCacheHandler.requestvisit.asMap().keySet()) {
+                if (IslandCacheHandler.requestvisit.asMap().get(currentrequest).equals(playerInfo.getIslandId())) {
                     i++;
                     players.add(currentrequest);
                 }
             }
             if (i > 1) {
-                if (execution.getTargetPlayer() != null) {
-                    if (execution.getTargetPlayer().isOnline()) {
-                        Player visitingplayer = (Player) execution.getTargetPlayer();
-                        if (players.contains(visitingplayer.getUniqueId())) {
-                            teleportPlayer(visitingplayer, playerInfo.getIslandName(), playerInfo.getIslandId());
+                if (args.length > 0) {
+                    Player visitingPlayer = Bukkit.getPlayer(args[0]);
+                    if (visitingPlayer != null) {
+                        if (players.contains(visitingPlayer.getUniqueId())) {
+                            teleportPlayer(visitingPlayer, playerInfo.getIslandName(), playerInfo.getIslandId());
                         } else {
-                            ConfigShorts.custommessagefromString("NoVisitRequestFromPlayer", playerInfo.getPlayer(), visitingplayer.getName());
+                            ConfigShorts.custommessagefromString("NoVisitRequestFromPlayer", playerInfo.getPlayer(), visitingPlayer.getName());
                         }
                     } else {
-                        ConfigShorts.custommessagefromString("PlayerNotOnline", playerInfo.getPlayer(), playerInfo.getName(), execution.getArg());
+                        ConfigShorts.custommessagefromString("PlayerNotOnline", playerInfo.getPlayer(), playerInfo.getName(), args[0]);
                     }
                 } else {
                     ConfigShorts.messagefromString("MultipleRequests", playerInfo.getPlayer());
                 }
             } else {
-                if (execution.getTargetPlayer() != null) {
-                    if (execution.getTargetPlayer().isOnline()) {
-                        Player visitingplayer = (Player) execution.getTargetPlayer();
-                        if (players.contains(visitingplayer.getUniqueId())) {
-                            teleportPlayer(visitingplayer, playerInfo.getIslandName(), playerInfo.getIslandId());
+                if (args.length > 0) {
+                    Player visitingPlayer = Bukkit.getPlayer(args[0]);
+                    if (visitingPlayer != null) {
+                        if (players.contains(visitingPlayer.getUniqueId())) {
+                            teleportPlayer(visitingPlayer, playerInfo.getIslandName(), playerInfo.getIslandId());
                         } else {
-                            ConfigShorts.custommessagefromString("NoVisitRequestFromPlayer", playerInfo.getPlayer(), visitingplayer.getName());
+                            ConfigShorts.custommessagefromString("NoVisitRequestFromPlayer", playerInfo.getPlayer(), visitingPlayer.getName());
                         }
                     } else {
-                        ConfigShorts.custommessagefromString("PlayerNotOnline", playerInfo.getPlayer(), playerInfo.getName(), execution.getArg());
+                        ConfigShorts.custommessagefromString("PlayerNotOnline", playerInfo.getPlayer(), playerInfo.getName(), args[0]);
                     }
                 } else {
                     OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(players.get(0));
@@ -82,7 +85,7 @@ public class IslandConfirm implements SubCommand {
                         Player visitingplayer = plugin.getServer().getPlayer(players.get(0));
                         teleportPlayer(visitingplayer, playerInfo.getIslandName(), playerInfo.getIslandId());
                     } else {
-                        ConfigShorts.custommessagefromString("PlayerNotOnline", playerInfo.getPlayer(), playerInfo.getName(), execution.getArg());
+                        ConfigShorts.custommessagefromString("PlayerNotOnline", playerInfo.getPlayer(), playerInfo.getName(), args[0]);
                     }
                 }
             }
@@ -94,7 +97,7 @@ public class IslandConfirm implements SubCommand {
 
     private void teleportPlayer(Player player, String island, int islandid) {
         if (plugin.getWorldManager().getLoadedWorlds().contains(island)) {
-            Location islandHome = Island.islandhomes.get(island);
+            Location islandHome = IslandCacheHandler.islandhomes.get(island);
             if (islandHome != null) {
                 islandHome.getWorld().getChunkAtAsync(islandHome).whenComplete((c, e) -> {
                     if (e != null) {
@@ -106,13 +109,13 @@ public class IslandConfirm implements SubCommand {
                         });
                     } else {
                         ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
-                        Island.requestvisit.asMap().remove(player.getUniqueId());
+                        IslandCacheHandler.requestvisit.invalidate(player.getUniqueId());
                     }
                 });
             }
         } else {
             ConfigShorts.messagefromString("IslandSpawnNotSafe", player);
-            Island.requestvisit.asMap().remove(player.getUniqueId());
+            IslandCacheHandler.requestvisit.invalidate(player.getUniqueId());
         }
     }
 }

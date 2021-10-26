@@ -18,7 +18,7 @@ package com.github.Viduality.VSkyblock.Listener;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
@@ -280,7 +280,7 @@ public class IslandOptionsInventoryHandler implements Listener {
     }
 
     private ItemStack getUpgradeButton(UUID playerUUID) {
-        String island = Island.playerislands.get(playerUUID);
+        String island = IslandCacheHandler.playerislands.get(playerUUID);
         Integer currentGeneratorLevel = CobblestoneGenerator.islandGenLevel.get(island);
         Integer nextGeneratorLevel = currentGeneratorLevel + 1;
         String upgradeButtonItem;
@@ -306,7 +306,7 @@ public class IslandOptionsInventoryHandler implements Listener {
     }
 
     private ItemStack getCobbleDropChanceInfo(UUID playerUUID) {
-        String island = Island.playerislands.get(playerUUID);
+        String island = IslandCacheHandler.playerislands.get(playerUUID);
         Integer currentIslandLevel = CobblestoneGenerator.islandlevels.get(island);
         int levelIntervall = CobblestoneGenerator.cobblestoneLevelInterval;
         int maxDrops = currentIslandLevel / levelIntervall + 1;
@@ -325,7 +325,7 @@ public class IslandOptionsInventoryHandler implements Listener {
     }
 
     private ItemStack getChancesOverview(UUID playerUUID) {
-        String island = Island.playerislands.get(playerUUID);
+        String island = IslandCacheHandler.playerislands.get(playerUUID);
         Integer currentgeneratorLevel = CobblestoneGenerator.islandGenLevel.get(island);
 
         String chancesOverviewItem = ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Chances.Level_" + currentgeneratorLevel + "_Item");

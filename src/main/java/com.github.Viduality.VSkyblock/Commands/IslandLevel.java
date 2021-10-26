@@ -32,6 +32,7 @@ import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Leaves;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -39,32 +40,33 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 
-public class IslandLevel implements SubCommand {
+/*
+ * Gets the islands level.
+ */
+public class IslandLevel extends PlayerSubCommand {
 
-    private final VSkyblock plugin;
     private static Cache<UUID, Boolean> timebetweenreuse = CacheBuilder.newBuilder()
             .expireAfterWrite(gettimebetweencalc(), TimeUnit.MINUTES)
             .build();
 
     public IslandLevel(VSkyblock plugin) {
-        this.plugin = plugin;
+        super(plugin, "level");
     }
 
     @Override
-    public void execute(ExecutionInfo execution) {
-        PlayerInfo playerInfo = execution.getPlayerInfo();
+    public void execute(CommandSender sender, PlayerInfo playerInfo, String[] args) {
         if (playerInfo.getIslandId() != 0) {
-            UUID uuid = null;
-            if (execution.getArg() != null) {
-                OfflinePlayer target = plugin.getServer().getOfflinePlayer(execution.getArg());
+            UUID uuid;
+            if (args.length > 0) {
+                OfflinePlayer target = plugin.getServer().getOfflinePlayer(args[0]);
                 uuid = target.getUniqueId();
             } else {
                 uuid = playerInfo.getUuid();
             }
             Player player = playerInfo.getPlayer();
             plugin.getDb().getReader().getIslandLevelFromUuid(uuid, (islandlevel) -> {
-                if (execution.getArg() != null) {
-                    ConfigShorts.custommessagefromString("PlayersIslandLevel", player, String.valueOf(islandlevel), execution.getArg());
+                if (args.length > 0) {
+                    ConfigShorts.custommessagefromString("PlayersIslandLevel", player, String.valueOf(islandlevel), args[0]);
                 } else {
                     ConfigShorts.custommessagefromString("CurrentIslandLevel", player, String.valueOf(islandlevel));
                     if (timebetweenreuse.getIfPresent(player.getUniqueId()) == null) {

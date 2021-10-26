@@ -18,7 +18,7 @@ package com.github.Viduality.VSkyblock;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import org.bukkit.Material;
@@ -42,7 +42,7 @@ public class CobblestoneGeneratorUpgrade {
         int nextlevel = currentlevel + 1;
 
         Integer requiredIslandLevel = CobblestoneGenerator.getRequiredIslandLevel(nextlevel);
-        int islandlevel = CobblestoneGenerator.islandlevels.get(Island.playerislands.get(player.getUniqueId()));
+        int islandlevel = CobblestoneGenerator.islandlevels.get(IslandCacheHandler.playerislands.get(player.getUniqueId()));
         if (requiredIslandLevel != null && islandlevel >= requiredIslandLevel) {
             List<Material> neededItems = getneededItems(nextlevel);
             List<Integer> neededAmounts = getneededItemsAmount(nextlevel);
@@ -68,7 +68,7 @@ public class CobblestoneGeneratorUpgrade {
                 upgradeCobbleGenerator(island, nextlevel);
                 removeItems(neededItems, neededAmounts, player);
                 player.closeInventory();
-                plugin.getDb().getReader().getIslandId(Island.playerislands.get(player.getUniqueId()),
+                plugin.getDb().getReader().getIslandId(IslandCacheHandler.playerislands.get(player.getUniqueId()),
                         islandId -> plugin.getDb().getReader().getIslandMembers(islandId, members -> {
                     for (String member : members) {
                         Player onlinePlayer = plugin.getServer().getPlayer(member);

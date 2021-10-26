@@ -6,45 +6,41 @@ import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
-
-public class IslandMembers implements SubCommand {
-
-    private final VSkyblock plugin;
+/*
+ * Lists all members of your island.
+ */
+public class IslandMembers extends PlayerSubCommand {
 
     public IslandMembers(VSkyblock plugin) {
-        this.plugin = plugin;
+        super(plugin, "members");
     }
 
     @Override
-    public void execute(ExecutionInfo execution) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            PlayerInfo playerInfo = execution.getPlayerInfo();
-            Player player = playerInfo.getPlayer();
-            if (playerInfo.getIslandId() != 0) {
-                plugin.getDb().getReader().hasIslandMembers(playerInfo.getIslandId(), hasislandmembers -> {
-                    if (hasislandmembers) {
+    public void execute(CommandSender sender, PlayerInfo playerInfo, String[] args) {
+        if (playerInfo.getIslandId() != 0) {
+            plugin.getDb().getReader().hasIslandMembers(playerInfo.getIslandId(), hasislandmembers -> {
+                if (hasislandmembers) {
 
-                        plugin.getDb().getReader().getIslandMembers(playerInfo.getIslandId(), result -> {
+                    plugin.getDb().getReader().getIslandMembers(playerInfo.getIslandId(), result -> {
 
-                            StringBuilder memberList = null;
-                            for (String member : result) {
-                                if (memberList == null) {
-                                    memberList = new StringBuilder(member);
-                                } else {
-                                    memberList.append(", ").append(member);
-                                }
+                        StringBuilder memberList = null;
+                        for (String member : result) {
+                            if (memberList == null) {
+                                memberList = new StringBuilder(member);
+                            } else {
+                                memberList.append(", ").append(member);
                             }
-                            player.sendMessage(ChatColor.AQUA + "Players: " + ChatColor.RESET + memberList);
-                        });
-                    } else {
-                        ConfigShorts.messagefromString("OnlyMember", player);
-                    }
-                });
-            } else {
-                ConfigShorts.messagefromString("NoIsland", player);
-            }
-        });
+                        }
+                        sender.sendMessage(ChatColor.AQUA + "Players: " + ChatColor.RESET + memberList);
+                    });
+                } else {
+                    ConfigShorts.messagefromString("OnlyMember", sender);
+                }
+            });
+        } else {
+            ConfigShorts.messagefromString("NoIsland", sender);
+        }
     }
 }

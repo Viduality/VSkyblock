@@ -1,6 +1,6 @@
 package com.github.Viduality.VSkyblock.Listener;
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.GameRule;
 import org.bukkit.Material;
@@ -22,9 +22,9 @@ public class PhantomSpawn implements Listener {
         Player player = blockPlaceEvent.getPlayer();
         UUID uuid = player.getUniqueId();
         if (beds.contains(blockPlaceEvent.getBlockPlaced().getType())) {
-            if (player.getWorld().getName().equals(Island.playerislands.get(uuid))) {
-                if (!plugin.getServer().getWorld(Island.playerislands.get(uuid)).getGameRuleValue(GameRule.DO_INSOMNIA)) {
-                    plugin.getServer().getWorld(Island.playerislands.get(uuid)).setGameRule(GameRule.DO_INSOMNIA, true);
+            if (player.getWorld().getName().equals(IslandCacheHandler.playerislands.get(uuid))) {
+                if (!plugin.getServer().getWorld(IslandCacheHandler.playerislands.get(uuid)).getGameRuleValue(GameRule.DO_INSOMNIA)) {
+                    plugin.getServer().getWorld(IslandCacheHandler.playerislands.get(uuid)).setGameRule(GameRule.DO_INSOMNIA, true);
                 }
             }
         }

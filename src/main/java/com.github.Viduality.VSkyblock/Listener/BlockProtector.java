@@ -1,6 +1,6 @@
 package com.github.Viduality.VSkyblock.Listener;
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -20,7 +20,7 @@ public class BlockProtector implements Listener {
     public void onBlockBreak(BlockBreakEvent blockBreakEvent) {
         Player player = blockBreakEvent.getPlayer();
         if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())))) {
+            if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(IslandCacheHandler.playerislands.get(player.getUniqueId())))) {
                 blockBreakEvent.setCancelled(true);
                 ConfigShorts.messagefromString("BlockBreak", player);
             } else {
@@ -36,7 +36,7 @@ public class BlockProtector implements Listener {
     public void onBlockPlace(BlockPlaceEvent blockPlaceEvent) {
         Player player = blockPlaceEvent.getPlayer();
         if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())))) {
+            if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(IslandCacheHandler.playerislands.get(player.getUniqueId())))) {
                 blockPlaceEvent.setCancelled(true);
                 ConfigShorts.messagefromString("BlockPlace", player);
             }
@@ -49,7 +49,7 @@ public class BlockProtector implements Listener {
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent playerBucketEmptyEvent) {
         Player player = playerBucketEmptyEvent.getPlayer();
         if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())))) {
+            if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(IslandCacheHandler.playerislands.get(player.getUniqueId())))) {
                 playerBucketEmptyEvent.setCancelled(true);
                 ConfigShorts.messagefromString("BlockPlace", player);
             }
@@ -62,7 +62,7 @@ public class BlockProtector implements Listener {
     public void onPlayerBucketFill(PlayerBucketFillEvent playerBucketFillEvent) {
         Player player = playerBucketFillEvent.getPlayer();
         if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())))) {
+            if (!(player.getWorld().getEnvironment().equals(World.Environment.NETHER) || player.getWorld().getName().equals(IslandCacheHandler.playerislands.get(player.getUniqueId())))) {
                 playerBucketFillEvent.setCancelled(true);
                 ConfigShorts.messagefromString("BlockBreak", player);
             }

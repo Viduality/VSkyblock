@@ -22,7 +22,7 @@ package com.github.Viduality.VSkyblock;
 import com.github.Viduality.VSkyblock.Challenges.ChallengesManager;
 import com.github.Viduality.VSkyblock.Commands.Challenges;
 import com.github.Viduality.VSkyblock.Challenges.ChallengesCreator;
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Commands.IslandCommand;
 import com.github.Viduality.VSkyblock.Commands.Admin.AdminCommands;
 import com.github.Viduality.VSkyblock.Listener.*;
 import com.github.Viduality.VSkyblock.Utilitys.*;
@@ -76,7 +76,7 @@ public class VSkyblock extends JavaPlugin implements Listener {
         teleportHandler = new TeleportHandler(this);
 
 
-        getCommand("Island").setExecutor(new Island(this));
+        getCommand("Island").setExecutor(new IslandCommand(this));
 
         getCommand("Challenges").setExecutor(new Challenges(this));
 

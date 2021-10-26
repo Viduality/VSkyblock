@@ -1,7 +1,7 @@
 package com.github.Viduality.VSkyblock.Listener;
 
 import com.github.Viduality.VSkyblock.CobblestoneGeneratorUpgrade;
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.entity.Player;
@@ -27,7 +27,7 @@ public class CobblestoneGeneratorInventoryHandler implements Listener {
             inventoryClickEvent.setCancelled(true);
             if (inventoryClickEvent.getRawSlot() == 16) {
                 if (inventoryClickEvent.getCurrentItem() != null && inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ConfigShorts.getOptionsConfig().getString("CobblestoneGenerator.Upgrade.DisplayName"))) {
-                    cobblestoneGeneratorUpgrade.checkForGeneratorUpgrade(Island.playerislands.get(inventoryClickEvent.getWhoClicked().getUniqueId()), (Player) inventoryClickEvent.getWhoClicked());
+                    cobblestoneGeneratorUpgrade.checkForGeneratorUpgrade(IslandCacheHandler.playerislands.get(inventoryClickEvent.getWhoClicked().getUniqueId()), (Player) inventoryClickEvent.getWhoClicked());
                 }
             }
         }

@@ -20,6 +20,7 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Challenges.Challenge;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -42,8 +43,8 @@ public class Challenges implements CommandExecutor {
             Player player = (Player) sender;
             if (cmd.getName().equalsIgnoreCase("Challenges")) {
                 if (player.hasPermission("VSkyblock.Challenges")) {
-                    if (Island.playerislands.containsKey(player.getUniqueId())) {
-                        if (Island.playerislands.get(player.getUniqueId()).equals(player.getWorld().getName())) {
+                    if (IslandCacheHandler.playerislands.containsKey(player.getUniqueId())) {
+                        if (IslandCacheHandler.playerislands.get(player.getUniqueId()).equals(player.getWorld().getName())) {
                             plugin.getChallengesManager().getInventoryCreator().createChallenges(player, Challenge.Difficulty.EASY, 1);
                         } else {
                             ConfigShorts.messagefromString("NotAtPlayersIsland", player);

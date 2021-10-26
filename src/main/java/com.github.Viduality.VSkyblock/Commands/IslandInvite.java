@@ -1,9 +1,12 @@
 package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -13,22 +16,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IslandInvite implements SubCommand {
-
-    private final VSkyblock plugin;
+/*
+ * Invites another player to your island if the player is the island owner.
+ */
+public class IslandInvite extends PlayerSubCommand {
 
     public IslandInvite(VSkyblock plugin) {
-        this.plugin = plugin;
+        super(plugin, "invite");
     }
 
-
     @Override
-    public void execute(ExecutionInfo execution) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            PlayerInfo playerInfo = execution.getPlayerInfo();
-            Player player = playerInfo.getPlayer();
-            OfflinePlayer target = plugin.getServer().getOfflinePlayer(execution.getArg());
-            if (playerInfo.isIslandOwner()) {
+    public void execute(CommandSender sender, PlayerInfo playerInfo, String[] args) {
+        if (args.length < 1) {
+            sender.sendMessage(ChatColor.AQUA + "/is invite <Player>");
+            return;
+        }
+        if (playerInfo.isIslandOwner()) {
+            plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+                Player player = playerInfo.getPlayer();
+                OfflinePlayer target = plugin.getServer().getOfflinePlayer(args[0]);
                 plugin.getDb().getReader().getIslandMembers(playerInfo.getIslandId(), result -> {
                     if (result.size() <= getislandplayerlimit()) {
                         if (target.isOnline()) {
@@ -47,14 +53,14 @@ public class IslandInvite implements SubCommand {
                                     e.printStackTrace();
                                 }
                                 if (!members.contains(onlinetarget.getUniqueId().toString())) {
-                                    if (!Island.isjoincooldown.asMap().containsKey(onlinetarget.getUniqueId())) {
+                                    if (!IslandCacheHandler.isjoincooldown.asMap().containsKey(onlinetarget.getUniqueId())) {
                                         ConfigShorts.custommessagefromString("InviteToIsland", player, player.getName(), onlinetarget.getName());
-                                        Island.invitemap.put(onlinetarget.getUniqueId(), player.getUniqueId());
+                                        IslandCacheHandler.invitemap.put(onlinetarget.getUniqueId(), player.getUniqueId());
 
                                         ConfigShorts.custommessagefromString("GetInviteToIsland", onlinetarget, player.getName(), onlinetarget.getName());
                                         ConfigShorts.messagefromString("HowToAcceptInvite", onlinetarget);
                                     } else {
-                                        ConfigShorts.custommessagefromString("IslandJoinCooldown", player, String.valueOf(Island.getisjoincooldown()));
+                                        ConfigShorts.custommessagefromString("IslandJoinCooldown", player, String.valueOf(IslandCacheHandler.getIsJoinCooldown()));
                                     }
                                 } else {
                                     ConfigShorts.messagefromString("AlreadyIslandMember", player);
@@ -63,17 +69,16 @@ public class IslandInvite implements SubCommand {
                                 ConfigShorts.messagefromString("InviteYourself", player);
                             }
                         } else {
-                            ConfigShorts.custommessagefromString("PlayerNotOnline", player, player.getName(), execution.getArg());
+                            ConfigShorts.custommessagefromString("PlayerNotOnline", player, player.getName(), args[0]);
                         }
                     } else {
                         ConfigShorts.messagefromString("PlayerLimitReached", player);
                     }
                 });
-
-            } else {
-                ConfigShorts.messagefromString("NotIslandOwner", player);
-            }
-        });
+            });
+        } else {
+            ConfigShorts.messagefromString("NotIslandOwner", sender);
+        }
     }
 
     private Integer getislandplayerlimit() {

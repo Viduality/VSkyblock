@@ -5,26 +5,27 @@ import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 
-public class IslandSetNetherhome implements SubCommand {
-
-    private final VSkyblock plugin;
+/*
+ * Sets the nether portal home point.
+ */
+public class IslandSetNetherhome extends PlayerSubCommand {
 
     public IslandSetNetherhome(VSkyblock plugin) {
-        this.plugin = plugin;
+        super(plugin, "setnetherhome", "setnether");
     }
 
     @Override
-    public void execute(ExecutionInfo execution) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            PlayerInfo playerInfo = execution.getPlayerInfo();
-            if (NetherPortalListener.setNetherHome.asMap().containsKey(playerInfo.getUuid())) {
-                plugin.getDb().getWriter().saveNetherHome(playerInfo.getIslandId(), NetherPortalListener.setNetherHome.asMap().get(playerInfo.getUuid()));
-                NetherPortalListener.setNetherHome.asMap().remove(playerInfo.getUuid());
-                ConfigShorts.messagefromString("SetNetherhomeSuccess", playerInfo.getPlayer());
-            } else {
-                ConfigShorts.messagefromString("NoPendingNetherSethome", playerInfo.getPlayer());
-            }
-        });
+    public void execute(CommandSender sender, PlayerInfo playerInfo, String[] args) {
+        Location pendingNetherHome = NetherPortalListener.setNetherHome.getIfPresent(playerInfo.getUuid());
+        if (pendingNetherHome != null) {
+            plugin.getDb().getWriter().saveNetherHome(playerInfo.getIslandId(), pendingNetherHome);
+            NetherPortalListener.setNetherHome.invalidate(playerInfo.getUuid());
+            ConfigShorts.messagefromString("SetNetherhomeSuccess", playerInfo.getPlayer());
+        } else {
+            ConfigShorts.messagefromString("NoPendingNetherSethome", playerInfo.getPlayer());
+        }
     }
 }

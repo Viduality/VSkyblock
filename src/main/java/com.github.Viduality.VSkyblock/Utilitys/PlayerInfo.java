@@ -1,7 +1,6 @@
 package com.github.Viduality.VSkyblock.Utilitys;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -11,14 +10,10 @@ public class PlayerInfo {
     private String name = null;
     private int islandId = 0;
     private boolean isIslandOwner = false;
-    private String islandOwnerUuid = null;
     private boolean kicked = false;
     private String islandName = null;
     private int islandLevel = 0;
-    private String arg = null;
     private int deathCount = 0;
-
-    private OfflinePlayer targetPlayer;
 
 
     /**

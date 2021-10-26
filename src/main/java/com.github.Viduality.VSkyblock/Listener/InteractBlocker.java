@@ -18,7 +18,7 @@ package com.github.Viduality.VSkyblock.Listener;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSpecialItems.VSpecialItems;
@@ -49,7 +49,7 @@ public class InteractBlocker implements Listener {
         Player player = event.getPlayer();
         if (player.getWorld().getEnvironment() != World.Environment.NETHER
                 && !player.getWorld().getName().equals(ConfigShorts.getDefConfig().getString("SpawnWorld"))
-                && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId()))
+                && !player.getWorld().getName().equals(IslandCacheHandler.playerislands.get(player.getUniqueId()))
                 && !player.hasPermission("VSkyblock.IgnoreProtected")) {
             if (event.getClickedBlock() != null
                     && event.getClickedBlock().getType().isInteractable()) {
@@ -69,7 +69,7 @@ public class InteractBlocker implements Listener {
                                 .has(VSpecialItems.KEY, PersistentDataType.STRING))     {
                             if ((Objects.equals(VSpecialItems.specialItems.get("ChangeBiomeItem").getItemMeta().getPersistentDataContainer().get(VSpecialItems.KEY, PersistentDataType.STRING), player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer()
                                     .get(VSpecialItems.KEY, PersistentDataType.STRING)))) {
-                                if (!player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId()))) {
+                                if (!player.getWorld().getName().equals(IslandCacheHandler.playerislands.get(player.getUniqueId()))) {
                                     event.setCancelled(true);
                                 }
                             }
@@ -93,7 +93,7 @@ public class InteractBlocker implements Listener {
     private void handle(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
         if (player.getWorld().getEnvironment() != World.Environment.NETHER
-                && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId()))
+                && !player.getWorld().getName().equals(IslandCacheHandler.playerislands.get(player.getUniqueId()))
                 && !player.hasPermission("VSkyblock.IgnoreProtected")) {
             event.setCancelled(true);
         }

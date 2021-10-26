@@ -18,7 +18,7 @@ package com.github.Viduality.VSkyblock.Commands.Admin;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Commands.IslandLevel;
 import com.github.Viduality.VSkyblock.Commands.WorldCommands.AdminSubCommand;
 import com.github.Viduality.VSkyblock.Listener.CobblestoneGenerator;
@@ -101,7 +101,7 @@ public class RecalculateIslandLevel implements AdminSubCommand {
                                                 int roundlevel = (int) Math.floor(level);
                                                 plugin.getDb().getWriter().updateIslandLevel(islandid, roundlevel, c.blocks, p.getUniqueId());
                                                 ConfigShorts.custommessagefromString("NewIslandLevel", sender, String.valueOf(roundlevel));
-                                                if (!Island.playerislands.containsValue(islandname)) {
+                                                if (!IslandCacheHandler.playerislands.containsValue(islandname)) {
                                                     plugin.getWorldManager().unloadWorld(islandname);
                                                 }
                                                 if (CobblestoneGenerator.islandlevels.containsKey(islandname)) {

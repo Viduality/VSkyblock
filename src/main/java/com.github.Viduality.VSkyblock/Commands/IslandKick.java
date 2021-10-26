@@ -19,9 +19,12 @@ package com.github.Viduality.VSkyblock.Commands;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -32,21 +35,25 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class IslandKick implements SubCommand{
-
-    private final VSkyblock plugin;
+/*
+ * Kicks a player from your island. Executing player has to be the island owner.
+ */
+public class IslandKick extends PlayerSubCommand {
 
     public IslandKick(VSkyblock plugin) {
-        this.plugin = plugin;
+        super(plugin, "kick");
     }
 
     @Override
-    public void execute(ExecutionInfo execution) {
+    public void execute(CommandSender sender, PlayerInfo playerInfo, String[] args) {
+        if (args.length < 1) {
+            sender.sendMessage(ChatColor.AQUA + "/is kick <Player>");
+            return;
+        }
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            PlayerInfo playerInfo = execution.getPlayerInfo();
             Player player = playerInfo.getPlayer();
             // TODO: Replace with database query
-            OfflinePlayer target = plugin.getServer().getOfflinePlayer(execution.getArg());
+            OfflinePlayer target = plugin.getServer().getOfflinePlayer(args[0]);
             if (target != player) {
                 UUID targetuuid = target.getUniqueId();
                 Set<UUID> members = new LinkedHashSet<>();
@@ -76,7 +83,7 @@ public class IslandKick implements SubCommand{
                                 onlinetarget.setScoreboard(plugin.getServer().getScoreboardManager().getMainScoreboard());
                                 onlinetarget.teleportAsync(plugin.getWorldManager().getSpawnLocation(ConfigShorts.getDefConfig().getString("SpawnWorld")));
                                 plugin.getDb().getWriter().removeKicked(targetuuid);
-                                Island.playerislands.remove(targetuuid);
+                                IslandCacheHandler.playerislands.remove(targetuuid);
                             }
                         } else {
                             ConfigShorts.messagefromString("NotIslandOwner", player);

@@ -1,6 +1,6 @@
 package com.github.Viduality.VSkyblock.Listener;
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ public class ItemPickupBlocker implements Listener {
         if (e.equals(EntityType.PLAYER)) {
             Player player = (Player) entityPickupItemEvent.getEntity();
             if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-                if (!(player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())) || player.getWorld().getEnvironment().equals(World.Environment.NETHER))) {
+                if (!(player.getWorld().getName().equals(IslandCacheHandler.playerislands.get(player.getUniqueId())) || player.getWorld().getEnvironment().equals(World.Environment.NETHER))) {
                     entityPickupItemEvent.setCancelled(true);
                 }
             }

@@ -19,26 +19,28 @@ package com.github.Viduality.VSkyblock.Commands;
  */
 
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.PlayerInfo;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.github.Viduality.VSkyblock.WorldGenerator.IslandCreator;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class IslandRestartConfirm implements SubCommand{
-
-    private final VSkyblock plugin;
+/*
+ * Confirms the island restart and executes it.
+ */
+public class IslandRestartConfirm extends PlayerSubCommand {
 
     public IslandRestartConfirm(VSkyblock plugin) {
-        this.plugin = plugin;
+        super(plugin, "confirm");
     }
 
     @Override
-    public void execute(ExecutionInfo execution) {
-        PlayerInfo playerInfo = execution.getPlayerInfo();
+    public void execute(CommandSender sender, PlayerInfo playerInfo, String[] args) {
         Player player = playerInfo.getPlayer();
-        if (Island.restartmap.asMap().containsKey(player.getUniqueId())) {
-            if (!Island.isgencooldown.asMap().containsValue(player.getUniqueId())) {
-                Island.isgencooldown.put(player.getUniqueId(), player.getUniqueId());
+        if (IslandCacheHandler.restartmap.asMap().containsKey(player.getUniqueId())) {
+            if (!IslandCacheHandler.isgencooldown.asMap().containsValue(player.getUniqueId())) {
+                IslandCacheHandler.isgencooldown.put(player.getUniqueId(), player.getUniqueId());
                 ConfigShorts.messagefromString("GenerateNewIsland", player);
                 player.getInventory().clear();
                 player.getEnderChest().clear();
@@ -49,7 +51,7 @@ public class IslandRestartConfirm implements SubCommand{
                         .oldIsland(playerInfo.getIslandName())
                         .createNewIsland();
             } else {
-                ConfigShorts.custommessagefromString("GenerateCooldown", playerInfo.getPlayer(), String.valueOf(Island.getisgencooldown()));
+                ConfigShorts.custommessagefromString("GenerateCooldown", playerInfo.getPlayer(), String.valueOf(IslandCacheHandler.getIsGenCooldown()));
             }
         } else {
             ConfigShorts.messagefromString("RestartFirst", player);

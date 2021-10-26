@@ -18,7 +18,7 @@ package com.github.Viduality.VSkyblock.Listener;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.Cache;
@@ -56,13 +56,13 @@ public class EntityProtector implements Listener {
         boolean pvpisland = ConfigShorts.getDefConfig().getBoolean("PvPIslands");
         boolean pvpnether = ConfigShorts.getDefConfig().getBoolean("PvPNether");
         if (player.getType().equals(EntityType.PLAYER) && damagedplayer.getType().equals(EntityType.PLAYER)) {
-            if (Island.playerislands.get(player.getUniqueId()) != null) {
+            if (IslandCacheHandler.playerislands.get(player.getUniqueId()) != null) {
                 if (player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
                     if (!pvpnether) {
                         entityDamageByEntityEvent.setCancelled(true);
                     }
                 } else {
-                    if (!Island.playerislands.get(player.getUniqueId()).equals(Island.playerislands.get(damagedplayer.getUniqueId()))) {
+                    if (!IslandCacheHandler.playerislands.get(player.getUniqueId()).equals(IslandCacheHandler.playerislands.get(damagedplayer.getUniqueId()))) {
                         entityDamageByEntityEvent.setCancelled(true);
                     }
                     if (!pvpisland) {
@@ -81,7 +81,7 @@ public class EntityProtector implements Listener {
         Entity entity = entityDamageEvent.getEntity();
         if (entity instanceof Player) {
             Player player = (Player) entity;
-            if (player.getWorld().getEnvironment() != World.Environment.NETHER && !player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId()))) {
+            if (player.getWorld().getEnvironment() != World.Environment.NETHER && !player.getWorld().getName().equals(IslandCacheHandler.playerislands.get(player.getUniqueId()))) {
                 entityDamageEvent.setCancelled(true);
                 if (entityDamageEvent.getCause() == EntityDamageEvent.DamageCause.VOID || player.getLocation().getY() < 0) {
                     player.setFallDistance(0);
@@ -106,7 +106,7 @@ public class EntityProtector implements Listener {
         }
 
         if (player != null) {
-            if (!entity.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())) && entity.getWorld().getEnvironment() != World.Environment.NETHER) {
+            if (!entity.getWorld().getName().equals(IslandCacheHandler.playerislands.get(player.getUniqueId())) && entity.getWorld().getEnvironment() != World.Environment.NETHER) {
                 if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
                     entityDamageByEntityEvent.setCancelled(true);
                 }
@@ -138,7 +138,7 @@ public class EntityProtector implements Listener {
     public void targetPlayer(EntityTargetEvent entityTargetEvent) {
         Entity entity = entityTargetEvent.getTarget();
         if (entity instanceof Player) {
-            if (!entity.getWorld().getName().equals(Island.playerislands.get(entity.getUniqueId())) && !entity.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+            if (!entity.getWorld().getName().equals(IslandCacheHandler.playerislands.get(entity.getUniqueId())) && !entity.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
                 entityTargetEvent.setCancelled(true);
             }
         }
@@ -148,7 +148,7 @@ public class EntityProtector implements Listener {
     public void inventoryListener(InventoryOpenEvent inventoryOpenEvent) {
         Player player = (Player) inventoryOpenEvent.getPlayer();
         if (!player.hasPermission("VSkyblock.IgnoreProtected")) {
-            if (!player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())) && !player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+            if (!player.getWorld().getName().equals(IslandCacheHandler.playerislands.get(player.getUniqueId())) && !player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
                 inventoryOpenEvent.setCancelled(true);
             }
         }
@@ -157,7 +157,7 @@ public class EntityProtector implements Listener {
     @EventHandler
     public void onWorldChange(PlayerChangedWorldEvent playerChangedWorldEvent) {
         Player player = playerChangedWorldEvent.getPlayer();
-        if (player.getWorld().getName().equals(Island.playerislands.get(player.getUniqueId())) || player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
+        if (player.getWorld().getName().equals(IslandCacheHandler.playerislands.get(player.getUniqueId())) || player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
             player.setCollidable(true);
             player.setSleepingIgnored(false);
         } else {

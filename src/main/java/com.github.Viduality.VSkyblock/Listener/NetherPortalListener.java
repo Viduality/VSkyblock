@@ -1,6 +1,6 @@
 package com.github.Viduality.VSkyblock.Listener;
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import com.google.common.cache.Cache;
@@ -57,7 +57,7 @@ public class NetherPortalListener implements Listener {
 
                 } else if (player.getWorld().getEnvironment().equals(World.Environment.NETHER)) {
                     if (result.getIslandName() != null) {
-                        player.teleportAsync(Island.islandhomes.get(result.getIslandName()));
+                        player.teleportAsync(IslandCacheHandler.islandhomes.get(result.getIslandName()));
                         plugin.getDb().getReader().getNetherHome(result.getUuid(), (netherhome) -> {
                             if (netherhome != null) {
                                 if (result.isIslandOwner()) {

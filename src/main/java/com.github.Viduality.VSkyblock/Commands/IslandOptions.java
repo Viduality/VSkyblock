@@ -24,6 +24,7 @@ import com.github.Viduality.VSkyblock.Utilitys.IslandOptionsCache;
 import com.github.Viduality.VSkyblock.VSkyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -31,17 +32,17 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class IslandOptions implements SubCommand {
-
-    private final VSkyblock plugin;
+/*
+ * Shows the island options menu.
+ */
+public class IslandOptions extends PlayerSubCommand {
 
     public IslandOptions(VSkyblock plugin) {
-        this.plugin = plugin;
+        super(plugin, "options", "option", "settings", "setting");
     }
 
     @Override
-    public void execute(ExecutionInfo execution) {
-        PlayerInfo playerInfo = execution.getPlayerInfo();
+    public void execute(CommandSender sender, PlayerInfo playerInfo, String[] args) {
         if (playerInfo.getIslandId() != 0) {
             plugin.getDb().getReader().getIslandOptions(playerInfo.getIslandId(), isoptionsCache ->
                     createOptionsInventory(isoptionsCache, playerInfo.getPlayer(), playerInfo.isIslandOwner()));

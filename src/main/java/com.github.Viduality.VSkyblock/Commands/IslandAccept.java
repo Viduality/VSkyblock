@@ -20,83 +20,87 @@ package com.github.Viduality.VSkyblock.Commands;
 
 import com.github.Viduality.VSkyblock.Utilitys.*;
 import com.github.Viduality.VSkyblock.VSkyblock;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class IslandAccept implements SubCommand {
+/*
+ * Player can accept the invite of another player with this command. Can only be used when the
+ * player is island owner and has no members on his island or if he isn't the island owner
+ */
+public class IslandAccept extends PlayerSubCommand {
 
-    private final VSkyblock plugin = VSkyblock.getInstance();
+    public IslandAccept(VSkyblock plugin) {
+        super(plugin, "accept");
+    }
 
     @Override
-    public void execute(ExecutionInfo execution) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            PlayerInfo playerInfo = execution.getPlayerInfo();
-            Player player = playerInfo.getPlayer();
-            if (Island.invitemap.asMap().containsKey(playerInfo.getUuid())) {
-                UUID newmemberuuid = playerInfo.getUuid();
-                UUID islandowneruuid = Island.invitemap.asMap().get(playerInfo.getUuid());
-                plugin.getDb().getReader().getIslandIdFromPlayer(islandowneruuid, (islandid) -> plugin.getDb().getReader().getIslandNameFromPlayer(islandowneruuid, (newisland) -> {
-                    if (playerInfo.isIslandOwner()) {
-                        plugin.getDb().getReader().hasIslandMembers(playerInfo.getIslandId(), hasMembers -> {
-                            if (!hasMembers) {
+    public void execute(CommandSender sender, PlayerInfo playerInfo, String[] args) {
+        Player player = playerInfo.getPlayer();
+        UUID islandowneruuid = IslandCacheHandler.invitemap.getIfPresent(playerInfo.getUuid());
+        if (islandowneruuid != null) {
+            UUID newmemberuuid = playerInfo.getUuid();
+            plugin.getDb().getReader().getIslandIdFromPlayer(islandowneruuid, (islandid) -> plugin.getDb().getReader().getIslandNameFromPlayer(islandowneruuid, (newisland) -> {
+                if (playerInfo.isIslandOwner()) {
+                    plugin.getDb().getReader().hasIslandMembers(playerInfo.getIslandId(), hasMembers -> {
+                        if (!hasMembers) {
 
-                                player.getInventory().clear();
-                                player.getEnderChest().clear();
-                                player.teleportAsync(Island.islandhomes.get(newisland)).whenComplete((b, e) -> {
-                                    if (e != null) {
-                                        e.printStackTrace();
+                            player.getInventory().clear();
+                            player.getEnderChest().clear();
+                            player.teleportAsync(IslandCacheHandler.islandhomes.get(newisland)).whenComplete((b, e) -> {
+                                if (e != null) {
+                                    e.printStackTrace();
+                                }
+                                player.setCollidable(true);
+                                player.setSleepingIgnored(false);
+                                plugin.getWorldManager().unloadWorld(playerInfo.getIslandName());
+                                plugin.getDb().getReader().getIslandChallenges(playerInfo.getIslandId(), challenges -> {
+                                    if (player.isOnline()) {
+                                        plugin.getScoreboardManager().updateTracked(player, challenges);
                                     }
-                                    player.setCollidable(true);
-                                    player.setSleepingIgnored(false);
-                                    plugin.getWorldManager().unloadWorld(playerInfo.getIslandName());
-                                    plugin.getDb().getReader().getIslandChallenges(playerInfo.getIslandId(), challenges -> {
-                                        if (player.isOnline()) {
-                                            plugin.getScoreboardManager().updateTracked(player, challenges);
-                                        }
-                                    });
                                 });
-
-                                plugin.getDb().getWriter().updatePlayersIsland(newmemberuuid, islandid, false);
-                                Island.invitemap.asMap().remove(player.getUniqueId());
-                                Island.playerislands.put(player.getUniqueId(), newisland);
-                                Island.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
-                                plugin.getDb().getWriter().updateDeathCount(newmemberuuid, 0);
-                                plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", 0);
-
-                            } else {
-                                ConfigShorts.messagefromString("HasIslandMembers", player);
-                            }
-                        });
-                    } else {
-                        player.getInventory().clear();
-                        player.getEnderChest().clear();
-                        plugin.getDb().getWriter().updatePlayersIsland(newmemberuuid, islandid, false);
-                        Island.invitemap.asMap().remove(player.getUniqueId());
-                        Island.playerislands.put(player.getUniqueId(), newisland);
-                        Island.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
-                        player.teleportAsync(Island.islandhomes.get(newisland)).whenComplete((b, e) -> {
-                            if (e != null) {
-                                e.printStackTrace();
-                            }
-                            if (playerInfo.getIslandName() != null) {
-                                if (!Island.playerislands.containsValue(playerInfo.getIslandName())) {
-                                    player.setCollidable(true);
-                                    player.setSleepingIgnored(false);
-                                    plugin.getWorldManager().unloadWorld(playerInfo.getIslandName());
-                                }
-                            }
-                            plugin.getDb().getReader().getIslandChallenges(playerInfo.getIslandId(), challenges -> {
-                                if (player.isOnline()) {
-                                    plugin.getScoreboardManager().updateTracked(player, challenges);
-                                }
                             });
+
+                            plugin.getDb().getWriter().updatePlayersIsland(newmemberuuid, islandid, false);
+                            IslandCacheHandler.invitemap.invalidate(player.getUniqueId());
+                            IslandCacheHandler.playerislands.put(player.getUniqueId(), newisland);
+                            IslandCacheHandler.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
+                            plugin.getDb().getWriter().updateDeathCount(newmemberuuid, 0);
+                            plugin.scoreboardmanager.updatePlayerScore(player.getName(), "deaths", 0);
+
+                        } else {
+                            ConfigShorts.messagefromString("HasIslandMembers", player);
+                        }
+                    });
+                } else {
+                    player.getInventory().clear();
+                    player.getEnderChest().clear();
+                    plugin.getDb().getWriter().updatePlayersIsland(newmemberuuid, islandid, false);
+                    IslandCacheHandler.invitemap.invalidate(player.getUniqueId());
+                    IslandCacheHandler.playerislands.put(player.getUniqueId(), newisland);
+                    IslandCacheHandler.isjoincooldown.put(player.getUniqueId(), player.getUniqueId());
+                    player.teleportAsync(IslandCacheHandler.islandhomes.get(newisland)).whenComplete((b, e) -> {
+                        if (e != null) {
+                            e.printStackTrace();
+                        }
+                        if (playerInfo.getIslandName() != null) {
+                            if (!IslandCacheHandler.playerislands.containsValue(playerInfo.getIslandName())) {
+                                player.setCollidable(true);
+                                player.setSleepingIgnored(false);
+                                plugin.getWorldManager().unloadWorld(playerInfo.getIslandName());
+                            }
+                        }
+                        plugin.getDb().getReader().getIslandChallenges(playerInfo.getIslandId(), challenges -> {
+                            if (player.isOnline()) {
+                                plugin.getScoreboardManager().updateTracked(player, challenges);
+                            }
                         });
-                    }
-                }));
-            } else {
-                ConfigShorts.messagefromString("NoPendingInvite", player);
-            }
-        });
+                    });
+                }
+            }));
+        } else {
+            ConfigShorts.messagefromString("NoPendingInvite", player);
+        }
     }
 }

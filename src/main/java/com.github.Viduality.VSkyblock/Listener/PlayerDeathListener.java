@@ -18,7 +18,7 @@ package com.github.Viduality.VSkyblock.Listener;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import com.github.Viduality.VSkyblock.Commands.Island;
+import com.github.Viduality.VSkyblock.Utilitys.IslandCacheHandler;
 import com.github.Viduality.VSkyblock.Utilitys.ConfigShorts;
 import com.github.Viduality.VSkyblock.Utilitys.TeleportHandler;
 import org.bukkit.entity.Player;
@@ -35,9 +35,9 @@ public class PlayerDeathListener implements Listener {
     public void playerRespawnListener(PlayerRespawnEvent playerRespawnEvent) {
         Player player = playerRespawnEvent.getPlayer();
         UUID uuid = player.getUniqueId();
-        if (Island.playerislands.containsKey(uuid)) {
+        if (IslandCacheHandler.playerislands.containsKey(uuid)) {
             if (player.getBedSpawnLocation() == null) {
-                playerRespawnEvent.setRespawnLocation(Island.islandhomes.get(Island.playerislands.get(uuid)));
+                playerRespawnEvent.setRespawnLocation(IslandCacheHandler.islandhomes.get(IslandCacheHandler.playerislands.get(uuid)));
                 player.setCollidable(true);
             }
         }
